@@ -1,0 +1,26 @@
+{
+  "app": {
+    "title": "Aplicación TODO",
+    "subtitle": "Gestiona tus tareas eficientemente"
+  },
+  "todo": {
+    "addNew": "Agregar nueva tarea",
+    "placeholder": "¿Qué necesita hacerse?",
+    "addButton": "Agregar Tarea",
+    "empty": "No hay tareas aún. ¡Agrega una arriba!",
+    "completed": "Completado",
+    "pending": "Pendiente",
+    "delete": "Eliminar",
+    "markComplete": "Marcar como completado",
+    "markIncomplete": "Marcar como incompleto"
+  },
+  "performance": {
+    "hydrationTime": "Hidratación completada en",
+    "renderTime": "Componente renderizado en",
+    "i18nSetupTime": "Configuración i18n tomó",
+    "milliseconds": "ms"
+  },
+  "navigation": {
+    "switchLanguage": "Cambiar Idioma"
+  }
+}

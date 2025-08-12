@@ -1,0 +1,26 @@
+{
+  "app": {
+    "title": "Application TODO",
+    "subtitle": "Gérez vos tâches efficacement"
+  },
+  "todo": {
+    "addNew": "Ajouter une nouvelle tâche",
+    "placeholder": "Que faut-il faire ?",
+    "addButton": "Ajouter la tâche",
+    "empty": "Aucune tâche pour l'instant. Ajoutez-en une ci-dessus !",
+    "completed": "Terminé",
+    "pending": "En attente",
+    "delete": "Supprimer",
+    "markComplete": "Marquer comme terminé",
+    "markIncomplete": "Marquer comme non terminé"
+  },
+  "performance": {
+    "hydrationTime": "Hydratation terminée en",
+    "renderTime": "Composant rendu en",
+    "i18nSetupTime": "Configuration i18n a pris",
+    "milliseconds": "ms"
+  },
+  "navigation": {
+    "switchLanguage": "Changer de langue"
+  }
+}

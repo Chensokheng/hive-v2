@@ -1,0 +1,26 @@
+{
+  "app": {
+    "title": "TODO App",
+    "subtitle": "Manage your tasks efficiently"
+  },
+  "todo": {
+    "addNew": "Add new task",
+    "placeholder": "What needs to be done?",
+    "addButton": "Add Task",
+    "empty": "No tasks yet. Add one above!",
+    "completed": "Completed",
+    "pending": "Pending",
+    "delete": "Delete",
+    "markComplete": "Mark as complete",
+    "markIncomplete": "Mark as incomplete"
+  },
+  "performance": {
+    "hydrationTime": "Hydration completed in",
+    "renderTime": "Component rendered in",
+    "i18nSetupTime": "i18n setup took",
+    "milliseconds": "ms"
+  },
+  "navigation": {
+    "switchLanguage": "Switch Language"
+  }
+}
