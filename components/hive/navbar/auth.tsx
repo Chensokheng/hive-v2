@@ -8,15 +8,15 @@ export default function Auth() {
 
   return (
     <>
-      <Button className="rounded-full  bg-primary/10 text-primary hover:text-white cursor-pointer md:block hidden ">
+      <Button className="rounded-full  bg-primary/10 text-primary hover:text-white cursor-pointer lg:block hidden ">
         {t("login")}
       </Button>
-      <Button className="rounded-full cursor-pointer md:block hidden">
+      <Button className="rounded-full cursor-pointer lg:block hidden">
         {t("signUp")}
       </Button>
       <Button
         size={"icon"}
-        className="rounded-full p-0 bg-[#EBEFF7] md:hidden grid place-content-center"
+        className="rounded-full p-0 bg-[#EBEFF7] lg:hidden grid place-content-center"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

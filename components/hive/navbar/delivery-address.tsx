@@ -15,7 +15,7 @@ export default function DeliveryAddress() {
       />
       <Input
         placeholder={t("deliveryAddressPlaceholder")}
-        className="rounded-full  md:w-96 bg-[#EBEFF7] pl-8"
+        className="rounded-full  lg:w-96 bg-[#EBEFF7] pl-8"
       />
     </div>
   );

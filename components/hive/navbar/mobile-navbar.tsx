@@ -9,12 +9,17 @@ import StoreLocation from "./store-location";
 
 export default function MobileNavbar() {
   return (
-    <div className="md:hidden space-y-5 justify-between items-center">
-      <div className="flex items-center gap-2 flex-wrap justify-between sm:justify-around">
-        <Logo />
-        <StoreLocation />
-        <LanguageSwitcher />
-        <Auth />
+    <div className="lg:hidden space-y-5 justify-between items-center">
+      <div className="flex items-center gap-2 flex-wrap justify-between">
+        <div className="flex items-center gap-2">
+          <Logo />
+          <StoreLocation />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <LanguageSwitcher />
+          <Auth />
+        </div>
       </div>
       <div className="flex items-center gap-2 flex-wrap justify-between">
         <DeliveryAddress />
