@@ -9,6 +9,10 @@ import { routing } from "@/i18n/routing";
 
 import Navbar from "@/components/hive/navbar";
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],

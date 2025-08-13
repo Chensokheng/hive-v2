@@ -16,7 +16,7 @@ import { Button } from "../ui/button";
 import Flag from "./flag";
 
 export default function LanguageSwitcher() {
-  const [isPending, startTransition] = useTransition();
+  const [_, startTransition] = useTransition();
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
