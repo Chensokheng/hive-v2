@@ -32,6 +32,9 @@ const eslintConfig = [
           argsIgnorePattern: "^_",
         },
       ],
+
+      // Disable require() import restriction
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
 ];
