@@ -24,7 +24,8 @@ export default function LanguageSwitcher() {
     <Popover>
       <PopoverTrigger>
         <RenderFlag
-          className="flex gap-2 items-center bg-[#EBEFF7] px-2 py-2 rounded-full cursor-pointer"
+          alwaysDisplay={false}
+          className="flex gap-2 items-center bg-[#EBEFF7] px-2 py-2 md:py-1 rounded-full cursor-pointer"
           locale={locale as string}
         />
       </PopoverTrigger>
@@ -37,6 +38,7 @@ export default function LanguageSwitcher() {
               className="rounded-full w-full p-1 cursor-pointer"
             >
               <RenderFlag
+                alwaysDisplay={true}
                 className={cn(
                   "flex items-center gap-2 bg-transparent w-full p-1",
                   {
@@ -56,18 +58,30 @@ export default function LanguageSwitcher() {
 const RenderFlag = ({
   locale,
   className,
+  alwaysDisplay,
 }: {
   locale: string;
   className?: string;
+  alwaysDisplay: boolean;
 }) => {
   switch (locale) {
     case "en":
       return (
-        <Flag className={className} src="/assets/en-flag.png" text="English" />
+        <Flag
+          alwaysDisplay={alwaysDisplay}
+          className={className}
+          src="/assets/en-flag.png"
+          text="English"
+        />
       );
     case "kh":
       return (
-        <Flag className={className} src="/assets/kh-flag.png" text="Khmer" />
+        <Flag
+          alwaysDisplay={alwaysDisplay}
+          className={className}
+          src="/assets/kh-flag.png"
+          text="Khmer"
+        />
       );
   }
 };
