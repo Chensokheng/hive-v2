@@ -47,7 +47,7 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={`${inter.className} antialiased p-5`}>
         <NextIntlClientProvider>
           <Navbar />
