@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 import Navbar from "@/components/hive/navbar";
+import QueryProvider from "@/components/provider/query-provider";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -50,8 +51,10 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${inter.className} antialiased p-5`}>
         <NextIntlClientProvider>
-          <Navbar />
-          {children}
+          <QueryProvider>
+            <Navbar />
+            {children}
+          </QueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>
