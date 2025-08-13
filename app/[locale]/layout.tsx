@@ -18,6 +18,20 @@ export const metadata: Metadata = {
   title: "HIVE",
   description:
     "HIVE is an online food ordering platform that lets you browse restaurants, customize your meals, and place orders for fast delivery or convenient pickup—all from one easy-to-use app.",
+  openGraph: {
+    title: "HIVE",
+    description:
+      "HIVE is an online food ordering platform that lets you browse restaurants, customize your meals, and place orders for fast delivery or convenient pickup—all from one easy-to-use app.",
+    type: "website",
+    locale: "en_US",
+    siteName: "HIVE",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HIVE",
+    description:
+      "HIVE is an online food ordering platform that lets you browse restaurants, customize your meals, and place orders for fast delivery or convenient pickup—all from one easy-to-use app.",
+  },
 };
 
 export default async function RootLayout({
