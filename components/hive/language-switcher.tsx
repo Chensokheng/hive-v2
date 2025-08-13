@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React from "react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { LOCALE } from "@/constants";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { usePathname } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
 import {
@@ -12,27 +13,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { Button } from "../ui/button";
 import Flag from "./flag";
 
 export default function LanguageSwitcher() {
-  const [_, startTransition] = useTransition();
   const pathname = usePathname();
   const params = useParams();
-  const router = useRouter();
   const { locale } = params;
-
-  const handleLangChange = (locale: string) => {
-    startTransition(() => {
-      router.replace(
-        // @ts-expect-error -- TypeScript will validate that only known `params`
-        // are used in combination with a given `pathname`. Since the two will
-        // always match for the current route, we can skip runtime checks.
-        { pathname, params },
-        { locale: locale }
-      );
-    });
-  };
 
   return (
     <Popover>
@@ -45,10 +31,9 @@ export default function LanguageSwitcher() {
       <PopoverContent className="rounded-xl w-42 p-2 space-y-2">
         {LOCALE.map((value, index) => {
           return (
-            <Button
-              variant={"ghost"}
+            <Link
+              href={`/${value}` + pathname}
               key={index}
-              onClick={() => handleLangChange(value)}
               className="rounded-full w-full p-1 cursor-pointer"
             >
               <RenderFlag
@@ -60,7 +45,7 @@ export default function LanguageSwitcher() {
                 )}
                 locale={value}
               />
-            </Button>
+            </Link>
           );
         })}
       </PopoverContent>
