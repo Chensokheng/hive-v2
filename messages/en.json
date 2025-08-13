@@ -1,9 +1,21 @@
 {
   "HomePage": {
     "title": "Hello world!",
-    "about": "Go to the about page"
+    "about": "Go to the about page",
+    "welcome": "Welcome to Hive - Your local delivery service"
   },
   "AboutPage": {
     "title": "This is about page"
+  },
+  "Navbar": {
+    "login": "Login",
+    "signUp": "Sign Up",
+    "deliveryAddressPlaceholder": "Enter delivery address",
+    "storeLocation": "Phnom Penh",
+    "popoverContent": "Place content for the popover here.",
+    "languages": {
+      "en": "English",
+      "kh": "Khmer"
+    }
   }
 }

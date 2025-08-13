@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { LOCALE } from "@/constants";
 import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import {
@@ -19,6 +20,7 @@ export default function LanguageSwitcher() {
   const pathname = usePathname();
   const params = useParams();
   const { locale } = params;
+  const t = useTranslations("Navbar");
 
   return (
     <Popover>
@@ -27,6 +29,7 @@ export default function LanguageSwitcher() {
           alwaysDisplay={false}
           className="flex gap-2 items-center bg-[#EBEFF7] px-2 py-2 md:py-1 rounded-full cursor-pointer"
           locale={locale as string}
+          t={t}
         />
       </PopoverTrigger>
       <PopoverContent className="rounded-xl w-42 p-2 space-y-2">
@@ -46,6 +49,7 @@ export default function LanguageSwitcher() {
                   }
                 )}
                 locale={value}
+                t={t}
               />
             </Link>
           );
@@ -59,10 +63,12 @@ const RenderFlag = ({
   locale,
   className,
   alwaysDisplay,
+  t,
 }: {
   locale: string;
   className?: string;
   alwaysDisplay: boolean;
+  t: (key: string) => string;
 }) => {
   switch (locale) {
     case "en":
@@ -71,7 +77,7 @@ const RenderFlag = ({
           alwaysDisplay={alwaysDisplay}
           className={className}
           src="/assets/en-flag.png"
-          text="English"
+          text={t("languages.en")}
         />
       );
     case "kh":
@@ -80,7 +86,7 @@ const RenderFlag = ({
           alwaysDisplay={alwaysDisplay}
           className={className}
           src="/assets/kh-flag.png"
-          text="Khmer"
+          text={t("languages.kh")}
         />
       );
   }

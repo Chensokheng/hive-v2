@@ -1,9 +1,21 @@
 {
   "HomePage": {
     "title": "សួស្តី​ពិភពលោក!",
-    "about": "ទៅកាន់ទំព័រអំពី"
+    "about": "ទៅកាន់ទំព័រអំពី",
+    "welcome": "សូមស្វាគមន៍មកកាន់ Hive - សេវាកម្មដឹកជញ្ជូនក្នុងតំបន់របស់អ្នក"
   },
   "AboutPage": {
     "title": "This is about ទៅកាន់ទំព័រអំពី"
+  },
+  "Navbar": {
+    "login": "ចូល",
+    "signUp": "ចុះឈ្មោះ",
+    "deliveryAddressPlaceholder": "បញ្ចូលអាសយដ្ឋានដឹកជញ្ជូន",
+    "storeLocation": "ភ្នំពេញ",
+    "popoverContent": "ដាក់មាតិកាសម្រាប់ popover នៅទីនេះ។",
+    "languages": {
+      "en": "អង់គ្លេស",
+      "kh": "ខ្មែរ"
+    }
   }
 }

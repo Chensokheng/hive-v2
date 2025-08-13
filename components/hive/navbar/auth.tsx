@@ -1,15 +1,18 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "../../ui/button";
 
 export default function Auth() {
+  const t = useTranslations("Navbar");
+
   return (
     <>
       <Button className="rounded-full  bg-primary/10 text-primary hover:text-white cursor-pointer md:block hidden ">
-        Login
+        {t("login")}
       </Button>
       <Button className="rounded-full cursor-pointer md:block hidden">
-        Sign Up
+        {t("signUp")}
       </Button>
       <Button
         size={"icon"}
