@@ -67,7 +67,7 @@ const RenderFlag = ({
       );
     case "kh":
       return (
-        <Flag className={className} src="/assets/en-flag.png" text="Khmer" />
+        <Flag className={className} src="/assets/kh-flag.png" text="Khmer" />
       );
   }
 };
