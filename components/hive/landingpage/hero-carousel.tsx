@@ -46,7 +46,7 @@ export function HeroCarousel() {
   }, []);
 
   return (
-    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden rounded-lg">
+    <div className="relative w-full h-[200px] md:h-[500px] overflow-hidden">
       {/* Carousel Images */}
       <div
         className="flex transition-transform duration-500 ease-in-out h-full"
@@ -69,18 +69,18 @@ export function HeroCarousel() {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 z-10"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-custom-tranparent-dark rounded-full p-2 shadow-lg transition-all duration-200 z-10 backdrop-blur-xl"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="w-6 h-6 text-gray-800" />
+        <ChevronLeft className="w-6 h-6 text-white" />
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all duration-200 z-10"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-custom-tranparent-dark rounded-full p-2 shadow-lg transition-all duration-200 z-10 backdrop-blur-xl"
         aria-label="Next slide"
       >
-        <ChevronRight className="w-6 h-6 text-gray-800" />
+        <ChevronRight className="w-6 h-6 text-white" />
       </button>
 
       {/* Pagination Dots */}

@@ -1,8 +1,13 @@
 {
   "HomePage": {
     "title": "Hello world!",
-    "about": "Go to the about page",
-    "welcome": "Welcome to Hive - Your local delivery service"
+    "restaurants": {
+      "nearby": "Nearby",
+      "bestDeal": "Best Deal",
+      "forYou": "For You",
+      "seeAll": "See All",
+      "allStore": "All Store"
+    }
   },
   "AboutPage": {
     "title": "This is about page"

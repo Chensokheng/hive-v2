@@ -45,7 +45,7 @@ export const bestDealRestaurants = [
   {
     id: 6,
     image: "/assets/food.png",
-    name: "Best Deal Restaurant",
+    name: "Merchant Name",
     rating: 4.8,
     category: "Deals",
     location: "Location",
@@ -104,7 +104,7 @@ export const forYouRestaurants = [
   {
     id: 10,
     image: "/assets/food.png",
-    name: "Recommended Choice",
+    name: "Merchant Name",
     rating: 4.9,
     category: "Popular",
     location: "Location",
@@ -112,7 +112,7 @@ export const forYouRestaurants = [
   {
     id: 11,
     image: "/assets/food.png",
-    name: "Your Favorite",
+    name: "Merchant Name",
     rating: 4.8,
     category: "Cuisine",
     location: "Location",
