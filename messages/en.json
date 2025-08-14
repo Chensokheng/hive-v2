@@ -4,7 +4,8 @@
     "restaurants": {
       "nearby": "Nearby",
       "bestDeal": "Best Deal",
-      "forYou": "For You"
+      "forYou": "For You",
+      "seeAll": "See All"
     }
   },
   "AboutPage": {

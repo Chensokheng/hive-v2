@@ -4,7 +4,8 @@
     "restaurants": {
       "nearby": "នៅក្បែរ",
       "bestDeal": "តម្លៃល្អបំផុត",
-      "forYou": "សម្រាប់អ្នក"
+      "forYou": "សម្រាប់អ្នក",
+      "seeAll": "មើលទាំងអស់"
     }
   },
   "AboutPage": {
