@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 
+import Checkout from "@/components/hive/checkout";
 import Navbar from "@/components/hive/navbar";
 import QueryProvider from "@/components/provider/query-provider";
 
@@ -60,6 +61,7 @@ export default async function RootLayout({
           <QueryProvider>
             <Navbar />
             {children}
+            <Checkout />
           </QueryProvider>
         </NextIntlClientProvider>
       </body>

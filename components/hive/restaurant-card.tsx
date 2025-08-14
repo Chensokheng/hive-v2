@@ -23,13 +23,13 @@ export default function RestaurantCard({
       )}
     >
       {/* Restaurant Image with Tag */}
-      <div className="relative">
+      <div className="relative w-full h-32 sm:h-48">
         <Image
           src={restaurant.image}
           alt={restaurant.name}
-          width={320}
-          height={192}
-          className="w-full h-32 sm:h-48 object-cover rounded-lg"
+          fill
+          className="object-cover rounded-lg"
+          sizes="(min-width: 640px) 100vw, 100vw"
         />
         <div className="absolute top-1 left-0">
           <span className="bg-blue-600 text-white px-3 py-2 rounded-lg rounded-bl-none rounded-tr-none text-sm font-medium">
