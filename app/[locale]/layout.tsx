@@ -6,6 +6,7 @@ import "../globals.css";
 
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { setRequestLocale } from "next-intl/server";
 
 import Navbar from "@/components/hive/navbar";
 import QueryProvider from "@/components/provider/query-provider";
@@ -35,6 +36,10 @@ export const metadata: Metadata = {
   },
 };
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export default async function RootLayout({
   children,
   params,
@@ -46,6 +51,7 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
+  setRequestLocale(locale);
 
   return (
     <html lang={locale}>

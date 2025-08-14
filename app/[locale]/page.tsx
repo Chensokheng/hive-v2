@@ -1,12 +1,14 @@
 import { use } from "react";
-import Link from "next/link";
-import { routing } from "@/i18n/routing";
+import {
+  bestDealRestaurants,
+  forYouRestaurants,
+  nearbyRestaurants,
+} from "@/fake/restaurant-data";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
-export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
-}
+import { HeroCarousel } from "@/components/hive/landingpage/hero-carousel";
+import { RestaurantSection } from "@/components/hive/landingpage/restaurant-section";
 
 export default function Page({
   params,
@@ -21,19 +23,26 @@ export default function Page({
   const t = useTranslations("HomePage");
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="text-center space-y-6">
-        <h1 className="text-4xl font-bold text-gray-900">{t("title")}</h1>
-        <p className="text-lg text-gray-600">{t("welcome")}</p>
-        <div className="space-y-4">
-          <Link
-            href="/about"
-            className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-          >
-            {t("about")}
-          </Link>
-        </div>
-      </div>
+    <div className="min-h-screen bg-white">
+      <main className="container mx-auto px-4 py-8 space-y-12">
+        <HeroCarousel />
+        <RestaurantSection
+          title="Nearby"
+          restaurants={nearbyRestaurants}
+          containerId="nearby-container"
+        />
+        <RestaurantSection
+          title="Best Deal"
+          restaurants={bestDealRestaurants}
+          containerId="best-deal-container"
+        />
+        <RestaurantSection
+          title="For You"
+          restaurants={forYouRestaurants}
+          containerId="for-you-container"
+        />
+        {/* <AllStoresSection /> */}
+      </main>
     </div>
   );
 }
