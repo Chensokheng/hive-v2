@@ -23,21 +23,22 @@ export default function Page({
   const t = useTranslations("HomePage");
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-primary-bg">
+      <HeroCarousel />
+
       <main className="container mx-auto px-4 py-8 space-y-12">
-        <HeroCarousel />
         <RestaurantSection
-          title="Nearby"
+          title={t("restaurants.nearby")}
           restaurants={nearbyRestaurants}
           containerId="nearby-container"
         />
         <RestaurantSection
-          title="Best Deal"
+          title={t("restaurants.bestDeal")}
           restaurants={bestDealRestaurants}
           containerId="best-deal-container"
         />
         <RestaurantSection
-          title="For You"
+          title={t("restaurants.forYou")}
           restaurants={forYouRestaurants}
           containerId="for-you-container"
         />

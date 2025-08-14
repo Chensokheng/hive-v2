@@ -34,7 +34,9 @@ export function RestaurantSection({
     <section className="w-full">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-blue-600">{title}</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-l from-[#FF66CC] to-[#0055DD] bg-clip-text text-transparent">
+          {title}
+        </h2>
         <button className="text-blue-600 font-medium hover:underline">
           See All
         </button>

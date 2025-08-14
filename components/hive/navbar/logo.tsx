@@ -8,6 +8,7 @@ export default function Logo() {
         src={"/assets/logo.png"}
         alt="logo"
         fill
+        sizes="(max-width: 640px) 60px, (max-width: 768px) 80px, 100px"
         className="object-contain"
       />
     </div>
