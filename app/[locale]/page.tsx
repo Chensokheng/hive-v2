@@ -7,6 +7,7 @@ import {
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
+import AllStores from "@/components/hive/landingpage/all-stores";
 import { HeroCarousel } from "@/components/hive/landingpage/hero-carousel";
 import { RestaurantSection } from "@/components/hive/landingpage/restaurant-section";
 
@@ -42,7 +43,7 @@ export default function Page({
           restaurants={forYouRestaurants}
           containerId="for-you-container"
         />
-        {/* <AllStoresSection /> */}
+        <AllStores />
       </main>
     </div>
   );
