@@ -27,7 +27,7 @@ export default function Page({
     <div className="min-h-screen bg-primary-bg">
       <HeroCarousel />
 
-      <main className="container mx-auto px-4 py-8 space-y-12">
+      <main className="max-w-[1400px] mx-auto px-4 py-8 space-y-12">
         <RestaurantSection
           title={t("restaurants.nearby")}
           restaurants={nearbyRestaurants}

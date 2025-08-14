@@ -17,10 +17,10 @@ export default function AllStores() {
           {t("allStore")}
         </h2>
       </div>
-      <div className="grid grid-cols-2 sm:flex flex-wrap gap-2">
+      <div className="grid grid-cols-2 sm:flex flex-wrap gap-2 sm:gap-5">
         {restaurants.map((restaurant) => (
           <RestaurantCard
-            className="w-full sm:w-auto"
+            className="w-full sm:w-80"
             key={restaurant.id}
             restaurant={restaurant}
           />
