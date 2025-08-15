@@ -30,7 +30,7 @@ export default function MerchantHeader({
   closingTime,
 }: MerchantHeaderProps) {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden mb-8 shadow-sm border border-gray-100">
+    <div className="bg-white lg:rounded-2xl overflow-hidden lg:mb-8 shadow-sm lg:border border-gray-100">
       {/* Hero Image */}
       <div className="relative w-full h-52 md:h-64">
         <Image

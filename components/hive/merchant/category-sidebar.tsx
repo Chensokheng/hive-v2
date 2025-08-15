@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,7 @@ interface CategorySidebarProps {
   activeCategory?: string;
   onCategoryChange?: (categoryId: string) => void;
   className?: string;
+  isMobile?: boolean;
 }
 
 export default function CategorySidebar({
@@ -22,6 +24,7 @@ export default function CategorySidebar({
   activeCategory = "All",
   onCategoryChange,
   className,
+  isMobile = false,
 }: CategorySidebarProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -29,10 +32,58 @@ export default function CategorySidebar({
     category.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Mobile horizontal layout
+  if (isMobile) {
+    return (
+      <div className="w-full space-y-4 bg-white border p-2">
+        {/* Search Input */}
+        <div className="relative">
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-blue-500 w-5 h-5">
+            <SearchIcon />
+          </div>
+          <Input
+            type="text"
+            placeholder="Search in menu"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pl-12 bg-white border h-12 rounded-full text-gray-500"
+          />
+        </div>
+
+        {/* Horizontal Category Chips */}
+        <div className="flex items-center gap-3">
+          {/* Dropdown indicator (optional) */}
+          <button className="flex-shrink-0 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+            <ChevronDown className="w-5 h-5 text-gray-600" />
+          </button>
+
+          {/* Scrollable category chips */}
+          <div className="flex gap-3 overflow-x-auto scrollbar-hide">
+            {filteredCategories.slice(0, 4).map((category) => (
+              <button
+                key={category.id}
+                onClick={() => onCategoryChange?.(category.id)}
+                className={cn(
+                  "flex-shrink-0 px-6 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
+                  activeCategory === category.id
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                )}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop vertical layout
   return (
     <div
       className={cn(
-        "w-full lg:w-80 rounded-2xl p-6 border border-gray-100",
+        "w-full lg:w-80 rounded-2xl p-6 border border-gray-100 lg:sticky lg:top-6 lg:h-fit",
         className
       )}
     >
@@ -65,18 +116,6 @@ export default function CategorySidebar({
           >
             <div className="flex justify-between items-center">
               <span>{category.label}</span>
-              {/* {category.count && (
-                <span
-                  className={cn(
-                    "text-xs px-2 py-1 rounded-full min-w-[24px] text-center",
-                    activeCategory === category.id
-                      ? "bg-white/20 text-white"
-                      : "bg-gray-100 text-gray-500"
-                  )}
-                >
-                  {category.count}
-                </span>
-              )} */}
             </div>
           </button>
         ))}
