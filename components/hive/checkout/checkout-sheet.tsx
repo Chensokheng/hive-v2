@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 
 import CheckoutHeader from "./checkout-header";
-import DeliveryAddress from "./delivery-info";
+import DeliveryInfo from "./delivery-info";
 
 export default function CheckoutSheet() {
   const cartItems = [
@@ -75,7 +75,7 @@ export default function CheckoutSheet() {
           <CheckoutHeader />
         </div>
         <div className="bg-white p-3">
-          <DeliveryAddress />
+          <DeliveryInfo />
         </div>
       </SheetContent>
     </Sheet>

@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 
 import { Textarea } from "@/components/ui/textarea";
 import MapPin from "@/components/icon/map-pin";
 
+import { AddressInfoDrawer } from "./address/address-info-drawer";
+
 export default function DeliveryInfo() {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   return (
     <div className="space-y-5">
       <div className="space-y-2">
         <h1 className="font-bold">Delivery to:</h1>
-        <button className="flex items-center gap-2 justify-between w-full cursor-pointer">
+        <button
+          onClick={() => setIsDrawerOpen(true)}
+          className="flex items-center gap-2 justify-between w-full cursor-pointer"
+        >
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-[#FF66CC]/10 grid place-content-center">
               <MapPin color="#FF66CC" />
@@ -58,6 +65,10 @@ export default function DeliveryInfo() {
         </div>
       </div>
       {/* should sheet addres go here */}
+      <AddressInfoDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+      />
       {/* should sheet addres go here */}
     </div>
   );

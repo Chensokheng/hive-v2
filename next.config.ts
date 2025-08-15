@@ -6,14 +6,14 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'unpkg.com',
-        port: '',
-        pathname: '/**',
-        search: '',
+        protocol: "https",
+        hostname: "unpkg.com",
+        port: "",
+        pathname: "/**",
+        search: "",
       },
     ],
-  }
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();
