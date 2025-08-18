@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { reverseGeocode } from "@/services/map/get-map";
 import { Check, Loader2, Target, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { reverseGeocode } from "@/services/map/get-map";
 import CurrentLocationIcon from "@/components/icon/current-location";
 
 // Dynamically import map component to avoid SSR issues
@@ -61,14 +61,13 @@ export function MapLocationPicker({
       setError(null);
 
       try {
-
         const address = await reverseGeocode(lat, lng);
 
         // const data = await response.json();
         if (address) {
           const locationData: LocationData = {
             // id: data.data.id,
-            id: 'placeholder-id',
+            id: "placeholder-id",
             lat: lat,
             lng: lng,
             address: address,
@@ -86,8 +85,8 @@ export function MapLocationPicker({
         // Fallback location data
         const fallbackLocation: LocationData = {
           id: `fallback-${error}-${Date.now()}`,
-          lat: 0.00000000,
-          lng: 0.00000000,
+          lat: 0.0,
+          lng: 0.0,
           address: `${lat.toFixed(6)}, ${lng.toFixed(6)}`,
         };
 
@@ -240,11 +239,13 @@ export function MapLocationPicker({
               <p className="text-sm text-gray-600 break-words">
                 {currentLocation.address}
               </p>
-              <div className="text-xs text-gray-500">
+
+              {/* DEBUG */}
+              {/* <div className="text-xs text-gray-500">
                 <p>Lat: {currentLocation.lat.toFixed(6)}</p>
                 <p>Lng: {currentLocation.lng.toFixed(6)}</p>
                 <p>ID: {currentLocation.id}</p>
-              </div>
+              </div> */}
             </div>
           )}
 

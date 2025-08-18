@@ -1,16 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import { reverseGeocode, searchAddresses } from "@/services/map/get-map";
+import type { Address } from "@/services/map/get-map";
 import {
   BriefcaseBusiness,
-  ChevronDown,
   ChevronLeft,
   Home,
   Loader2,
   Plus,
+  Search,
+  X,
 } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -23,11 +27,23 @@ import CurrentLocationIcon from "@/components/icon/current-location";
 import MapPin from "@/components/icon/map-pin";
 
 import { AddressModal, type TAddressType } from "./address-form-modal";
-import { MapLocationPicker } from "./map-draggable-modal";
 
 interface AddressDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+interface PlaceDetailResponse {
+  status: boolean;
+  message: string;
+  data: {
+    user_id: number;
+    place_id: string;
+    lat: number;
+    lng: number;
+    long: number;
+    address: string;
+  };
 }
 
 const DEFAULT_LAT_LNG = { lat: 11.550966450309836, lng: 104.9287729533798 }; // Keystone building
@@ -45,13 +61,207 @@ const MapViewOnlyInner = dynamic(
 );
 
 export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
-  const [selectedAddress, setSelectedAddress] = useState("Keystone Building");
+  // Separate search query from selected location
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<Address[]>([]);
+  const [showResults, setShowResults] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // This state controls the map - only updates when user makes a selection
+  const [selectedLocation, setSelectedLocation] = useState({
+    name: "Keystone Building",
+    address: "Phnom Penh",
+    coordinates: DEFAULT_LAT_LNG,
+  });
+
+  // Track if we're fetching place details (separate from search loading)
+  const [isFetchingPlaceDetails, setIsFetchingPlaceDetails] = useState(false);
+
   const [addressType, setAddressType] = useState<TAddressType>("other");
   const [showAddressModal, setShowAddressModal] = useState(false);
+
+  // Search function - ONLY updates search results, NOT the map
+  const handleSearch = useCallback(async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const results = await searchAddresses(query, undefined, true); // Prioritize Hive API
+      setSearchResults(results);
+      setShowResults(true);
+    } catch (error) {
+      console.error("Search error:", error);
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  }, []);
+
+  // Debounced search effect - ONLY for search results
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      handleSearch(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchQuery, handleSearch]);
+
+  // Function to get place details using place_id
+  const getPlaceDetails = async (
+    placeId: string
+  ): Promise<PlaceDetailResponse | null> => {
+    try {
+      const response = await fetch(
+        "https://api.gohive.online/api/web/delivery/places",
+        {
+          method: "POST",
+          headers: {
+            accept: "application/json",
+            "accept-language": "km",
+            "content-type": "application/json",
+            "user-agent": "NextJS-Map-App/1.0",
+          },
+          body: JSON.stringify({
+            user_id: 74, // You might want to make this dynamic
+            place_id: placeId,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: PlaceDetailResponse = await response.json();
+      return data.status ? data : null;
+    } catch (error) {
+      console.error("Error fetching place details:", error);
+      return null;
+    }
+  };
+
+  // Handle location selection from search results - ONLY this updates the map
+  const handleLocationSelect = async (address: Address) => {
+    // Immediately close search results and update search query
+    setShowResults(false);
+    setSearchQuery(address.name);
+
+    // If it's a Hive result with placeId, get detailed coordinates
+    if (address.placeId && address.source === "Hive") {
+      setIsFetchingPlaceDetails(true);
+      try {
+        const placeDetails = await getPlaceDetails(address.placeId);
+        if (placeDetails?.data) {
+          // Force map re-render by creating new object
+          setSelectedLocation({
+            name: address.name,
+            address: placeDetails.data.address,
+            coordinates: {
+              lat: placeDetails.data.lat,
+              lng: placeDetails.data.lng,
+            },
+          });
+        } else {
+          // Fallback to address coordinates
+          setSelectedLocation({
+            name: address.name,
+            address: address.fullAddress || address.description,
+            coordinates: {
+              lat: address.coordinates.lat,
+              lng: address.coordinates.lng,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error getting place details:", error);
+        // Fallback to address coordinates
+        setSelectedLocation({
+          name: address.name,
+          address: address.fullAddress || address.description,
+          coordinates: {
+            lat: address.coordinates.lat,
+            lng: address.coordinates.lng,
+          },
+        });
+      } finally {
+        setIsFetchingPlaceDetails(false);
+      }
+    } else {
+      // Use coordinates from search result - force re-render with new object
+      setSelectedLocation({
+        name: address.name,
+        address: address.fullAddress || address.description,
+        coordinates: {
+          lat: address.coordinates.lat,
+          lng: address.coordinates.lng,
+        },
+      });
+    }
+  };
+
+  // Handle current location - this also updates the map
+  const handleUseCurrentLocation = () => {
+    if (navigator.geolocation) {
+      setIsFetchingPlaceDetails(true);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const coords = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          const address = await reverseGeocode(coords.lat, coords.lng);
+
+          console.log(address);
+
+          try {
+            // Force map re-render by creating new object
+            setSelectedLocation({
+              name: address.split(",")[0], // FIXME: useTranslation
+              address: address,
+              coordinates: {
+                lat: coords.lat,
+                lng: coords.lng,
+              },
+            });
+            setSearchQuery("Current Location");
+            setShowResults(false); // Ensure dropdown is closed
+          } finally {
+            setShowResults(false); // Ensure dropdown is closed
+            setIsFetchingPlaceDetails(false);
+          }
+        },
+        (error) => {
+          console.error("Error getting location:", error);
+          alert(
+            "Unable to get your current location. Please ensure location services are enabled."
+          );
+          setIsFetchingPlaceDetails(false);
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
 
   const showAddressPopup = (type: TAddressType) => {
     setAddressType(type);
     setShowAddressModal(true);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    setSearchResults([]);
+    setShowResults(false);
+  };
+
+  // Handle clicking outside to close dropdown
+  const handleSearchResultClick = (result: Address) => {
+    // Prevent the blur event from interfering
+    handleLocationSelect(result);
   };
 
   return (
@@ -85,39 +295,131 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
             <div className="p-4">
               <h3 className="text-base font-bold mb-3">Choose Address</h3>
 
-              {/* Address Dropdown */}
+              {/* Search Input */}
               <div className="relative mb-4">
-                <button className="w-full flex items-center gap-3 px-3 py-2 border border-gray-200 rounded-full bg-secondary hover:bg-gray-50 transition-colors cursor-pointer">
-                  <MapPin className="h-5 w-5 text-primary" />
-                  <span className="text-gray-500 flex-1 text-left">
-                    Enter delivery address
-                  </span>
-                  <ChevronDown className="h-5 w-5 text-gray-500" />
-                </button>
-                {/* TODO: update the  */}
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                  <Input
+                    type="text"
+                    placeholder="Search for delivery address..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)} // Only updates search, not map
+                    onFocus={() => {
+                      if (searchResults.length > 0) {
+                        setShowResults(true);
+                      }
+                    }}
+                    className="pl-10 pr-10 py-2 rounded-full bg-secondary border-gray-200 focus:border-primary"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={clearSearch}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                    >
+                      <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                    </button>
+                  )}
+                  {isSearching && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Search Results Dropdown */}
+                {showResults && searchResults.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-60 max-h-60 overflow-y-auto">
+                    {searchResults.map((result) => (
+                      <button
+                        key={result.id}
+                        onMouseDown={() => handleSearchResultClick(result)} // Use onMouseDown instead of onClick
+                        className="w-full px-4 py-3 text-left hover:bg-gray-50 focus:outline-none focus:bg-gray-50 border-b border-gray-100 last:border-0"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <MapPin className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                          <div className="min-w-0 flex-1">
+                            <div className="font-medium text-gray-900 truncate">
+                              {result.name}
+                              {result.nameKh && (
+                                <span className="text-sm text-gray-600 ml-2">
+                                  ({result.nameKh})
+                                </span>
+                              )}
+                              {result.source && (
+                                <span className="text-xs text-blue-500 ml-2 px-1 py-0.5 bg-blue-50 rounded">
+                                  {result.source}
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-sm text-gray-500 truncate">
+                              {result.fullAddress || result.description}
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* No results message */}
+                {/* {showResults &&
+                  searchResults.length === 0 &&
+                  searchQuery.trim() &&
+                  !isSearching && (
+                    <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-80">
+                      <div className="px-4 py-3 text-center text-gray-500">
+                        No locations found for {searchQuery}
+                      </div>
+                    </div>
+                  )} */}
               </div>
 
               <div className="relative h-34 bg-gray-100 rounded-lg mb-2 border-secondary border-1 overflow-hidden cursor-pointer">
-                {/* Map Container */}
-                <MapViewOnlyInner center={DEFAULT_LAT_LNG} showPin={true} />
+                {/* Map Container - Only updates when location is selected or place details are being fetched */}
+                {isFetchingPlaceDetails ? (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <Loader2 className="w-6 h-6 animate-spin text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-500">
+                        Loading location details...
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <MapViewOnlyInner
+                    key={`${selectedLocation.coordinates.lat}-${selectedLocation.coordinates.lng}`} // Force re-render with key
+                    center={selectedLocation.coordinates}
+                    showPin={true}
+                  />
+                )}
 
                 {/* Selected Location Overlay */}
                 <div className="absolute z-50 bottom-0 left-0 right-0 bg-white shadow-lg border-gray-200">
                   <div className="flex items-center gap-3 p-2">
-                    <MapPin className="text-gray-500 h-6 w-6" />
-                    <div>
-                      <h4 className="font-semibold"> {"Keystone Building"} </h4>
-                      <p className="text-sm text-gray-500"> {"Phnom Penh"} </p>
+                    <MapPin className="text-gray-500 h-6 w-6 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-semibold truncate">
+                        {selectedLocation.name}
+                      </h4>
+                      <p className="text-sm text-gray-500 truncate">
+                        {selectedLocation.address}
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Use Current Location */}
-              <button className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group cursor-pointer">
+              <button
+                onClick={handleUseCurrentLocation}
+                disabled={isFetchingPlaceDetails}
+                className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group cursor-pointer disabled:opacity-50"
+              >
                 <CurrentLocationIcon className="h-5 w-5 text-primary" />
                 <span className="text-primary font-semibold">
-                  Use Current Location
+                  {isFetchingPlaceDetails
+                    ? "Getting location..."
+                    : "Use Current Location"}
                 </span>
               </button>
             </div>
