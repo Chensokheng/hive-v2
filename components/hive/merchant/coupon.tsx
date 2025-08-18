@@ -81,7 +81,7 @@ export function CouponSection({
   }
 
   return (
-    <div className={cn("rounded-2xl p-6", className)}>
+    <div className={cn("rounded-2xl", className)}>
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold ">
           🔥{" "}
@@ -91,11 +91,19 @@ export function CouponSection({
         </h2>
       </div>
 
-      <div className="space-y-3 flex gap-5 overflow-x-auto scrollbar-hide pb-4">
+      <div
+        className="space-y-3 flex gap-5 overflow-x-auto scrollbar-hide pb-4"
+        id="coupon-container"
+      >
         {coupons.map((coupon) => (
           <Coupon key={coupon.id} coupon={coupon} onClick={onCouponClick} />
         ))}
       </div>
+      <style jsx>{`
+        #coupon-container::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 }

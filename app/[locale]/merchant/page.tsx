@@ -13,7 +13,9 @@ import { Carousel } from "@/components/hive/landingpage/hero-carousel";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import CategorySidebar from "@/components/hive/merchant/category-sidebar";
 import { CouponSection } from "@/components/hive/merchant/coupon";
+import FlashSale from "@/components/hive/merchant/flash-sale";
 import MerchantHeader from "@/components/hive/merchant/merchant-header";
+import SpecialPromotion from "@/components/hive/merchant/special-promotion";
 
 export default function MerchantPage({
   params,
@@ -79,6 +81,9 @@ export default function MerchantPage({
                   }}
                 />
               </div>
+
+              <FlashSale />
+              <SpecialPromotion />
 
               {/* Menu Content */}
               <div className="bg-white rounded-2xl p-6 mt-6">
