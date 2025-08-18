@@ -32,7 +32,7 @@ export default function MerchantHeader({
   return (
     <div className="bg-white lg:rounded-2xl overflow-hidden lg:mb-8 shadow-sm lg:border border-gray-100">
       {/* Hero Image */}
-      <div className="relative w-full h-52 md:h-64">
+      <div className="relative w-full h-48 md:h-64">
         <Image
           src={heroImage}
           alt={name}
@@ -55,9 +55,9 @@ export default function MerchantHeader({
       </div>
 
       {/* Restaurant Info */}
-      <div className="p-6 pt-10">
+      <div className="p-6 pt-10 space-y-2">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
             {name}
           </h1>
           {/* Action Buttons */}
@@ -80,7 +80,7 @@ export default function MerchantHeader({
         </div>
 
         {/* Rating and Category */}
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2 ">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
             <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
@@ -96,7 +96,7 @@ export default function MerchantHeader({
         </div>
 
         {/* Location */}
-        <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center gap-2 ">
           <MapIcon />
           <span className="text-sm text-gray-600">{address}</span>
         </div>

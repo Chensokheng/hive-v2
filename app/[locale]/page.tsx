@@ -2,13 +2,14 @@ import { use } from "react";
 import {
   bestDealRestaurants,
   forYouRestaurants,
+  heroCarouselImages,
   nearbyRestaurants,
 } from "@/fake/restaurant-data";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
 import AllStores from "@/components/hive/landingpage/all-stores";
-import { HeroCarousel } from "@/components/hive/landingpage/hero-carousel";
+import { Carousel } from "@/components/hive/landingpage/hero-carousel";
 import { RestaurantSection } from "@/components/hive/landingpage/restaurant-section";
 import Navbar from "@/components/hive/navbar";
 
@@ -28,7 +29,13 @@ export default function Page({
     <div className="min-h-screen bg-primary-bg">
       <Navbar />
 
-      <HeroCarousel />
+      <Carousel
+        items={heroCarouselImages}
+        height="h-[200px] md:h-[500px]"
+        arrowClassName="bg-custom-tranparent-dark backdrop-blur-xl"
+        autoAdvance={true}
+        autoAdvanceInterval={5000}
+      />
 
       <main className="max-w-[1400px] mx-auto px-4 py-8 space-y-12">
         <RestaurantSection

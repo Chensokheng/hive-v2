@@ -1,9 +1,18 @@
 "use client";
 
 import React, { use, useState } from "react";
+import {
+  breadcrumbItems,
+  categories,
+  heroCarouselImages,
+  merchantCoupons,
+  merchantData,
+} from "@/fake/restaurant-data";
 
+import { Carousel } from "@/components/hive/landingpage/hero-carousel";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import CategorySidebar from "@/components/hive/merchant/category-sidebar";
+import { CouponSection } from "@/components/hive/merchant/coupon";
 import MerchantHeader from "@/components/hive/merchant/merchant-header";
 
 export default function MerchantPage({
@@ -12,38 +21,6 @@ export default function MerchantPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = use(params);
-
-  // Mock data - in real app this would come from API
-  const merchantData = {
-    name: "Burger King BKK",
-    category: "Fastfood",
-    rating: 4.9,
-    address: "257 Rue Pasteur No. 51, Phnom Penh, Cambodia",
-    heroImage: "/fake/merchant-cover.png",
-    logo: "/fake/merchant-logo.png",
-    status: "Open" as const,
-    closingTime: "11 PM",
-  };
-
-  const categories = [
-    { id: "All", label: "All", count: 45 },
-    { id: "Recommended", label: "Recommended", count: 12 },
-    { id: "Beef Burger", label: "Beef Burger", count: 8 },
-    { id: "Chicken Burger", label: "Chicken Burger", count: 6 },
-    { id: "Family Combo", label: "Family Combo", count: 4 },
-    { id: "Fried Chicken", label: "Fried Chicken", count: 7 },
-    { id: "Happy Meals", label: "Happy Meals", count: 3 },
-    { id: "Ice-Blended", label: "Ice-Blended", count: 5 },
-    { id: "Snacks", label: "Snacks", count: 8 },
-    { id: "Tea", label: "Tea", count: 2 },
-  ];
-
-  const breadcrumbItems = [
-    { label: "Home", href: "/" },
-    { label: "Burger King", href: "/restaurants" },
-    { label: "Burger King BKK", active: true },
-  ];
-
   const [activeCategory, setActiveCategory] = useState("All");
 
   return (
@@ -80,8 +57,31 @@ export default function MerchantPage({
                 />
               </div>
 
+              <div className="p-2 lg:p-0">
+                <Carousel
+                  items={heroCarouselImages}
+                  height="h-[200px] md:h-[400px]"
+                  arrowClassName="bg-custom-tranparent-dark backdrop-blur-xl"
+                  autoAdvance={true}
+                  autoAdvanceInterval={5000}
+                  className="rounded-lg"
+                />
+              </div>
+
+              {/* Coupon Section */}
+              <div className="p-2 lg:p-0 mt-6">
+                <CouponSection
+                  coupons={merchantCoupons}
+                  title="Available Deals"
+                  onCouponClick={(coupon) => {
+                    console.log("Coupon clicked:", coupon);
+                    // Handle coupon click - could open modal, copy code, etc.
+                  }}
+                />
+              </div>
+
               {/* Menu Content */}
-              <div className="bg-white rounded-2xl p-6">
+              <div className="bg-white rounded-2xl p-6 mt-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">
                   Menu -{" "}
                   {categories.find((c) => c.id === activeCategory)?.label ||
