@@ -1,8 +1,12 @@
 import React from "react";
 import Image from "next/image";
+import { useGlobalState } from "@/store";
 import { Plus } from "lucide-react";
 
 export default function MenuCard() {
+  const setOpenMenuToCartSheet = useGlobalState(
+    (state) => state.setOpenMenuToCartSheet
+  );
   return (
     <div className="bg-white inline-block rounded-xl">
       <div className="h-40 w-full   sm:h-70 sm:w-70 relative">
@@ -12,7 +16,10 @@ export default function MenuCard() {
           className=" object-cover rounded-t-xl"
           fill
         />
-        <div className=" absolute top-3 right-3 h-9 w-9 rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer">
+        <div
+          className=" absolute top-3 right-3 h-9 w-9 rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
+          onClick={() => setOpenMenuToCartSheet(true)}
+        >
           <Plus className="text-primary" />
         </div>
       </div>

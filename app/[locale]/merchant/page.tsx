@@ -10,6 +10,7 @@ import {
 } from "@/fake/restaurant-data";
 
 import { Carousel } from "@/components/hive/landingpage/hero-carousel";
+import AddMenuToCart from "@/components/hive/merchant/add-menu-to-cart";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import CategorySidebar from "@/components/hive/merchant/category-sidebar";
 import { CouponSection } from "@/components/hive/merchant/coupon";
@@ -91,6 +92,7 @@ export default function MerchantPage({
                 <h1 className="font-bold text-black text-lg px-2">For You</h1>
                 <Menus />
               </div>
+              <AddMenuToCart />
             </div>
           </div>
         </div>
