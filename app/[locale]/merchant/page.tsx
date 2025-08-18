@@ -81,9 +81,10 @@ export default function MerchantPage({
                   }}
                 />
               </div>
-
-              <FlashSale />
-              <SpecialPromotion />
+              <div className="space-y-5">
+                <FlashSale />
+                <SpecialPromotion />
+              </div>
 
               {/* Menu Content */}
               <div className="bg-white rounded-2xl p-6 mt-6">

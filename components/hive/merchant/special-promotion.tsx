@@ -26,7 +26,7 @@ export default function SpecialPromotion() {
   };
   return (
     <div className="space-y-5">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-2">
         <h2 className="text-xl font-bold ">
           🎉{" "}
           <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
@@ -46,7 +46,7 @@ export default function SpecialPromotion() {
       </div>
 
       <div
-        className="flex gap-5 overflow-x-auto scrollbar-hide pb-4"
+        className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 px-2"
         id="special-promotion-container"
       >
         {flashSaleItems.map((item) => (

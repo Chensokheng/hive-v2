@@ -36,7 +36,7 @@ export default function PromotionCard({
     totalItems > 0 ? ((totalItems - remainingItems) / totalItems) * 100 : 0;
 
   return (
-    <div className="h-38 flex items-center relative">
+    <div className="h-auto flex items-center relative w-[95%]">
       <div className="w-64 h-full bg-white rounded-s-xl">
         <div className={`py-1 px-3 ${expireBgColor} rounded-t-xl`}>
           <span className={`text-xs font-semibold ${expireTextColor}`}>
@@ -44,7 +44,9 @@ export default function PromotionCard({
           </span>
         </div>
         <div className="px-4">
-          <h1 className="text-[#161F2F] font-semibold">{title}</h1>
+          <h1 className="text-[#161F2F] font-semibold">
+            {title} aksklasjklajslkds
+          </h1>
           <div>
             <div className="flex items-center gap-1">
               <span className="text-lg font-bold text-primary">
