@@ -49,6 +49,7 @@ const searchNominatim = unstable_cache(
           `addressdetails=1&` +
           `limit=15&` +
           `accept-language=km,en&` +
+          // `accept-language=en&` +
           `bounded=1&` +
           `viewbox=102.3,14.7,107.6,10.4`, // Cambodia bounding box
         {
@@ -177,7 +178,8 @@ const searchMapbox = unstable_cache(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?` +
           `country=kh&` +
           `limit=10&` +
-          `language=km&` +
+          // `language=km&` +
+          `language=en&` +
           `access_token=${apiKey}`,
         {
           headers: {
@@ -310,7 +312,8 @@ export const reverseGeocode = unstable_cache(
           `lon=${lng}&` +
           `format=json&` +
           `addressdetails=1&` +
-          `accept-language=km,en`,
+          // `accept-language=km,en`,
+          `accept-language=en`,
         {
           headers: {
             "User-Agent": "NextJS-Map-App/1.0",
@@ -342,6 +345,62 @@ export const reverseGeocode = unstable_cache(
     tags: ["reverse-geocoding"],
   }
 );
+
+/* const reverseGeocodeWithHiveAPI = useCallback(
+  async (lat: number, lng: number) => {
+    setIsReverseGeocoding(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `https://api.gohive.online/api/web/consumer/address/place-by-geocode?latlng=${lat},${lng}`,
+        {
+          headers: {
+            "User-Agent": "NextJS-Map-App/1.0",
+            Accept: "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.status && data.data) {
+        const locationData: LocationData = {
+          id: data.data.id,
+          lat: data.data.lat,
+          lng: data.data.lng,
+          address: data.data.address,
+        };
+
+        setCurrentLocation(locationData);
+        return locationData;
+      } else {
+        throw new Error("Invalid API response format");
+      }
+    } catch (error) {
+      console.error("Reverse geocoding error:", error);
+      setError("Failed to get address for this location");
+
+      // Fallback location data
+      const fallbackLocation: LocationData = {
+        id: `manual-${Date.now()}`,
+        lat,
+        lng,
+        address: `${lat.toFixed(6)}, ${lng.toFixed(6)}`,
+      };
+
+      setCurrentLocation(fallbackLocation);
+      return fallbackLocation;
+    } finally {
+      setIsReverseGeocoding(false);
+    }
+  },
+  []
+); */
 
 // Optional: Function to clear geocoding cache
 export async function clearGeocodingCache() {

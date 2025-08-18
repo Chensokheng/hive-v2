@@ -23,6 +23,7 @@ import CurrentLocationIcon from "@/components/icon/current-location";
 import MapPin from "@/components/icon/map-pin";
 
 import { AddressModal, type TAddressType } from "./address-form-modal";
+import { MapLocationPicker } from "./map-draggable-modal";
 
 interface AddressDrawerProps {
   isOpen: boolean;
@@ -86,16 +87,17 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
 
               {/* Address Dropdown */}
               <div className="relative mb-4">
-                <button className="w-full flex items-center gap-3 px-3 py-2 border border-gray-200 rounded-full bg-secondary hover:bg-gray-50 transition-colors">
+                <button className="w-full flex items-center gap-3 px-3 py-2 border border-gray-200 rounded-full bg-secondary hover:bg-gray-50 transition-colors cursor-pointer">
                   <MapPin className="h-5 w-5 text-primary" />
                   <span className="text-gray-500 flex-1 text-left">
                     Enter delivery address
                   </span>
                   <ChevronDown className="h-5 w-5 text-gray-500" />
                 </button>
+                {/* TODO: update the  */}
               </div>
 
-              <div className="relative h-34 bg-gray-100 rounded-lg mb-2 border-secondary border-1 overflow-hidden">
+              <div className="relative h-34 bg-gray-100 rounded-lg mb-2 border-secondary border-1 overflow-hidden cursor-pointer">
                 {/* Map Container */}
                 <MapViewOnlyInner center={DEFAULT_LAT_LNG} showPin={true} />
 
@@ -112,7 +114,7 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
               </div>
 
               {/* Use Current Location */}
-              <button className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group">
+              <button className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group cursor-pointer">
                 <CurrentLocationIcon className="h-5 w-5 text-primary" />
                 <span className="text-primary font-semibold">
                   Use Current Location
@@ -128,7 +130,7 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
                 {/* Add Home Address */}
                 <button
                   onClick={() => showAddressPopup("home")}
-                  className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group"
+                  className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <Home className="h-4 w-4 text-primary" strokeWidth={2.5} />
@@ -143,7 +145,7 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
                 {/* Add Work Address */}
                 <button
                   onClick={() => showAddressPopup("work")}
-                  className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group"
+                  className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <BriefcaseBusiness
@@ -161,7 +163,7 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
                 {/* Add Other Address */}
                 <button
                   onClick={() => showAddressPopup("other")}
-                  className="flex items-center gap-3 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left"
+                  className="flex items-center gap-3 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left cursor-pointer"
                 >
                   <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
                   <span className="text-primary font-semibold">
@@ -173,6 +175,18 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
           </div>
         </SheetContent>
       </Sheet>
+
+      {/* Map Location Picker Dialog */}
+      {/* <MapLocationPicker
+        isOpen={showMapPicker}
+        onClose={() => setShowMapPicker(false)}
+        onLocationSelect={handleLocationSelect}
+        initialCenter={
+          formData.address
+            ? { lat: formData.address.lat, lng: formData.address.lng }
+            : DEFAULT_LAT_LNG
+        }
+      /> */}
 
       {showAddressModal && (
         <AddressModal

@@ -75,94 +75,96 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
   };
 
   return (
-    <Dialog open={true} onOpenChange={setOpenModal}>
-      <DialogContent className="w-full max-w-sm max-h-[90vh] p-0 overflow-hidden">
-        <DialogHeader className="hidden">
-          <DialogTitle className="hidden" aria-readonly>
-            {`Add ${addressTypes[addressType]} Address`}
-          </DialogTitle>
-          <DialogDescription className="hidden" aria-readonly>
-            Add a new address for delivery
-          </DialogDescription>
-        </DialogHeader>
+    <>
+      <Dialog open={true} onOpenChange={setOpenModal}>
+        <DialogContent className="w-full max-w-sm max-h-[90vh] p-0 overflow-hidden">
+          <DialogHeader className="hidden">
+            <DialogTitle className="hidden" aria-readonly>
+              {`Add ${addressTypes[addressType]} Address`}
+            </DialogTitle>
+            <DialogDescription className="hidden" aria-readonly>
+              Add a new address for delivery
+            </DialogDescription>
+          </DialogHeader>
 
-        {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="text-lg font-semibold">
-            {`Add ${addressTypes[addressType]} Address`}
-          </h3>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setOpenModal(false)}
-            className="h-8 w-8"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
+          {/* Modal Header */}
+          <div className="flex items-center justify-between p-4 border-b">
+            <h3 className="text-lg font-semibold">
+              {`Add ${addressTypes[addressType]} Address`}
+            </h3>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setOpenModal(false)}
+              className="h-8 w-8"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
 
-        {/* Modal Content */}
-        <div className="p-4 space-y-4 max-h-[calc(90vh-120px)] overflow-y-auto">
-          {/* Address Label */}
-          {/* NOTE: Input title animation from placeholder -> go up */}
-          <Input
-            id="label"
-            value={isHomeOrWork ? addressType : ""}
-            onChange={(e) => handleInputChange("label", e.target.value)}
-            className={cn("py-6 rounded-2xl", isHomeOrWork ? "hidden" : "")}
-            placeholder={"Add address name"}
-          />
+          {/* Modal Content */}
+          <div className="p-4 space-y-4 max-h-[calc(90vh-120px)] overflow-y-auto">
+            {/* Address Label */}
+            {/* NOTE: Input title animation from placeholder -> go up */}
+            <Input
+              id="label"
+              value={isHomeOrWork ? addressType : ""}
+              onChange={(e) => handleInputChange("label", e.target.value)}
+              className={cn("py-6 rounded-2xl", isHomeOrWork ? "hidden" : "")}
+              placeholder={"Add address name"}
+            />
 
-          <div className="">
-            <h3 className="text-base font-bold mb-3">Choose Address</h3>
+            <div className="">
+              <h3 className="text-base font-bold mb-3">Choose Address</h3>
 
-            {/* Address Dropdown */}
-            <div className="relative mb-4">
-              <button className="w-full flex items-center gap-3 px-3 py-2 border border-gray-200 rounded-full bg-secondary hover:bg-gray-50 transition-colors">
-                <MapPin className="h-5 w-5 text-primary" />
-                <span className="text-gray-500 flex-1 text-left">
-                  Enter address
-                </span>
-                <ChevronDown className="h-5 w-5 text-gray-500" />
-              </button>
-            </div>
+              {/* Address Dropdown */}
+              <div className="relative mb-4">
+                <button className="w-full flex items-center gap-3 px-3 py-2 border border-gray-200 rounded-full bg-secondary hover:bg-gray-50 transition-colors">
+                  <MapPin className="h-5 w-5 text-primary" />
+                  <span className="text-gray-500 flex-1 text-left">
+                    Enter address
+                  </span>
+                  <ChevronDown className="h-5 w-5 text-gray-500" />
+                </button>
+              </div>
 
-            <div className="relative h-34 bg-gray-100 rounded-lg mb-2 border-secondary border-1 overflow-hidden">
-              {/* Map Container */}
-              <MapViewOnlyInner center={DEFAULT_LAT_LNG} showPin={true} />
+              <div className="relative h-34 bg-gray-100 rounded-lg mb-2 border-secondary border-1 overflow-hidden">
+                {/* Map Container */}
+                <MapViewOnlyInner center={DEFAULT_LAT_LNG} showPin={true} />
 
-              {/* Selected Location Overlay */}
-              <div className="absolute z-50 bottom-0 left-0 right-0 bg-white shadow-lg border-gray-200">
-                <div className="flex items-center gap-3 p-2">
-                  <MapPin className="text-gray-500 h-6 w-6" />
-                  <div>
-                    <h4 className="font-semibold"> {"Keystone Building"} </h4>
-                    <p className="text-sm text-gray-500"> {"Phnom Penh"} </p>
+                {/* Selected Location Overlay */}
+                <div className="absolute z-50 bottom-0 left-0 right-0 bg-white shadow-lg border-gray-200">
+                  <div className="flex items-center gap-3 p-2">
+                    <MapPin className="text-gray-500 h-6 w-6" />
+                    <div>
+                      <h4 className="font-semibold"> {"Keystone Building"} </h4>
+                      <p className="text-sm text-gray-500"> {"Phnom Penh"} </p>
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/* Use Current Location */}
+              <button className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group">
+                <CurrentLocationIcon className="h-5 w-5 text-primary" />
+                <span className="text-primary font-semibold">
+                  Use Current Location
+                </span>
+              </button>
             </div>
-
-            {/* Use Current Location */}
-            <button className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group">
-              <CurrentLocationIcon className="h-5 w-5 text-primary" />
-              <span className="text-primary font-semibold">
-                Use Current Location
-              </span>
-            </button>
           </div>
-        </div>
 
-        {/* Modal Footer */}
-        <div className="flex justify-end gap-3 p-5">
-          <Button
-            onClick={handleSaveAddress}
-            className=" rounded-full bg-primary hover:bg"
-          >
-            Save
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+          {/* Modal Footer */}
+          <div className="flex justify-end gap-3 p-5">
+            <Button
+              onClick={handleSaveAddress}
+              className=" rounded-full bg-primary hover:bg"
+            >
+              Save
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
