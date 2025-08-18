@@ -14,6 +14,7 @@ import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import CategorySidebar from "@/components/hive/merchant/category-sidebar";
 import { CouponSection } from "@/components/hive/merchant/coupon";
 import FlashSale from "@/components/hive/merchant/flash-sale";
+import Menus from "@/components/hive/merchant/menus";
 import MerchantHeader from "@/components/hive/merchant/merchant-header";
 import SpecialPromotion from "@/components/hive/merchant/special-promotion";
 
@@ -86,24 +87,10 @@ export default function MerchantPage({
                 <SpecialPromotion />
               </div>
 
-              {/* Menu Content */}
-              <div className="bg-white rounded-2xl p-6 mt-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-4">
-                  Menu -{" "}
-                  {categories.find((c) => c.id === activeCategory)?.label ||
-                    "All"}
-                </h2>
-
-                {/* Placeholder for menu items */}
-                <div className="text-center py-12 text-gray-500">
-                  <p>Menu items will be displayed here</p>
-                  <p className="text-sm mt-2">
-                    Selected category: {activeCategory}
-                  </p>
-                </div>
+              <div className="mt-5 space-y-3">
+                <h1 className="font-bold text-black text-lg px-2">For You</h1>
+                <Menus />
               </div>
-
-              <div className="h-[50vh] w-full"></div>
             </div>
           </div>
         </div>

@@ -44,9 +44,7 @@ export default function PromotionCard({
           </span>
         </div>
         <div className="px-4">
-          <h1 className="text-[#161F2F] font-semibold">
-            {title} aksklasjklajslkds
-          </h1>
+          <h1 className="text-[#161F2F] font-semibold">{title}</h1>
           <div>
             <div className="flex items-center gap-1">
               <span className="text-lg font-bold text-primary">
