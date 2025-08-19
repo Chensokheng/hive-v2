@@ -90,7 +90,7 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
 
     setIsSearching(true);
     try {
-      const results = await searchAddresses(query, undefined, true); // Prioritize Hive API
+      const results = await searchAddresses(query, undefined); // Prioritize Hive API
       setSearchResults(results);
       setShowResults(true);
     } catch (error) {
@@ -111,7 +111,7 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
   }, [searchQuery, handleSearch]);
 
   // Function to get place details using place_id
-  const getPlaceDetails = async (
+  /* const getPlaceDetails = async (
     placeId: string
   ): Promise<PlaceDetailResponse | null> => {
     try {
@@ -142,7 +142,7 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
       console.error("Error fetching place details:", error);
       return null;
     }
-  };
+  }; */
 
   // Handle location selection from search results - ONLY this updates the map
   const handleLocationSelect = async (address: Address) => {
@@ -150,57 +150,14 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
     setShowResults(false);
     setSearchQuery(address.name);
 
-    // If it's a Hive result with placeId, get detailed coordinates
-    if (address.placeId && address.source === "Hive") {
-      setIsFetchingPlaceDetails(true);
-      try {
-        const placeDetails = await getPlaceDetails(address.placeId);
-        if (placeDetails?.data) {
-          // Force map re-render by creating new object
-          setSelectedLocation({
-            name: address.name,
-            address: placeDetails.data.address,
-            coordinates: {
-              lat: placeDetails.data.lat,
-              lng: placeDetails.data.lng,
-            },
-          });
-        } else {
-          // Fallback to address coordinates
-          setSelectedLocation({
-            name: address.name,
-            address: address.fullAddress || address.description,
-            coordinates: {
-              lat: address.coordinates.lat,
-              lng: address.coordinates.lng,
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error getting place details:", error);
-        // Fallback to address coordinates
-        setSelectedLocation({
-          name: address.name,
-          address: address.fullAddress || address.description,
-          coordinates: {
-            lat: address.coordinates.lat,
-            lng: address.coordinates.lng,
-          },
-        });
-      } finally {
-        setIsFetchingPlaceDetails(false);
-      }
-    } else {
-      // Use coordinates from search result - force re-render with new object
-      setSelectedLocation({
-        name: address.name,
-        address: address.fullAddress || address.description,
-        coordinates: {
-          lat: address.coordinates.lat,
-          lng: address.coordinates.lng,
-        },
-      });
-    }
+    setSelectedLocation({
+      name: address.name,
+      address: address.fullAddress || address.description,
+      coordinates: {
+        lat: address.coordinates.lat,
+        lng: address.coordinates.lng,
+      },
+    });
   };
 
   // Handle current location - this also updates the map
