@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Restaurant } from "@/types";
+import { TMerchantDto } from "@/types";
 import { Star } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ export default function RestaurantCard({
   restaurant,
   className,
 }: {
-  restaurant: Restaurant;
+  restaurant: TMerchantDto;
   className?: string;
 }) {
   return (

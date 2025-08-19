@@ -37,3 +37,6 @@ export interface BreadcrumbItem {
   href?: string;
   active?: boolean;
 }
+
+// Export merchant DTOs
+export * from "./merchant.dto";
