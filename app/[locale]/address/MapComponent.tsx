@@ -105,7 +105,7 @@ export default function MapComponent({
   console.log("<<<<<<<< Map component: zoom ", zoom);
 
   return (
-    <div className="w-full h-96 rounded-lg overflow-hidden border border-gray-200 relative z-0">
+    <div className="w-10/12 h-96 rounded-lg overflow-hidden border border-gray-200 relative z-0">
       <MapContainer
         center={position}
         zoom={zoom}
