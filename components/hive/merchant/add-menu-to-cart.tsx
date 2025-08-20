@@ -1,12 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useMemo, useState } from "react";
 import Image from "next/image";
-import { useGlobalState } from "@/store";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Minus, Plus, X } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { AddonCategory, SelectedAddon } from "@/types";
+import { Minus, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,169 +12,297 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
+  DrawerTrigger,
 } from "@/components/ui/drawer";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import XIcon from "@/components/icon/x";
 
-const formSchema = z.object({
-  note: z.string().optional(),
-  quantity: z.number().min(1, {
-    message: "Quantity must be at least 1.",
-  }),
-});
+import AddonCategoryComponent from "./addon-category";
+
+// Sample addon data - in real app this would come from props or API
+const sampleAddonCategories: AddonCategory[] = [
+  {
+    id: 107,
+    name: "Ice",
+    required: 1,
+    maximum_purchase: 1,
+    minimum_purchase: 1,
+    items: [
+      {
+        id: 330,
+        status: 1,
+        price: 0,
+        name: "Ice In",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 107,
+        master_addon_id: 330,
+      },
+      {
+        id: 331,
+        status: 1,
+        price: 0,
+        name: "Ice Out",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 107,
+        master_addon_id: 331,
+      },
+    ],
+  },
+  {
+    id: 108,
+    name: "Sugar Level",
+    required: 1,
+    maximum_purchase: 1,
+    minimum_purchase: 1,
+    items: [
+      {
+        id: 332,
+        status: 1,
+        price: 0,
+        name: "Sugar 0%",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 108,
+        master_addon_id: 332,
+      },
+      {
+        id: 333,
+        status: 1,
+        price: 0,
+        name: "Sugar 50%",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 108,
+        master_addon_id: 333,
+      },
+      {
+        id: 334,
+        status: 1,
+        price: 0,
+        name: "Sugar 30%",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 108,
+        master_addon_id: 334,
+      },
+      {
+        id: 335,
+        status: 1,
+        price: 0,
+        name: "Sugar 20%",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 108,
+        master_addon_id: 335,
+      },
+      {
+        id: 336,
+        status: 1,
+        price: 0,
+        name: "Sugar 10%",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 108,
+        master_addon_id: 336,
+      },
+    ],
+  },
+  {
+    id: 109,
+    name: "Extra Toppings",
+    required: 0,
+    maximum_purchase: 3,
+    minimum_purchase: 0,
+    items: [
+      {
+        id: 337,
+        status: 1,
+        price: 0.5,
+        name: "Extra Cheese",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 109,
+        master_addon_id: 337,
+      },
+      {
+        id: 338,
+        status: 1,
+        price: 0.75,
+        name: "Extra Bacon",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 109,
+        master_addon_id: 338,
+      },
+      {
+        id: 339,
+        status: 1,
+        price: 0.25,
+        name: "Extra Sauce",
+        name_vi: "",
+        name_th: "",
+        minimum_purchase: 0,
+        maximum_purchase: 1,
+        addon_category_id: 109,
+        master_addon_id: 339,
+      },
+    ],
+  },
+];
 
 export default function AddMenuToCart() {
-  const openMenuToCartSheet = useGlobalState(
-    (state) => state.openMenuToCartSheet
-  );
-  const setOpenMenuToCartSheet = useGlobalState(
-    (state) => state.setOpenMenuToCartSheet
-  );
+  const [quantity, setQuantity] = useState(1);
+  const [selectedAddons, setSelectedAddons] = useState<SelectedAddon[]>([]);
+  const basePrice = 4.75;
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      note: "",
-      quantity: 1,
-    },
-  });
-
-  const quantity = form.watch("quantity");
-  const basePrice = 2.5;
-  const totalPrice = quantity * basePrice;
-
-  const incrementQuantity = () => {
-    const currentQuantity = form.getValues("quantity");
-    form.setValue("quantity", currentQuantity + 1);
+  const handleAddonChange = (
+    categoryId: number,
+    item: any,
+    selected: boolean
+  ) => {
+    setSelectedAddons((prev) => {
+      if (selected) {
+        // Add the addon
+        return [
+          ...prev,
+          {
+            categoryId,
+            itemId: item.id,
+            name: item.name,
+            price: item.price,
+          },
+        ];
+      } else {
+        // Remove the addon
+        return prev.filter(
+          (addon) =>
+            !(addon.categoryId === categoryId && addon.itemId === item.id)
+        );
+      }
+    });
   };
 
-  const decrementQuantity = () => {
-    const currentQuantity = form.getValues("quantity");
-    if (currentQuantity > 1) {
-      form.setValue("quantity", currentQuantity - 1);
-    }
-  };
+  const totalAddonPrice = useMemo(() => {
+    return selectedAddons.reduce((total, addon) => total + addon.price, 0);
+  }, [selectedAddons]);
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Form submitted:", values);
-    console.log("Total price:", totalPrice);
-    // Here you can add the item to cart logic
-    setOpenMenuToCartSheet(false);
-  }
+  const totalPrice = (basePrice + totalAddonPrice) * quantity;
+
+  const handleQuantityChange = (increment: boolean) => {
+    setQuantity((prev) => {
+      if (increment) return prev + 1;
+      return prev > 1 ? prev - 1 : 1;
+    });
+  };
 
   return (
-    <Drawer
-      open={openMenuToCartSheet}
-      onOpenChange={setOpenMenuToCartSheet}
-      direction="right"
-    >
-      <DrawerContent className="w-full sm:max-w-md flex flex-col">
+    <Drawer direction={"right"}>
+      <DrawerTrigger asChild>
+        <Button>Add Menu to Cart</Button>
+      </DrawerTrigger>
+      <DrawerContent className="max-w-[400px] w-full min-h-[90vh] border-0">
         <DrawerHeader className="hidden">
-          <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-          <DrawerDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </DrawerDescription>
+          <DrawerTitle>Menu Item</DrawerTitle>
+          <DrawerDescription>Menu drawer to add menu to cart</DrawerDescription>
         </DrawerHeader>
-
-        <div className="w-full h-96 relative">
-          <Image
-            src={"/fake/menu-popup.png"}
-            alt=""
-            fill
-            className="object-cover object-center"
-          />
-          <div
-            className=" absolute top-5 right-5 bg-[#F7F7F7]/75 w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300"
-            onClick={() => setOpenMenuToCartSheet(false)}
-          >
-            <X />
+        <div className="min-h-screen overflow-y-auto relative">
+          <div className=" absolute top-5 right-5 bg-[#F7F7F7]/75 w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300 z-50">
+            <XIcon />
           </div>
-        </div>
-        <div className="py-4 px-5">
-          <h1 className="font-medium">Tendercrip + King Nuggets 4pcs</h1>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
-              <span className="text-lg font-bold text-primary">
-                $ {basePrice}
-              </span>
-            </div>
-            <span className="text-xs font-medium text-[#363F4F]/60">
-              ≈10000៛
-            </span>
-          </div>
-          <p className="text-sm text-[#303D55]/60">
-            King Nuggets 4pcs, Include 2X Ketchup
-          </p>
-        </div>
-
-        <div className="px-5 flex-1">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className=" h-full flex flex-col py-4"
-            >
-              <FormField
-                control={form.control}
-                name="note"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-medium">
-                      Note to merchant
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Note for the driver"
-                        {...field}
-                        className="h-14 rounded-2xl"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+          <ScrollArea className="min-h-screen w-full relative border-none pb-50">
+            <div className="relative aspect-square w-full">
+              <Image
+                src="/fake/menu-popup.png"
+                alt="Example"
+                fill
+                className="object-cover"
               />
-              <div className="flex-1 flex justify-end gap-2 flex-col">
-                <div className="flex items-center justify-center gap-2 w-full">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-10 w-10 rounded-full"
-                    onClick={decrementQuantity}
-                    disabled={quantity <= 1}
-                  >
-                    <Minus />
-                  </Button>
-                  <span className="font-medium">{quantity}</span>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-10 w-10 rounded-full bg-primary/10 text-primary"
-                    onClick={incrementQuantity}
-                  >
-                    <Plus />
-                  </Button>
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full rounded-full font-bold text-lg"
-                >
-                  Add to Cart - ${totalPrice.toFixed(2)}{" "}
-                  <span className="text-xs font-normal">
-                    ≈{(totalPrice * 4000).toLocaleString()}៛
-                  </span>
-                </Button>
+            </div>
+
+            <div className="py-4 px-5">
+              <h1 className=" font-semibold text-[#161F2F]">
+                Tendercrip + King Nuggets 4pcs
+              </h1>
+              <div className="flex items-center gap-2">
+                <span className="text-primary font-bold text-lg">
+                  ${basePrice.toFixed(2)}
+                </span>
+                <span className="text-xs font-medium text-[#363F4F]/60">
+                  ≈10000៛
+                </span>
               </div>
-            </form>
-          </Form>
+              <p className="text-sm text-[#303D55]/60">
+                King Nuggets 4pcs, Include 2X Ketchup
+              </p>
+
+              {/* Addon Categories */}
+              <div className="py-6 space-y-6">
+                {sampleAddonCategories.map((category) => (
+                  <AddonCategoryComponent
+                    key={category.id}
+                    category={category}
+                    selectedAddons={selectedAddons}
+                    onAddonChange={handleAddonChange}
+                  />
+                ))}
+              </div>
+
+              <div className="py-4 space-y-3">
+                <h1 className="text-sm font-semibold text-[#161F2F]">
+                  Note to merchant
+                </h1>
+                <Input
+                  className="rounded-2xl h-14"
+                  placeholder="e.g No onions, extra sauce, etc."
+                />
+              </div>
+            </div>
+          </ScrollArea>
+          <div className=" fixed flex-col bottom-0 gap-4 w-full py-5 flex items-center justify-center bg-white px-5">
+            <div className="flex items-center gap-4">
+              <button
+                className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer text-primary disabled:text-primary/50"
+                disabled={quantity <= 1}
+                onClick={() => handleQuantityChange(false)}
+              >
+                <Minus />
+              </button>
+              <span className="text-[#161F2F] font-bold">{quantity}</span>
+              <button
+                className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer"
+                onClick={() => handleQuantityChange(true)}
+              >
+                <Plus className="text-primary" />
+              </button>
+            </div>
+            <button className="font-bold text-lg rounded-full bg-primary py-3 w-full text-white">
+              Add to Cart - ${totalPrice.toFixed(2)}{" "}
+              <span className="text-xs font-medium">
+                ≈{Math.round(totalPrice * 4100)}៛
+              </span>
+            </button>
+          </div>
         </div>
       </DrawerContent>
     </Drawer>

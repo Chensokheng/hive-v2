@@ -40,3 +40,4 @@ export interface BreadcrumbItem {
 
 // Export merchant DTOs
 export * from "./merchant.dto";
+export * from "./addon.dto";
