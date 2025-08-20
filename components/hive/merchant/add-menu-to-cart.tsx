@@ -3,20 +3,20 @@
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
 import { AddonCategory, SelectedAddon } from "@/types";
-import { Minus, Plus } from "lucide-react";
+import { ChevronLeft, Minus, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+
+
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import XIcon from "@/components/icon/x";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 import AddonCategoryComponent from "./addon-category";
 
@@ -217,69 +217,76 @@ export default function AddMenuToCart() {
   };
 
   return (
-    <Drawer direction={"right"}>
-      <DrawerTrigger asChild>
+    <Sheet>
+      <SheetTrigger asChild>
         <Button>Add Menu to Cart</Button>
-      </DrawerTrigger>
-      <DrawerContent className="max-w-[400px] w-full min-h-[90vh] border-0">
-        <DrawerHeader className="hidden">
-          <DrawerTitle>Menu Item</DrawerTitle>
-          <DrawerDescription>Menu drawer to add menu to cart</DrawerDescription>
-        </DrawerHeader>
-        <div className="min-h-screen overflow-y-auto relative">
-          <div className=" absolute top-5 right-5 bg-[#F7F7F7]/75 w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300 z-50">
-            <XIcon />
+      </SheetTrigger>
+      <SheetContent
+        showCloseBtn={false}
+        className="max-w-full sm:max-w-[400px] w-full  border-0"
+      >
+        <SheetHeader className="hidden">
+          <SheetTitle>Menu Item</SheetTitle>
+          <SheetDescription>Menu drawer to add menu to cart</SheetDescription>
+        </SheetHeader>
+        <div className=" overflow-y-auto relative hide-scroll">
+          <div className="fixed sm:hidden top-0 left-0 z-50  backdrop-blur-2xl w-full p-2">
+            <div className="  bg-[#F7F7F7]/75 w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300 ">
+              <ChevronLeft />
+            </div>
           </div>
-          <ScrollArea className="min-h-screen w-full relative border-none pb-50">
-            <div className="relative aspect-square w-full">
-              <Image
-                src="/fake/menu-popup.png"
-                alt="Example"
-                fill
-                className="object-cover"
+
+          <div className="relative aspect-square w-full">
+            <Image
+              src="/fake/menu-popup.png"
+              alt="Example"
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="py-4 px-5">
+            <h1 className=" font-semibold text-[#161F2F]">
+              Tendercrip + King Nuggets 4pcs
+            </h1>
+            <div className="flex items-center gap-2">
+              <span className="text-primary font-bold text-lg">
+                ${basePrice.toFixed(2)}
+              </span>
+              <span className="text-xs font-medium text-[#363F4F]/60">
+                ≈10000៛
+              </span>
+            </div>
+            <p className="text-sm text-[#303D55]/60">
+              King Nuggets 4pcs, Include 2X Ketchup
+            </p>
+
+            {/* Addon Categories */}
+            <div className="py-6 space-y-6">
+              {sampleAddonCategories.map((category) => (
+                <AddonCategoryComponent
+                  key={category.id}
+                  category={category}
+                  selectedAddons={selectedAddons}
+                  onAddonChange={handleAddonChange}
+                />
+              ))}
+            </div>
+
+            <div className="py-4 space-y-3 pb-32">
+              <h1 className="text-sm font-semibold text-[#161F2F]">
+                Note to merchant
+              </h1>
+              <Input
+                className="rounded-2xl h-14"
+                placeholder="e.g No onions, extra sauce, etc."
+                autoFocus={false}
+                tabIndex={-1}
               />
             </div>
-
-            <div className="py-4 px-5">
-              <h1 className=" font-semibold text-[#161F2F]">
-                Tendercrip + King Nuggets 4pcs
-              </h1>
-              <div className="flex items-center gap-2">
-                <span className="text-primary font-bold text-lg">
-                  ${basePrice.toFixed(2)}
-                </span>
-                <span className="text-xs font-medium text-[#363F4F]/60">
-                  ≈10000៛
-                </span>
-              </div>
-              <p className="text-sm text-[#303D55]/60">
-                King Nuggets 4pcs, Include 2X Ketchup
-              </p>
-
-              {/* Addon Categories */}
-              <div className="py-6 space-y-6">
-                {sampleAddonCategories.map((category) => (
-                  <AddonCategoryComponent
-                    key={category.id}
-                    category={category}
-                    selectedAddons={selectedAddons}
-                    onAddonChange={handleAddonChange}
-                  />
-                ))}
-              </div>
-
-              <div className="py-4 space-y-3">
-                <h1 className="text-sm font-semibold text-[#161F2F]">
-                  Note to merchant
-                </h1>
-                <Input
-                  className="rounded-2xl h-14"
-                  placeholder="e.g No onions, extra sauce, etc."
-                />
-              </div>
-            </div>
-          </ScrollArea>
-          <div className=" fixed flex-col bottom-0 gap-4 w-full py-5 flex items-center justify-center bg-white px-5">
+          </div>
+          {/* Add to cart button */}
+          <div className="fixed flex-col bottom-0 gap-4 w-[400px] py-5 flex items-center justify-center bg-white px-5">
             <div className="flex items-center gap-4">
               <button
                 className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer text-primary disabled:text-primary/50"
@@ -304,7 +311,7 @@ export default function AddMenuToCart() {
             </button>
           </div>
         </div>
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   );
 }
