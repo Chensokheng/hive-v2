@@ -12,7 +12,7 @@ export default function CheckoutHeader() {
       onClick={() => setCheckoutSheetOpen(false)}
     >
       <ChevronLeft className="text-primary w-8 h-8 cursor-pointer" />
-      <h1 className="flex-1 text-center text-2xl font-bold">Checkout</h1>
+      <h1 className="flex-1 text-center text-lg font-bold">Checkout</h1>
     </div>
   );
 }

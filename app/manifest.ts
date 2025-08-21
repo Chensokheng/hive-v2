@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Fast and reliable food delivery service",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#f59e0b",
+    background_color: "#f2f6ff",
+    theme_color: "#f2f6ff",
     icons: [
       {
         src: "/512.png",

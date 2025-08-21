@@ -6,8 +6,6 @@ import { AddonCategory, SelectedAddon } from "@/types";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
-
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
@@ -17,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import XIcon from "@/components/icon/x";
 
 import AddonCategoryComponent from "./addon-category";
 
@@ -233,6 +232,12 @@ export default function AddMenuToCart() {
           <div className="fixed sm:hidden top-0 left-0 z-50  backdrop-blur-2xl w-full p-2">
             <div className="  bg-[#F7F7F7]/75 w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300 ">
               <ChevronLeft />
+            </div>
+          </div>
+
+          <div className=" hidden sm:block absolute top-0 right-0 z-50  p-2">
+            <div className="  bg-[#F7F7F7]/75 w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300 ">
+              <XIcon />
             </div>
           </div>
 

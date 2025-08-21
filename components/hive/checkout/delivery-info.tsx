@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
 
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import MapPin from "@/components/icon/map-pin";
 
 import { AddressInfoDrawer } from "./address/address-info-drawer";
@@ -15,7 +15,7 @@ export default function DeliveryInfo() {
         <h1 className="font-bold">Delivery to:</h1>
         <button
           onClick={() => setIsDrawerOpen(true)}
-          className="flex items-center gap-2 justify-between w-full cursor-pointer"
+          className="flex items-center gap-2 justify-between w-full cursor-pointer outline-none"
         >
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-[#FF66CC]/10 grid place-content-center">
@@ -56,11 +56,12 @@ export default function DeliveryInfo() {
             <span className="text-gray-600">+855 10 111 222</span>
           </div>
         </div>
-        <div className="mt-3">
-          <Textarea
-            placeholder="Note to driver"
-            className="w-full p-3 border border-gray-200 rounded-lg resize-none text-gray-500"
-            rows={3}
+        <div className="mt-6">
+          <Input
+            className="rounded-2xl h-14"
+            placeholder="Any note for this store?"
+            autoFocus={false}
+            tabIndex={-1}
           />
         </div>
       </div>
