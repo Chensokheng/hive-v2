@@ -5,6 +5,7 @@ import {
   heroCarouselImages,
   nearbyRestaurants,
 } from "@/fake/restaurant-data";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
@@ -36,6 +37,7 @@ export default function Page({
         autoAdvance={true}
         autoAdvanceInterval={5000}
       />
+      <Link href={"/mini"}>mini</Link>
 
       <main className="max-w-[1400px] mx-auto px-4 py-8 space-y-12">
         <RestaurantSection

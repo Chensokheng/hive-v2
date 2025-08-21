@@ -8,7 +8,6 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 
-import Checkout from "@/components/hive/checkout";
 import QueryProvider from "@/components/provider/query-provider";
 
 const inter = Inter({
@@ -65,7 +64,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <QueryProvider>
             {children}
-            <Checkout />
+            {/* <Checkout /> */}
           </QueryProvider>
         </NextIntlClientProvider>
       </body>
