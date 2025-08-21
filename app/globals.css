@@ -139,3 +139,11 @@
 .hide-scroll::-webkit-scrollbar {
   display: none;
 }
+
+@media (max-width: 768px) {
+  * {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}

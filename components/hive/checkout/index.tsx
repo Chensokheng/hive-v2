@@ -7,7 +7,7 @@ import CheckoutSheet from "./checkout-sheet";
 
 export default function Checkout() {
   return (
-    <div className="w-full bg-blue-500">
+    <div className="w-full">
       <FloatingCart />
       <CheckoutSheet />
     </div>
