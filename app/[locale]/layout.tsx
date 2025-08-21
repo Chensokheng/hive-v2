@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Kantumruy_Pro } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 
 import "../globals.css";
@@ -16,6 +16,10 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const kantumruy = Kantumruy_Pro({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 export const metadata: Metadata = {
   title: "HIVE",
   description:
@@ -55,7 +59,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${inter.className} antialiased`}>
+      <body
+        className={`${locale === "kh" ? kantumruy.className : inter.className} antialiased`}
+      >
         <NextIntlClientProvider>
           <QueryProvider>
             {children}
