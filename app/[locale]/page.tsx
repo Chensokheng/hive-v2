@@ -1,12 +1,19 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { rowdies } from "@/fonts";
+import { Link, usePathname } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import BellIcon from "@/components/icon/bell";
+import CategoryIcon from "@/components/icon/category";
+import HomeIcon from "@/components/icon/home";
 import MapPin from "@/components/icon/map-pin";
+import OrderIcon from "@/components/icon/order";
 import SearchIcon from "@/components/icon/search";
+import UserIcon from "@/components/icon/user";
 
 export default function Page() {
   const categorty = [
@@ -44,8 +51,32 @@ export default function Page() {
     },
   ];
 
+  const bottomNavs = [
+    {
+      href: "/",
+      icon: HomeIcon,
+      label: "Home",
+    },
+    {
+      href: "/category",
+      icon: CategoryIcon,
+      label: "Categories",
+    },
+    {
+      href: "/order",
+      icon: OrderIcon,
+      label: "My Orders",
+    },
+    {
+      href: "/profile",
+      icon: UserIcon,
+      label: "Profile",
+    },
+  ];
+  const pathname = usePathname();
+
   return (
-    <div className="w-full max-w-full sm:max-w-md mx-auto border min-h-screen bg-[#F2F6FF] py-4 sm:py-5 space-y-4 sm:space-y-6 relative overflow-hidden">
+    <div className="w-full max-w-full sm:max-w-md mx-auto border min-h-screen bg-[#F2F6FF] py-4 sm:py-5 space-y-4 sm:space-y-6 relative overflow-hidden pb-10">
       <div
         className="
           absolute
@@ -169,7 +200,7 @@ export default function Page() {
       </div>
       {/* Promotion */}
 
-      <div className="px-4 py-7 bg-[linear-gradient(180deg,rgba(255,102,204,0.1)_0%,rgba(0,85,221,0.1)_50%,rgba(242,246,255,0.7)_100%)] rounded-xl mt-5 space-y-8">
+      <div className="pl-4 py-7 bg-[linear-gradient(180deg,rgba(255,102,204,0.1)_0%,rgba(0,85,221,0.1)_50%,rgba(242,246,255,0.7)_100%)] rounded-xl mt-5 space-y-8">
         <div>
           <div>
             <h1 className="text-xl font-bold bg-gradient-to-l from-[#FF66CC] to-[#0055DD] bg-clip-text text-transparent">
@@ -223,6 +254,35 @@ export default function Page() {
           </div>
         </div>
       </div>
+      {/* end of promotion */}
+      {/* bottom nav */}
+      <nav className="block md:hidden fixed bottom-0 left-0 right-0 bg-white px-5 rounded-lg">
+        <div className="flex items-center justify-between pb-5">
+          {bottomNavs.map((item, index) => {
+            const isActive = pathname === item.href;
+            return (
+              <div key={index}>
+                <Link
+                  href={item.href}
+                  key={item.label}
+                  className="flex items-center justify-center flex-col py-1"
+                >
+                  <item.icon fill={isActive ? "#FF66CC" : "#BDC5DB"} />
+                  <span
+                    className={cn(
+                      "text-sm font-semibold",
+                      isActive ? "text-primary" : "text-[#303D55]/60"
+                    )}
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+      </nav>
+      {/* end of bottom nav */}
     </div>
   );
 }
