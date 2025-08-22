@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { rowdies } from "@/fonts";
 import { Link, usePathname } from "@/i18n/navigation";
+import { Star } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -73,10 +74,40 @@ export default function Page() {
       label: "Profile",
     },
   ];
+
+  // const stores
+
+  const stores = [
+    {
+      image: "/assets/food1.png",
+      name: "Merchant Name",
+      rating: 4.5,
+      category: "Category",
+      location: "Location",
+      tag: "Treading",
+    },
+    {
+      image: "/assets/food1.png",
+      name: "Merchant Name",
+      rating: 4.5,
+      category: "Category",
+      location: "Location",
+      tag: "10% OFF",
+    },
+    {
+      image: "/assets/food1.png",
+      name: "Merchant Name",
+      rating: 4.5,
+      category: "Category",
+      location: "Location",
+      tag: "10% OFF",
+    },
+  ];
+
   const pathname = usePathname();
 
   return (
-    <div className="w-full max-w-full sm:max-w-md mx-auto border min-h-screen bg-[#F2F6FF] py-4 sm:py-5 space-y-4 sm:space-y-6 relative overflow-hidden pb-10">
+    <div className="w-full max-w-full sm:max-w-md mx-auto border min-h-screen bg-[#F2F6FF] py-4 sm:py-5 space-y-4 sm:space-y-6 relative overflow-hidden pb-20">
       <div
         className="
           absolute
@@ -255,6 +286,61 @@ export default function Page() {
         </div>
       </div>
       {/* end of promotion */}
+      {/* All Restaurants */}
+      <div className=" space-y-2">
+        <h1 className="px-4 text-xl text-[#1A1D22] font-bold">All Store</h1>
+        <div className="grid grid-cols-2 px-3 gap-2">
+          {stores.map((store, index) => {
+            return (
+              <Link
+                href={"/"}
+                key={index}
+                className="bg-white rounded-2xl p-[6px]"
+              >
+                <div className="relative w-full aspect-[3/2]">
+                  <Image
+                    src={store.image}
+                    alt="store"
+                    fill
+                    className=" object-center object-cover rounded-xl"
+                  />
+                  {/* tag */}
+                  <div className=" absolute top-0 left-0 rounded-tl-[8px] rounded-bl-[0px] rounded-tr-[0px] rounded-br-[8px] bg-primary text-white text-xs font-semibold px-2 py-1">
+                    {store.tag}
+                  </div>
+                </div>
+                <div className="p-4">
+                  <h3 className="font-semibold text-[#161F2F]">{store.name}</h3>
+
+                  {/* Rating and Category */}
+                  <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
+                      <span className="text-sm font-medium text-[#161F2F]">
+                        {store.rating}
+                      </span>
+                    </div>
+                    <span className="text-gray-300">·</span>
+                    <button className="text-primary text-sm ">
+                      {store.category}
+                    </button>
+                  </div>
+
+                  {/* Location */}
+                  <div className="flex items-center gap-1">
+                    <MapPin color="#FF66CC" />
+
+                    <span className="text-sm text-[#303D55]/60">
+                      {store.location}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
       {/* bottom nav */}
       <nav className="block md:hidden fixed bottom-0 left-0 right-0 bg-white px-5 rounded-lg">
         <div className="flex items-center justify-between pb-5">
