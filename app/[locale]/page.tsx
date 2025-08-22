@@ -107,7 +107,7 @@ export default function Page() {
   const pathname = usePathname();
 
   return (
-    <div className="w-full max-w-full sm:max-w-md mx-auto border min-h-screen bg-[#F2F6FF] py-4 sm:py-5 space-y-4 sm:space-y-6 relative overflow-hidden pb-20">
+    <div className="w-full max-w-full sm:max-w-md mx-auto min-h-screen bg-[#F2F6FF] py-4 sm:py-5 space-y-4 sm:space-y-6 relative overflow-hidden pb-20">
       <div
         className="
           absolute
@@ -231,8 +231,8 @@ export default function Page() {
       </div>
       {/* Promotion */}
 
-      <div className="pl-4 py-7 bg-[linear-gradient(180deg,rgba(255,102,204,0.1)_0%,rgba(0,85,221,0.1)_50%,rgba(242,246,255,0.7)_100%)] rounded-xl mt-5 space-y-8">
-        <div>
+      <div className=" mt-5 space-y-8">
+        <div className="bg-[linear-gradient(180deg,rgba(255,102,204,0.1)_0%,rgba(0,85,221,0.1)_50%,rgba(242,246,255,0.7)_100%)] pl-4 pt-7 rounded-xl">
           <div>
             <h1 className="text-xl font-bold bg-gradient-to-l from-[#FF66CC] to-[#0055DD] bg-clip-text text-transparent">
               Premium Delight
@@ -261,7 +261,7 @@ export default function Page() {
         </div>
         {/* best deal */}
 
-        <div>
+        <div className="px-4">
           <h1 className="text-xl font-bold bg-gradient-to-l from-[#FF66CC] to-[#0055DD] bg-clip-text text-transparent">
             Best Deal
           </h1>
