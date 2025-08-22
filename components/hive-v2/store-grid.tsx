@@ -54,6 +54,16 @@ const defaultStores: Store[] = [
     tag: "10% OFF",
     href: "/",
   },
+  {
+    id: "4",
+    image: "/assets/food1.png",
+    name: "Merchant Name",
+    rating: 4.5,
+    category: "Category",
+    location: "Location",
+    tag: "10% OFF",
+    href: "/",
+  },
 ];
 
 export default function StoreGrid({
@@ -62,8 +72,10 @@ export default function StoreGrid({
 }: StoreGridProps) {
   return (
     <div className="space-y-2">
-      <h1 className="px-4 text-xl text-[#1A1D22] font-bold">{title}</h1>
-      <div className="grid grid-cols-2 px-3 gap-2">
+      <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
+        {title}
+      </h1>
+      <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
         {stores.map((store) => (
           <Link
             href={store.href || "/"}
@@ -78,12 +90,14 @@ export default function StoreGrid({
                 className="object-center object-cover rounded-xl"
               />
               {/* tag */}
-              <div className="absolute top-0 left-0 rounded-tl-[8px] rounded-bl-[0px] rounded-tr-[0px] rounded-br-[8px] bg-primary text-white text-xs font-semibold px-2 py-1">
+              <div className="absolute top-0 left-0 rounded-tl-[8px] rounded-bl-[0px] rounded-tr-[0px] rounded-br-[8px] bg-primary text-white text-sm font-semibold px-2 py-1">
                 {store.tag}
               </div>
             </div>
             <div className="px-4 py-2">
-              <h3 className="font-semibold text-[#161F2F]">{store.name}</h3>
+              <h3 className="font-semibold text-[#161F2F] lg:text-lg">
+                {store.name}
+              </h3>
 
               {/* Rating and Category */}
               <div className="flex items-center gap-1">

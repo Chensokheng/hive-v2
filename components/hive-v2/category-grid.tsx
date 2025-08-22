@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -58,40 +59,156 @@ const defaultCategories: CategoryItem[] = [
     image: "/assets/mini/coffee.png",
     text: "Coffee",
   },
+  {
+    id: "dessert3",
+    image: "/assets/mini/dessert.png",
+    text: "Dessert",
+  },
+  {
+    id: "fastfood3",
+    image: "/assets/mini/fastfood.png",
+    text: "Fastfood",
+  },
+  {
+    id: "fruit3",
+    image: "/assets/mini/fruit.png",
+    text: "Fruits",
+  },
+  {
+    id: "coffee3",
+    image: "/assets/mini/coffee.png",
+    text: "Coffee",
+  },
+  {
+    id: "dessert4",
+    image: "/assets/mini/dessert.png",
+    text: "Dessert",
+  },
+  {
+    id: "fastfood4",
+    image: "/assets/mini/fastfood.png",
+    text: "Fastfood",
+  },
+  {
+    id: "fruit4",
+    image: "/assets/mini/fruit.png",
+    text: "Fruits",
+  },
+  {
+    id: "coffee4",
+    image: "/assets/mini/coffee.png",
+    text: "Coffee",
+  },
 ];
 
 export default function CategoryGrid({
   categories = defaultCategories,
   selectedCategoryId,
 }: CategoryGridProps) {
-  return (
-    <div className="flex overflow-x-auto gap-2 pl-8 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5">
-      {categories.map((item, index) => (
-        <div
-          key={item.id}
-          className={cn(
-            "items-center h-[98px] w-[98px] flex-shrink-0 grid place-content-center snap-start cursor-pointer transition-all hover:bg-primary/5",
-            {
-              "bg-primary/10 rounded-lg":
-                selectedCategoryId === item.id || index === 1, // Keep index === 1 for backward compatibility
-            }
-          )}
-          onClick={item.onClick}
-        >
-          <div className="w-13 h-13 relative mx-auto">
-            <Image
-              src={item.image}
-              alt={item.text}
-              fill
-              className="object-cover object-center"
-            />
-          </div>
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(true);
 
-          <h1 className="text-sm font-medium text-[#161F2F] text-center">
-            {item.text}
-          </h1>
-        </div>
-      ))}
+  const checkScrollButtons = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      setShowLeftButton(scrollLeft > 0);
+      setShowRightButton(scrollLeft < scrollWidth - clientWidth - 1);
+    }
+  };
+
+  const scrollLeft = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollBy({ left: -300, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollBy({ left: 300, behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      checkScrollButtons();
+      container.addEventListener("scroll", checkScrollButtons);
+      window.addEventListener("resize", checkScrollButtons);
+
+      return () => {
+        container.removeEventListener("scroll", checkScrollButtons);
+        window.removeEventListener("resize", checkScrollButtons);
+      };
+    }
+  }, [categories]);
+
+  return (
+    <div className="relative">
+      {/* Left Navigation Button */}
+      {showLeftButton && (
+        <button
+          onClick={scrollLeft}
+          className="absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full ransition-all duration-200  items-center justify-center cursor-pointer hidden lg:flex"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-8 h-8 text-primary" />
+        </button>
+      )}
+
+      {/* Right Navigation Button */}
+      {showRightButton && (
+        <button
+          onClick={scrollRight}
+          className="absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full  transition-all duration-200  items-center justify-center cursor-pointer hidden lg:flex"
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-8 h-8 text-primary" />
+        </button>
+      )}
+
+      {/* Categories Container */}
+      <div
+        ref={scrollContainerRef}
+        className="flex overflow-x-auto gap-2 pl-8 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
+        {categories.map((item, index) => (
+          <div
+            key={item.id}
+            className={cn(
+              "items-center h-[98px] w-[98px] lg:w-[148px] lg:h-[106px] flex-shrink-0 grid place-content-center snap-start cursor-pointer transition-all hover:bg-primary/5 rounded-lg",
+              {
+                "bg-primary/10": selectedCategoryId === item.id || index === 1, // Keep index === 1 for backward compatibility
+              }
+            )}
+            onClick={item.onClick}
+          >
+            <div className="w-13 h-13 relative mx-auto">
+              <Image
+                src={item.image}
+                alt={item.text}
+                fill
+                className="object-cover object-center"
+              />
+            </div>
+
+            <h1 className="text-sm font-medium text-[#161F2F] text-center">
+              {item.text}
+            </h1>
+          </div>
+        ))}
+      </div>
+
+      {/* Hide scrollbar styles */}
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </div>
   );
 }
