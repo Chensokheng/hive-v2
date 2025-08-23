@@ -5,7 +5,7 @@ import MapPin from "../icon/map-pin";
 import SearchIcon from "../icon/search";
 import { Input } from "../ui/input";
 
-const MobileNav = () => {
+export const MobileNav = () => {
   return (
     <nav className="px-5 py-[1.125rem] space-y-8  items-center gap-5 xl:gap-50 w-full block lg:hidden ">
       <div className="flex items-center gap-7 justify-between">

@@ -104,7 +104,7 @@ function PromotionSection({
 
   const containerClasses = hasGradientBackground
     ? "bg-[linear-gradient(180deg,rgba(255,102,204,0.1)_0%,rgba(0,85,221,0.1)_50%,rgba(242,246,255,0.7)_100%)] pl-4 pt-7 rounded-xl"
-    : "px-4";
+    : "pl-4";
 
   return (
     <div className={containerClasses}>
@@ -126,7 +126,7 @@ function PromotionSection({
 
               <button
                 onClick={scrollLeft}
-                className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden lg:flex lg:items-center lg:justify-center"
+                className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden md:flex lg:items-center lg:justify-center"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="w-8 h-8 text-primary" />
@@ -136,7 +136,7 @@ function PromotionSection({
 
               <button
                 onClick={scrollRight}
-                className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden lg:flex lg:items-center lg:justify-center"
+                className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden md:flex lg:items-center lg:justify-center"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="w-8 h-8 text-primary" />

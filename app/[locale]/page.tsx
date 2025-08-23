@@ -1,55 +1,66 @@
 "use client";
 
 import React from "react";
+import { DESKTOP_BANNERS } from "@/constants/banners";
 
 import {
+  BackgroundEffects,
   BannerCarousel,
-  BottomNav,
+  BannerSlide,
   CategoryGrid,
-  HeaderNav,
+  DesktopNav,
   PromotionSections,
-  SearchBar,
   StoreGrid,
 } from "@/components/hive-v2";
+import { Carousel } from "@/components/hive/landingpage/hero-carousel";
+import { MobileNav } from "@/components/mock/mobile-nav";
 
-export default function Page() {
+export default function DesktopPage() {
+  const renderCustomSlide = (item: any, index: number) => (
+    <BannerSlide item={item} index={index} key={index} />
+  );
+
   return (
-    <div className="w-full max-w-full sm:max-w-md mx-auto min-h-screen bg-[#F2F6FF] py-4 sm:py-5 space-y-4 sm:space-y-6 relative overflow-hidden pb-20">
-      {/* Background gradient */}
-      <div
-        className="
-          absolute
-          w-[120vw] sm:w-[490px]
-          left-[-30vw] sm:left-[-146px]
-          top-[-80%]
-          bottom-[72.09%]
-          bg-[#0055DD]
-          opacity-20
-          blur-[150px] sm:blur-[200px]
-          [transform:matrix(0.14,-0.99,-0.99,-0.14,0,0)]
-        "
-      />
+    <div className="bg-[#F2F6FF] min-h-screen relative overflow-hidden pb-10">
+      <DesktopNav />
+      <MobileNav />
 
-      {/* Header Navigation */}
-      <HeaderNav />
+      <div className="space-y-6 relative">
+        {/* Desktop Banner Carousel */}
+        <div className="max-w-[1200px] mx-auto mt-6 p-5 md:block hidden">
+          <Carousel
+            items={DESKTOP_BANNERS}
+            height="h-[514px]"
+            autoAdvance={true}
+            autoAdvanceInterval={5000}
+            showArrows={true}
+            showDots={true}
+            className="rounded-3xl"
+            renderSlide={renderCustomSlide}
+          />
+        </div>
 
-      {/* Search Bar */}
-      <SearchBar />
+        {/* Mobile Banner Carousel */}
+        <div className="md:hidden block">
+          <BannerCarousel />
+        </div>
 
-      {/* Banner Carousel */}
-      <BannerCarousel />
+        {/* Category Grid */}
+        <div className="max-w-[1300px] mx-auto">
+          <CategoryGrid />
+        </div>
 
-      {/* Category Grid */}
-      <CategoryGrid />
+        {/* Background Effects */}
+        <BackgroundEffects />
+      </div>
 
       {/* Promotion Sections */}
       <PromotionSections />
 
       {/* Store Grid */}
-      <StoreGrid />
-
-      {/* Bottom Navigation */}
-      <BottomNav />
+      <div className="max-w-[1200px] mx-auto mt-10">
+        <StoreGrid />
+      </div>
     </div>
   );
 }
