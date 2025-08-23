@@ -109,37 +109,40 @@ function PromotionSection({
   return (
     <div className={containerClasses}>
       <div className="w-auto lg:max-w-[1200px] mx-auto">
-        <div>
-          <h1 className="text-xl lg:text-3xl font-bold bg-gradient-to-l from-[#FF66CC] to-[#0055DD] bg-clip-text text-transparent">
-            {title}
-          </h1>
-          {subtitle && (
-            <p className="text-[#303D55]/60 text-sm lg:text-base">{subtitle}</p>
-          )}
-        </div>
+        <div className="space-y-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-xl lg:text-3xl font-bold bg-gradient-to-l from-[#FF66CC] to-[#0055DD] bg-clip-text text-transparent">
+                {title}
+              </h1>
+              {subtitle && (
+                <p className="text-[#303D55]/60 text-sm lg:text-base">
+                  {subtitle}
+                </p>
+              )}
+            </div>
+            <div className="flex items-center">
+              {/* Left Navigation Button - Only show on lg screens and up */}
 
-        <div className="relative mt-4">
-          {/* Left Navigation Button - Only show on lg screens and up */}
-          {showLeftButton && (
-            <button
-              onClick={scrollLeft}
-              className="absolute -left-20 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden lg:flex lg:items-center lg:justify-center"
-              aria-label="Scroll left"
-            >
-              <ChevronLeft className="w-8 h-8 text-primary" />
-            </button>
-          )}
+              <button
+                onClick={scrollLeft}
+                className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden lg:flex lg:items-center lg:justify-center"
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="w-8 h-8 text-primary" />
+              </button>
 
-          {/* Right Navigation Button - Only show on lg screens and up */}
-          {showRightButton && (
-            <button
-              onClick={scrollRight}
-              className="absolute -right-14 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden lg:flex lg:items-center lg:justify-center"
-              aria-label="Scroll right"
-            >
-              <ChevronRight className="w-8 h-8 text-primary" />
-            </button>
-          )}
+              {/* Right Navigation Button - Only show on lg screens and up */}
+
+              <button
+                onClick={scrollRight}
+                className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden lg:flex lg:items-center lg:justify-center"
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="w-8 h-8 text-primary" />
+              </button>
+            </div>
+          </div>
 
           {/* Promotions Container */}
           <div
