@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import LangSwitcher from "../hive-v2/lang-switcher";
 import BellIcon from "../icon/bell";
 import MapPin from "../icon/map-pin";
 import SearchIcon from "../icon/search";
@@ -13,14 +14,17 @@ export const MobileNav = () => {
           <Image src={"/assets/logo.png"} alt="logo" fill />
         </div>
         <div className="flex items-center gap-4">
-          <div className="h-10 bg-white flex items-center w-10  justify-center rounded-full gap-2">
-            <Image
-              src={"/assets/en-flag.png"}
-              alt="english flag"
-              width={20}
-              height={20}
-            />
-          </div>
+          <LangSwitcher>
+            <div className="h-10 bg-white flex items-center w-10  justify-center rounded-full gap-2">
+              <Image
+                src={"/assets/en-flag.png"}
+                alt="english flag"
+                width={20}
+                height={20}
+              />
+            </div>
+          </LangSwitcher>
+
           <div className="h-10 w-10 bg-white rounded-full grid place-content-center cursor-pointer">
             <BellIcon />
           </div>

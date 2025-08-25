@@ -7,6 +7,7 @@ import { useQueryState } from "nuqs";
 import {
   BannerCarousel,
   BannerSlide,
+  BottomNav,
   CategoryGrid,
   DesktopNav,
   PromotionSections,
@@ -64,6 +65,7 @@ export default function DesktopPage() {
       <div className="max-w-[1200px] mx-auto mt-10">
         <StoreGrid />
       </div>
+      <BottomNav />
     </div>
   );
 }
