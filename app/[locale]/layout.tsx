@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Kantumruy_Pro } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import "../globals.css";
 
@@ -8,7 +9,6 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 
-import QueryProvider from "@/components/provider/query-provider";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -69,10 +69,10 @@ export default async function RootLayout({
         className={`${locale === "kh" ? kantumruy.className : inter.className} antialiased`}
       >
         <NextIntlClientProvider>
-          <QueryProvider>
+          <NuqsAdapter>
             {children}
             {/* <Checkout /> */}
-          </QueryProvider>
+          </NuqsAdapter>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -2,9 +2,9 @@
 
 import React from "react";
 import { DESKTOP_BANNERS } from "@/constants/banners";
+import { useQueryState } from "nuqs";
 
 import {
-  BackgroundEffects,
   BannerCarousel,
   BannerSlide,
   CategoryGrid,
@@ -16,6 +16,9 @@ import { Carousel } from "@/components/hive/landingpage/hero-carousel";
 import { MobileNav } from "@/components/mock/mobile-nav";
 
 export default function DesktopPage() {
+  const [categoryId] = useQueryState("category", {
+    defaultValue: "",
+  });
   const renderCustomSlide = (item: any, index: number) => (
     <BannerSlide item={item} index={index} key={index} />
   );
@@ -51,11 +54,11 @@ export default function DesktopPage() {
         </div>
 
         {/* Background Effects */}
-        <BackgroundEffects />
+        {/* <BackgroundEffects /> */}
       </div>
 
       {/* Promotion Sections */}
-      <PromotionSections />
+      {!categoryId && <PromotionSections />}
 
       {/* Store Grid */}
       <div className="max-w-[1200px] mx-auto mt-10">

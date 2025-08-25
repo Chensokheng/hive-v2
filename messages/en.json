@@ -1,26 +1,17 @@
 {
-  "HomePage": {
-    "title": "Hello world!",
-    "restaurants": {
-      "nearby": "Nearby",
-      "bestDeal": "Best Deal",
-      "forYou": "For You",
-      "seeAll": "See All",
-      "allStore": "All Store"
-    }
+  "nav": {
+    "search": {
+      "placeholder": "What are you looking for?"
+    },
+    "deliveryAddress": "Delivery Address",
+    "enterDeliveryAddress": "Enter delivery address"
   },
-  "AboutPage": {
-    "title": "This is about page"
-  },
-  "Navbar": {
-    "login": "Login",
-    "signUp": "Sign Up",
-    "deliveryAddressPlaceholder": "Enter delivery address",
-    "storeLocation": "Phnom Penh",
-    "popoverContent": "Place content for the popover here.",
-    "languages": {
-      "en": "English",
-      "kh": "Khmer"
-    }
+  "language": {
+    "kh": "Khmer",
+    "en": "English",
+    "flag": "/assets/en-flag.png",
+    "flagEN": "/assets/en-flag.png",
+    "flagKH": "/assets/kh-flag.png",
+    "current": "English"
   }
 }

@@ -3,8 +3,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useQueryState } from "nuqs";
 
-import { cn } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
+import useFoodCategories from "@/hooks/use-food-categories";
+
+import CategoryGridSkeleton from "../loading/categoy-grid-skeleton";
 
 interface CategoryItem {
   id: string;
@@ -101,13 +105,15 @@ const defaultCategories: CategoryItem[] = [
   },
 ];
 
-export default function CategoryGrid({
-  categories = defaultCategories,
-  selectedCategoryId,
-}: CategoryGridProps) {
+export default function CategoryGrid() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
+  const [categoryId, setCategoryId] = useQueryState("category", {
+    defaultValue: "",
+  });
+
+  const { data, isLoading } = useFoodCategories();
 
   const checkScrollButtons = () => {
     const container = scrollContainerRef.current;
@@ -132,6 +138,14 @@ export default function CategoryGrid({
     }
   };
 
+  const handleSelectCategory = (id: number) => {
+    if (categoryId === id.toString()) {
+      setCategoryId("");
+    } else {
+      setCategoryId(id.toString());
+    }
+  };
+
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (container) {
@@ -144,7 +158,12 @@ export default function CategoryGrid({
         window.removeEventListener("resize", checkScrollButtons);
       };
     }
-  }, [categories]);
+  }, [data]);
+
+  // Show skeleton loading when data is loading
+  if (isLoading) {
+    return <CategoryGridSkeleton />;
+  }
 
   return (
     <div className="relative">
@@ -173,31 +192,31 @@ export default function CategoryGrid({
       {/* Categories Container */}
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto gap-2 pl-8 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
+        className="flex items-start overflow-x-auto gap-2 pl-8 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        {categories.map((item, index) => (
+        {data?.map((item, index) => (
           <div
             key={item.id}
             className={cn(
-              "items-center h-[98px] w-[98px] lg:w-[148px] lg:h-[106px] flex-shrink-0 grid place-content-center snap-start cursor-pointer transition-all hover:bg-primary/5 rounded-lg",
+              "items-center h-[98px] w-[98px] lg:w-[148px] lg:h-[106px] flex-shrink-0 flex flex-col snap-start cursor-pointer transition-all hover:bg-primary/5 rounded-lg gap-2 lg:justify-center",
               {
-                "bg-primary/10": selectedCategoryId === item.id || index === 1, // Keep index === 1 for backward compatibility
+                "bg-primary/10": categoryId === item.id.toString(), // Keep index === 1 for backward compatibility
               }
             )}
-            onClick={item.onClick}
+            onClick={() => handleSelectCategory(item.id)}
           >
             <div className="w-13 h-13 relative mx-auto">
               <Image
-                src={item.image}
-                alt={item.text}
+                src={getImageUrl(item.image)}
+                alt={item.name}
                 fill
-                className="object-cover object-center"
+                className="object-cover object-center rounded-full"
               />
             </div>
 
             <h1 className="text-sm font-medium text-[#161F2F] text-center">
-              {item.text}
+              {item.name_en}
             </h1>
           </div>
         ))}

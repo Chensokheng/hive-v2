@@ -1,26 +1,18 @@
 {
-  "HomePage": {
-    "title": "សួស្តី​ពិភពលោក!",
-    "restaurants": {
-      "nearby": "នៅក្បែរ",
-      "bestDeal": "តម្លៃល្អបំផុត",
-      "forYou": "សម្រាប់អ្នក",
-      "seeAll": "មើលទាំងអស់",
-      "allStore": "ហាងទាំងអស់"
-    }
+  "nav": {
+    "search": {
+      "placeholder": "តើអ្នកកំពុងស្វែងរកអ្វី?"
+    },
+    "deliveryAddress": "អាសយដ្ឋានដឹកជញ្ជូន",
+    "enterDeliveryAddress": "បញ្ចូលអាសយដ្ឋានដឹកជញ្ជូន"
   },
-  "AboutPage": {
-    "title": "This is about ទៅកាន់ទំព័រអំពី"
-  },
-  "Navbar": {
-    "login": "ចូល",
-    "signUp": "ចុះឈ្មោះ",
-    "deliveryAddressPlaceholder": "បញ្ចូលអាសយដ្ឋានដឹកជញ្ជូន",
-    "storeLocation": "ភ្នំពេញ",
-    "popoverContent": "ដាក់មាតិកាសម្រាប់ popover នៅទីនេះ។",
-    "languages": {
-      "en": "អង់គ្លេស",
-      "kh": "ខ្មែរ"
-    }
+
+  "language": {
+    "kh": "ខ្មែរ",
+    "en": "អង់គ្លេស",
+    "flag": "/assets/kh-flag.png",
+    "flagEN": "/assets/en-flag.png",
+    "flagKH": "/assets/kh-flag.png",
+    "current": "ខ្មែរ"
   }
 }
