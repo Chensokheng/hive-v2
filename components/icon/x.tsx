@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function XIcon() {
+export default function XIcon({ stroke = "#1A1D22" }: { stroke?: string }) {
   return (
     <svg
       width="12"
@@ -11,7 +11,7 @@ export default function XIcon() {
     >
       <path
         d="M10.7471 1.25L6.00004 5.99703M6.00004 5.99703L1.24707 10.75M6.00004 5.99703L10.753 10.75M6.00004 5.99703L1.25301 1.25"
-        stroke="#1A1D22"
+        stroke={stroke}
         strokeWidth="2.5"
         strokeLinecap="round"
       />

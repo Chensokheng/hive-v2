@@ -3,7 +3,7 @@ import Image from "next/image";
 import { rowdies } from "@/fonts";
 
 import { cn } from "@/lib/utils";
-import { CarouselItem } from "@/components/hive/landingpage/hero-carousel";
+import { CarouselItem } from "@/components/hive/carousel";
 
 interface BannerSlideProps {
   item: CarouselItem;

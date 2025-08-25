@@ -1,10 +1,10 @@
 import Image from "next/image";
 
-import LangSwitcher from "../hive-v2/lang-switcher";
 import BellIcon from "../icon/bell";
 import MapPin from "../icon/map-pin";
 import SearchIcon from "../icon/search";
 import { Input } from "../ui/input";
+import LangSwitcher from "./lang-switcher";
 
 export const MobileNav = () => {
   return (

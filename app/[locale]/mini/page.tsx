@@ -10,7 +10,7 @@ import {
   PromotionSections,
   SearchBar,
   StoreGrid,
-} from "@/components/hive-v2";
+} from "@/components/hive";
 
 export default function Page() {
   return (

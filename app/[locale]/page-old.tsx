@@ -9,8 +9,8 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 
+import { Carousel } from "@/components/hive/carousel";
 import AllStores from "@/components/hive/landingpage/all-stores";
-import { Carousel } from "@/components/hive/landingpage/hero-carousel";
 import { RestaurantSection } from "@/components/hive/landingpage/restaurant-section";
 import Navbar from "@/components/hive/navbar";
 

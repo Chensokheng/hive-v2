@@ -1,4 +1,4 @@
-import { CarouselItem } from "@/components/hive/landingpage/hero-carousel";
+import { CarouselItem } from "@/components/hive/carousel";
 
 export const DESKTOP_BANNERS: CarouselItem[] = [
   {

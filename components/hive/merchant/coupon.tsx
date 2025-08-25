@@ -23,17 +23,15 @@ interface CouponProps {
   onClick?: (coupon: CouponData) => void;
 }
 
-export function Coupon({ coupon, className, onClick }: CouponProps) {
-  const isDisabled = coupon.isExpired || coupon.isUsed;
-
-  const formatExpiryDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    });
-  };
+export function Coupon({ coupon }: CouponProps) {
+  // const formatExpiryDate = (dateString: string) => {
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString("en-US", {
+  //     month: "2-digit",
+  //     day: "2-digit",
+  //     year: "numeric",
+  //   });
+  // };
 
   return (
     <div className="flex items-center">
@@ -73,8 +71,6 @@ export function CouponSection({
   title = "Available Coupons",
   className,
   onCouponClick,
-  showViewAll = true,
-  onViewAll,
 }: CouponSectionProps) {
   if (!coupons || coupons.length === 0) {
     return null;

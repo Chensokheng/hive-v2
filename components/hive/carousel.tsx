@@ -70,6 +70,7 @@ export function Carousel({
 
     const timer = setInterval(nextSlide, autoAdvanceInterval);
     return () => clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoAdvance, autoAdvanceInterval, items.length, currentSlide]);
 
   if (!items || items.length === 0) {

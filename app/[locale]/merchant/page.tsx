@@ -9,7 +9,7 @@ import {
   merchantData,
 } from "@/fake/restaurant-data";
 
-import { Carousel } from "@/components/hive/landingpage/hero-carousel";
+import { Carousel } from "@/components/hive/carousel";
 import AddMenuToCart from "@/components/hive/merchant/add-menu-to-cart";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import CategorySidebar from "@/components/hive/merchant/category-sidebar";

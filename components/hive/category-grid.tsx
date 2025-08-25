@@ -10,101 +10,6 @@ import useFoodCategories from "@/hooks/use-food-categories";
 
 import CategoryGridSkeleton from "../loading/categoy-grid-skeleton";
 
-interface CategoryItem {
-  id: string;
-  image: string;
-  text: string;
-  onClick?: () => void;
-}
-
-interface CategoryGridProps {
-  categories?: CategoryItem[];
-  selectedCategoryId?: string;
-}
-
-const defaultCategories: CategoryItem[] = [
-  {
-    id: "dessert",
-    image: "/assets/mini/dessert.png",
-    text: "Dessert",
-  },
-  {
-    id: "fastfood",
-    image: "/assets/mini/fastfood.png",
-    text: "Fastfood",
-  },
-  {
-    id: "fruit",
-    image: "/assets/mini/fruit.png",
-    text: "Fruits",
-  },
-  {
-    id: "coffee",
-    image: "/assets/mini/coffee.png",
-    text: "Coffee",
-  },
-  {
-    id: "dessert2",
-    image: "/assets/mini/dessert.png",
-    text: "Dessert",
-  },
-  {
-    id: "fastfood2",
-    image: "/assets/mini/fastfood.png",
-    text: "Fastfood",
-  },
-  {
-    id: "fruit2",
-    image: "/assets/mini/fruit.png",
-    text: "Fruits",
-  },
-  {
-    id: "coffee2",
-    image: "/assets/mini/coffee.png",
-    text: "Coffee",
-  },
-  {
-    id: "dessert3",
-    image: "/assets/mini/dessert.png",
-    text: "Dessert",
-  },
-  {
-    id: "fastfood3",
-    image: "/assets/mini/fastfood.png",
-    text: "Fastfood",
-  },
-  {
-    id: "fruit3",
-    image: "/assets/mini/fruit.png",
-    text: "Fruits",
-  },
-  {
-    id: "coffee3",
-    image: "/assets/mini/coffee.png",
-    text: "Coffee",
-  },
-  {
-    id: "dessert4",
-    image: "/assets/mini/dessert.png",
-    text: "Dessert",
-  },
-  {
-    id: "fastfood4",
-    image: "/assets/mini/fastfood.png",
-    text: "Fastfood",
-  },
-  {
-    id: "fruit4",
-    image: "/assets/mini/fruit.png",
-    text: "Fruits",
-  },
-  {
-    id: "coffee4",
-    image: "/assets/mini/coffee.png",
-    text: "Coffee",
-  },
-];
-
 export default function CategoryGrid() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
@@ -195,7 +100,7 @@ export default function CategoryGrid() {
         className="flex items-start overflow-x-auto gap-2 pl-8 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        {data?.map((item, index) => (
+        {data?.map((item) => (
           <div
             key={item.id}
             className={cn(

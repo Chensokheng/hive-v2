@@ -12,9 +12,9 @@ import {
   DesktopNav,
   PromotionSections,
   StoreGrid,
-} from "@/components/hive-v2";
-import { Carousel } from "@/components/hive/landingpage/hero-carousel";
-import { MobileNav } from "@/components/mock/mobile-nav";
+} from "@/components/hive";
+import { Carousel } from "@/components/hive/carousel";
+import { MobileNav } from "@/components/hive/mobile-nav";
 
 export default function DesktopPage() {
   const [categoryId] = useQueryState("category", {

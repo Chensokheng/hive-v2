@@ -62,8 +62,8 @@ function PromotionSection({
   hasGradientBackground = false,
 }: PromotionSectionProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [showLeftButton, setShowLeftButton] = useState(false);
-  const [showRightButton, setShowRightButton] = useState(true);
+  const [_showLeftButton, setShowLeftButton] = useState(false);
+  const [_showRightButton, setShowRightButton] = useState(true);
 
   const checkScrollButtons = () => {
     const container = scrollContainerRef.current;
