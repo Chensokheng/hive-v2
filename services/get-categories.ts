@@ -1,7 +1,21 @@
+import { CategoryResponse } from "@/types";
+
+const transfrom = (category: CategoryResponse) => {
+  return category.data.map((data) => {
+    return {
+      nameEn: data.name_en,
+      nameKH: data.name,
+      image: data.image,
+      id: data.id,
+      status: data.status === 1 ? true : false,
+    };
+  });
+};
+
 export const getCategories = async () => {
   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  return {
+  const category = {
     status: true,
     message: "OK",
     data: [
@@ -219,4 +233,6 @@ export const getCategories = async () => {
       },
     ],
   };
+
+  return transfrom(category as CategoryResponse);
 };

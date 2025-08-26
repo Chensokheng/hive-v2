@@ -5,6 +5,5 @@ export default function useFoodCategories() {
   return useQuery({
     queryKey: ["food-categories"],
     queryFn: () => getCategories(),
-    select: (data) => data?.data || [],
   });
 }

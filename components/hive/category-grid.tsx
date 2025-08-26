@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import { useGlobalState } from "@/store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -11,6 +12,8 @@ import useFoodCategories from "@/hooks/use-food-categories";
 import CategoryGridSkeleton from "../loading/categoy-grid-skeleton";
 
 export default function CategoryGrid() {
+  const params = useParams();
+  const { locale } = params;
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
@@ -114,14 +117,14 @@ export default function CategoryGrid() {
             <div className="w-13 h-13 relative mx-auto">
               <Image
                 src={getImageUrl(item.image)}
-                alt={item.name}
+                alt={locale === "en" ? item.nameEn : item.nameKH}
                 fill
                 className="object-cover object-center rounded-full"
               />
             </div>
 
             <h1 className="text-sm font-medium text-[#161F2F] text-center">
-              {item.name_en}
+              {locale === "en" ? item.nameEn : item.nameKH}
             </h1>
           </div>
         ))}
