@@ -13,6 +13,7 @@ import UserIcon from "@/components/icon/user";
 
 import AuthDialog from "./auth-dialog";
 import LangSwitcher from "./lang-switcher";
+import UserProfilePopover from "./user-profile-popover";
 
 export const DesktopNav = () => {
   const t = useTranslations();
@@ -69,9 +70,11 @@ export const DesktopNav = () => {
           <BellIcon />
         </div>
         {user?.userId ? (
-          <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
-            <UserIcon fill="white" />
-          </div>
+          <UserProfilePopover>
+            <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
+              <UserIcon fill="white" />
+            </div>
+          </UserProfilePopover>
         ) : (
           <AuthDialog>
             <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
