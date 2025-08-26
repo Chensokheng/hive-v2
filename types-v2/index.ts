@@ -83,3 +83,67 @@ export type UserInfo = {
 };
 
 // ==================================sign-in response========================================
+
+// Profile
+
+export interface UserProfile {
+  status: boolean;
+  data: {
+    email_confirm: number;
+    allow_invite_friend: number;
+    language: string;
+    allow_send_sms: number;
+    managed_outlet_ids: any[]; // could refine if outlets have structure
+    managed_merchant_id: string | null;
+    belong_merchant_id: string | null;
+    user_id: string;
+    national_id: string | null;
+    phone: string;
+    temporaryPhone: string | null;
+    email: string | null;
+    birthdate: string | null;
+    picture: string | null;
+    status: number;
+    fb_id: string | null;
+    gg_id: string | null;
+    apple_id: string | null;
+    first_name: string;
+    middle_name: string | null;
+    last_name: string | null;
+    fullName: string;
+    gender: string | null;
+    created_at: number;
+    last_login: string | null;
+    country_code: number;
+    savyu_balance: string;
+    identity_card_id: string | null;
+    merchant_group_id: string | null;
+    ringtoneNewOrder: string | null;
+    ringtoneNewReservation: string | null;
+    platform: number;
+    is_available_for_new_orders: number;
+    user_infos: {
+      address: string | null;
+      image_path: string | null;
+      image_name: string | null;
+      latitude: number | null;
+      longitude: number | null;
+      last_device_uuid: string | null;
+      place_id: string;
+      place_lat: number;
+      place_long: number;
+      place_address: string;
+      roles: {
+        id: number;
+        name: string;
+      };
+    }[];
+    referral_code: string;
+    totalStamps: number;
+    totalVouchers: number;
+    id: number;
+    referal_code: string; // typo duplicate but included
+  };
+}
+
+// End Profile

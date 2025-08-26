@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { UserProfile } from "@/types-v2";
 
 export default async function getUserInfo() {
   const cookieStore = await cookies();
@@ -19,11 +20,13 @@ export default async function getUserInfo() {
     },
     method: "GET",
   });
-  const user = await res.json();
-
-  console.log(user);
+  const user = (await res.json()) as UserProfile;
 
   return {
     userId: user.data.user_id,
+    userName: user.data.fullName,
+    voucher: user.data.totalVouchers,
+    stamps: user.data.totalVouchers,
+    tmRewardBalance: user.data.savyu_balance,
   };
 }

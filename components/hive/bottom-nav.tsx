@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import CategoryIcon from "@/components/icon/category";
 import HomeIcon from "@/components/icon/home";
 import OrderIcon from "@/components/icon/order";
@@ -16,7 +17,6 @@ interface NavItem {
 }
 
 interface BottomNavProps {
-  navItems?: NavItem[];
   className?: string;
 }
 
@@ -38,25 +38,33 @@ const defaultNavItems: NavItem[] = [
   },
 ];
 
-export default function BottomNav({
-  navItems = defaultNavItems,
-  className,
-}: BottomNavProps) {
+export default function BottomNav({ className }: BottomNavProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { data: user, isLoading } = useGetUserInfo();
 
   const handleOpenProfile = () => {
-    document.getElementById("auth-trigger-dialog")?.click();
+    if (isLoading) {
+      return;
+    }
+
+    if (user?.userId) {
+      router.push("/profile");
+    } else {
+      document.getElementById("auth-trigger-dialog")?.click();
+    }
   };
 
   return (
     <nav
       className={cn(
-        "block md:hidden fixed bottom-0 left-0 right-0 bg-white px-5 rounded-lg",
+        "block md:hidden fixed bottom-0 left-0 right-0 bg-white px-5 rounded-lg py-3",
         className
       )}
     >
       <div className="flex items-center justify-between">
-        {navItems.map((item, index) => {
+        {defaultNavItems.map((item, index) => {
           const isActive = pathname === item.href;
           return (
             <div key={index}>
@@ -81,8 +89,13 @@ export default function BottomNav({
           className="flex items-center justify-center flex-col py-1"
           onClick={handleOpenProfile}
         >
-          <UserIcon fill="#BDC5DB" />
-          <span className={cn("text-sm font-semibold", "text-[#303D55]/60")}>
+          <UserIcon fill={pathname === "/profile" ? "#FF66CC" : "#BDC5DB"} />
+          <span
+            className={cn(
+              "text-sm font-semibold",
+              pathname === "/profile" ? "text-primary" : "text-[#303D55]/60"
+            )}
+          >
             Profile
           </span>
         </div>
