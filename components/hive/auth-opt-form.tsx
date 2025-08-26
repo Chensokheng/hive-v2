@@ -15,6 +15,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));
   const [otpInputFocus, setOtpInputFocus] = useState<number | null>(null);
   const authPhoneNumber = useGlobalState((state) => state.authPhoneNumber);
+  console.log(authPhoneNumber);
   const t = useTranslations("auth");
 
   const handleOtpChange = (value: string, index: number) => {
@@ -55,9 +56,8 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
           {t("otp.title")}
         </h1>
         <p className="text-[#303D55]/60">
-          {t("otp.subtitle", {
-            phoneNumber: authPhoneNumber.slice(-3),
-          })}
+          {t("otp.subtitle")}
+          {authPhoneNumber.slice(-3)}
         </p>
       </div>
 

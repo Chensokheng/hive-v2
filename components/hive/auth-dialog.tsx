@@ -22,7 +22,7 @@ type AuthStep = "register" | "otp";
 export default function AuthDialog({
   children,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   const [currentStep, setCurrentStep] = useState<AuthStep>("register");
 

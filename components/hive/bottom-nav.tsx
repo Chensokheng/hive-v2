@@ -36,11 +36,6 @@ const defaultNavItems: NavItem[] = [
     icon: OrderIcon,
     label: "My Orders",
   },
-  {
-    href: "/profile",
-    icon: UserIcon,
-    label: "Profile",
-  },
 ];
 
 export default function BottomNav({
@@ -48,6 +43,10 @@ export default function BottomNav({
   className,
 }: BottomNavProps) {
   const pathname = usePathname();
+
+  const handleOpenProfile = () => {
+    document.getElementById("auth-trigger-dialog")?.click();
+  };
 
   return (
     <nav
@@ -78,6 +77,15 @@ export default function BottomNav({
             </div>
           );
         })}
+        <div
+          className="flex items-center justify-center flex-col py-1"
+          onClick={handleOpenProfile}
+        >
+          <UserIcon fill="#BDC5DB" />
+          <span className={cn("text-sm font-semibold", "text-[#303D55]/60")}>
+            Profile
+          </span>
+        </div>
       </div>
     </nav>
   );

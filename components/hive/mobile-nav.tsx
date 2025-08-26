@@ -4,6 +4,7 @@ import BellIcon from "../icon/bell";
 import MapPin from "../icon/map-pin";
 import SearchIcon from "../icon/search";
 import { Input } from "../ui/input";
+import AuthDialog from "./auth-dialog";
 import LangSwitcher from "./lang-switcher";
 
 export const MobileNav = () => {
@@ -54,6 +55,7 @@ export const MobileNav = () => {
             <SearchIcon />
           </div>
         </div>
+        <AuthDialog />
       </nav>
     </>
   );
