@@ -140,6 +140,12 @@
   display: none;
 }
 
+/* Mobile viewport height fix */
+.mobile-height {
+  height: 100vh; /* Fallback for older browsers */
+  height: 100dvh; /* Dynamic viewport height for modern browsers */
+}
+
 @media (max-width: 768px) {
   * {
     -webkit-user-select: none;

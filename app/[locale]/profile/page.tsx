@@ -1,15 +1,30 @@
 "use client";
 
 import React from "react";
+import { Loader2 } from "lucide-react";
 
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import { BottomNav } from "@/components/hive";
+import AuthForm from "@/components/hive/auth-form";
 import UserProfile from "@/components/hive/user-profile";
 
-export default function page() {
+export default function Page() {
+  const { data: user, isLoading } = useGetUserInfo();
+
   return (
-    <div className="p-5 bg-[#F2F6FF] min-h-screen">
-      <UserProfile />
-      <BottomNav />
+    <div className="block lg:hidden  min-h-[100dvh]">
+      {isLoading ? (
+        <div className="h-[50vh] flex items-center justify-center">
+          <Loader2 className=" w-10 h-10 animate-spin text-primary" />
+        </div>
+      ) : user?.userId ? (
+        <div className="p-5 h-[calc(100vh-80px)] overflow-hidden bg-[#F2F6FF]">
+          <UserProfile />
+        </div>
+      ) : (
+        <AuthForm />
+      )}
+      {user?.userId && <BottomNav />}
     </div>
   );
 }

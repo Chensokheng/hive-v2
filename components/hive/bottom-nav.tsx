@@ -36,6 +36,11 @@ const defaultNavItems: NavItem[] = [
     icon: OrderIcon,
     label: "My Orders",
   },
+  {
+    href: "/profile",
+    icon: UserIcon,
+    label: "Profile",
+  },
 ];
 
 export default function BottomNav({ className }: BottomNavProps) {
@@ -85,7 +90,7 @@ export default function BottomNav({ className }: BottomNavProps) {
             </div>
           );
         })}
-        <div
+        {/* <div
           className="flex items-center justify-center flex-col py-1"
           onClick={handleOpenProfile}
         >
@@ -98,7 +103,7 @@ export default function BottomNav({ className }: BottomNavProps) {
           >
             Profile
           </span>
-        </div>
+        </div> */}
       </div>
     </nav>
   );

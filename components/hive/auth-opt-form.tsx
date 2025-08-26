@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import signin from "@/services/auth/signin";
 import { useGlobalState } from "@/store";
+import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -18,6 +19,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
   const [otpInputFocus, setOtpInputFocus] = useState<number | null>(null);
   const authPhoneNumber = useGlobalState((state) => state.authPhoneNumber);
   const t = useTranslations("auth");
+  const queryClient = useQueryClient();
 
   const handleOtpChange = (value: string, index: number) => {
     if (value.length > 1) return; // Only allow single character
@@ -49,8 +51,9 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
       toast.error(res.errorMessage);
     } else {
       toast.success("Login success");
+      queryClient.invalidateQueries({ queryKey: ["user-info"] });
+      document.getElementById("auth-trigger-dialog")?.click();
     }
-    console.log("OTP submitted:", otp.join(""));
   };
 
   return (

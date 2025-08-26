@@ -13,9 +13,9 @@ import { UserProfileSkeleton } from "../loading/user-profile-skeleton";
 import { Button } from "../ui/button";
 
 export default function UserProfile() {
-  const { data: user, isFetching } = useGetUserInfo();
+  const { data: user, isLoading } = useGetUserInfo();
 
-  if (isFetching) {
+  if (isLoading) {
     return <UserProfileSkeleton />;
   }
 
