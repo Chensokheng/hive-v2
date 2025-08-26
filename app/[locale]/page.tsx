@@ -3,6 +3,7 @@
 import React from "react";
 import { DESKTOP_BANNERS } from "@/constants/banners";
 
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import {
   BackgroundEffects,
   BannerCarousel,
@@ -17,6 +18,8 @@ import { Carousel } from "@/components/hive/carousel";
 import { MobileNav } from "@/components/hive/mobile-nav";
 
 export default function Page() {
+  useGetUserInfo();
+
   const renderCustomSlide = (item: any, index: number) => (
     <BannerSlide item={item} index={index} key={index} />
   );

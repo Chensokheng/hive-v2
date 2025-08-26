@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import signin from "@/services/auth/signin";
 import { useGlobalState } from "@/store";
 import { ChevronLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,7 +17,6 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));
   const [otpInputFocus, setOtpInputFocus] = useState<number | null>(null);
   const authPhoneNumber = useGlobalState((state) => state.authPhoneNumber);
-  console.log(authPhoneNumber);
   const t = useTranslations("auth");
 
   const handleOtpChange = (value: string, index: number) => {
@@ -39,8 +40,16 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const res = await signin("963147041");
+
+    if (!res.status) {
+      toast.error(res.errorMessage);
+    } else {
+      toast.success("Login success");
+    }
     console.log("OTP submitted:", otp.join(""));
   };
 

@@ -116,10 +116,13 @@ export default function CategoryGrid() {
           >
             <div className="w-13 h-13 relative mx-auto">
               <Image
-                src={getImageUrl(item.image)}
+                src={item.image ? getImageUrl(item.image) : "/assets/logo.png"}
                 alt={locale === "en" ? item.nameEn : item.nameKH}
                 fill
+                sizes="52px"
                 className="object-cover object-center rounded-full"
+                placeholder="blur"
+                blurDataURL={"/assets/logo.png"}
               />
             </div>
 
