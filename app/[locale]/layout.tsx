@@ -9,7 +9,6 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 
-
 const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],

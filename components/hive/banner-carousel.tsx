@@ -40,7 +40,7 @@ export default function BannerCarousel({
   banners = defaultBanners,
 }: BannerCarouselProps) {
   return (
-    <div className="flex overflow-x-auto gap-4 pl-5 pr-16 scroll-smooth snap-x snap-mandatory hide-scroll ml-5">
+    <div className="flex overflow-x-auto gap-4 pr-16 scroll-smooth snap-x snap-mandatory hide-scroll ml-5 ">
       {banners.map((banner) => (
         <div
           className="h-44 w-[calc(100vw-3rem)] sm:w-[calc(448px-3rem)] flex-shrink-0 relative snap-start"

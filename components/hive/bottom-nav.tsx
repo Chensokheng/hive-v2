@@ -56,7 +56,7 @@ export default function BottomNav({
         className
       )}
     >
-      <div className="flex items-center justify-between pb-5">
+      <div className="flex items-center justify-between">
         {navItems.map((item, index) => {
           const isActive = pathname === item.href;
           return (

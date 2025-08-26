@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 
 import {
   BannerCarousel,
@@ -11,6 +11,8 @@ import {
   SearchBar,
   StoreGrid,
 } from "@/components/hive";
+import CategoryGridSkeleton from "@/components/loading/categoy-grid-skeleton";
+import PromotionSkeleton from "@/components/loading/promotion-skeleton";
 
 export default function Page() {
   return (
@@ -40,11 +42,14 @@ export default function Page() {
       <BannerCarousel />
 
       {/* Category Grid */}
-      <CategoryGrid />
+      <Suspense fallback={<CategoryGridSkeleton />}>
+        <CategoryGrid />
+      </Suspense>
 
       {/* Promotion Sections */}
-      <PromotionSections />
-
+      <Suspense fallback={<PromotionSkeleton />}>
+        <PromotionSections />
+      </Suspense>
       {/* Store Grid */}
       <StoreGrid />
 

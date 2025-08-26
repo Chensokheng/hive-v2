@@ -6,7 +6,7 @@ export default function CategoryGridSkeleton() {
     <div className="relative">
       {/* Categories Container */}
       <div
-        className="flex items-start overflow-x-auto gap-2 pl-8 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
+        className="flex items-start overflow-x-auto gap-2 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* Generate 8 skeleton items */}

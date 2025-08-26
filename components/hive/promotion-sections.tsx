@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useQueryState } from "nuqs";
 
 interface PromotionItem {
   id: string;
@@ -182,6 +183,14 @@ export default function PromotionSections({
   premiumDelight = defaultPremiumDelight,
   bestDeal = defaultBestDeal,
 }: PromotionSectionsProps) {
+  const [categoryId] = useQueryState("category", {
+    defaultValue: "",
+  });
+
+  if (categoryId) {
+    return <></>;
+  }
+
   return (
     <div className="mt-5 space-y-8">
       <PromotionSection {...premiumDelight} />

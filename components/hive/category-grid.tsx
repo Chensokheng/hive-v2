@@ -97,7 +97,7 @@ export default function CategoryGrid() {
       {/* Categories Container */}
       <div
         ref={scrollContainerRef}
-        className="flex items-start overflow-x-auto gap-2 pl-8 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
+        className="flex items-start overflow-x-auto gap-2 pr-8 scroll-smooth snap-x snap-mandatory hide-scroll ml-5"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {data?.map((item) => (
