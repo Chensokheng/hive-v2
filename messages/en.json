@@ -13,5 +13,29 @@
     "flagEN": "/assets/en-flag.png",
     "flagKH": "/assets/kh-flag.png",
     "current": "English"
+  },
+  "auth": {
+    "register": {
+      "title": "Welcome!",
+      "subtitle": "Sign up or log in to continue",
+      "phoneNumber": "Phone number",
+      "phonePlaceholder": "Enter your phone number (e.g., 012 345 678)",
+      "username": "Username",
+      "usernamePlaceholder": "Enter your username",
+      "continue": "Continue",
+      "validation": {
+        "usernameRequired": "Username is too short",
+        "phoneRequired": "Phone number is required.",
+        "phoneInvalid": "Please enter a valid phone number ."
+      }
+    },
+    "otp": {
+      "title": "Enter OTP Code",
+      "subtitle": "Enter the 4-digit code we sent to your phone number ending in ****",
+      "resendText": "Didn't receive the code?",
+      "resend": "Resend",
+      "signUp": "Sign Up",
+      "back": "Back"
+    }
   }
 }

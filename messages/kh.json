@@ -14,5 +14,29 @@
     "flagEN": "/assets/en-flag.png",
     "flagKH": "/assets/kh-flag.png",
     "current": "ខ្មែរ"
+  },
+  "auth": {
+    "register": {
+      "title": "សូមស្វាគមន៍!",
+      "subtitle": "ចុះឈ្មោះ ឬចូលគណនីដើម្បីបន្ត",
+      "phoneNumber": "លេខទូរស័ព្ទ",
+      "phonePlaceholder": "បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក (ឧ. ០១២ ៣៤៥ ៦៧៨)",
+      "username": "ឈ្មោះអ្នកប្រើ",
+      "usernamePlaceholder": "បញ្ចូលឈ្មោះអ្នកប្រើរបស់អ្នក",
+      "continue": "បន្ត",
+      "validation": {
+        "usernameRequired": "ឈ្មោះអ្នកប្រើខ្លីពេក",
+        "phoneRequired": "តម្រូវឱ្យមានលេខទូរស័ព្ទ។",
+        "phoneInvalid": "សូមបញ្ចូលលេខទូរស័ព្ទដែលត្រឹមត្រូវ ។"
+      }
+    },
+    "otp": {
+      "title": "បញ្ចូលកូដ OTP",
+      "subtitle": "បញ្ចូលកូដ ៤ ខ្ទង់ដែលយើងបានផ្ញើទៅលេខទូរស័ព្ទរបស់អ្នកដែលបញ្ចប់ដោយ ****",
+      "resendText": "មិនបានទទួលកូដទេ?",
+      "resend": "ផ្ញើម្តងទៀត",
+      "signUp": "ចុះឈ្មោះ",
+      "back": "ត្រលប់ក្រោយ"
+    }
   }
 }

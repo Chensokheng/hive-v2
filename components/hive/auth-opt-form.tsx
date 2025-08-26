@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useGlobalState } from "@/store";
 import { ChevronLeft } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));
   const [otpInputFocus, setOtpInputFocus] = useState<number | null>(null);
   const authPhoneNumber = useGlobalState((state) => state.authPhoneNumber);
+  const t = useTranslations("auth");
 
   const handleOtpChange = (value: string, index: number) => {
     if (value.length > 1) return; // Only allow single character
@@ -50,11 +52,12 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
       </div>
       <div>
         <h1 className="text-[#161F2F] text-[1.5rem] font-bold">
-          Enter OTP Code
+          {t("otp.title")}
         </h1>
         <p className="text-[#303D55]/60">
-          Enter the 4-digit code we sent to your phone number ending in ****{" "}
-          {authPhoneNumber.slice(-3)}
+          {t("otp.subtitle", {
+            phoneNumber: authPhoneNumber.slice(-3),
+          })}
         </p>
       </div>
 
@@ -87,12 +90,12 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
           {/* Resend Code */}
           <div>
             <p className="text-[#303D55]/60 text-sm">
-              {`Didn't receive the code?`}
+              {t("otp.resendText")}
               <button
                 type="button"
                 className="text-[#3388FF] font-semibold hover:underline"
               >
-                Resend
+                {t("otp.resend")}
               </button>
             </p>
           </div>
@@ -105,7 +108,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
             className="w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
             disabled={otp.some((digit) => !digit)}
           >
-            Sign Up
+            {t("otp.signUp")}
           </Button>
 
           {/* Back Button */}
@@ -114,7 +117,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
             onClick={onBack}
           >
             <ChevronLeft />
-            Back
+            {t("otp.back")}
           </button>
         </div>
       </form>

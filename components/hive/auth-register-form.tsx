@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { useGlobalState } from "@/store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -91,6 +92,7 @@ export default function AuthRegisterForm({
   }
   const [phoneInputFocus, setPhoneInputFocus] = useState(false);
   const [usernameInputFocus, setUsernameInputFocus] = useState(false);
+  const t = useTranslations("auth");
 
   return (
     <div className=" space-y-12">
@@ -102,8 +104,10 @@ export default function AuthRegisterForm({
         className="mx-auto"
       />
       <div>
-        <h1 className="text-[#161F2F] text-[1.5rem] font-bold">Welcome!</h1>
-        <p className="text-[#303D55]/60">Sign up or log in to continue</p>
+        <h1 className="text-[#161F2F] text-[1.5rem] font-bold">
+          {t("register.title")}
+        </h1>
+        <p className="text-[#303D55]/60">{t("register.subtitle")}</p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -137,12 +141,12 @@ export default function AuthRegisterForm({
                           !form.watch("phoneNumber") && "hidden"
                         )}
                       >
-                        Phone number
+                        {t("register.phoneNumber")}
                       </label>
 
                       <Input
                         type="tel"
-                        placeholder="Enter your phone number (e.g., 012 345 678)"
+                        placeholder={t("register.phonePlaceholder")}
                         {...field}
                         className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
                         onFocus={() => {
@@ -195,12 +199,12 @@ export default function AuthRegisterForm({
                           !form.watch("username") && "hidden"
                         )}
                       >
-                        Username
+                        {t("register.username")}
                       </label>
 
                       <Input
                         type="text"
-                        placeholder="Enter your username"
+                        placeholder={t("register.usernamePlaceholder")}
                         {...field}
                         className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
                         onFocus={() => {
@@ -227,7 +231,7 @@ export default function AuthRegisterForm({
             type="submit"
             className="mt-12 w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
           >
-            Continue
+            {t("register.continue")}
           </Button>
         </form>
       </Form>

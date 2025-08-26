@@ -53,3 +53,26 @@ export interface TMerchantDto {
   category?: string;
   location: string;
 }
+
+// ============
+
+export type CategoryResponse = {
+  status: boolean;
+  message: string;
+  data: Category[];
+};
+
+export type Category = {
+  id: number;
+  name: string;
+  name_en: string;
+  status: number;
+  image: string;
+  merchant_type: string | null;
+  level: number;
+  priority: number;
+  platform: string;
+  parent_id: number | null;
+  created_at: string; // ISO datetime
+  updated_at: string; // ISO datetime
+};
