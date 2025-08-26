@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Kantumruy_Pro } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import "../globals.css";
 
@@ -67,12 +66,7 @@ export default async function RootLayout({
       <body
         className={`${locale === "kh" ? kantumruy.className : inter.className} antialiased`}
       >
-        <NextIntlClientProvider>
-          <NuqsAdapter>
-            {children}
-            {/* <Checkout /> */}
-          </NuqsAdapter>
-        </NextIntlClientProvider>
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
   );

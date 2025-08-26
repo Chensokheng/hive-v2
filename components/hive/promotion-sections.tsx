@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useGlobalState } from "@/store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useQueryState } from "nuqs";
 
 interface PromotionItem {
   id: string;
@@ -183,11 +183,9 @@ export default function PromotionSections({
   premiumDelight = defaultPremiumDelight,
   bestDeal = defaultBestDeal,
 }: PromotionSectionsProps) {
-  const [categoryId] = useQueryState("category", {
-    defaultValue: "",
-  });
+  const selectedCategoryId = useGlobalState((state) => state.selectCategoryId);
 
-  if (categoryId) {
+  if (selectedCategoryId) {
     return <></>;
   }
 

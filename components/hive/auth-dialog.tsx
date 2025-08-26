@@ -34,9 +34,13 @@ export default function AuthDialog({
     setCurrentStep("register");
   };
 
+  const handleCloseDialog = () => {
+    document.getElementById("auth-trigger-dialog")?.click();
+  };
+
   return (
     <Dialog>
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger id="auth-trigger-dialog">{children}</DialogTrigger>
       <DialogContent
         className=" max-w-full lg:max-w-[894px] p-0 rounded-none lg:rounded-xl border-none overflow-hidden shadow-none"
         showCloseButton={false}
@@ -55,7 +59,10 @@ export default function AuthDialog({
             />
           </div>
           <div className=" relative flex items-center justify-center px-6 sm:px-12 overflow-hidden">
-            <div className=" absolute top-0 right-0 z-50  p-2">
+            <div
+              className=" absolute top-0 right-0 z-50  p-2"
+              onClick={handleCloseDialog}
+            >
               <div className="  bg-[#BDC5DB]  w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300 ">
                 <XIcon stroke="white" />
               </div>

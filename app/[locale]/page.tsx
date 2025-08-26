@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React from "react";
 import { DESKTOP_BANNERS } from "@/constants/banners";
 
 import {
@@ -15,8 +15,6 @@ import {
 } from "@/components/hive";
 import { Carousel } from "@/components/hive/carousel";
 import { MobileNav } from "@/components/hive/mobile-nav";
-import CategoryGridSkeleton from "@/components/loading/categoy-grid-skeleton";
-import PromotionSkeleton from "@/components/loading/promotion-skeleton";
 
 export default function Page() {
   const renderCustomSlide = (item: any, index: number) => (
@@ -51,9 +49,7 @@ export default function Page() {
 
           {/* Category Grid */}
           <div className="max-w-[1300px] mx-auto">
-            <Suspense fallback={<CategoryGridSkeleton />}>
-              <CategoryGrid />
-            </Suspense>
+            <CategoryGrid />
           </div>
 
           {/* Background Effects */}
@@ -61,9 +57,7 @@ export default function Page() {
         </div>
 
         {/* Promotion Sections */}
-        <Suspense fallback={<PromotionSkeleton />}>
-          <PromotionSections />
-        </Suspense>
+        <PromotionSections />
 
         {/* Store Grid */}
         <div className="max-w-[1200px] mx-auto mt-10">

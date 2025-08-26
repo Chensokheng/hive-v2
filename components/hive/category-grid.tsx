@@ -2,8 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useGlobalState } from "@/store";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useQueryState } from "nuqs";
 
 import { cn, getImageUrl } from "@/lib/utils";
 import useFoodCategories from "@/hooks/use-food-categories";
@@ -14,9 +14,9 @@ export default function CategoryGrid() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [showLeftButton, setShowLeftButton] = useState(false);
   const [showRightButton, setShowRightButton] = useState(true);
-  const [categoryId, setCategoryId] = useQueryState("category", {
-    defaultValue: "",
-  });
+
+  const selectedCategoryId = useGlobalState((state) => state.selectCategoryId);
+  const setCategoryId = useGlobalState((state) => state.setCategoryId);
 
   const { data, isLoading } = useFoodCategories();
 
@@ -44,7 +44,7 @@ export default function CategoryGrid() {
   };
 
   const handleSelectCategory = (id: number) => {
-    if (categoryId === id.toString()) {
+    if (selectedCategoryId === id.toString()) {
       setCategoryId("");
     } else {
       setCategoryId(id.toString());
@@ -106,7 +106,7 @@ export default function CategoryGrid() {
             className={cn(
               "items-center h-[98px] w-[98px] lg:w-[148px] lg:h-[106px] flex-shrink-0 flex flex-col snap-start cursor-pointer transition-all hover:bg-primary/5 rounded-lg gap-2 lg:justify-center",
               {
-                "bg-primary/10": categoryId === item.id.toString(), // Keep index === 1 for backward compatibility
+                "bg-primary/10": selectedCategoryId === item.id.toString(), // Keep index === 1 for backward compatibility
               }
             )}
             onClick={() => handleSelectCategory(item.id)}

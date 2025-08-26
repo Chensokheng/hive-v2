@@ -66,7 +66,7 @@ export const DesktopNav = () => {
           <BellIcon />
         </div>
         <AuthDialog>
-          <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center">
+          <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
             <UserIcon fill="white" />
           </div>
         </AuthDialog>

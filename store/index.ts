@@ -1,19 +1,24 @@
 import { create } from "zustand";
 
 interface GlobalState {
-  count: number;
   checkoutSheetOpen: boolean;
-  increase: (by: number) => void;
-  setCheckoutSheetOpen: (value: boolean) => void;
   openMenuToCartSheet: boolean;
+  selectCategoryId: string;
+  authPhoneNumber: string;
+
+  setCheckoutSheetOpen: (value: boolean) => void;
   setOpenMenuToCartSheet: (value: boolean) => void;
+  setCategoryId: (value: string) => void;
+  setAuthPhoneNumber: (value: string) => void;
 }
 
 export const useGlobalState = create<GlobalState>()((set) => ({
-  count: 0,
   checkoutSheetOpen: false,
   openMenuToCartSheet: false,
-  increase: (by) => set((state) => ({ count: state.count + by })),
+  selectCategoryId: "",
+  authPhoneNumber: "",
+  setAuthPhoneNumber: (value) => set((state) => ({ authPhoneNumber: value })),
+  setCategoryId: (value) => set((state) => ({ selectCategoryId: value })),
   setCheckoutSheetOpen: (value) =>
     set((state) => ({ checkoutSheetOpen: value })),
   setOpenMenuToCartSheet: (value) =>

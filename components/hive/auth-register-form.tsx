@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { useGlobalState } from "@/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryState } from "nuqs";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -74,9 +74,7 @@ export default function AuthRegisterForm({
 }: {
   onSubmit?: () => void;
 }) {
-  const [_, setPhoneNumber] = useQueryState("phoneNumber", {
-    defaultValue: "",
-  });
+  const setPhoneNumber = useGlobalState((state) => state.setAuthPhoneNumber);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

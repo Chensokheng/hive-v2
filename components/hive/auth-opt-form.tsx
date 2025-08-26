@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { useGlobalState } from "@/store";
 import { ChevronLeft } from "lucide-react";
-import { useQueryState } from "nuqs";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,9 +13,7 @@ import OtpIcon from "../icon/otp";
 export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));
   const [otpInputFocus, setOtpInputFocus] = useState<number | null>(null);
-  const [phoneNumber] = useQueryState("phoneNumber", {
-    defaultValue: "",
-  });
+  const authPhoneNumber = useGlobalState((state) => state.authPhoneNumber);
 
   const handleOtpChange = (value: string, index: number) => {
     if (value.length > 1) return; // Only allow single character
@@ -56,7 +54,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
         </h1>
         <p className="text-[#303D55]/60">
           Enter the 4-digit code we sent to your phone number ending in ****{" "}
-          {phoneNumber.slice(-3)}
+          {authPhoneNumber.slice(-3)}
         </p>
       </div>
 
