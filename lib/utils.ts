@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const getImageUrl = (image: string) => {
-  return `https://d3gen0htoikr36.cloudfront.net/assets/${image}`;
+  return process.env.NEXT_PUBLIC_IMAGE_URL + image;
 };

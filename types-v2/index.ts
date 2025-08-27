@@ -147,3 +147,137 @@ export interface UserProfile {
 }
 
 // End Profile
+
+// get merchants listing
+
+export interface MerchantsListingResponse {
+  status: boolean;
+  data: {
+    collections: {
+      id: number;
+      name: string;
+      order: number;
+      status: number;
+      name_en: string;
+      name_fr: string;
+      name_ja: string;
+      name_ko: string;
+      name_ru: string;
+      name_zh: string;
+      merchants: {
+        id: number;
+        name: string;
+        tags: { id: number; name: string }[] | null;
+        image: string;
+        address: {
+          city: string;
+          ward: string;
+          address: string;
+          district: string;
+          address_detail: string | null;
+          city_en: string | null;
+          city_id: number | null;
+          ward_en: string | null;
+          ward_id: number | null;
+          district_en: string | null;
+          district_id: number | null;
+        };
+        outlets: {
+          id: number;
+          name: string;
+          address: {
+            city: string;
+            ward: string;
+            address: string;
+            city_en: string | null;
+            city_id: number | null;
+            ward_en: string | null;
+            ward_id: number | null;
+            district: string;
+            district_en: string | null;
+            district_id: number | null;
+          };
+          short_name: string;
+          joinedDeliveryProgram: boolean;
+          joinedContactlessProgram: boolean | null;
+          joinedTableBookingProgram: boolean;
+        }[];
+        categories: { id: number; name: string }[] | null;
+        sub_domain: string;
+        joinedDelivery: boolean;
+        merchant_marketing_id: number | null;
+        hierarchical_categories: { id: number; name: string }[] | null;
+        joinedContactlessProgram: boolean;
+        joinedTableBookingProgram: boolean;
+        kolHasJoinedMerchantMarketing: boolean | null;
+        merchant_marketing: {
+          id: number;
+          commission_percent: number;
+          status: string;
+        } | null;
+        kol_merchant_marketing_request: any | null;
+      }[];
+      color: string | null;
+    }[];
+    merchants: {
+      results: {
+        id: number;
+        name: string;
+        sub_domain: string;
+        categories: { id: number; name: string }[] | null;
+        hierarchical_categories: { id: number; name: string }[] | null;
+        tags: { id: number; name: string }[] | null;
+        address: {
+          city: string;
+          ward: string;
+          address: string;
+          district: string;
+          address_detail: string | null;
+          city_en: string | null;
+          city_id: number | null;
+          ward_en: string | null;
+          ward_id: number | null;
+          district_en: string | null;
+          district_id: number | null;
+        };
+        image: string;
+        outlets: {
+          id: number;
+          name: string;
+          address: {
+            city: string;
+            ward: string;
+            address: string;
+            city_en: string | null;
+            city_id: number | null;
+            ward_en: string | null;
+            ward_id: number | null;
+            district: string;
+            district_en: string | null;
+            district_id: number | null;
+          };
+          short_name: string;
+          joinedDeliveryProgram: boolean;
+          joinedContactlessProgram: boolean | null;
+          joinedTableBookingProgram: boolean;
+        }[];
+        joinedDelivery: boolean;
+        joinedTableBooking: boolean | null;
+        merchant_marketing_id: number | null;
+        kolHasJoinedMerchantMarketing: boolean | null;
+        merchant_marketing: {
+          id: number;
+          commission_percent: number;
+          status: string;
+        } | null;
+        kol_merchant_marketing_request: any | null;
+      }[];
+      pagination: {
+        limit: number;
+        load_more: boolean;
+      };
+    };
+  };
+}
+
+// end get merchant listing
