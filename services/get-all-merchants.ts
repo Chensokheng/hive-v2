@@ -34,6 +34,10 @@ export const getAllMerchants = async (
       : "",
     hasOutlet: merchant.outlets.length ? true : false,
     tag: merchant.tags?.length ? merchant.tags[0].name : "",
+    href:
+      merchant.outlets.length === 1
+        ? `/${merchant.sub_domain}/${merchant.outlets[0].short_name}`
+        : `/${merchant.sub_domain}`,
   }));
 
   const lastMerchantId =

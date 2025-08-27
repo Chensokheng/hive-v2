@@ -35,7 +35,7 @@ const eslintConfig = [
 
       // Disable require() import restriction
       "@typescript-eslint/no-require-imports": "off",
-
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
       // Allow any type
       "@typescript-eslint/no-explicit-any": "off",
     },

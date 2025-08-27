@@ -97,7 +97,7 @@ export default function StoreGrid({ title = "All Store" }) {
       <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
         {allMerchants.map((merchant, index) => (
           <Link
-            href={merchant.name}
+            href={merchant.href}
             key={merchant.id}
             ref={
               index === allMerchants.length - 1 ? lastMerchantElementRef : null
@@ -109,6 +109,7 @@ export default function StoreGrid({ title = "All Store" }) {
                 src={merchant.image || "/assets/logo.png"}
                 alt={merchant.name}
                 fill
+                sizes="(max-width: 1024px) 50vw, 33vw"
                 className="object-center object-cover rounded-xl"
               />
               {/* tag */}

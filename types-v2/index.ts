@@ -281,3 +281,80 @@ export interface MerchantsListingResponse {
 }
 
 // end get merchant listing
+
+// ========/merchants/sub-domain/=======
+
+export interface MerchantInfoResponse {
+  status: boolean;
+  data: {
+    type: string; // e.g. "merchant"
+    data: {
+      name: string;
+      outlets: {
+        id: number;
+        name: string;
+        short_name: string;
+        address: string;
+        address_en: string;
+        image: string;
+        joinedDeliveryProgram: boolean;
+        joinedContactlessProgram: boolean;
+        enableTableBooking: boolean;
+        distance: number;
+      }[];
+      isExistKolOffer: boolean;
+      enableMarketingProgram: boolean;
+      numberOfDeals: number;
+      numberOfStampDeals: number;
+      bannerDeal: string | null;
+    };
+  };
+}
+// ========/merchants/sub-domain/=======
+
+// api/web/menu/categories?outlet_id
+export interface OutletCategoryResponse {
+  status: boolean;
+  data: {
+    id: number;
+    name: string;
+    name_vi: string;
+    name_th: string;
+  }[];
+}
+//api/web/menu/categories?outlet_id
+
+//
+export interface OutletMenuResponse {
+  status: boolean;
+  data: {
+    items: {
+      id: number;
+      name: string;
+      name_vi: string;
+      name_th: string;
+      menu_items: {
+        id: number;
+        name: string;
+        name_vi: string;
+        name_th: string;
+        description_vi: string;
+        description_th: string;
+        thumbnail_image_name: string;
+        base_price: number;
+        promotion_price: number;
+        status: number;
+        adults_only: number;
+        time_out_of_stock: string | null;
+        itemCd: string;
+        hasAddon: boolean;
+        brand: string | null;
+      }[];
+    }[];
+    pagination: {
+      limit: number;
+      load_more: boolean;
+    };
+  };
+}
+//

@@ -1,43 +1,84 @@
 import React from "react";
 import Image from "next/image";
-import { Star } from "lucide-react";
 
+import { cn } from "@/lib/utils";
+import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import { Button } from "@/components/ui/button";
-import ClockIcon from "@/components/icon/clock";
 import HeartIcon from "@/components/icon/heart";
 import MapIcon from "@/components/icon/map";
 import ShareIcon from "@/components/icon/share";
 
-interface MerchantHeaderProps {
-  name: string;
-  category: string;
-  rating: number;
-  address: string;
-  heroImage: string;
-  logo: string;
-  status: "Open" | "Closed";
-  closingTime?: string;
-}
-
 export default function MerchantHeader({
-  name,
-  category,
-  rating,
-  address,
-  heroImage,
-  logo,
-  status,
-  closingTime,
-}: MerchantHeaderProps) {
+  locale,
+  merchantName,
+  outletName,
+}: {
+  locale: string;
+  merchantName: string;
+  outletName: string;
+}) {
+  const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchantName);
+
+  const outlet = merchantInfo?.find(
+    (outlet) => outlet.shortName === outletName
+  );
+
+  if (isLoading) {
+    return (
+      <div className="bg-white lg:rounded-2xl overflow-hidden lg:mb-8 shadow-sm lg:border border-gray-100">
+        {/* Hero Image Skeleton */}
+        <div className="relative w-full h-48 md:h-64 bg-gray-200 animate-pulse">
+          {/* Logo positioned over hero image */}
+          <div className="absolute -bottom-10 left-6">
+            <div className="w-20 h-20 md:w-24 md:h-24 bg-gray-300 rounded-full animate-pulse border-4 border-white shadow-lg" />
+          </div>
+        </div>
+
+        {/* Restaurant Info Skeleton */}
+        <div className="p-6 pt-10 space-y-2">
+          <div className="flex items-center justify-between">
+            {/* Restaurant Name Skeleton */}
+            <div className="h-8 md:h-9 bg-gray-200 rounded animate-pulse w-48" />
+
+            {/* Action Buttons Skeleton */}
+            <div className="flex gap-2">
+              <div className="w-10 h-10 bg-gray-200 rounded-md animate-pulse" />
+              <div className="w-10 h-10 bg-gray-200 rounded-md animate-pulse" />
+            </div>
+          </div>
+
+          {/* Location Skeleton */}
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 bg-gray-200 rounded animate-pulse w-64" />
+          </div>
+
+          {/* Additional Info Skeleton (for future rating/status) */}
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-gray-200 rounded animate-pulse" />
+            <div className="h-4 bg-gray-200 rounded animate-pulse w-32" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!outlet?.id) {
+    return <h1>Not found</h1>;
+  }
+
   return (
     <div className="bg-white lg:rounded-2xl overflow-hidden lg:mb-8 shadow-sm lg:border border-gray-100">
       {/* Hero Image */}
       <div className="relative w-full h-48 md:h-64">
         <Image
-          src={heroImage}
-          alt={name}
+          src={outlet?.banner || outlet?.image || "/assets/logo.png"}
+          alt={outlet?.name || "outlet"}
           fill
-          className="object-cover"
+          className={cn(
+            outlet?.banner ? "object-cover" : "object-cover",
+            "object-center"
+          )}
           priority
         />
 
@@ -45,8 +86,8 @@ export default function MerchantHeader({
         <div className="absolute -bottom-10 left-6">
           <div className="w-20 h-20 md:w-24 md:h-24 relative">
             <Image
-              src={logo}
-              alt={`${name} logo`}
+              src={outlet?.image || "/assets/logo.png"}
+              alt={`${outlet?.name} logo`}
               fill
               className="object-cover border-4 border-white shadow-lg rounded-full"
             />
@@ -58,7 +99,7 @@ export default function MerchantHeader({
       <div className="p-6 pt-10 space-y-2">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-            {name}
+            {outlet?.name}
           </h1>
           {/* Action Buttons */}
           <div>
@@ -80,7 +121,7 @@ export default function MerchantHeader({
         </div>
 
         {/* Rating and Category */}
-        <div className="flex items-center gap-2 ">
+        {/* <div className="flex items-center gap-2 ">
           <div className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
             <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
@@ -93,16 +134,20 @@ export default function MerchantHeader({
           </div>
           <span className="text-gray-300">·</span>
           <span className="text-primary text-sm">{category}</span>
-        </div>
+        </div> */}
 
         {/* Location */}
         <div className="flex items-center gap-2 ">
           <MapIcon />
-          <span className="text-sm text-gray-600">{address}</span>
+          <span className="text-sm text-gray-600">
+            {locale.toLowerCase() === "en"
+              ? outlet?.addressEn
+              : outlet?.addressKh}
+          </span>
         </div>
 
         {/* Status */}
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <ClockIcon />
           <span
             className={`text-sm ${
@@ -117,7 +162,7 @@ export default function MerchantHeader({
               <span className="text-sm text-gray-600">Close {closingTime}</span>
             </>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

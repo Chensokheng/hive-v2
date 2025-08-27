@@ -3,14 +3,12 @@
 import React, { use, useState } from "react";
 import {
   breadcrumbItems,
-  categories,
   heroCarouselImages,
   merchantCoupons,
-  merchantData,
 } from "@/fake/restaurant-data";
 
+import { BottomNav } from "@/components/hive";
 import { Carousel } from "@/components/hive/carousel";
-import AddMenuToCart from "@/components/hive/merchant/add-menu-to-cart";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import CategorySidebar from "@/components/hive/merchant/category-sidebar";
 import { CouponSection } from "@/components/hive/merchant/coupon";
@@ -22,23 +20,23 @@ import SpecialPromotion from "@/components/hive/merchant/special-promotion";
 export default function MerchantPage({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; merchant: string; outlet: string }>;
 }) {
-  const { locale } = use(params);
+  const { locale, merchant, outlet } = use(params);
   const [activeCategory, setActiveCategory] = useState("All");
 
   return (
     <>
-      <div className="min-h-screen bg-primary-bg">
+      <div className="min-h-screen bg-primary-bg pb-20">
         <div className="max-w-[1400px] mx-auto lg:py-6">
           {/* Main Content */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Sidebar - Hidden on mobile, shown on desktop */}
             <div className="hidden lg:block lg:col-span-1">
               <CategorySidebar
-                categories={categories}
-                activeCategory={activeCategory}
-                onCategoryChange={setActiveCategory}
+                outletName={outlet}
+                merchantName={merchant}
+                isMobile={false}
               />
             </div>
 
@@ -49,14 +47,17 @@ export default function MerchantPage({
                 <Breadcrumb items={breadcrumbItems} />
               </div>
               {/* Merchant Header */}
-              <MerchantHeader {...merchantData} />
+              <MerchantHeader
+                locale={locale}
+                merchantName={merchant}
+                outletName={outlet}
+              />
 
               {/* Mobile Category Sidebar - Only shown on mobile */}
               <div className="lg:hidden mb-6">
                 <CategorySidebar
-                  categories={categories}
-                  activeCategory={activeCategory}
-                  onCategoryChange={setActiveCategory}
+                  outletName={outlet}
+                  merchantName={merchant}
                   isMobile={true}
                 />
               </div>
@@ -89,14 +90,13 @@ export default function MerchantPage({
               </div>
 
               <div className="mt-5 space-y-3">
-                <h1 className="font-bold text-black text-lg px-2">For You</h1>
-                <Menus />
+                <Menus merchantName={merchant} outletName={outlet} />
               </div>
-              <AddMenuToCart />
             </div>
           </div>
         </div>
       </div>
+      <BottomNav />
     </>
   );
 }
