@@ -6,7 +6,6 @@ import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletMenu from "@/hooks/use-get-outlet-menu";
 
-
 export default function Menus({
   merchantName,
   outletName,
@@ -35,7 +34,7 @@ export default function Menus({
             <h1 className="font-bold text-black text-lg px-2 my-5">
               {menu.name}
             </h1>
-            <div className="grid grid-cols-2 sm:flex flex-wrap gap-5 px-2">
+            <div className="grid grid-cols-2 sm:flex flex-wrap gap-2  sm:gap-5 px-2">
               {menu.items?.map((item, index) => (
                 <div className="bg-white inline-block rounded-xl" key={index}>
                   <div className="h-40 w-full   sm:h-70 sm:w-70 relative">
