@@ -11,8 +11,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-import OtpIcon from "../icon/otp";
+import OtpIcon from "@/components/icon/otp";
 
 export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));

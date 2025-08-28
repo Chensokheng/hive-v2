@@ -9,11 +9,9 @@ import { Input } from "@/components/ui/input";
 import BellIcon from "@/components/icon/bell";
 import MapPin from "@/components/icon/map-pin";
 import SearchIcon from "@/components/icon/search";
-import UserIcon from "@/components/icon/user";
 
-import AuthDialog from "./auth-dialog";
+import Auth from "./auth";
 import LangSwitcher from "./lang-switcher";
-import UserProfilePopover from "./user-profile-popover";
 
 export const DesktopNav = () => {
   const t = useTranslations();
@@ -69,19 +67,7 @@ export const DesktopNav = () => {
         <div className="h-10 w-10 bg-[#EBEFF7] rounded-full grid place-content-center shadow-sm cursor-pointer">
           <BellIcon />
         </div>
-        {user?.userId ? (
-          <UserProfilePopover>
-            <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
-              <UserIcon fill="white" />
-            </div>
-          </UserProfilePopover>
-        ) : (
-          <AuthDialog>
-            <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
-              <UserIcon fill="white" />
-            </div>
-          </AuthDialog>
-        )}
+        <Auth />
       </div>
     </nav>
   );

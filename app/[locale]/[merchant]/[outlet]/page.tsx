@@ -10,18 +10,15 @@ import {
 } from "@/fake/restaurant-data";
 import { ChevronLeft } from "lucide-react";
 
-import useGetUserInfo from "@/hooks/use-get-user-info";
-import AuthDialog from "@/components/hive/auth-dialog";
+import Auth from "@/components/hive/auth";
 import { Carousel } from "@/components/hive/carousel";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
-import CategorySidebar from "@/components/hive/merchant/category-sidebar";
 import { CouponSection } from "@/components/hive/merchant/coupon";
 import FlashSale from "@/components/hive/merchant/flash-sale";
 import Menus from "@/components/hive/merchant/menus";
 import MerchantHeader from "@/components/hive/merchant/merchant-header";
+import OutletCategory from "@/components/hive/merchant/outlet-category";
 import SpecialPromotion from "@/components/hive/merchant/special-promotion";
-import UserProfilePopover from "@/components/hive/user-profile-popover";
-import UserIcon from "@/components/icon/user";
 
 export default function MerchantPage({
   params,
@@ -29,7 +26,7 @@ export default function MerchantPage({
   params: Promise<{ locale: string; merchant: string; outlet: string }>;
 }) {
   const { locale, merchant, outlet } = use(params);
-  const { data: user } = useGetUserInfo();
+
   const router = useRouter();
 
   return (
@@ -53,19 +50,7 @@ export default function MerchantPage({
           <div className="h-10 w-[5.875rem] relative">
             <Image src={"/assets/logo.png"} alt="logo" fill />
           </div>
-          {user?.userId ? (
-            <UserProfilePopover>
-              <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
-                <UserIcon fill="white" />
-              </div>
-            </UserProfilePopover>
-          ) : (
-            <AuthDialog>
-              <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
-                <UserIcon fill="white" />
-              </div>
-            </AuthDialog>
-          )}
+          <Auth />
         </div>
         <div className=" max-w-[900px] mx-auto">
           <Breadcrumb items={breadcrumbItems} />
@@ -76,11 +61,7 @@ export default function MerchantPage({
           />
         </div>
 
-        <CategorySidebar
-          outletName={outlet}
-          merchantName={merchant}
-          isMobile={true}
-        />
+        <OutletCategory outletName={outlet} merchantName={merchant} />
 
         <div className="max-w-[900px] mx-auto lg:py-6">
           {/* Main Content */}
@@ -96,7 +77,6 @@ export default function MerchantPage({
                   title="Available Deals"
                   onCouponClick={(coupon) => {
                     console.log("Coupon clicked:", coupon);
-                    // Handle coupon click - could open modal, copy code, etc.
                   }}
                 />
               </div>
@@ -122,7 +102,6 @@ export default function MerchantPage({
           </div>
         </div>
       </div>
-      {/* <BottomNav /> */}
     </>
   );
 }

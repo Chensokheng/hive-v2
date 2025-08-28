@@ -10,25 +10,17 @@ import { Input } from "@/components/ui/input";
 import SearchIcon from "@/components/icon/search";
 import OutletCategoryLoading from "@/components/loading/outlet-category-loading";
 
-interface CategoryItem {
-  id: string;
-  label: string;
-  count?: number;
-}
-
-interface CategorySidebarProps {
+interface OutletCategoryProps {
   className?: string;
-  isMobile: boolean;
   outletName: string;
   merchantName: string;
 }
 
-export default function CategorySidebar({
+export default function OutletCategory({
   className,
   outletName,
   merchantName,
-  isMobile,
-}: CategorySidebarProps) {
+}: OutletCategoryProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const atTopRef = useRef(false);
 

@@ -18,10 +18,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import CheckCircleIcon from "../icon/check-circle";
-import PhoneIcon from "../icon/phone";
-import UserOutlineIcon from "../icon/user-outline";
+import CheckCircleIcon from "@/components/icon/check-circle";
+import PhoneIcon from "@/components/icon/phone";
+import UserOutline from "@/components/icon/user-outline";
 
 const FormSchema = z.object({
   username: z.string().min(3, { message: "Username is too short" }),
@@ -185,7 +184,7 @@ export default function AuthRegisterForm({
                   )}
                 >
                   <div className="flex items-center gap-3 w-full">
-                    <UserOutlineIcon
+                    <UserOutline
                       fill={
                         form.getFieldState("username").invalid
                           ? "#FF0000"

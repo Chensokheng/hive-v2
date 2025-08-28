@@ -4,13 +4,13 @@ import { ChevronRight, LogOut } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
-import OrderHistoryIcon from "../icon/order-history";
-import SettingIcon from "../icon/setting";
-import StampIcon from "../icon/stamps";
-import UserIcon from "../icon/user";
-import VoucherIcon from "../icon/voucher";
-import { UserProfileSkeleton } from "../loading/user-profile-skeleton";
-import { Button } from "../ui/button";
+import OrderHistoryIcon from "../../icon/order-history";
+import SettingIcon from "../../icon/setting";
+import StampIcon from "../../icon/stamps";
+import UserIcon from "../../icon/user";
+import VoucherIcon from "../../icon/voucher";
+import { UserProfileSkeleton } from "../../loading/user-profile-skeleton";
+import { Button } from "../../ui/button";
 
 export default function UserProfile() {
   const { data: user, isLoading } = useGetUserInfo();

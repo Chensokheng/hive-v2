@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
+import XIcon from "@/components/icon/x";
 
-import AuthRegisterForm from "../hive/auth-register-form";
-import XIcon from "../icon/x";
 import AuthOptForm from "./auth-opt-form";
+import AuthRegisterForm from "./auth-register-form";
 
 type AuthStep = "register" | "otp";
 
