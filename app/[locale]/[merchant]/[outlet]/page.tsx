@@ -1,13 +1,17 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { use } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   breadcrumbItems,
   heroCarouselImages,
   merchantCoupons,
 } from "@/fake/restaurant-data";
+import { ChevronLeft } from "lucide-react";
 
-import { BottomNav } from "@/components/hive";
+import useGetUserInfo from "@/hooks/use-get-user-info";
+import AuthDialog from "@/components/hive/auth-dialog";
 import { Carousel } from "@/components/hive/carousel";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import CategorySidebar from "@/components/hive/merchant/category-sidebar";
@@ -16,6 +20,8 @@ import FlashSale from "@/components/hive/merchant/flash-sale";
 import Menus from "@/components/hive/merchant/menus";
 import MerchantHeader from "@/components/hive/merchant/merchant-header";
 import SpecialPromotion from "@/components/hive/merchant/special-promotion";
+import UserProfilePopover from "@/components/hive/user-profile-popover";
+import UserIcon from "@/components/icon/user";
 
 export default function MerchantPage({
   params,
@@ -23,55 +29,65 @@ export default function MerchantPage({
   params: Promise<{ locale: string; merchant: string; outlet: string }>;
 }) {
   const { locale, merchant, outlet } = use(params);
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { data: user } = useGetUserInfo();
+  const router = useRouter();
 
   return (
     <>
-      <div className="min-h-screen bg-primary-bg pb-20">
-        <div className="max-w-[1400px] mx-auto lg:py-6">
+      <div
+        className=" sticky top-0 w-full  z-50 h-10 bg-white lg:hidden"
+        id="outlet-page"
+      >
+        <div
+          className="flex py-2 items-center  lg:hidden"
+          onClick={() => {
+            router.back();
+          }}
+        >
+          <ChevronLeft />
+          <h1 className="flex-1 text-center font-bold text-lg">SeolahCafe</h1>
+        </div>
+      </div>
+      <div className="min-h-screen bg-primary-bg  pb-20">
+        <div className="p-5 border-b mb-2  items-center  justify-between hidden lg:flex">
+          <div className="h-10 w-[5.875rem] relative">
+            <Image src={"/assets/logo.png"} alt="logo" fill />
+          </div>
+          {user?.userId ? (
+            <UserProfilePopover>
+              <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
+                <UserIcon fill="white" />
+              </div>
+            </UserProfilePopover>
+          ) : (
+            <AuthDialog>
+              <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
+                <UserIcon fill="white" />
+              </div>
+            </AuthDialog>
+          )}
+        </div>
+        <div className=" max-w-[900px] mx-auto">
+          <Breadcrumb items={breadcrumbItems} />
+          <MerchantHeader
+            locale={locale}
+            merchantName={merchant}
+            outletName={outlet}
+          />
+        </div>
+
+        <CategorySidebar
+          outletName={outlet}
+          merchantName={merchant}
+          isMobile={true}
+        />
+
+        <div className="max-w-[900px] mx-auto lg:py-6">
           {/* Main Content */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Sidebar - Hidden on mobile, shown on desktop */}
-            <div className="hidden lg:block lg:col-span-1">
-              <CategorySidebar
-                outletName={outlet}
-                merchantName={merchant}
-                isMobile={false}
-              />
-            </div>
-
             {/* Main Content Area */}
-            <div className="lg:col-span-3">
-              {/* Breadcrumb */}
-              <div className="hidden lg:block">
-                <Breadcrumb items={breadcrumbItems} />
-              </div>
-              {/* Merchant Header */}
-              <MerchantHeader
-                locale={locale}
-                merchantName={merchant}
-                outletName={outlet}
-              />
-
+            <div className="lg:col-span-4">
               {/* Mobile Category Sidebar - Only shown on mobile */}
-              <div className="lg:hidden mb-6">
-                <CategorySidebar
-                  outletName={outlet}
-                  merchantName={merchant}
-                  isMobile={true}
-                />
-              </div>
-
-              <div className="p-2 lg:p-0">
-                <Carousel
-                  items={heroCarouselImages}
-                  height="h-[200px] md:h-[400px]"
-                  arrowClassName="bg-custom-tranparent-dark backdrop-blur-xl"
-                  autoAdvance={true}
-                  autoAdvanceInterval={5000}
-                  className="rounded-lg"
-                />
-              </div>
 
               {/* Coupon Section */}
               <div className="p-2 lg:p-0 mt-6">
@@ -82,6 +98,16 @@ export default function MerchantPage({
                     console.log("Coupon clicked:", coupon);
                     // Handle coupon click - could open modal, copy code, etc.
                   }}
+                />
+              </div>
+              <div className="p-2 lg:p-0">
+                <Carousel
+                  items={heroCarouselImages}
+                  height="h-[200px] md:h-[400px]"
+                  arrowClassName="bg-custom-tranparent-dark backdrop-blur-xl"
+                  autoAdvance={true}
+                  autoAdvanceInterval={5000}
+                  className="rounded-lg"
                 />
               </div>
               <div className="space-y-5">
@@ -96,7 +122,7 @@ export default function MerchantPage({
           </div>
         </div>
       </div>
-      <BottomNav />
+      {/* <BottomNav /> */}
     </>
   );
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 
-import { cn } from "@/lib/utils";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import { Button } from "@/components/ui/button";
 import HeartIcon from "@/components/icon/heart";
@@ -25,7 +24,7 @@ export default function MerchantHeader({
 
   if (isLoading) {
     return (
-      <div className="bg-white lg:rounded-2xl overflow-hidden lg:mb-8 shadow-sm lg:border border-gray-100">
+      <div className="bg-white lg:rounded-2xl overflow-hidden shadow-sm lg:border border-gray-100">
         {/* Hero Image Skeleton */}
         <div className="relative w-full h-48 md:h-64 bg-gray-200 animate-pulse">
           {/* Logo positioned over hero image */}
@@ -68,10 +67,10 @@ export default function MerchantHeader({
   }
 
   return (
-    <div className="bg-white lg:rounded-2xl overflow-hidden lg:mb-8 shadow-sm lg:border border-gray-100">
+    <div className="bg-white lg:rounded-2xl overflow-hidden border">
       {/* Hero Image */}
       <div className="relative w-full h-48 md:h-64">
-        <Image
+        {/* <Image
           src={outlet?.banner || outlet?.image || "/assets/logo.png"}
           alt={outlet?.name || "outlet"}
           fill
@@ -80,7 +79,12 @@ export default function MerchantHeader({
             "object-center"
           )}
           priority
-        />
+        /> */}
+        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+          <div className="font-bold text-7xl text-gray-300 border w-30 h-30 flex items-center justify-center rounded-xl">
+            <span>H</span>
+          </div>
+        </div>
 
         {/* Logo positioned over hero image */}
         <div className="absolute -bottom-10 left-6">
