@@ -126,7 +126,13 @@ export default function MenuCard({
             </span>
             <div
               className=" h-9 w-9 grid place-content-center rounded-full"
-              onClick={() => setQuantity(quantity + 1)}
+              onClick={() => {
+                if (userId) {
+                  setQuantity(quantity + 1);
+                } else {
+                  document.getElementById("auth-trigger-dialog")?.click();
+                }
+              }}
             >
               <Plus className="text-primary" />
             </div>
