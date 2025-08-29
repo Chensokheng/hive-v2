@@ -18,7 +18,7 @@ export const getOutletMenu = async (outletId: number) => {
       name: menu.name,
       items: menu.menu_items.map((item) => {
         return {
-          id: menu.id,
+          id: item.id,
           image: item.thumbnail_image_name
             ? getImageUrl(item.thumbnail_image_name)
             : "",

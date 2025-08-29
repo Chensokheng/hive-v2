@@ -23,7 +23,7 @@ export default async function getUserInfo() {
   const user = (await res.json()) as UserProfile;
 
   return {
-    userId: user.data.user_id,
+    userId: user.data.id,
     userName: user.data.fullName,
     voucher: user.data.totalVouchers,
     stamps: user.data.totalVouchers,

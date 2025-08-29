@@ -70,7 +70,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider>
           {children}
-          <Toaster richColors position="top-right" />
+          <Toaster position="top-right" />
         </NextIntlClientProvider>
       </body>
     </html>

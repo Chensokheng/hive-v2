@@ -1,35 +1,129 @@
-import React from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
-import { useGlobalState } from "@/store";
-import { Plus } from "lucide-react";
+import { addItemtoCart } from "@/services/add-item-to-cart";
+import { useQueryClient } from "@tanstack/react-query";
+import { Minus, Plus } from "lucide-react";
+import { toast } from "sonner";
+import { useDebouncedCallback } from "use-debounce";
 
-export default function MenuCard() {
-  const setOpenMenuToCartSheet = useGlobalState(
-    (state) => state.setOpenMenuToCartSheet
-  );
+import { cn } from "@/lib/utils";
+
+export default function MenuCard({
+  img,
+  name,
+  price,
+  rate,
+  userId,
+  outletId,
+  menuQuantity,
+  menuItemId,
+}: {
+  img: string;
+  userId: number;
+  outletId: number;
+  name: string;
+  price: number;
+  rate: number;
+  menuQuantity: number;
+  menuItemId: number;
+}) {
+  const [isPending, startTranstition] = useTransition();
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  const [quantity, setQuantity] = useState(menuQuantity);
+
+  const queryClient = useQueryClient();
+
+  const handleAddtoCart = useDebouncedCallback(() => {
+    startTranstition(async () => {
+      const res = await addItemtoCart({
+        userId: Number(userId),
+        outletId: outletId,
+        qty: quantity,
+        menuItemId: menuItemId,
+        addNew: false,
+        type: "delivery",
+      });
+      if (!res.status) {
+        setQuantity(menuQuantity);
+        toast.error(res.error_message);
+        return;
+      }
+      queryClient.invalidateQueries({
+        queryKey: ["outlet-unpaid-item", userId, outletId],
+      });
+    });
+  }, 500);
+
+  useEffect(() => {
+    if (isInitialRender) {
+      setIsInitialRender(false);
+      return;
+    }
+    handleAddtoCart();
+  }, [quantity]);
+
   return (
     <div className="bg-white inline-block rounded-xl">
       <div className="h-40 w-full   sm:h-70 sm:w-70 relative">
         <Image
-          src={"/fake/promotions.png"}
+          src={img || "/fake/promotions.png"}
           alt=""
-          className=" object-cover rounded-t-xl"
+          className="object-cover object-center rounded-t-xl"
           fill
         />
         <div
-          className=" absolute top-3 right-3 h-9 w-9 rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
-          onClick={() => setOpenMenuToCartSheet(true)}
+          className={cn(
+            " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
+          )}
         >
-          <Plus className="text-primary" />
+          {/* {isSelecting && isPending && !menuInCart?.quantity ? (
+            <span className="h-9 w-9 grid place-content-center">
+              <Loader2 className="text-primary animate-spin" />
+            </span>
+          ) : ( */}
+          <div className="flex items-center">
+            {quantity > 0 && (
+              <button
+                className={cn(
+                  " h-9 w-9 grid place-content-center rounded-full cursor-pointer"
+                )}
+                onClick={() => setQuantity(quantity - 1)}
+              >
+                <Minus className="text-primary" />
+              </button>
+            )}
+
+            <span
+              className={cn(
+                " text-center focus:outline-none font-bold w-9 mx-auto",
+                quantity === 0 ? "hidden" : "block",
+                {
+                  "animate-pulse": isPending,
+                }
+              )}
+            >
+              {quantity}
+            </span>
+            <div
+              className=" h-9 w-9 grid place-content-center rounded-full"
+              onClick={() => setQuantity(quantity + 1)}
+            >
+              <Plus className="text-primary" />
+            </div>
+          </div>
+          {/* )} */}
         </div>
       </div>
-      <div className="px-5 py-4">
-        <h1 className="text-[#161F2F] font-semibold">Menu title</h1>
+      <div className="px-5 py-4 break-words">
+        <h1 className="text-[#161F2F] font-semibold  break-all">{name}</h1>
         <div>
           <div className="flex items-center gap-1">
-            <span className="text-lg font-bold text-primary">$ 2.5$</span>
+            <span className="text-lg font-bold text-primary">${price}</span>
           </div>
-          <span className="text-xs font-medium text-[#363F4F]/60">≈10000៛</span>
+          <span className="text-xs font-medium text-[#363F4F]/60">
+            ≈{rate ? rate * price : 0}៛
+          </span>
         </div>
       </div>
     </div>

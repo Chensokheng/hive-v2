@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { BottomNav } from "@/components/hive";
-import AuthForm from "@/components/hive/auth-form";
+import AuthForm from "@/components/hive/auth/auth-form";
 import UserProfile from "@/components/hive/auth/user-profile";
 
 export default function Page() {

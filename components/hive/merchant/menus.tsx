@@ -1,10 +1,13 @@
-import React from "react";
-import Image from "next/image";
-import { Plus } from "lucide-react";
+import React, { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletMenu from "@/hooks/use-get-outlet-menu";
+import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
+import useGetUserInfo from "@/hooks/use-get-user-info";
+
+import MenuCard from "./menu-card";
 
 export default function Menus({
   merchantName,
@@ -13,7 +16,10 @@ export default function Menus({
   merchantName: string;
   outletName: string;
 }) {
+  const [selectedMenuId, setSelectedMenu] = useState<number | null>(null);
+
   const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchantName);
+  const { data: user } = useGetUserInfo();
 
   const foundOutlet = merchantInfo?.find(
     (item) => item.shortName === outletName
@@ -22,8 +28,13 @@ export default function Menus({
   const { data: menus } = useGetOutletMenu(foundOutlet?.id!);
   const { data: rate } = useGetExchangeRate();
 
+  const { data: unpaidItem, isLoading: isLoadingCartItems } =
+    useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
+
+  const queryClient = useQueryClient();
+
   if (isLoading) {
-    return <h1>Hello</h1>;
+    return <h1>loading...</h1>;
   }
 
   return (
@@ -35,36 +46,32 @@ export default function Menus({
               {menu.name}
             </h1>
             <div className="grid grid-cols-2 sm:flex flex-wrap gap-2  sm:gap-5 px-2">
-              {menu.items?.map((item, index) => (
-                <div className="bg-white inline-block rounded-xl" key={index}>
-                  <div className="h-40 w-full   sm:h-70 sm:w-70 relative">
-                    <Image
-                      src={item.image || "/fake/promotions.png"}
-                      alt=""
-                      className="object-cover object-center rounded-t-xl"
-                      fill
-                    />
-                    <div className=" absolute top-3 right-3 h-9 w-9 rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer">
-                      <Plus className="text-primary" />
-                    </div>
-                  </div>
-                  <div className="px-5 py-4">
-                    <h1 className="text-[#161F2F] font-semibold">
-                      {item.name}
-                    </h1>
-                    <div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-lg font-bold text-primary">
-                          ${item.price}
-                        </span>
-                      </div>
-                      <span className="text-xs font-medium text-[#363F4F]/60">
-                        ≈{rate ? rate * item.price : 0}៛
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {menu.items?.map((item, index) => {
+                const menuInCart = unpaidItem?.items?.find(
+                  (value) => value.menuItemId === item.id
+                );
+
+                const isSelecting = selectedMenuId === item.id;
+                const menuQuantity = menuInCart?.quantity || 0;
+
+                if (isLoadingCartItems) {
+                  return <div key={index}></div>;
+                }
+
+                return (
+                  <MenuCard
+                    key={index}
+                    img={item.image}
+                    price={item.price}
+                    rate={rate!}
+                    userId={Number(user?.userId!)}
+                    outletId={foundOutlet?.id!}
+                    name={item.name}
+                    menuQuantity={menuQuantity}
+                    menuItemId={item.id}
+                  />
+                );
+              })}
             </div>
           </div>
         );
