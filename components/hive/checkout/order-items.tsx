@@ -164,12 +164,14 @@ const OrderItem = ({
         </div>
 
         <div className="flex items-center gap-4">
-          <button
-            className="rounded-full bg-primary/10 h-7 w-7 grid place-content-center cursor-pointer text-primary disabled:text-primary/50 "
-            onClick={() => setQuantity(quantity - 1)}
-          >
-            <Minus className="h-5 w-5" />
-          </button>
+          {quantity !== 0 && (
+            <button
+              className="rounded-full bg-primary/10 h-7 w-7 grid place-content-center cursor-pointer text-primary disabled:text-primary/50 "
+              onClick={() => setQuantity(quantity - 1)}
+            >
+              <Minus className="h-5 w-5" />
+            </button>
+          )}
           <span className="text-[#161F2F] font-bold">{quantity}</span>
           <button
             className="rounded-full bg-primary/10 h-7 w-7 grid place-content-center cursor-pointer"

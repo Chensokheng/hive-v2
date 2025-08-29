@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import React from "react";
 
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
@@ -16,8 +15,6 @@ export default function Menus({
   merchantName: string;
   outletName: string;
 }) {
-  const [selectedMenuId, setSelectedMenu] = useState<number | null>(null);
-
   const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchantName);
   const { data: user } = useGetUserInfo();
 
@@ -30,8 +27,6 @@ export default function Menus({
 
   const { data: unpaidItem, isLoading: isLoadingCartItems } =
     useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
-
-  const queryClient = useQueryClient();
 
   if (isLoading) {
     return <h1>loading...</h1>;

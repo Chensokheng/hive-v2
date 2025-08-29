@@ -9,16 +9,7 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
 
-export default function MenuCard({
-  img,
-  name,
-  price,
-  rate,
-  userId,
-  outletId,
-  menuQuantity,
-  menuItemId,
-}: {
+interface MenuCardProps {
   img: string;
   userId: number;
   outletId: number;
@@ -27,7 +18,18 @@ export default function MenuCard({
   rate: number;
   menuQuantity: number;
   menuItemId: number;
-}) {
+}
+
+function MenuCard({
+  img,
+  name,
+  price,
+  rate,
+  userId,
+  outletId,
+  menuQuantity,
+  menuItemId,
+}: MenuCardProps) {
   const [isPending, startTranstition] = useTransition();
   const [isInitialRender, setIsInitialRender] = useState(true);
   const isSyncingFromProp = useRef(false);
@@ -155,3 +157,5 @@ export default function MenuCard({
     </div>
   );
 }
+
+export default React.memo(MenuCard);

@@ -24,15 +24,14 @@ export function FloatingCart({
   return (
     <>
       {/* Floating Cart Button */}
-      <div
-        className={cn(
-          "fixed  right-3 z-50 transition-all ",
-          quantity === 0 ? "-bottom-50" : "bottom-10"
-        )}
-      >
+      <div className={cn("fixed right-3 z-50 transition-all bottom-10")}>
         <button
           className="relative bg-gradient-to-r from-blue-500 to-pink-500 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-15 sm:w-auto sm:px-6 h-15 flex items-center justify-center cursor-pointer"
-          onClick={() => setCheckoutSheetOpen(true)}
+          onClick={() => {
+            if (quantity > 0) {
+              setCheckoutSheetOpen(true);
+            }
+          }}
         >
           {/* Cart Count Badge */}
           <div className="absolute -top-4 right-1 sm:-top-2 sm:-left-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">
