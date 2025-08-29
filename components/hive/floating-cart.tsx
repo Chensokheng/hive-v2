@@ -19,6 +19,8 @@ export function FloatingCart({
     (state) => state.setCheckoutSheetOpen
   );
 
+  const isOrderChangeItem = useGlobalState((state) => state.isOrderChangeItem);
+
   return (
     <>
       {/* Floating Cart Button */}
@@ -34,7 +36,11 @@ export function FloatingCart({
         >
           {/* Cart Count Badge */}
           <div className="absolute -top-4 right-1 sm:-top-2 sm:-left-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">
-            {isFetching ? <Loader2 className=" animate-spin" /> : quantity}
+            {isFetching || isOrderChangeItem ? (
+              <Loader2 className=" animate-spin" />
+            ) : (
+              quantity
+            )}
           </div>
 
           {/* Icons */}

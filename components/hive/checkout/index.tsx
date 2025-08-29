@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
@@ -24,10 +25,15 @@ export default function Checkout({
     (item) => item.shortName === outletName
   );
 
-  const { data: unpaidItem, isFetching } = useGetOutletUnpaidItem(
-    Number(user?.userId!),
-    foundOutlet?.id!
-  );
+  const {
+    data: unpaidItem,
+    isFetching,
+    isLoading,
+  } = useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <div className="w-full">
@@ -36,7 +42,10 @@ export default function Checkout({
         isFetching={isFetching}
       />
 
-      <CheckoutSheet />
+      <CheckoutSheet
+        unpaidItem={unpaidItem as OutletUnpaidItemsDto}
+        isFetching={isFetching}
+      />
     </div>
   );
 }

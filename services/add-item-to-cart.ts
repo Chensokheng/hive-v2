@@ -24,8 +24,6 @@ export const addItemtoCart = async (params: {
     process.env.NEXT_PUBLIC_HIVE_BASE_API +
     `/api/web/delivery/carts?outlet_id=${params.outletId}`;
 
-  console.log(params);
-
   const res = await fetch(apiPath, {
     method: "POST",
     headers: {
@@ -46,6 +44,5 @@ export const addItemtoCart = async (params: {
   });
 
   const data = await res.json();
-  console.log(data, "xxx");
   return data;
 };

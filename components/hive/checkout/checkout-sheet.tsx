@@ -2,7 +2,10 @@
 
 import React, { useEffect } from "react";
 import { useGlobalState } from "@/store";
+import { OutletUnpaidItemsDto } from "@/types-v2/dto";
+import { Loader2 } from "lucide-react";
 
+import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import {
   Sheet,
   SheetContent,
@@ -16,35 +19,20 @@ import DeliveryInfo from "./delivery-info";
 import OrderItems from "./order-items";
 import PaymentMethod from "./payment-method";
 
-export default function CheckoutSheet() {
-  const cartItems = [
-    {
-      id: 1,
-      name: "Grilled Seafood Platter",
-      restaurant: "Ocean Delights",
-      price: 28.5,
-      quantity: 1,
-      image: "/seafood-platter.png",
-    },
-    {
-      id: 2,
-      name: "Traditional Khmer Curry",
-      restaurant: "Angkor Kitchen",
-      price: 15.75,
-      quantity: 1,
-      image: "/khmer-curry.png",
-    },
-  ];
-
-  // const totalPrice = cartItems.reduce(
-  //   (sum, item) => sum + item.price * item.quantity,
-  //   0
-  // );
-
+export default function CheckoutSheet({
+  unpaidItem,
+  isFetching,
+}: {
+  unpaidItem: OutletUnpaidItemsDto;
+  isFetching: boolean;
+}) {
   const checkoutSheetOpen = useGlobalState((state) => state.checkoutSheetOpen);
   const setCheckoutSheetOpen = useGlobalState(
     (state) => state.setCheckoutSheetOpen
   );
+
+  const { data: rate } = useGetExchangeRate();
+  const isOrderChangeItem = useGlobalState((state) => state.isOrderChangeItem);
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -53,6 +41,12 @@ export default function CheckoutSheet() {
       setCheckoutSheetOpen(true);
     }
   }, [setCheckoutSheetOpen]);
+
+  useEffect(() => {
+    if (unpaidItem?.totalQuantity === 0) {
+      setCheckoutSheetOpen(false);
+    }
+  }, [unpaidItem?.totalQuantity]);
 
   return (
     <Sheet
@@ -77,7 +71,7 @@ export default function CheckoutSheet() {
           <div className="bg-white p-4">
             <DeliveryInfo />
           </div>
-          <OrderItems />
+          <OrderItems unpaidItem={unpaidItem} isFetching={isFetching} />
           <PaymentMethod />
           <div className="flex-1"></div>
 
@@ -88,13 +82,23 @@ export default function CheckoutSheet() {
               </h1>
               <div className="flex flex-col justify-end">
                 <h1 className=" font-bold text-right bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent text-[1.375rem]">
-                  $6
+                  ${unpaidItem?.finalTotal}
                 </h1>
-                <p className=" text-[#161F2F]"> ≈10000៛</p>
+                <p className=" text-[#161F2F]">
+                  {" "}
+                  ≈{unpaidItem?.finalTotal * (rate || 0)}៛
+                </p>
               </div>
             </div>
-            <button className="font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white">
-              PLACE ORDER
+            <button
+              className="font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white"
+              disabled={isFetching}
+            >
+              {isFetching || isOrderChangeItem ? (
+                <Loader2 className=" animate-spin mx-auto h-7" />
+              ) : (
+                "PLACE ORDER"
+              )}
             </button>
           </div>
         </div>

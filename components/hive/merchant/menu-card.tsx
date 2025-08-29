@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
+import { useGlobalState } from "@/store";
 import { useQueryClient } from "@tanstack/react-query";
 import { Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -29,8 +30,13 @@ export default function MenuCard({
 }) {
   const [isPending, startTranstition] = useTransition();
   const [isInitialRender, setIsInitialRender] = useState(true);
+  const isSyncingFromProp = useRef(false);
 
   const [quantity, setQuantity] = useState(menuQuantity);
+
+  const setisOrderChangeItem = useGlobalState(
+    (state) => state.setisOrderChangeItem
+  );
 
   const queryClient = useQueryClient();
 
@@ -52,14 +58,32 @@ export default function MenuCard({
       queryClient.invalidateQueries({
         queryKey: ["outlet-unpaid-item", userId, outletId],
       });
+      setisOrderChangeItem(false);
     });
   }, 500);
+
+  // Sync local quantity with prop changes
+  useEffect(() => {
+    isSyncingFromProp.current = true;
+    setQuantity(menuQuantity);
+    // Reset the flag in the next tick
+    setTimeout(() => {
+      isSyncingFromProp.current = false;
+    }, 0);
+  }, [menuQuantity]);
 
   useEffect(() => {
     if (isInitialRender) {
       setIsInitialRender(false);
       return;
     }
+
+    // Don't trigger API call if quantity is being synced from prop
+    if (isSyncingFromProp.current) {
+      return;
+    }
+
+    setisOrderChangeItem(true);
     handleAddtoCart();
   }, [quantity]);
 
