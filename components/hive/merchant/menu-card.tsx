@@ -64,8 +64,8 @@ export default function MenuCard({
   }, [quantity]);
 
   return (
-    <div className="bg-white inline-block rounded-xl">
-      <div className="h-40 w-full   sm:h-70 sm:w-70 relative">
+    <div className=" block w-full max-w-full rounded-xl bg-white">
+      <div className="h-40 w-full   sm:h-70 md:w-full relative ">
         <Image
           src={img || "/fake/promotions.png"}
           alt=""
@@ -77,11 +77,6 @@ export default function MenuCard({
             " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
           )}
         >
-          {/* {isSelecting && isPending && !menuInCart?.quantity ? (
-            <span className="h-9 w-9 grid place-content-center">
-              <Loader2 className="text-primary animate-spin" />
-            </span>
-          ) : ( */}
           <div className="flex items-center">
             {quantity > 0 && (
               <button
@@ -112,11 +107,12 @@ export default function MenuCard({
               <Plus className="text-primary" />
             </div>
           </div>
-          {/* )} */}
         </div>
       </div>
-      <div className="px-5 py-4 break-words">
-        <h1 className="text-[#161F2F] font-semibold  break-all">{name}</h1>
+      <div className="px-5 py-4 w-full">
+        <h1 className="text-[#161F2F] font-semibold break-words overflow-hidden text-ellipsis">
+          {name}
+        </h1>
         <div>
           <div className="flex items-center gap-1">
             <span className="text-lg font-bold text-primary">${price}</span>
