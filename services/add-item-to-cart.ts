@@ -47,10 +47,12 @@ export const addItemtoCart = async (params: {
 
   const data = (await res.json()) as AddtoCartResponse;
 
+  console.log(data, "---");
+
   return {
     status: data.status,
-    totalQuantity: data.data.qty,
-    subtotal: data.data.subtotal,
-    finalTotal: data.data.final_total,
+    totalQuantity: data.data?.qty || 0,
+    subtotal: data.data?.subtotal || 0,
+    finalTotal: data.data?.final_total || 0,
   };
 };
