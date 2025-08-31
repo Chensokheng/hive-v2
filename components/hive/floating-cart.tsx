@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { usePathname } from "@/i18n/navigation";
 import { useGlobalState } from "@/store";
 
 import { cn } from "@/lib/utils";
@@ -20,9 +18,6 @@ export function FloatingCart({
     (state) => state.setCheckoutSheetOpen
   );
 
-  const router = useRouter();
-  const pathname = usePathname();
-
   return (
     <>
       {/* Floating Cart Button */}
@@ -32,7 +27,6 @@ export function FloatingCart({
           onClick={() => {
             if (quantity > 0) {
               setCheckoutSheetOpen(true);
-              router.push(pathname + "?checkout");
             }
           }}
         >

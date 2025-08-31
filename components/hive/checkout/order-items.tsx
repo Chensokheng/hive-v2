@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useGlobalState } from "@/store";
@@ -99,6 +99,7 @@ const OrderItem = ({
 
   const [isPending, startTranstition] = useTransition();
   const [isInitialRender, setIsInitialRender] = useState(true);
+  const isSyncingFromProp = useRef(false);
 
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -145,10 +146,24 @@ const OrderItem = ({
   }, 500);
 
   useEffect(() => {
+    isSyncingFromProp.current = true;
+    setQuantity(item.quantity);
+    // Reset the flag in the next tick
+    setTimeout(() => {
+      isSyncingFromProp.current = false;
+    }, 0);
+  }, [item.quantity]);
+
+  useEffect(() => {
     if (isInitialRender) {
       setIsInitialRender(false);
       return;
     }
+    // Don't trigger API call if quantity is being synced from prop
+    if (isSyncingFromProp.current) {
+      return;
+    }
+
     setisOrderChangeItem(true);
     handleAddtoCart();
   }, [quantity]);

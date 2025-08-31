@@ -47,8 +47,6 @@ export const addItemtoCart = async (params: {
 
   const data = (await res.json()) as AddtoCartResponse;
 
-  console.log(data, "---");
-
   return {
     status: data.status,
     totalQuantity: data.data?.qty || 0,
