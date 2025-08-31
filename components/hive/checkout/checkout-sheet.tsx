@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useTransition } from "react";
+import placeOrder from "@/services/place-order";
 import { useGlobalState } from "@/store";
 import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 import { Loader2 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import {
   Sheet,
@@ -30,9 +32,53 @@ export default function CheckoutSheet({
   const setCheckoutSheetOpen = useGlobalState(
     (state) => state.setCheckoutSheetOpen
   );
+  const [isPending, startTransition] = useTransition();
 
   const { data: rate } = useGetExchangeRate();
   const isOrderChangeItem = useGlobalState((state) => state.isOrderChangeItem);
+
+  const makeOrder = () => {
+    startTransition(async () => {
+      try {
+        const res = await placeOrder({
+          cartId: unpaidItem.cartId,
+          receiverPhone: unpaidItem.userInfo.phone,
+          userId: unpaidItem.userInfo.userId,
+          receiverName: unpaidItem.userInfo.name,
+        });
+
+        // Check if payment response exists
+        if (res.data) {
+          const deepLink = res.data.data.deeplink;
+          const webView = res.data.data.webview;
+          console.log(deepLink, webView);
+          const timeout = 2000; // 2 seconds timeout
+          const clickedAt = Date.now();
+
+          // Try to redirect to the app first
+          if (deepLink) {
+            window.location.href = deepLink;
+
+            // Fallback to webview if app doesn't open
+            setTimeout(() => {
+              // If the time passed is too short, the user probably switched to the app
+              if (Date.now() - clickedAt < timeout + 100) {
+                if (webView) {
+                  window.open(webView, "_blank");
+                }
+              }
+            }, timeout);
+          } else if (webView) {
+            // If no deep link, open webview directly
+            window.open(webView, "_blank");
+          }
+        }
+      } catch (error) {
+        console.error("Failed to place order:", error);
+        // Handle error appropriately (show toast, etc.)
+      }
+    });
+  };
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -91,10 +137,16 @@ export default function CheckoutSheet({
               </div>
             </div>
             <button
-              className="font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white"
-              disabled={isFetching}
+              className={cn(
+                "font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white",
+                {
+                  " animate-pulse": isOrderChangeItem || isPending,
+                }
+              )}
+              disabled={isFetching || isOrderChangeItem || isPending}
+              onClick={makeOrder}
             >
-              {isFetching || isOrderChangeItem ? (
+              {isFetching ? (
                 <Loader2 className=" animate-spin mx-auto h-7" />
               ) : (
                 "PLACE ORDER"

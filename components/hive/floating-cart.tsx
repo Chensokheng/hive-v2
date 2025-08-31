@@ -1,7 +1,6 @@
 "use client";
 
 import { useGlobalState } from "@/store";
-import { Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -35,11 +34,7 @@ export function FloatingCart({
         >
           {/* Cart Count Badge */}
           <div className="absolute -top-4 right-1 sm:-top-2 sm:-left-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">
-            {isFetching || isOrderChangeItem ? (
-              <Loader2 className=" animate-spin" />
-            ) : (
-              quantity
-            )}
+            {quantity}
           </div>
 
           {/* Icons */}

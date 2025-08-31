@@ -14,7 +14,7 @@ export default async function signin(phoneNumber: string) {
         number_phone: phoneNumber,
         country_code: 855,
       },
-      password: "111111",
+      password: "123456",
     }),
   });
 

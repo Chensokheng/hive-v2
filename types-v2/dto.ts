@@ -7,6 +7,11 @@ export type OutletUnpaidItemsDto = {
   shippingFee: number;
   distance: number;
   totalVat: number;
+  userInfo: {
+    userId: number;
+    name: string;
+    phone: string;
+  };
   items: {
     id: number;
     outletId: number;

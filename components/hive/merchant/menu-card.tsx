@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useGlobalState } from "@/store";
+import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 import { useQueryClient } from "@tanstack/react-query";
 import { Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -44,6 +45,16 @@ function MenuCard({
 
   const handleAddtoCart = useDebouncedCallback(() => {
     startTranstition(async () => {
+      queryClient.setQueryData(
+        ["outlet-unpaid-item", userId, outletId],
+        (oldData: OutletUnpaidItemsDto) => {
+          return {
+            ...(oldData as OutletUnpaidItemsDto),
+            totalQuantity: oldData.totalQuantity - menuQuantity + quantity,
+          };
+        }
+      );
+
       const res = await addItemtoCart({
         userId: Number(userId),
         outletId: outletId,
@@ -54,9 +65,9 @@ function MenuCard({
       });
       if (!res.status) {
         setQuantity(menuQuantity);
-        toast.error(res.error_message);
-        return;
+        toast.error(res.message);
       }
+
       queryClient.invalidateQueries({
         queryKey: ["outlet-unpaid-item", userId, outletId],
       });

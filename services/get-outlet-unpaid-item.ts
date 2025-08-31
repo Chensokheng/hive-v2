@@ -30,30 +30,43 @@ export default async function getOutletUnpaidItem(
   );
   const cartOutlet = (await res.json()) as UnpaidOutletItems;
 
+  // console.log(cartOutlet, "---");
+  // handle null
+
+  if (cartOutlet.data) {
+    return {
+      cartId: cartOutlet.data.id,
+      totalQuantity: cartOutlet.data.qty,
+      subtotal: cartOutlet.data.subtotal,
+      finalTotal: cartOutlet.data.final_total,
+      otherFee: cartOutlet.data.other_fee,
+      shippingFee: cartOutlet.data.shipping_fee,
+      distance: cartOutlet.data.distance,
+      totalVat: cartOutlet.data.total_custom_vat,
+      userInfo: {
+        userId: cartOutlet.data.user.id,
+        name: cartOutlet.data.user.fullName,
+        phone: cartOutlet.data.user.phone,
+      },
+      items: cartOutlet.data.items.map((item) => {
+        return {
+          id: item.id,
+          outletId: item.menuItem.outlet_id,
+          menuItemId: item.menu_item_id,
+          quantity: item.qty,
+          basePrice: item.base_price,
+          promotionPrice: item.promotion_price,
+          note: item.note,
+          image: item.menuItem.thumbnail_image_name
+            ? getImageUrl(item.menuItem.thumbnail_image_name)
+            : "",
+          nameEn: item.menuItem.name_en,
+          name: item.menuItem.name,
+        };
+      }),
+    };
+  }
   return {
-    cartId: cartOutlet.data.id,
-    totalQuantity: cartOutlet.data.qty,
-    subtotal: cartOutlet.data.subtotal,
-    finalTotal: cartOutlet.data.final_total,
-    otherFee: cartOutlet.data.other_fee,
-    shippingFee: cartOutlet.data.shipping_fee,
-    distance: cartOutlet.data.distance,
-    totalVat: cartOutlet.data.total_custom_vat,
-    items: cartOutlet.data.items.map((item) => {
-      return {
-        id: item.id,
-        outletId: item.menuItem.outlet_id,
-        menuItemId: item.menu_item_id,
-        quantity: item.qty,
-        basePrice: item.base_price,
-        promotionPrice: item.promotion_price,
-        note: item.note,
-        image: item.menuItem.thumbnail_image_name
-          ? getImageUrl(item.menuItem.thumbnail_image_name)
-          : "",
-        nameEn: item.menuItem.name_en,
-        name: item.menuItem.name,
-      };
-    }),
+    status: false,
   };
 }

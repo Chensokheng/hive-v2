@@ -118,11 +118,25 @@ const OrderItem = ({
         addNew: false,
         type: "delivery",
       });
+
       if (!res.status) {
         setQuantity(item.quantity);
-        toast.error(res.error_message);
+        toast.error(res.message);
         return;
       }
+
+      queryClient.setQueryData(
+        ["outlet-unpaid-item", user?.userId, item.outletId],
+        (oldData: OutletUnpaidItemsDto) => {
+          return {
+            ...(oldData as OutletUnpaidItemsDto),
+            totalQuantity: res.totalQuantity,
+            subtotal: res.subtotal,
+            finalTotal: res.finalTotal,
+          };
+        }
+      );
+
       queryClient.invalidateQueries({
         queryKey: ["outlet-unpaid-item", user?.userId, item.outletId],
       });

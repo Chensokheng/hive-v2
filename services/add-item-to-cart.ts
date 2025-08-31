@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { AddtoCartResponse } from "@/types-v2";
 
 export const addItemtoCart = async (params: {
   userId: number;
@@ -17,7 +18,8 @@ export const addItemtoCart = async (params: {
 
   if (!token) {
     return {
-      error: "Unauthorize",
+      status: false,
+      message: "Unauthorize",
     };
   }
   const apiPath =
@@ -43,6 +45,12 @@ export const addItemtoCart = async (params: {
     }),
   });
 
-  const data = await res.json();
-  return data;
+  const data = (await res.json()) as AddtoCartResponse;
+
+  return {
+    status: data.status,
+    totalQuantity: data.data.qty,
+    subtotal: data.data.subtotal,
+    finalTotal: data.data.final_total,
+  };
 };
