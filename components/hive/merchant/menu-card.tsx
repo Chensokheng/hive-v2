@@ -118,9 +118,18 @@ function MenuCard({
             {quantity > 0 && (
               <button
                 className={cn(
-                  " h-9 w-9 grid place-content-center rounded-full cursor-pointer"
+                  " h-9 w-9 grid place-content-center rounded-full cursor-pointer",
+                  {
+                    "animate-pulse": isPending,
+                  }
                 )}
-                onClick={() => setQuantity(quantity - 1)}
+                onClick={() => {
+                  if (isPending) {
+                    return;
+                  }
+
+                  setQuantity(quantity - 1);
+                }}
               >
                 <Minus className="text-primary" />
               </button>
@@ -138,8 +147,14 @@ function MenuCard({
               {quantity}
             </span>
             <div
-              className=" h-9 w-9 grid place-content-center rounded-full"
+              className={cn(" h-9 w-9 grid place-content-center rounded-full", {
+                "animate-pulse": isPending,
+              })}
               onClick={() => {
+                if (isPending) {
+                  return;
+                }
+
                 if (userId) {
                   setQuantity(quantity + 1);
                 } else {
