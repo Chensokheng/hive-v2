@@ -247,6 +247,7 @@ export default function AddMenuToCart() {
                 isPending && " animate-pulse"
               )}
               onClick={() => handleAddToCart()}
+              disabled={isPending || selectedAddons.length === 0}
             >
               Add to Cart - ${totalPrice.toFixed(2)}{" "}
               <span className="text-xs font-medium">

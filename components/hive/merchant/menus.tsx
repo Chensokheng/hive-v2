@@ -42,15 +42,14 @@ export default function Menus({
             </h1>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-5">
               {menu.items?.map((item, index) => {
-                const menuInCart = unpaidItem?.items?.find(
-                  (value) => value.menuItemId === item.id
-                );
-
-                const menuQuantity = menuInCart?.quantity || 0;
-
-                if (isLoadingCartItems) {
-                  return <div key={index}></div>;
-                }
+                const menuQuantity =
+                  unpaidItem?.items
+                    ?.filter((value) => value.menuItemId === item.id)
+                    ?.reduce((sum, value) => sum + (value.quantity || 0), 0) ||
+                  0;
+                // if (isLoadingCartItems) {
+                //   return <div key={index}></div>;
+                // }
 
                 return (
                   <MenuCard

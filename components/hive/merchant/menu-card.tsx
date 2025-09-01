@@ -78,6 +78,11 @@ function MenuCard({
   }, 500);
 
   const handleIncrement = () => {
+    if (!userId) {
+      document.getElementById("auth-trigger-dialog")?.click();
+      return;
+    }
+
     if (hasAddOn) {
       setAddOnMenu({
         outletId,
