@@ -13,6 +13,8 @@ import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";
 
+import EditMenuCartItem from "../merchant/edit-menu-cart-item";
+
 export default function OrderItems({
   unpaidItem,
   isFetching,
@@ -29,6 +31,9 @@ export default function OrderItems({
           );
         })}
       </div>
+
+      {/* Edit Menu Cart Item Component */}
+      <EditMenuCartItem />
       {/* summary */}
       <div className="py-6 space-y-4 border-t">
         <h2 className="font-bold text-[#161F2F]">Summary</h2>
@@ -108,6 +113,22 @@ const OrderItem = ({
     (state) => state.setisOrderChangeItem
   );
 
+  const setEditCartItemData = useGlobalState(
+    (state) => state.setEditCartItemData
+  );
+
+  const handleEditItem = () => {
+    // Set the edit cart item data to open the edit sheet
+    setEditCartItemData({
+      cartItemId: item.id,
+      outletId: item.outletId,
+      menuItemId: item.menuItemId,
+      quantity: item.quantity,
+      note: item.note || "",
+      selectedAddons: item.cartAddonItems || [],
+    });
+  };
+
   const handleAddtoCart = useDebouncedCallback(() => {
     startTranstition(async () => {
       const res = await addItemtoCart({
@@ -164,7 +185,10 @@ const OrderItem = ({
         " animate-pulse": isFetching,
       })}
     >
-      <div className="relative aspect-square w-14 ">
+      <div
+        className="relative aspect-square w-14 cursor-pointer "
+        onClick={handleEditItem}
+      >
         <Image
           src={item?.image || "/fake/menu-popup.png"}
           alt="Example"
@@ -172,14 +196,17 @@ const OrderItem = ({
           className="object-cover rounded-lg"
         />
       </div>
-      <div className=" flex items-center justify-between flex-1 flex-col sm:flex-row gap-2">
+      <div className=" flex items-start sm:items-center justify-between flex-1 flex-col sm:flex-row gap-2">
         <div className="space-y-2">
-          <h1 className=" font-semibold text-[#161F2F]">{item?.name}</h1>
-          <p className="text-sm text-[#303D55]/60">
-            {item?.formatedAddonItems}
-          </p>
-
-          <p className="text-sm text-[#303D55]/60">{item?.note}</p>
+          <div className="flex items-start justify-between gap-2">
+            <div>
+              <h1 className="font-semibold text-[#161F2F]">{item?.name}</h1>
+              <p className="text-sm text-[#303D55]/60">
+                {item?.formatedAddonItems}
+              </p>
+              <p className="text-sm text-[#303D55]/60">{item?.note}</p>
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
