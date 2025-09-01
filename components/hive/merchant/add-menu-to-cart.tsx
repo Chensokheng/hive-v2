@@ -1,11 +1,25 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import Image from "next/image";
-import { AddonCategory, SelectedAddon } from "@/types";
+import { addItemtoCart } from "@/services/add-item-to-cart";
+import { useGlobalState } from "@/store";
+import { SelectedAddon } from "@/types";
+import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
+import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
+import useGetMenuAddOn from "@/hooks/use-get-menu-addOn";
+import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
@@ -13,167 +27,37 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import XIcon from "@/components/icon/x";
 
 import AddonCategoryComponent from "./addon-category";
 
-// Sample addon data - in real app this would come from props or API
-const sampleAddonCategories: AddonCategory[] = [
-  {
-    id: 107,
-    name: "Ice",
-    required: 1,
-    maximum_purchase: 1,
-    minimum_purchase: 1,
-    items: [
-      {
-        id: 330,
-        status: 1,
-        price: 0,
-        name: "Ice In",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 107,
-        master_addon_id: 330,
-      },
-      {
-        id: 331,
-        status: 1,
-        price: 0,
-        name: "Ice Out",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 107,
-        master_addon_id: 331,
-      },
-    ],
-  },
-  {
-    id: 108,
-    name: "Sugar Level",
-    required: 1,
-    maximum_purchase: 1,
-    minimum_purchase: 1,
-    items: [
-      {
-        id: 332,
-        status: 1,
-        price: 0,
-        name: "Sugar 0%",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 108,
-        master_addon_id: 332,
-      },
-      {
-        id: 333,
-        status: 1,
-        price: 0,
-        name: "Sugar 50%",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 108,
-        master_addon_id: 333,
-      },
-      {
-        id: 334,
-        status: 1,
-        price: 0,
-        name: "Sugar 30%",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 108,
-        master_addon_id: 334,
-      },
-      {
-        id: 335,
-        status: 1,
-        price: 0,
-        name: "Sugar 20%",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 108,
-        master_addon_id: 335,
-      },
-      {
-        id: 336,
-        status: 1,
-        price: 0,
-        name: "Sugar 10%",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 108,
-        master_addon_id: 336,
-      },
-    ],
-  },
-  {
-    id: 109,
-    name: "Extra Toppings",
-    required: 0,
-    maximum_purchase: 3,
-    minimum_purchase: 0,
-    items: [
-      {
-        id: 337,
-        status: 1,
-        price: 0.5,
-        name: "Extra Cheese",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 109,
-        master_addon_id: 337,
-      },
-      {
-        id: 338,
-        status: 1,
-        price: 0.75,
-        name: "Extra Bacon",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 109,
-        master_addon_id: 338,
-      },
-      {
-        id: 339,
-        status: 1,
-        price: 0.25,
-        name: "Extra Sauce",
-        name_vi: "",
-        name_th: "",
-        minimum_purchase: 0,
-        maximum_purchase: 1,
-        addon_category_id: 109,
-        master_addon_id: 339,
-      },
-    ],
-  },
-];
-
 export default function AddMenuToCart() {
   const [quantity, setQuantity] = useState(1);
   const [selectedAddons, setSelectedAddons] = useState<SelectedAddon[]>([]);
-  const basePrice = 4.75;
+  const addOnMenuKey = useGlobalState((state) => state.addOnMenuKey);
+  const noteRef = useRef("");
+  const [isPending, startTranstition] = useTransition();
+  const queryClient = useQueryClient();
+
+  const { data: menuAddOn } = useGetMenuAddOn(
+    addOnMenuKey.outletId,
+    addOnMenuKey.menuItemId
+  );
+
+  const { data: user } = useGetUserInfo();
+
+  const { data: unpaidItem } = useGetOutletUnpaidItem(
+    Number(user?.userId),
+    Number(addOnMenuKey.outletId)
+  );
+
+  const [basePrice, setBasePrice] = useState(menuAddOn?.price || 0);
+
+  const addOnSheetOpen = useGlobalState((state) => state.addOnSheetOpen);
+  const setAddOnSheetOpen = useGlobalState((state) => state.setAddOnSheetOpen);
+
+  const { data: rate } = useGetExchangeRate();
 
   const handleAddonChange = (
     categoryId: number,
@@ -215,11 +99,61 @@ export default function AddMenuToCart() {
     });
   };
 
+  const handleAddToCart = async () => {
+    startTranstition(async () => {
+      const existingItem = unpaidItem?.items?.find(
+        (item) => item.menuItemId === addOnMenuKey.menuItemId
+      );
+
+      const addonDetails = selectedAddons.map((addon) => ({
+        qty: 1,
+        addon_detail_id: addon.itemId,
+      }));
+
+      const isSameAddOn = addonDetails.every((addon) =>
+        existingItem?.cartAddonItems.some(
+          (item) => item.addon_detail_id === addon.addon_detail_id
+        )
+      );
+
+      const cartId =
+        isSameAddOn && existingItem?.note === noteRef.current
+          ? existingItem?.id
+          : null;
+
+      const res = await addItemtoCart({
+        cartItemId: cartId,
+        userId: Number(user?.userId),
+        outletId: addOnMenuKey?.outletId,
+        qty: cartId ? quantity + (existingItem?.quantity || 0) : quantity,
+        menuItemId: addOnMenuKey?.menuItemId,
+        addNew: true,
+        addonDetails: addonDetails,
+        note: noteRef.current,
+      });
+      if (!res.status) {
+        toast.error("Faild to add this item to cart");
+      }
+      setAddOnSheetOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: ["outlet-unpaid-item", user?.userId, addOnMenuKey.outletId],
+      });
+    });
+  };
+
+  useEffect(() => {
+    const isHasVariationAddOn = menuAddOn?.addOn.find(
+      (item) => item.name.toLowerCase() === "variation"
+    );
+    if (!isHasVariationAddOn) {
+      setBasePrice(menuAddOn?.price || 0);
+    } else {
+      setBasePrice(0);
+    }
+  }, [menuAddOn]);
+
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <Button>Add Menu to Cart</Button>
-      </SheetTrigger>
+    <Sheet open={addOnSheetOpen} onOpenChange={setAddOnSheetOpen}>
       <SheetContent
         showCloseBtn={false}
         className="max-w-full sm:max-w-[400px] w-full  border-0"
@@ -243,7 +177,7 @@ export default function AddMenuToCart() {
 
           <div className="relative aspect-square w-full">
             <Image
-              src="/fake/menu-popup.png"
+              src={menuAddOn?.image || "/fake/menu-popup.png"}
               alt="Example"
               fill
               className="object-cover"
@@ -251,24 +185,22 @@ export default function AddMenuToCart() {
           </div>
 
           <div className="py-4 px-5">
-            <h1 className=" font-semibold text-[#161F2F]">
-              Tendercrip + King Nuggets 4pcs
-            </h1>
+            <h1 className=" font-semibold text-[#161F2F]">{menuAddOn?.name}</h1>
             <div className="flex items-center gap-2">
               <span className="text-primary font-bold text-lg">
-                ${basePrice.toFixed(2)}
+                ${menuAddOn?.price}
               </span>
               <span className="text-xs font-medium text-[#363F4F]/60">
-                ≈10000៛
+                ≈{(menuAddOn?.price || 0) * (rate || 0)}៛
               </span>
             </div>
             <p className="text-sm text-[#303D55]/60">
-              King Nuggets 4pcs, Include 2X Ketchup
+              {menuAddOn?.description}
             </p>
 
             {/* Addon Categories */}
             <div className="py-6 space-y-6">
-              {sampleAddonCategories.map((category) => (
+              {menuAddOn?.addOn.map((category) => (
                 <AddonCategoryComponent
                   key={category.id}
                   category={category}
@@ -287,11 +219,12 @@ export default function AddMenuToCart() {
                 placeholder="e.g No onions, extra sauce, etc."
                 autoFocus={false}
                 tabIndex={-1}
+                onChange={(e) => (noteRef.current = e.target.value)}
               />
             </div>
           </div>
           {/* Add to cart button */}
-          <div className="fixed flex-col bottom-0 gap-4 w-[400px] py-5 flex items-center justify-center bg-white px-5">
+          <div className="fixed flex-col bottom-0 gap-4 w-full sm:w-[400px] py-5 flex items-center justify-center bg-white px-5">
             <div className="flex items-center gap-4">
               <button
                 className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer text-primary disabled:text-primary/50"
@@ -308,10 +241,16 @@ export default function AddMenuToCart() {
                 <Plus className="text-primary" />
               </button>
             </div>
-            <button className="font-bold text-lg rounded-full bg-primary py-3 w-full text-white">
+            <button
+              className={cn(
+                "font-bold text-lg rounded-full bg-primary py-3 w-full text-white",
+                isPending && " animate-pulse"
+              )}
+              onClick={() => handleAddToCart()}
+            >
               Add to Cart - ${totalPrice.toFixed(2)}{" "}
               <span className="text-xs font-medium">
-                ≈{Math.round(totalPrice * 4100)}៛
+                ≈{Math.round(totalPrice * (rate || 0))}៛
               </span>
             </button>
           </div>

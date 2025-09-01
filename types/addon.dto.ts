@@ -16,7 +16,7 @@ export interface AddonCategory {
   name: string;
   required: number; // 1 for required, 0 for optional
   maximum_purchase: number;
-  minimum_purchase: number;
+  minimum_purchase: number | null;
   items: AddonItem[];
 }
 

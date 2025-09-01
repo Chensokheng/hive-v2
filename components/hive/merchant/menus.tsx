@@ -63,6 +63,7 @@ export default function Menus({
                     name={item.name}
                     menuQuantity={menuQuantity}
                     menuItemId={item.id}
+                    hasAddOn={item.hasAddOn}
                   />
                 );
               })}

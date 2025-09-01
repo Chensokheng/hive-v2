@@ -84,7 +84,6 @@ export default function AuthRegisterForm({
     },
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("Form submitted:", data);
     // Call the callback to trigger slide animation
     setPhoneNumber(data.phoneNumber);
     onSubmitCallback?.();

@@ -13,6 +13,7 @@ import { ChevronLeft } from "lucide-react";
 import Auth from "@/components/hive/auth";
 import { Carousel } from "@/components/hive/carousel";
 import Checkout from "@/components/hive/checkout";
+import AddMenuToCart from "@/components/hive/merchant/add-menu-to-cart";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import { CouponSection } from "@/components/hive/merchant/coupon";
 import FlashSale from "@/components/hive/merchant/flash-sale";
@@ -103,6 +104,7 @@ export default function MerchantPage({
           </div>
         </div>
         <Checkout merchantName={merchant} outletName={outlet} />
+        <AddMenuToCart />
       </div>
     </>
   );

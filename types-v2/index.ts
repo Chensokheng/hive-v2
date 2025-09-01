@@ -1008,3 +1008,97 @@ export type AddtoCartResponse = {
 };
 
 // add to cart response
+
+// menu add on response
+
+export type MenuAddOnItemResponse = {
+  status: boolean;
+  data: {
+    id: number;
+    category_id: number;
+    name: string;
+    name_en: string;
+    name_zh: string;
+    name_ko: string;
+    name_fr: string;
+    name_ru: string;
+    name_ja: string;
+    name_vi: string;
+    name_th: string;
+    description: string;
+    description_en: string;
+    description_zh: string;
+    description_ko: string;
+    description_fr: string;
+    description_ru: string;
+    description_ja: string;
+    description_vi: string;
+    description_th: string;
+    notes: string | null;
+    image_name: string;
+    thumbnail_image_name: string;
+    base_price: number;
+    promotion_price: number;
+    status: number;
+    adults_only: number;
+    recommended: boolean;
+    type: string;
+    time_out_of_stock: string | null;
+    itemCd: string;
+    menuCategory: {
+      use_showing_hours: number;
+      showing_hours: string | null;
+      available_times: string | null;
+    };
+    addon_categories: {
+      id: number;
+      name: string;
+      required: number;
+      maximum_purchase: number;
+      minimum_purchase: number | null;
+      items: {
+        id: number;
+        status: number;
+        price: number;
+        name: string;
+        name_vi: string;
+        name_th: string;
+        minimum_purchase: number;
+        maximum_purchase: number;
+        addon_category_id: number;
+        master_addon_id: number;
+      }[];
+    }[];
+    discount_percent: number;
+    icons: any[];
+    brand: string | null;
+  };
+};
+
+// menu add on response
+
+// {
+//   "user_id": 160,
+//   "menu_item_id": 406,
+//   "cart_item_id": null,
+//   "qty": 1,
+//   "add_new": true,
+//   "note": "",
+//   "addon_items": [
+//       {
+//           "qty": 20,
+//           "addon_detail_id": 121
+//       },
+//       {
+//           "qty": 20,
+//           "addon_detail_id": 123
+//       },
+//       {
+//           "qty": 10,
+//           "addon_detail_id": 125
+//       }
+//   ],
+//   "isCustomDiscounted": false,
+//   "is_web": 1,
+//   "type": "delivery"
+// }

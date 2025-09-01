@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useGlobalState } from "@/store";
@@ -19,6 +19,7 @@ interface MenuCardProps {
   rate: number;
   menuQuantity: number;
   menuItemId: number;
+  hasAddOn: boolean;
 }
 
 function MenuCard({
@@ -30,16 +31,16 @@ function MenuCard({
   outletId,
   menuQuantity,
   menuItemId,
+  hasAddOn,
 }: MenuCardProps) {
   const [isPending, startTranstition] = useTransition();
-  const [isInitialRender, setIsInitialRender] = useState(true);
-  const isSyncingFromProp = useRef(false);
-
   const [quantity, setQuantity] = useState(menuQuantity);
+  const [isUserAction, setUserAction] = useState(false);
 
   const setisOrderChangeItem = useGlobalState(
     (state) => state.setisOrderChangeItem
   );
+  const setAddOnMenu = useGlobalState((state) => state.setAddOnMenu);
 
   const queryClient = useQueryClient();
 
@@ -72,33 +73,83 @@ function MenuCard({
         queryKey: ["outlet-unpaid-item", userId, outletId],
       });
       setisOrderChangeItem(false);
+      setUserAction(false);
     });
   }, 500);
 
-  // Sync local quantity with prop changes
-  useEffect(() => {
-    isSyncingFromProp.current = true;
-    setQuantity(menuQuantity);
-    // Reset the flag in the next tick
-    setTimeout(() => {
-      isSyncingFromProp.current = false;
-    }, 0);
-  }, [menuQuantity]);
-
-  useEffect(() => {
-    if (isInitialRender) {
-      setIsInitialRender(false);
+  const handleIncrement = () => {
+    if (hasAddOn) {
+      setAddOnMenu({
+        outletId,
+        menuItemId,
+      });
+      addExistMenuData();
+      document.getElementById("add-menu-add-on-trigger")?.click();
       return;
     }
 
-    // Don't trigger API call if quantity is being synced from prop
-    if (isSyncingFromProp.current) {
+    if (isPending) {
+      return;
+    }
+    if (userId) {
+      setQuantity(quantity + 1);
+      setUserAction(true);
+    } else {
+      document.getElementById("auth-trigger-dialog")?.click();
+    }
+  };
+  const handleDecrement = () => {
+    if (hasAddOn) {
+      setAddOnMenu({
+        outletId,
+        menuItemId,
+      });
+      addExistMenuData();
+      document.getElementById("add-menu-add-on-trigger")?.click();
+      return;
+    }
+    if (isPending) {
+      return;
+    }
+
+    setQuantity(quantity - 1);
+    setUserAction(true);
+  };
+
+  const addExistMenuData = () => {
+    queryClient.setQueryData(
+      ["ouletmenu-addon", outletId, menuItemId],
+      (oldData: any) => {
+        return {
+          ...oldData,
+          image: img,
+          name: name,
+          price: price,
+          rate: rate,
+          menuItemId: menuItemId,
+          hasAddOn: hasAddOn,
+          addOn: [],
+        };
+      }
+    );
+    queryClient.invalidateQueries({
+      queryKey: ["ouletmenu-addon", outletId, menuItemId],
+    });
+  };
+
+  // Sync local quantity with prop changes
+  useEffect(() => {
+    setQuantity(menuQuantity);
+  }, [menuQuantity]);
+
+  useEffect(() => {
+    if (!isUserAction) {
       return;
     }
 
     setisOrderChangeItem(true);
     handleAddtoCart();
-  }, [quantity]);
+  }, [quantity, isUserAction]);
 
   return (
     <div className=" block w-full max-w-full rounded-xl bg-white">
@@ -108,6 +159,7 @@ function MenuCard({
           alt=""
           className="object-cover object-center rounded-t-xl"
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
         <div
           className={cn(
@@ -123,13 +175,7 @@ function MenuCard({
                     "animate-pulse": isPending,
                   }
                 )}
-                onClick={() => {
-                  if (isPending) {
-                    return;
-                  }
-
-                  setQuantity(quantity - 1);
-                }}
+                onClick={handleDecrement}
               >
                 <Minus className="text-primary" />
               </button>
@@ -150,17 +196,7 @@ function MenuCard({
               className={cn(" h-9 w-9 grid place-content-center rounded-full", {
                 "animate-pulse": isPending,
               })}
-              onClick={() => {
-                if (isPending) {
-                  return;
-                }
-
-                if (userId) {
-                  setQuantity(quantity + 1);
-                } else {
-                  document.getElementById("auth-trigger-dialog")?.click();
-                }
-              }}
+              onClick={handleIncrement}
             >
               <Plus className="text-primary" />
             </div>

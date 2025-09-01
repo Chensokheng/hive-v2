@@ -20,6 +20,8 @@ export type OutletUnpaidItemsDto = {
     basePrice: number;
     promotionPrice: number;
     note: string;
+    formatedAddonItems: string;
+    cartAddonItems: any[];
     image: string;
     nameEn: string;
     name: string;

@@ -51,6 +51,5 @@ export default async function placeOrder(params: {
   });
 
   const data = await res.json();
-  console.log(data);
   return data;
 }

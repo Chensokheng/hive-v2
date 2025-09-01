@@ -30,9 +30,6 @@ export default async function getOutletUnpaidItem(
   );
   const cartOutlet = (await res.json()) as UnpaidOutletItems;
 
-  // console.log(cartOutlet, "---");
-  // handle null
-
   if (cartOutlet.data) {
     return {
       cartId: cartOutlet.data.id,
@@ -57,11 +54,13 @@ export default async function getOutletUnpaidItem(
           basePrice: item.base_price,
           promotionPrice: item.promotion_price,
           note: item.note,
+          formatedAddonItems: item.formated_addon_items,
           image: item.menuItem.thumbnail_image_name
             ? getImageUrl(item.menuItem.thumbnail_image_name)
             : "",
           nameEn: item.menuItem.name_en,
           name: item.menuItem.name,
+          cartAddonItems: item.cart_addon_items,
         };
       }),
     };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useGlobalState } from "@/store";
@@ -98,8 +98,7 @@ const OrderItem = ({
   const { data: user } = useGetUserInfo();
 
   const [isPending, startTranstition] = useTransition();
-  const [isInitialRender, setIsInitialRender] = useState(true);
-  const isSyncingFromProp = useRef(false);
+  const [isUserAction, setIsUserAction] = useState(false);
 
   const [quantity, setQuantity] = useState(item.quantity);
 
@@ -118,6 +117,7 @@ const OrderItem = ({
         menuItemId: item.menuItemId,
         addNew: false,
         type: "delivery",
+        addonDetails: item.cartAddonItems,
       });
 
       if (!res.status) {
@@ -125,6 +125,7 @@ const OrderItem = ({
         toast.error(res.message);
         return;
       }
+      setIsUserAction(false);
 
       queryClient.setQueryData(
         ["outlet-unpaid-item", user?.userId, item.outletId],
@@ -146,27 +147,16 @@ const OrderItem = ({
   }, 500);
 
   useEffect(() => {
-    isSyncingFromProp.current = true;
     setQuantity(item.quantity);
-    // Reset the flag in the next tick
-    setTimeout(() => {
-      isSyncingFromProp.current = false;
-    }, 0);
   }, [item.quantity]);
 
   useEffect(() => {
-    if (isInitialRender) {
-      setIsInitialRender(false);
+    if (!isUserAction) {
       return;
     }
-    // Don't trigger API call if quantity is being synced from prop
-    if (isSyncingFromProp.current) {
-      return;
-    }
-
     setisOrderChangeItem(true);
     handleAddtoCart();
-  }, [quantity]);
+  }, [quantity, isUserAction]);
 
   return (
     <div
@@ -185,9 +175,9 @@ const OrderItem = ({
       <div className=" flex items-center justify-between flex-1 flex-col sm:flex-row gap-2">
         <div className="space-y-2">
           <h1 className=" font-semibold text-[#161F2F]">{item?.name}</h1>
-          {/* <p className="text-sm text-[#303D55]/60">
-        No Ice, Extra shot
-      </p> */}
+          <p className="text-sm text-[#303D55]/60">
+            {item?.formatedAddonItems}
+          </p>
 
           <p className="text-sm text-[#303D55]/60">{item?.note}</p>
         </div>
@@ -207,6 +197,7 @@ const OrderItem = ({
                 }
 
                 setQuantity(quantity - 1);
+                setIsUserAction(true);
               }}
             >
               <Minus className="h-5 w-5" />
@@ -226,6 +217,7 @@ const OrderItem = ({
               }
 
               setQuantity(quantity + 1);
+              setIsUserAction(true);
             }}
           >
             <Plus className="text-primary h-5 w-5" />

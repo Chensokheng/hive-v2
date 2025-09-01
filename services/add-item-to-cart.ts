@@ -11,6 +11,8 @@ export const addItemtoCart = async (params: {
   addNew: boolean;
   note?: string;
   type?: string;
+  addonDetails?: { qty: number; addon_detail_id: number }[];
+  cartItemId?: number | null;
 }) => {
   const cookieStore = await cookies();
 
@@ -36,12 +38,13 @@ export const addItemtoCart = async (params: {
     body: JSON.stringify({
       user_id: params.userId,
       menu_item_id: params.menuItemId,
-      cart_item_id: null,
+      cart_item_id: params.cartItemId ? params.cartItemId : null,
       qty: params.qty,
       add_new: params.addNew,
       note: params.note || "",
       is_web: 1,
       type: "delivery",
+      addon_items: params.addonDetails || [],
     }),
   });
 
