@@ -92,6 +92,19 @@ export default function AddMenuToCart() {
 
   const totalPrice = (basePrice + totalAddonPrice) * quantity;
 
+  // Check if all required addon categories have at least one selection
+  const areRequiredAddonsSelected = useMemo(() => {
+    if (!menuAddOn?.addOn) return true;
+
+    const requiredCategories = menuAddOn.addOn.filter(
+      (category) => category.required === 1
+    );
+
+    return requiredCategories.every((requiredCategory) =>
+      selectedAddons.some((addon) => addon.categoryId === requiredCategory.id)
+    );
+  }, [menuAddOn?.addOn, selectedAddons]);
+
   const handleQuantityChange = (increment: boolean) => {
     setQuantity((prev) => {
       if (increment) return prev + 1;
@@ -233,6 +246,7 @@ export default function AddMenuToCart() {
               >
                 <Minus />
               </button>
+
               <span className="text-[#161F2F] font-bold">{quantity}</span>
               <button
                 className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer"
@@ -243,16 +257,23 @@ export default function AddMenuToCart() {
             </div>
             <button
               className={cn(
-                "font-bold text-lg rounded-full bg-primary py-3 w-full text-white",
-                isPending && " animate-pulse"
+                "font-bold text-lg rounded-full py-3 w-full text-white transition-all duration-200",
+                isPending && " animate-pulse",
+                !areRequiredAddonsSelected
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary/90"
               )}
               onClick={() => handleAddToCart()}
-              disabled={isPending || selectedAddons.length === 0}
+              disabled={!areRequiredAddonsSelected}
             >
-              Add to Cart - ${totalPrice.toFixed(2)}{" "}
-              <span className="text-xs font-medium">
-                ≈{Math.round(totalPrice * (rate || 0))}៛
-              </span>
+              {!areRequiredAddonsSelected
+                ? "Please select required options"
+                : `Add to Cart - $${totalPrice.toFixed(2)}`}{" "}
+              {areRequiredAddonsSelected && (
+                <span className="text-xs font-medium">
+                  ≈{Math.round(totalPrice * (rate || 0))}៛
+                </span>
+              )}
             </button>
           </div>
         </div>

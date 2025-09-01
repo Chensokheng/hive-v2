@@ -129,6 +129,19 @@ export default function EditMenuCartItem() {
 
   const totalPrice = (basePrice + totalAddonPrice) * quantity;
 
+  // Check if all required addon categories have at least one selection
+  const areRequiredAddonsSelected = useMemo(() => {
+    if (!menuAddOn?.addOn) return true;
+
+    const requiredCategories = menuAddOn.addOn.filter(
+      (category) => category.required === 1
+    );
+
+    return requiredCategories.every((requiredCategory) =>
+      selectedAddons.some((addon) => addon.categoryId === requiredCategory.id)
+    );
+  }, [menuAddOn?.addOn, selectedAddons]);
+
   const handleQuantityChange = (increment: boolean) => {
     setQuantity((prev) => {
       if (increment) return prev + 1;
@@ -304,16 +317,23 @@ export default function EditMenuCartItem() {
 
               <button
                 className={cn(
-                  "font-bold text-lg rounded-full bg-primary py-3 flex-1 text-white",
-                  isPending && "animate-pulse"
+                  "font-bold  rounded-full py-3 flex-1 text-white transition-all duration-200",
+                  isPending && "animate-pulse",
+                  !areRequiredAddonsSelected
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-primary hover:bg-primary/90"
                 )}
                 onClick={() => handleUpdateCart()}
-                disabled={isPending}
+                disabled={isPending || !areRequiredAddonsSelected}
               >
-                Update - ${totalPrice.toFixed(2)}{" "}
-                <span className="text-xs font-medium">
-                  ≈{Math.round(totalPrice * (rate || 0))}៛
-                </span>
+                {!areRequiredAddonsSelected
+                  ? "Please select required options"
+                  : `Update - $${totalPrice.toFixed(2)}`}{" "}
+                {areRequiredAddonsSelected && (
+                  <span className="text-xs font-medium">
+                    ≈{Math.round(totalPrice * (rate || 0))}៛
+                  </span>
+                )}
               </button>
             </div>
           </div>
