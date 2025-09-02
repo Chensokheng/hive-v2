@@ -25,5 +25,12 @@ export type OutletUnpaidItemsDto = {
     image: string;
     nameEn: string;
     name: string;
+    cartDiscountedProduct: {
+      discountedProductId: number;
+      itemCd: string;
+      sellingPrice: number;
+      cartItemId: number;
+      id: number;
+    };
   }[];
 };

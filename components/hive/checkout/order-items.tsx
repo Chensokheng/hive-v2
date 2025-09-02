@@ -218,6 +218,7 @@ const OrderItem = ({
                   "animate-pulse": isPending,
                 }
               )}
+              disabled={item.cartDiscountedProduct ? true : false}
               onClick={() => {
                 if (isPending) {
                   return;
@@ -233,7 +234,7 @@ const OrderItem = ({
           <span className="text-[#161F2F] font-bold">{quantity}</span>
           <button
             className={cn(
-              "rounded-full bg-primary/10 h-7 w-7 grid place-content-center cursor-pointer",
+              "rounded-full bg-primary/10 h-7 w-7 grid place-content-center cursor-pointe text-primary disabled:text-primary/50 cursor-pointer",
               {
                 "animate-pulse": isPending,
               }
@@ -246,18 +247,30 @@ const OrderItem = ({
               setQuantity(quantity + 1);
               setIsUserAction(true);
             }}
+            disabled={item.cartDiscountedProduct ? true : false}
           >
-            <Plus className="text-primary h-5 w-5" />
+            <Plus className=" h-5 w-5" />
           </button>
         </div>
       </div>
       <div>
         <h1 className=" font-semibold text-[#161F2F] text-right flex items-center justify-center">
-          $ {item?.basePrice * quantity}
+          ${" "}
+          {item.cartDiscountedProduct
+            ? item.cartDiscountedProduct.sellingPrice === 0
+              ? "Free"
+              : item.cartDiscountedProduct.sellingPrice
+            : item?.basePrice * quantity}
         </h1>
         <p className="text-sm text-[#303D55]/60">
           {" "}
-          ≈{item?.basePrice * (rate || 0) * quantity}៛
+          ≈
+          {item.cartDiscountedProduct
+            ? item.cartDiscountedProduct.sellingPrice === 0
+              ? "Free"
+              : item.cartDiscountedProduct.sellingPrice
+            : item?.basePrice * (rate || 0) * quantity}
+          ៛
         </p>
       </div>
     </div>

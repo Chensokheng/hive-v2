@@ -148,6 +148,9 @@ export default function AddMenuToCart() {
         toast.error("Faild to add this item to cart");
       }
       setAddOnSheetOpen(false);
+      setQuantity(0);
+      setSelectedAddons([]);
+      noteRef.current = "";
       queryClient.invalidateQueries({
         queryKey: ["outlet-unpaid-item", user?.userId, addOnMenuKey.outletId],
       });

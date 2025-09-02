@@ -44,12 +44,13 @@ export default function Menus({
               {menu.items?.map((item, index) => {
                 const menuQuantity =
                   unpaidItem?.items
-                    ?.filter((value) => value.menuItemId === item.id)
+                    ?.filter(
+                      (value) =>
+                        value.menuItemId === item.id &&
+                        value.cartDiscountedProduct === null
+                    )
                     ?.reduce((sum, value) => sum + (value.quantity || 0), 0) ||
                   0;
-                // if (isLoadingCartItems) {
-                //   return <div key={index}></div>;
-                // }
 
                 return (
                   <MenuCard

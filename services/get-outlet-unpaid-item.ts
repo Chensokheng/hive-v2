@@ -61,6 +61,16 @@ export default async function getOutletUnpaidItem(
           nameEn: item.menuItem.name_en,
           name: item.menuItem.name,
           cartAddonItems: item.cart_addon_items,
+          cartDiscountedProduct: item.cart_discounted_product
+            ? {
+                discountedProductId:
+                  item.cart_discounted_product.discounted_product_id,
+                itemCd: item.cart_discounted_product.itemCd,
+                sellingPrice: item.cart_discounted_product.selling_price,
+                cartItemId: item.id,
+                id: item.cart_discounted_product.id,
+              }
+            : null,
         };
       }),
     };

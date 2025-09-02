@@ -41,6 +41,7 @@ export const addItemtoCart = async (params: {
       cart_item_id: params.cartItemId ? params.cartItemId : null,
       qty: params.qty,
       add_new: params.addNew,
+      // isCustomDiscounted: false,
       note: params.note || "",
       is_web: 1,
       type: "delivery",
