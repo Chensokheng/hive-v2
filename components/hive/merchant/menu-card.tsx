@@ -20,6 +20,7 @@ interface MenuCardProps {
   menuQuantity: number;
   menuItemId: number;
   hasAddOn: boolean;
+  promotionPrice: number;
 }
 
 function MenuCard({
@@ -32,6 +33,7 @@ function MenuCard({
   menuQuantity,
   menuItemId,
   hasAddOn,
+  promotionPrice,
 }: MenuCardProps) {
   const [isPending, startTranstition] = useTransition();
   const [quantity, setQuantity] = useState(menuQuantity);
@@ -214,10 +216,15 @@ function MenuCard({
         </h1>
         <div>
           <div className="flex items-center gap-1">
-            <span className="text-lg font-bold text-primary">${price}</span>
+            <span className="text-lg font-bold text-primary">
+              $ {promotionPrice !== price ? promotionPrice : price}
+            </span>
+            {promotionPrice !== price && (
+              <span className=" line-through text-gray-400">${price}</span>
+            )}
           </div>
           <span className="text-xs font-medium text-[#363F4F]/60">
-            ≈{rate ? rate * price : 0}៛
+            ≈{Math.round(rate ? rate * price : 0)}៛
           </span>
         </div>
       </div>

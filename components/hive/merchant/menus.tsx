@@ -64,6 +64,7 @@ export default function Menus({
                     menuQuantity={menuQuantity}
                     menuItemId={item.id}
                     hasAddOn={item.hasAddOn}
+                    promotionPrice={item.promotionPrice}
                   />
                 );
               })}
