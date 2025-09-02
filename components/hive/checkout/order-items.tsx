@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useRef, useState, useTransition } from "react";
 import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useGlobalState } from "@/store";
 import { OutletUnpaidItemsDto } from "@/types-v2/dto";
+import autoAnimate from "@formkit/auto-animate";
 import { useQueryClient } from "@tanstack/react-query";
 import { Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
@@ -22,9 +23,15 @@ export default function OrderItems({
   unpaidItem: OutletUnpaidItemsDto;
   isFetching: boolean;
 }) {
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
+
   return (
     <div className="px-4  bg-white border-t-4 border-primary-bg">
-      <div className="divide-y">
+      <div className="divide-y" ref={parent}>
         {unpaidItem?.items.map((item) => {
           return (
             <OrderItem key={item.id} item={item} isFetching={isFetching} />

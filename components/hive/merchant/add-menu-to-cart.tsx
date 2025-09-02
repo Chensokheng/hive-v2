@@ -52,7 +52,7 @@ export default function AddMenuToCart() {
     Number(addOnMenuKey.outletId)
   );
 
-  const [basePrice, setBasePrice] = useState(menuAddOn?.price || 0);
+  const [basePrice, setBasePrice] = useState(menuAddOn?.price || 1);
 
   const addOnSheetOpen = useGlobalState((state) => state.addOnSheetOpen);
   const setAddOnSheetOpen = useGlobalState((state) => state.setAddOnSheetOpen);
