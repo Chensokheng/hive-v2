@@ -261,7 +261,7 @@ const OrderItem = ({
             ? item.cartDiscountedProduct.sellingPrice === 0
               ? "Free"
               : item.cartDiscountedProduct.sellingPrice
-            : item?.basePrice * quantity}
+            : (item?.basePrice * quantity).toFixed(2)}
         </h1>
         <p className="text-sm text-[#303D55]/60">
           {" "}
@@ -270,7 +270,7 @@ const OrderItem = ({
             ? item.cartDiscountedProduct.sellingPrice === 0
               ? "Free"
               : item.cartDiscountedProduct.sellingPrice
-            : item?.basePrice * (rate || 0) * quantity}
+            : (item?.basePrice * (rate || 0) * quantity).toFixed(2)}
           ៛
         </p>
       </div>
