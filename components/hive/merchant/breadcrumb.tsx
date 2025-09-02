@@ -1,5 +1,6 @@
 import React from "react";
-import { ChevronRight } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 
 interface BreadcrumbItem {
   label: string;
@@ -9,14 +10,23 @@ interface BreadcrumbItem {
 
 interface BreadcrumbProps {
   items: BreadcrumbItem[];
+  className?: string;
 }
 
-export default function Breadcrumb({ items }: BreadcrumbProps) {
+export default function Breadcrumb({
+  items,
+  className = "lg:flex hidden",
+}: BreadcrumbProps) {
   return (
-    <nav className="hidden items-center space-x-1 text-sm text-gray-600 mb-6  lg:flex">
+    <nav
+      className={cn(
+        "items-center space-x-1 text-sm text-gray-600 mb-6  ",
+        className
+      )}
+    >
       {items.map((item, index) => (
         <React.Fragment key={index}>
-          {index > 0 && <ChevronRight className="w-4 h-4 text-gray-400 mx-1" />}
+          {index > 0 && <span>{"/"}</span>}
           {item.href && !item.active ? (
             <a
               href={item.href}

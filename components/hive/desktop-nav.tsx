@@ -4,7 +4,6 @@ import React from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
-import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";
 import BellIcon from "@/components/icon/bell";
 import MapPin from "@/components/icon/map-pin";
@@ -15,8 +14,6 @@ import LangSwitcher from "./lang-switcher";
 
 export const DesktopNav = () => {
   const t = useTranslations();
-
-  const { data: user, isLoading: fetchingUser } = useGetUserInfo();
 
   return (
     <nav className="px-5 py-[1.125rem] bg-white hidden items-center gap-10 xl:gap-50 shadow-[0px_2px_4px_rgba(0,0,0,0.08)] lg:flex z-[50] sticky top-0 w-full">

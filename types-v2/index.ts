@@ -1077,28 +1077,33 @@ export type MenuAddOnItemResponse = {
 
 // menu add on response
 
-// {
-//   "user_id": 160,
-//   "menu_item_id": 406,
-//   "cart_item_id": null,
-//   "qty": 1,
-//   "add_new": true,
-//   "note": "",
-//   "addon_items": [
-//       {
-//           "qty": 20,
-//           "addon_detail_id": 121
-//       },
-//       {
-//           "qty": 20,
-//           "addon_detail_id": 123
-//       },
-//       {
-//           "qty": 10,
-//           "addon_detail_id": 125
-//       }
-//   ],
-//   "isCustomDiscounted": false,
-//   "is_web": 1,
-//   "type": "delivery"
-// }
+// merchant-outlets
+
+export type MerchantOutletsResponse = {
+  status: boolean;
+  data: {
+    type: string;
+    data: {
+      name: string;
+      outlets: {
+        id: number;
+        name: string;
+        short_name: string;
+        address: string;
+        address_en: string;
+        image: string;
+        joinedDeliveryProgram: boolean;
+        joinedContactlessProgram: boolean;
+        enableTableBooking: boolean;
+        distance: number;
+      }[];
+      isExistKolOffer: boolean;
+      enableMarketingProgram: boolean;
+      numberOfDeals: number;
+      numberOfStampDeals: number;
+      bannerDeal: string;
+    };
+  };
+};
+
+// merchant-outlets
