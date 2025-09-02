@@ -143,6 +143,7 @@ export default function AddMenuToCart() {
         addNew: true,
         addonDetails: addonDetails,
         note: noteRef.current,
+        token: user?.token,
       });
       if (!res.status) {
         toast.error("Faild to add this item to cart");

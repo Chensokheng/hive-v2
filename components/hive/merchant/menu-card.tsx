@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 
 interface MenuCardProps {
   img: string;
@@ -45,6 +46,7 @@ function MenuCard({
   const setAddOnMenu = useGlobalState((state) => state.setAddOnMenu);
 
   const queryClient = useQueryClient();
+  const { data: user } = useGetUserInfo();
 
   const handleAddtoCart = useDebouncedCallback(() => {
     startTranstition(async () => {
@@ -65,6 +67,7 @@ function MenuCard({
         menuItemId: menuItemId,
         addNew: false,
         type: "delivery",
+        token: user?.token,
       });
       if (!res.status) {
         setQuantity(menuQuantity);

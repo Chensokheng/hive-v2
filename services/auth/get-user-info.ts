@@ -28,5 +28,6 @@ export default async function getUserInfo() {
     voucher: user.data.totalVouchers,
     stamps: user.data.totalVouchers,
     tmRewardBalance: user.data.savyu_balance,
+    token,
   };
 }

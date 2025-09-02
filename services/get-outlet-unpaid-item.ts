@@ -1,18 +1,12 @@
-"use server";
-
-import { cookies } from "next/headers";
 import { UnpaidOutletItems } from "@/types-v2";
 
 import { getImageUrl } from "@/lib/utils";
 
 export default async function getOutletUnpaidItem(
   userId: number,
-  outletId: number
+  outletId: number,
+  token: string | undefined
 ) {
-  const cookieStore = await cookies();
-
-  const token = cookieStore.get("token")?.value;
-
   if (!token) {
     return {
       status: false,

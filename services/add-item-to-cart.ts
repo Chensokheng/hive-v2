@@ -1,6 +1,3 @@
-"use server";
-
-import { cookies } from "next/headers";
 import { AddtoCartResponse } from "@/types-v2";
 
 export const addItemtoCart = async (params: {
@@ -13,12 +10,9 @@ export const addItemtoCart = async (params: {
   type?: string;
   addonDetails?: { qty: number; addon_detail_id: number }[];
   cartItemId?: number | null;
+  token: string | undefined;
 }) => {
-  const cookieStore = await cookies();
-
-  const token = cookieStore.get("token")?.value;
-
-  if (!token) {
+  if (!params.token) {
     return {
       status: false,
       message: "Unauthorize",
@@ -32,7 +26,7 @@ export const addItemtoCart = async (params: {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${params.token}`,
     },
 
     body: JSON.stringify({

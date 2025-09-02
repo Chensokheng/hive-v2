@@ -165,6 +165,7 @@ export default function EditMenuCartItem() {
         addNew: false, // This is an update, not a new item
         addonDetails: addonDetails,
         note: noteRef.current,
+        token: user?.token,
       });
 
       if (!res.status) {

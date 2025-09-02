@@ -139,6 +139,7 @@ const OrderItem = ({
         addNew: false,
         type: "delivery",
         addonDetails: item.cartAddonItems,
+        token: user?.token,
       });
 
       if (!res.status) {
