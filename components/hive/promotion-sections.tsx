@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useGlobalState } from "@/store";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 interface PromotionItem {
   id: string;
@@ -125,13 +125,13 @@ function PromotionSection({
             <div className="flex items-center">
               {/* Left Navigation Button - Only show on lg screens and up */}
 
-              <button
+              {/* <button
                 onClick={scrollLeft}
                 className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden md:flex lg:items-center lg:justify-center"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="w-8 h-8 text-primary" />
-              </button>
+              </button> */}
 
               {/* Right Navigation Button - Only show on lg screens and up */}
 
@@ -162,6 +162,7 @@ function PromotionSection({
                   alt={item.title || "promotion"}
                   fill
                   className="object-cover rounded-lg"
+                  sizes="282px"
                 />
               </div>
             ))}

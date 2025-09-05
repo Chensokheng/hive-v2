@@ -9,6 +9,7 @@ import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 
 import { Toaster } from "@/components/ui/sonner";
+import Navbar from "@/components/hive/navbar";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -69,7 +70,12 @@ export default async function RootLayout({
         className={`${locale === "kh" ? kantumruy.className : inter.className} antialiased`}
       >
         <NextIntlClientProvider>
-          {children}
+          <main className="max-w-[1920px] mx-auto bg-[#F2F6FF]">
+            <Navbar />
+
+            {children}
+          </main>
+
           <Toaster position="top-right" />
         </NextIntlClientProvider>
       </body>

@@ -16,6 +16,7 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => (
       src={item.image}
       alt={item.alt}
       fill
+      sizes="1200px"
       className="object-cover object-center rounded-3xl"
       priority={index === 0}
     />

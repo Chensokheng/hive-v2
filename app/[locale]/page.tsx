@@ -1,73 +1,26 @@
-"use client";
-
 import React from "react";
-import { DESKTOP_BANNERS } from "@/constants/banners";
 
-import useGetUserInfo from "@/hooks/use-get-user-info";
 import {
-  BackgroundEffects,
-  BannerCarousel,
-  BannerSlide,
-  BottomNav,
   CategoryGrid,
-  DesktopNav,
   PromotionSections,
   StoreGrid,
 } from "@/components/hive";
-import { Carousel } from "@/components/hive/carousel";
-import { MobileNav } from "@/components/hive/mobile-nav";
+import HeroCarousel from "@/components/hive/landing/HeroCarousel";
 
-export default function Page() {
-  useGetUserInfo();
-
-  const renderCustomSlide = (item: any, index: number) => (
-    <BannerSlide item={item} index={index} key={index} />
-  );
-
+export default function page() {
   return (
-    <>
-      <DesktopNav />
-      <div className="bg-[#F2F6FF] min-h-screen relative overflow-hidden pb-10">
-        <MobileNav />
-
-        <div className="space-y-6 relative">
-          {/* Desktop Banner Carousel */}
-          <div className="max-w-[1200px] mx-auto mt-6 p-5 md:block hidden">
-            <Carousel
-              items={DESKTOP_BANNERS}
-              height="h-[514px]"
-              autoAdvance={true}
-              autoAdvanceInterval={5000}
-              showArrows={true}
-              showDots={true}
-              className="rounded-3xl"
-              renderSlide={renderCustomSlide}
-            />
-          </div>
-
-          {/* Mobile Banner Carousel */}
-          <div className="md:hidden block">
-            <BannerCarousel />
-          </div>
-
-          {/* Category Grid */}
-          <div className="max-w-[1300px] mx-auto">
-            <CategoryGrid />
-          </div>
-
-          {/* Background Effects */}
-          <BackgroundEffects />
+    <div className="w-full min-h-screen">
+      <div className="lg:py-5">
+        <HeroCarousel />
+        <div className="max-w-[1300px] mx-auto mt-6">
+          <CategoryGrid />
         </div>
-
-        {/* Promotion Sections */}
         <PromotionSections />
 
-        {/* Store Grid */}
         <div className="max-w-[1200px] mx-auto mt-10">
           <StoreGrid />
         </div>
-        <BottomNav />
       </div>
-    </>
+    </div>
   );
 }

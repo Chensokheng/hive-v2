@@ -27,9 +27,9 @@ const defaultNavItems: NavItem[] = [
     label: "Home",
   },
   {
-    href: "/category",
+    href: "/stores",
     icon: CategoryIcon,
-    label: "Categories",
+    label: "Store",
   },
   {
     href: "/order",
@@ -64,7 +64,7 @@ export default function BottomNav({ className }: BottomNavProps) {
   return (
     <nav
       className={cn(
-        "block md:hidden fixed bottom-0 left-0 right-0 bg-white px-5 rounded-lg py-3",
+        "block lg:hidden fixed bottom-0 left-0 right-0 bg-white px-5 rounded-lg py-3 z-50",
         className
       )}
     >
@@ -75,12 +75,12 @@ export default function BottomNav({ className }: BottomNavProps) {
             <div key={index}>
               <Link
                 href={item.href}
-                className="flex items-center justify-center flex-col py-1"
+                className="flex items-center justify-center flex-col py-1 space-y-1"
               >
                 <item.icon fill={isActive ? "#FF66CC" : "#BDC5DB"} />
                 <span
                   className={cn(
-                    "text-sm font-semibold",
+                    "text-xs font-semibold",
                     isActive ? "text-primary" : "text-[#303D55]/60"
                   )}
                 >
@@ -90,20 +90,6 @@ export default function BottomNav({ className }: BottomNavProps) {
             </div>
           );
         })}
-        {/* <div
-          className="flex items-center justify-center flex-col py-1"
-          onClick={handleOpenProfile}
-        >
-          <UserIcon fill={pathname === "/profile" ? "#FF66CC" : "#BDC5DB"} />
-          <span
-            className={cn(
-              "text-sm font-semibold",
-              pathname === "/profile" ? "text-primary" : "text-[#303D55]/60"
-            )}
-          >
-            Profile
-          </span>
-        </div> */}
       </div>
     </nav>
   );

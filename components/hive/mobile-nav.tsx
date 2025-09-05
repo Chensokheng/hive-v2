@@ -4,18 +4,19 @@ import BellIcon from "../icon/bell";
 import MapPin from "../icon/map-pin";
 import SearchIcon from "../icon/search";
 import { Input } from "../ui/input";
+import BottomNav from "./bottom-nav";
 import LangSwitcher from "./lang-switcher";
 
 export const MobileNav = () => {
   return (
-    <>
-      <div className="flex items-center gap-7 justify-between sticky top-0 w-full z-50 px-5 py-[1.125rem]   lg:hidden overflow-hidden">
+    <nav className=" bg-transparent">
+      <div className="flex items-center gap-7 justify-between w-full z-50 px-5 py-[1.125rem]   lg:hidden overflow-hidden">
         <div className="h-10 w-[5.875rem] relative">
-          <Image src={"/assets/logo.png"} alt="logo" fill />
+          <Image src={"/assets/logo.png"} alt="logo" fill sizes="94px" />
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 z-50">
           <LangSwitcher>
-            <div className="h-10 bg-white flex items-center w-10  justify-center rounded-full gap-2">
+            <div className="h-10 flex items-center w-10 bg-white justify-center rounded-full gap-2">
               <Image
                 src={"/assets/en-flag.png"}
                 alt="english flag"
@@ -30,9 +31,9 @@ export const MobileNav = () => {
           </div>
         </div>
       </div>
-      <nav className="px-5 py-[1.125rem] space-y-8  items-center gap-5 xl:gap-50 w-full block lg:hidden ">
+      <div className="px-5 py-[1.125rem] space-y-6  items-center gap-5 xl:gap-50 w-full block lg:hidden z-50 ">
         <div className="flex-1 flex gap-2 items-center cursor-pointer">
-          <div className="h-10 w-10  bg-[#FFFFFF] rounded-full grid place-content-center">
+          <div className="h-10 w-10  bg-[#FFFFFF] rounded-full grid place-content-center z-50">
             <MapPin color="#FF66CC" />
           </div>
           <div className="flex-1 min-w-0">
@@ -54,7 +55,8 @@ export const MobileNav = () => {
             <SearchIcon />
           </div>
         </div>
-      </nav>
-    </>
+      </div>
+      <BottomNav />
+    </nav>
   );
 };

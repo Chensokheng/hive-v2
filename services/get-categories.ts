@@ -13,7 +13,7 @@ const transfrom = (category: CategoryResponse) => {
 };
 
 export const getCategories = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   const category = {
     status: true,
