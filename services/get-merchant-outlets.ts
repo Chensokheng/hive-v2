@@ -30,7 +30,7 @@ export async function getMerchantOutlets(
         name: outlet.name,
         shortName: outlet.short_name,
         address: outlet.address,
-        address_en: outlet.address_en,
+        addressEn: outlet.address_en,
         image: outlet.image ? getImageUrl(outlet.image) : "",
         joinedDeliveryProgram: outlet.joinedDeliveryProgram,
         joinedContactlessProgram: outlet.joinedContactlessProgram,

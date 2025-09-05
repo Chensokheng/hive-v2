@@ -1,13 +1,11 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
-  breadcrumbItems,
-  heroCarouselImages,
-  merchantCoupons,
-} from "@/fake/restaurant-data";
+import { heroCarouselImages, merchantCoupons } from "@/fake/restaurant-data";
+import { getMerchantOutlets } from "@/services/get-merchant-outlets";
+import { BreadcrumbItem } from "@/types";
 import { ChevronLeft } from "lucide-react";
 
 import Auth from "@/components/hive/auth";
@@ -28,8 +26,61 @@ export default function MerchantPage({
   params: Promise<{ locale: string; merchant: string; outlet: string }>;
 }) {
   const { locale, merchant, outlet } = use(params);
+  const [breadcrumbItems, setBreadcrumbItems] = useState<BreadcrumbItem[]>([]);
 
   const router = useRouter();
+
+  // Generate dynamic breadcrumbs
+  useEffect(() => {
+    const generateBreadcrumbs = async () => {
+      let merchantDisplayName = merchant;
+      let outletDisplayName = outlet;
+
+      try {
+        const merchantData = await getMerchantOutlets(
+          merchant,
+          undefined,
+          undefined
+        );
+        if (merchantData.marchantName) {
+          merchantDisplayName = merchantData.marchantName;
+        }
+
+        // Find the specific outlet for display name
+        const currentOutlet = merchantData.outlets?.find(
+          (o) => o.shortName === outlet || o.name === outlet
+        );
+        if (currentOutlet?.name) {
+          outletDisplayName = currentOutlet.name;
+        }
+      } catch (error) {
+        console.log(
+          "Failed to fetch merchant/outlet names, using URL parameters"
+        );
+      }
+
+      const items: BreadcrumbItem[] = [
+        {
+          label: "Home",
+          href: `/${locale}`,
+          active: false,
+        },
+        {
+          label: merchantDisplayName,
+          href: `/${locale}/${merchant}`,
+          active: false,
+        },
+        {
+          label: outletDisplayName,
+          active: true,
+        },
+      ];
+
+      setBreadcrumbItems(items);
+    };
+
+    generateBreadcrumbs();
+  }, [locale, merchant, outlet]);
 
   return (
     <>

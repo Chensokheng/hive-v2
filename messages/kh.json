@@ -6,6 +6,9 @@
     "deliveryAddress": "អាសយដ្ឋានដឹកជញ្ជូន",
     "enterDeliveryAddress": "បញ្ចូលអាសយដ្ឋានដឹកជញ្ជូន"
   },
+  "breadcrumb": {
+    "home": "ទំព័រដើម"
+  },
 
   "language": {
     "kh": "ខ្មែរ",

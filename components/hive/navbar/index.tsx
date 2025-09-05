@@ -8,9 +8,9 @@ import { MobileNav } from "../mobile-nav";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const displayPaths = ["/"];
+  const displayPaths = ["/profile"];
 
-  if (!displayPaths.includes(pathname)) {
+  if (displayPaths.includes(pathname)) {
     return null;
   }
 

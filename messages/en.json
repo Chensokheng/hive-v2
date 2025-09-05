@@ -6,6 +6,9 @@
     "deliveryAddress": "Delivery Address",
     "enterDeliveryAddress": "Enter delivery address"
   },
+  "breadcrumb": {
+    "home": "Home"
+  },
   "language": {
     "kh": "Khmer",
     "en": "English",

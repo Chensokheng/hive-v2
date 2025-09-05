@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 import { Input } from "@/components/ui/input";
@@ -14,9 +15,11 @@ import LangSwitcher from "./lang-switcher";
 
 export const DesktopNav = () => {
   const t = useTranslations();
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
 
   return (
-    <nav className="px-5 py-[1.125rem] bg-white hidden items-center gap-10 xl:gap-50 shadow-[0px_2px_4px_rgba(0,0,0,0.08)] lg:flex z-[50] sticky top-0 w-full">
+    <nav className="px-5 py-[1.125rem] bg-white hidden items-center gap-10 xl:gap-50 shadow-[0px_2px_4px_rgba(0,0,0,0.08)] lg:flex z-[50] sticky top-0 w-full justify-between">
       <div className="flex items-center gap-7">
         <div className="h-10 w-[5.875rem] relative">
           <Image src={"/assets/logo.png"} alt="logo" fill sizes="94px" />
@@ -38,15 +41,17 @@ export const DesktopNav = () => {
       </div>
 
       {/* Search Section */}
-      <div className="relative z-10 flex-1">
-        <Input
-          className="bg-white rounded-full shadow-none h-10 w-full"
-          placeholder={t("nav.search.placeholder")}
-        />
-        <div className="absolute top-2 sm:top-3 right-4 sm:right-6 cursor-pointer">
-          <SearchIcon />
+      {isHomePage && (
+        <div className="relative z-10 flex-1">
+          <Input
+            className="bg-white rounded-full shadow-none h-10 w-full"
+            placeholder={t("nav.search.placeholder")}
+          />
+          <div className="absolute top-2 sm:top-3 right-4 sm:right-6 cursor-pointer">
+            <SearchIcon />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Right Section */}
       <div className="flex items-center gap-4">

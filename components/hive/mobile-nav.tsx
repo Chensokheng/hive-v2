@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { usePathname } from "@/i18n/navigation";
 
 import BellIcon from "../icon/bell";
 import MapPin from "../icon/map-pin";
@@ -8,6 +9,8 @@ import BottomNav from "./bottom-nav";
 import LangSwitcher from "./lang-switcher";
 
 export const MobileNav = () => {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   return (
     <nav className=" bg-transparent">
       <div className="flex items-center gap-7 justify-between w-full z-50 px-5 py-[1.125rem]   lg:hidden overflow-hidden">
@@ -46,15 +49,17 @@ export const MobileNav = () => {
           </div>
         </div>
 
-        <div className="relative z-10 flex-1">
-          <Input
-            className="bg-white rounded-full shadow-none h-10 w-full"
-            placeholder="What do you want today?"
-          />
-          <div className="absolute top-2 right-4 cursor-pointer">
-            <SearchIcon />
+        {isHomePage && (
+          <div className="relative z-10 flex-1">
+            <Input
+              className="bg-white rounded-full shadow-none h-10 w-full"
+              placeholder="What do you want today?"
+            />
+            <div className="absolute top-2 right-4 cursor-pointer">
+              <SearchIcon />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <BottomNav />
     </nav>

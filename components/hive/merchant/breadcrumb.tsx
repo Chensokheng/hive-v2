@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import { cn } from "@/lib/utils";
@@ -38,7 +40,7 @@ export default function Breadcrumb({
             <span
               className={
                 item.active
-                  ? "text-gray-900 font-medium px-1 py-1"
+                  ? "text-gray-900 font-semibold px-1 py-1"
                   : "text-gray-600 px-1 py-1"
               }
             >
