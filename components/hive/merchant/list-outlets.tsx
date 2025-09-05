@@ -10,6 +10,7 @@ import SearchIcon from "@/components/icon/search";
 
 export default function ListOutlets({
   data,
+  merchant,
 }: {
   data:
     | {
@@ -25,6 +26,7 @@ export default function ListOutlets({
         distance: number;
       }[]
     | null;
+  merchant: string;
 }) {
   const [outlets, setOutlets] = useState(data || []);
 
@@ -45,7 +47,7 @@ export default function ListOutlets({
         {outlets.map((outlet) => {
           return (
             <Link
-              href={"/" + outlet.shortName}
+              href={"/" + merchant + "/" + outlet.shortName}
               key={outlet.id}
               className="maw-w-[384px] bg-white rounded-[16px] block py-5 pl-5 space-y-3"
             >

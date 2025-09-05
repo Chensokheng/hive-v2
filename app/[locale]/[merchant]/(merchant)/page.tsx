@@ -44,7 +44,7 @@ export default async function page({
         <Breadcrumb items={breadcrumbItems} />
         <h1 className=" text-2xl font-bold mb-6">{merchantDisplayName}</h1>
 
-        <ListOutlets data={merchantData?.outlets || []} />
+        <ListOutlets data={merchantData?.outlets || []} merchant={merchant} />
       </div>
     </div>
   );
