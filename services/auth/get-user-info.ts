@@ -22,8 +22,6 @@ export default async function getUserInfo() {
   });
   const user = (await res.json()) as UserProfile;
 
-  console.log(user.data.user_infos[0]);
-
   return {
     userId: user.data.id,
     userName: user.data.fullName,

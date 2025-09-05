@@ -8,11 +8,11 @@ export default function loading() {
   return (
     <div className="min-h-[90vh]">
       <div className="max-w-[1200px] mx-auto py-5 px-5">
-        <div className="flex items-center gap-2">
+        <div className="lg:flex items-center gap-2 hidden">
           <Skeleton className="w-10 h-3 bg-gray-300" />/{" "}
           <Skeleton className="w-20 h-3 bg-gray-300" />
         </div>
-        <Skeleton className=" w-48 h-8 bg-gray-300 mt-8" />
+        <Skeleton className=" w-48 h-8 bg-gray-300 lg:mt-8" />
 
         <div className="relative z-10 flex-1 max-w-[384px] my-6">
           <Input
@@ -23,10 +23,10 @@ export default function loading() {
             <SearchIcon />
           </div>
         </div>
-        <div className="grid  grid-cols-1 gap-5 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
-          <Skeleton className="max-w-[384px] h-44 bg-gray-200" />
-          <Skeleton className="max-w-[384px] h-44 bg-gray-200" />
-          <Skeleton className="max-w-[384px] h-44 bg-gray-200" />
+        <div className="grid  grid-cols-1 gap-5 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 w-full">
+          <Skeleton className="w-full lg:max-w-[384px] h-44 bg-gray-200" />
+          <Skeleton className="w-full lg:max-w-[384px] h-44 bg-gray-200" />
+          <Skeleton className="w-full lg:max-w-[384px] h-44 bg-gray-200" />
         </div>
       </div>
     </div>

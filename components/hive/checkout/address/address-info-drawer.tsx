@@ -172,8 +172,6 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
           };
           const address = await reverseGeocode(coords.lat, coords.lng);
 
-          console.log(address);
-
           try {
             // Force map re-render by creating new object
             setSelectedLocation({
