@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
-import useGetUserInfo from "@/hooks/use-get-user-info";
 import CategoryIcon from "@/components/icon/category";
 import HomeIcon from "@/components/icon/home";
 import OrderIcon from "@/components/icon/order";
@@ -45,21 +46,7 @@ const defaultNavItems: NavItem[] = [
 
 export default function BottomNav({ className }: BottomNavProps) {
   const pathname = usePathname();
-  const router = useRouter();
-
-  const { data: user, isLoading } = useGetUserInfo();
-
-  const handleOpenProfile = () => {
-    if (isLoading) {
-      return;
-    }
-
-    if (user?.userId) {
-      router.push("/profile");
-    } else {
-      document.getElementById("auth-trigger-dialog")?.click();
-    }
-  };
+  const { locale } = useParams();
 
   return (
     <nav
@@ -74,7 +61,7 @@ export default function BottomNav({ className }: BottomNavProps) {
           return (
             <div key={index}>
               <Link
-                href={item.href}
+                href={"/" + locale + item.href}
                 className="flex items-center justify-center flex-col py-1 space-y-1"
               >
                 <item.icon fill={isActive ? "#FF66CC" : "#BDC5DB"} />

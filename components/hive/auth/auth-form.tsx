@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
 import XIcon from "@/components/icon/x";
@@ -11,6 +13,8 @@ type AuthStep = "register" | "otp";
 
 export default function AuthForm() {
   const [currentStep, setCurrentStep] = useState<AuthStep>("register");
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleRegisterSubmit = () => {
     setCurrentStep("otp");
@@ -21,6 +25,9 @@ export default function AuthForm() {
   };
 
   const handleCloseDialog = () => {
+    if (pathname === "/profile") {
+      router.back();
+    }
     document.getElementById("auth-trigger-dialog")?.click();
   };
   return (
@@ -38,7 +45,7 @@ export default function AuthForm() {
           className=" absolute top-5 right-5 z-50  p-2"
           onClick={handleCloseDialog}
         >
-          <div className="  bg-[#BDC5DB]  w-8 h-8 lg:grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300 hidden">
+          <div className="  bg-[#BDC5DB]  w-8 h-8 grid place-content-center rounded-full cursor-pointer hover:scale-105 transition-all duration-300">
             <XIcon stroke="white" />
           </div>
         </div>
