@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import autoAnimate from "@formkit/auto-animate";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletCategory from "@/hooks/use-get-outlet-category";
@@ -8,13 +9,11 @@ import { Input } from "@/components/ui/input";
 import SearchIcon from "@/components/icon/search";
 
 interface OutletCategoryProps {
-  className?: string;
   outletName: string;
   merchantName: string;
 }
 
 export default function OutletCategoryMobile({
-  className,
   outletName,
   merchantName,
 }: OutletCategoryProps) {
@@ -27,15 +26,16 @@ export default function OutletCategoryMobile({
   );
   const { data: categories } = useGetOutletCategory(foundOutlet?.id!);
 
-  // if (isLoading) {
-  //   return <OutletCategoryLoading />;
-  // }
+  // Filter categories based on search query
+  const filteredCategories = categories?.filter((category) =>
+    category.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  // if (!foundOutlet?.id && isLoading) {
-  //   return redirect("/404");
-  // }
+  const parent = useRef(null);
 
-  // Mobile horizontal layout
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
 
   return (
     <>
@@ -54,11 +54,14 @@ export default function OutletCategoryMobile({
           </div>
         </div>
         <div className="overflow-x-auto scrollbar-hide w-full">
-          <div className="flex gap-3.5 items-center snap-x snap-mandatory pb-2 px-3 min-w-max">
+          <div
+            ref={parent}
+            className="flex gap-3.5 items-center snap-x snap-mandatory pb-2 px-3 min-w-max"
+          >
             <div className="px-3 py-2 bg-[#0055DD1A] text-primary rounded-full font-bold whitespace-nowrap snap-start flex-shrink-0">
               All
             </div>
-            {categories?.map((category) => (
+            {filteredCategories?.map((category) => (
               <div
                 key={category.id}
                 className="cursor-pointer hover:bg-gray-200 py-2 px-3 rounded-full transition-all font-bold whitespace-nowrap snap-start flex-shrink-0"

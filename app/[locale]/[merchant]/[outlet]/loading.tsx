@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function loading() {
   return (
     <div className="min-h-screen">
-      <nav className="flex lg:hidden items-center gap-2 sticky top-0 bg-white py-2 z-20 pr-8">
+      <nav className="flex lg:hidden items-center gap-2 sticky top-0 bg-white py-5 z-20 pr-8">
         <ChevronLeft />
         <div className="flex-1 items-center flex justify-center">
           <Skeleton className="h-5 w-20 bg-gray-200" />
@@ -87,6 +87,31 @@ export default function loading() {
               <div className="flex items-center gap-2">
                 <div className="w-4 h-4 bg-gray-200 rounded animate-pulse" />
                 <div className="h-4 bg-gray-200 rounded animate-pulse w-64" />
+              </div>
+            </div>
+          </div>
+          <div className=" my-6">
+            <div className="bg-white block lg:hidden my-3 w-full">
+              <div className="px-3 py-3 space-y-5">
+                {/* Search skeleton */}
+                <div className="w-full relative">
+                  <Skeleton className="h-12 w-full rounded-full" />
+                  <div className="absolute top-3 left-4">
+                    <Skeleton className="h-5 w-5 rounded-full" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Categories skeleton */}
+              <div className="overflow-x-auto scrollbar-hide w-full">
+                <div className="flex gap-3.5 items-center snap-x snap-mandatory pb-2 px-3 min-w-max">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <Skeleton
+                      key={i}
+                      className="h-8 w-20 rounded-full flex-shrink-0"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>

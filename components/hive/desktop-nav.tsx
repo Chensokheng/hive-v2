@@ -22,7 +22,13 @@ export const DesktopNav = () => {
     <nav className="px-5 py-[1.125rem] bg-white hidden items-center gap-10 xl:gap-50 shadow-[0px_2px_4px_rgba(0,0,0,0.08)] lg:flex z-[50] sticky top-0 w-full justify-between">
       <div className="flex items-center gap-7">
         <div className="h-10 w-[5.875rem] relative">
-          <Image src={"/assets/logo.png"} alt="logo" fill sizes="94px" />
+          <Image
+            src={"/assets/logo.png"}
+            alt="logo"
+            fill
+            sizes="94px"
+            priority
+          />
         </div>
 
         <div className="flex-1 flex gap-2 sm:gap-3 items-center cursor-pointer">

@@ -52,6 +52,7 @@ export default function BannerCarousel({
             fill
             sizes="(max-width: 640px) calc(100vw - 3rem), calc(448px - 3rem)"
             className="object-cover object-center rounded-3xl"
+            priority
           />
           <div className="absolute bottom-5 left-5 text-white">
             <div>

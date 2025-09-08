@@ -26,7 +26,13 @@ export const MobileNav = () => {
     <nav className=" bg-transparent">
       <div className="flex items-center gap-7 justify-between w-full z-50 px-5 py-[1.125rem]   lg:hidden overflow-hidden">
         <div className="h-10 w-[5.875rem] relative">
-          <Image src={"/assets/logo.png"} alt="logo" fill sizes="94px" />
+          <Image
+            src={"/assets/logo.png"}
+            alt="logo"
+            fill
+            sizes="94px"
+            priority
+          />
         </div>
         <div className="flex items-center gap-4 z-50">
           <LangSwitcher>
