@@ -1,9 +1,8 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import { heroCarouselImages, merchantCoupons } from "@/fake/restaurant-data";
-import { getMerchantOutlets } from "@/services/get-merchant-outlets";
 import { BreadcrumbItem } from "@/types";
 
 import { Carousel } from "@/components/hive/carousel";
@@ -29,57 +28,22 @@ export default function MerchantPage({
 
   const router = useRouter();
 
-  // Generate dynamic breadcrumbs
-  useEffect(() => {
-    const generateBreadcrumbs = async () => {
-      let merchantDisplayName = merchant;
-      let outletDisplayName = outlet;
-
-      try {
-        const merchantData = await getMerchantOutlets(
-          merchant,
-          undefined,
-          undefined
-        );
-        if (merchantData.marchantName) {
-          merchantDisplayName = merchantData.marchantName;
-        }
-
-        // Find the specific outlet for display name
-        const currentOutlet = merchantData.outlets?.find(
-          (o) => o.shortName === outlet || o.name === outlet
-        );
-        if (currentOutlet?.name) {
-          outletDisplayName = currentOutlet.name;
-        }
-      } catch (error) {
-        console.log(
-          "Failed to fetch merchant/outlet names, using URL parameters"
-        );
-      }
-
-      const items: BreadcrumbItem[] = [
-        {
-          label: "Home",
-          href: `/`,
-          active: false,
-        },
-        {
-          label: merchantDisplayName,
-          href: `/${merchant}`,
-          active: false,
-        },
-        {
-          label: outletDisplayName,
-          active: true,
-        },
-      ];
-
-      setBreadcrumbItems(items);
-    };
-
-    generateBreadcrumbs();
-  }, [locale, merchant, outlet]);
+  const items: BreadcrumbItem[] = [
+    {
+      label: "Home",
+      href: `/`,
+      active: false,
+    },
+    {
+      label: merchant,
+      href: `/${merchant}`,
+      active: false,
+    },
+    {
+      label: outlet,
+      active: true,
+    },
+  ];
 
   return (
     <>
@@ -89,7 +53,7 @@ export default function MerchantPage({
           <OutletCategorySidebar merchantName={merchant} outletName={outlet} />
           <div className="">
             <div className=" max-w-[900px] mx-auto lg:not-only-of-type:py-6">
-              <Breadcrumb items={breadcrumbItems} />
+              <Breadcrumb items={items} />
               <MerchantHeader
                 locale={locale}
                 merchantName={merchant}

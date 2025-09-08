@@ -46,12 +46,14 @@ export default function MerchantHeader({
         {/* Logo positioned over hero image */}
         <div className="absolute -bottom-10 left-6">
           <div className="w-20 h-20 md:w-24 md:h-24 relative">
-            <Image
-              src={outlet?.image || "/assets/logo.png"}
-              alt={`${outlet?.name} logo`}
-              fill
-              className="object-cover border-4 border-white shadow-lg rounded-full"
-            />
+            {outlet?.image && (
+              <Image
+                src={outlet?.image || ""}
+                alt={`${outlet?.name} logo`}
+                fill
+                className="object-cover border-4 border-white shadow-lg rounded-full"
+              />
+            )}
           </div>
         </div>
       </div>

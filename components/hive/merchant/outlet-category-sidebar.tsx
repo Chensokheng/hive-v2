@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import autoAnimate from "@formkit/auto-animate";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletCategory from "@/hooks/use-get-outlet-category";
@@ -14,17 +15,25 @@ export default function OutletCategorySidebar({
 }) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchantName);
+  const { data: merchantInfo } = useGetMerchantInfo(merchantName);
 
   const foundOutlet = merchantInfo?.find(
     (item) => item.shortName === outletName
   );
-  const { data: categories } = useGetOutletCategory(foundOutlet?.id!);
+  const { data: categories, isLoading } = useGetOutletCategory(
+    foundOutlet?.id!
+  );
 
   // Filter categories based on search query
   const filteredCategories = categories?.filter((category) =>
     category.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
 
   return (
     <div className="w-[282px] py-7 sticky top-15 self-start h-fit  hidden lg:block">
@@ -43,7 +52,7 @@ export default function OutletCategorySidebar({
         All
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2" ref={parent}>
         {filteredCategories?.map((category) => (
           <div
             key={category.id}
