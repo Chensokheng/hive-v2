@@ -2,12 +2,15 @@
 
 import React, { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import useGetAllMerchants from "@/hooks/use-get-all-merchants";
 import MapPin from "@/components/icon/map-pin";
 
 export default function StoreGrid({ title = "All Store" }) {
+  const params = useParams();
+  const { locale } = params;
   const {
     data,
     fetchNextPage,
@@ -97,7 +100,7 @@ export default function StoreGrid({ title = "All Store" }) {
       <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
         {allMerchants.map((merchant, index) => (
           <Link
-            href={merchant.href}
+            href={"/" + locale + merchant.href}
             key={merchant.id}
             ref={
               index === allMerchants.length - 1 ? lastMerchantElementRef : null
