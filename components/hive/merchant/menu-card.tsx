@@ -163,7 +163,7 @@ function MenuCard({
 
   return (
     <div className=" block w-full max-w-full rounded-xl bg-white">
-      <div className="h-40 w-full   sm:h-70 md:w-full relative ">
+      <div className="w-full aspect-square relative">
         <Image
           src={img || "/fake/promotions.png"}
           alt=""

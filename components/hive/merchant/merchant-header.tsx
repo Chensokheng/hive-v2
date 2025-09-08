@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
+import { cn } from "@/lib/utils";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import { Button } from "@/components/ui/button";
 import HeartIcon from "@/components/icon/heart";
@@ -22,69 +23,25 @@ export default function MerchantHeader({
     (outlet) => outlet.shortName === outletName
   );
 
-  if (isLoading) {
-    return (
-      <div className="bg-white lg:rounded-2xl overflow-hidden shadow-sm lg:border border-gray-100">
-        {/* Hero Image Skeleton */}
-        <div className="relative w-full h-48 md:h-64 bg-gray-200 animate-pulse">
-          {/* Logo positioned over hero image */}
-          <div className="absolute -bottom-10 left-6">
-            <div className="w-20 h-20 md:w-24 md:h-24 bg-gray-300 rounded-full animate-pulse border-4 border-white shadow-lg" />
-          </div>
-        </div>
-
-        {/* Restaurant Info Skeleton */}
-        <div className="p-6 pt-10 space-y-2">
-          <div className="flex items-center justify-between">
-            {/* Restaurant Name Skeleton */}
-            <div className="h-8 md:h-9 bg-gray-200 rounded animate-pulse w-48" />
-
-            {/* Action Buttons Skeleton */}
-            <div className="flex gap-2">
-              <div className="w-10 h-10 bg-gray-200 rounded-md animate-pulse" />
-              <div className="w-10 h-10 bg-gray-200 rounded-md animate-pulse" />
+  return (
+    <div className="bg-white md:rounded-2xl overflow-hidden border">
+      {/* Hero Image */}
+      <div className="relative w-full h-48 md:h-[240px]">
+        {outlet?.banner ? (
+          <Image
+            src={outlet?.banner || outlet?.image || "/assets/logo.png"}
+            alt={outlet?.name || "outlet"}
+            fill
+            className={cn("object-center object-cover")}
+            priority
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+            <div className="font-bold text-7xl text-gray-300 border w-30 h-30 flex items-center justify-center rounded-xl">
+              <span>H</span>
             </div>
           </div>
-
-          {/* Location Skeleton */}
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-gray-200 rounded animate-pulse" />
-            <div className="h-4 bg-gray-200 rounded animate-pulse w-64" />
-          </div>
-
-          {/* Additional Info Skeleton (for future rating/status) */}
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-gray-200 rounded animate-pulse" />
-            <div className="h-4 bg-gray-200 rounded animate-pulse w-32" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!outlet?.id) {
-    return <h1>Not found</h1>;
-  }
-
-  return (
-    <div className="bg-white lg:rounded-2xl overflow-hidden border">
-      {/* Hero Image */}
-      <div className="relative w-full h-48 md:h-64">
-        {/* <Image
-          src={outlet?.banner || outlet?.image || "/assets/logo.png"}
-          alt={outlet?.name || "outlet"}
-          fill
-          className={cn(
-            outlet?.banner ? "object-cover" : "object-cover",
-            "object-center"
-          )}
-          priority
-        /> */}
-        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
-          <div className="font-bold text-7xl text-gray-300 border w-30 h-30 flex items-center justify-center rounded-xl">
-            <span>H</span>
-          </div>
-        </div>
+        )}
 
         {/* Logo positioned over hero image */}
         <div className="absolute -bottom-10 left-6">
@@ -102,7 +59,7 @@ export default function MerchantHeader({
       {/* Restaurant Info */}
       <div className="p-6 pt-10 space-y-2">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 flex-1">
             {outlet?.name}
           </h1>
           {/* Action Buttons */}

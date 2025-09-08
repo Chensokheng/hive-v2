@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Link } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
 
@@ -30,12 +31,12 @@ export default function Breadcrumb({
         <React.Fragment key={index}>
           {index > 0 && <span>{"/"}</span>}
           {item.href && !item.active ? (
-            <a
+            <Link
               href={item.href}
               className="hover:text-primary transition-colors px-1 py-1 rounded"
             >
               {item.label}
-            </a>
+            </Link>
           ) : (
             <span
               className={

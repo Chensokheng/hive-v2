@@ -40,7 +40,7 @@ export default function Menus({
             <h1 className="font-bold text-black text-lg px-2 my-5">
               {menu.name}
             </h1>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-5 px-3 lg:px-0">
               {menu.items?.map((item, index) => {
                 const menuQuantity =
                   unpaidItem?.items

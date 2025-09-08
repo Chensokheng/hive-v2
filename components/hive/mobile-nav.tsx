@@ -11,6 +11,17 @@ import LangSwitcher from "./lang-switcher";
 export const MobileNav = () => {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
+
+  const cleanPath = pathname.split("?")[0];
+
+  // Split the path into segments and check if there are exactly 2 non-empty segments
+  const segments = cleanPath.split("/").filter(Boolean); // filter removes empty strings
+  const isOutletPage = segments.length === 2;
+
+  if (isOutletPage) {
+    return <></>;
+  }
+
   return (
     <nav className=" bg-transparent">
       <div className="flex items-center gap-7 justify-between w-full z-50 px-5 py-[1.125rem]   lg:hidden overflow-hidden">
