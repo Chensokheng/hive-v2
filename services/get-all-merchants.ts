@@ -6,13 +6,16 @@ import { getImageUrl } from "@/lib/utils";
 export const getAllMerchants = async (
   searchParams: string = "",
   provinceId: number = PHNOM_PENH,
-  lastId?: number
+  lastId?: number,
+  limit: number = 10
 ) => {
   const lastIdParam = lastId ? `&last_id=${lastId}` : "";
+  const provinceParam = provinceId ? `&province_id=${provinceId}` : "";
+  const limitParam = limit ? `&limit=${limit}` : "";
   const response = await fetch(
-    process.env.NEXT_PUBLIC_BASE_API +
-      "/joined-merchants" +
-      `?province_id=${provinceId}&limit=10${lastIdParam}${searchParams}`
+    process.env.NEXT_PUBLIC_HIVE_BASE_API +
+      "/api/web/consumer/giaodoan/joined-merchants" +
+      `?${provinceParam}${limitParam}${lastIdParam}${searchParams}`
   );
   const data = (await response.json()) as MerchantsListingResponse;
   if (data.status === false) {
