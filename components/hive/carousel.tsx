@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+
+import BlurImage from "./blur-image";
 
 export interface CarouselItem {
   id: string | number;
@@ -79,14 +80,16 @@ export function Carousel({
 
   const defaultRenderSlide = (item: CarouselItem, index: number) => (
     <div key={item.id} className="w-full h-full flex-shrink-0 relative">
-      <Image
+      <BlurImage
         src={item.image || "/placeholder.svg"}
         alt={item.alt}
         fill
         className={cn("object-cover", imageClassName)}
         priority={index === 0} // Priority loading for first image
         sizes="100vw"
+        unoptimized
       />
+
       {(item.title || item.description) && (
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
           <div className="absolute bottom-4 left-4 text-white">

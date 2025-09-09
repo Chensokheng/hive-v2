@@ -163,6 +163,7 @@ function PromotionSection({
                   fill
                   className="object-cover rounded-lg"
                   sizes="282px"
+                  unoptimized
                 />
               </div>
             ))}

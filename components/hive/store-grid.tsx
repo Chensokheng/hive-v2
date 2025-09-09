@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
 import useGetAllMerchants from "@/hooks/use-get-all-merchants";
 import MapPin from "@/components/icon/map-pin";
+
+import BlurImage from "./blur-image";
 
 export default function StoreGrid({ title = "All Store" }) {
   const params = useParams();
@@ -108,13 +109,14 @@ export default function StoreGrid({ title = "All Store" }) {
             className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
           >
             <div className="relative w-full aspect-[3/2]">
-              <Image
-                src={merchant.image || "/assets/logo.png"}
+              <BlurImage
+                src={merchant.image}
                 alt={merchant.name}
                 fill
                 sizes="(max-width: 1024px) 50vw, 33vw"
                 className="object-center object-cover rounded-xl"
               />
+
               {/* tag */}
               {merchant.tag && (
                 <div className="absolute top-0 left-0 rounded-tl-[8px] rounded-bl-[0px] rounded-tr-[0px] rounded-br-[8px] bg-primary text-white text-sm font-semibold px-2 py-1">

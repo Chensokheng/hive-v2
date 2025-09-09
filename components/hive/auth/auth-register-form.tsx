@@ -100,6 +100,7 @@ export default function AuthRegisterForm({
         height={36}
         width={94}
         className="mx-auto"
+        unoptimized
       />
       <div>
         <h1 className="text-[#161F2F] text-[1.5rem] font-bold">

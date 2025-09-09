@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useTransition } from "react";
-import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useGlobalState } from "@/store";
 import { OutletUnpaidItemsDto } from "@/types-v2/dto";
@@ -10,6 +9,8 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
 import useGetUserInfo from "@/hooks/use-get-user-info";
+
+import BlurImage from "../blur-image";
 
 interface MenuCardProps {
   img: string;
@@ -164,13 +165,15 @@ function MenuCard({
   return (
     <div className=" block w-full max-w-full rounded-xl bg-white">
       <div className="w-full aspect-square relative">
-        <Image
-          src={img || "/fake/promotions.png"}
+        <BlurImage
+          src={img}
           alt=""
           className="object-cover object-center rounded-t-xl"
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          unoptimized
         />
+
         <div
           className={cn(
             " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"

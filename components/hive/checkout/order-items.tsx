@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useTransition } from "react";
-import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useGlobalState } from "@/store";
 import { OutletUnpaidItemsDto } from "@/types-v2/dto";
@@ -14,6 +13,7 @@ import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";
 
+import BlurImage from "../blur-image";
 import EditMenuCartItem from "../merchant/edit-menu-cart-item";
 
 export default function OrderItems({
@@ -197,11 +197,12 @@ const OrderItem = ({
         className="relative aspect-square w-14 cursor-pointer "
         onClick={handleEditItem}
       >
-        <Image
+        <BlurImage
           src={item?.image || "/fake/menu-popup.png"}
           alt="Example"
           fill
           className="object-cover rounded-lg"
+          unoptimized
         />
       </div>
       <div className=" flex items-start sm:items-center justify-between flex-1 flex-col sm:flex-row gap-2">

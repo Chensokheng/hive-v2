@@ -28,6 +28,7 @@ export const DesktopNav = () => {
             fill
             sizes="94px"
             priority
+            unoptimized
           />
         </div>
 
@@ -68,6 +69,7 @@ export const DesktopNav = () => {
               alt="english flag"
               width={20}
               height={20}
+              unoptimized
             />
             <h1>{t("language.current")}</h1>
           </div>
