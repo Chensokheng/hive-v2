@@ -1,13 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 
 import { Input } from "@/components/ui/input";
 import MapIcon from "@/components/icon/map";
 import SearchIcon from "@/components/icon/search";
-
-import BlurImage from "../blur-image";
 
 export default function ListOutlets({
   data,
@@ -52,7 +51,7 @@ export default function ListOutlets({
               key={outlet.id}
               className="maw-w-[384px] bg-white rounded-[16px] block py-5 pl-5 space-y-3"
             >
-              <BlurImage
+              <Image
                 src={outlet.image}
                 alt=""
                 width={72}

@@ -8,16 +8,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "unpkg.com",
-        port: "",
-        pathname: "/**",
-        search: "",
       },
       {
         protocol: "https",
         hostname: "d3gen0htoikr36.cloudfront.net",
-        port: "",
-        pathname: "/**",
-        search: "",
       },
     ],
   },

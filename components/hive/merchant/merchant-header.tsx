@@ -8,7 +8,6 @@ import HeartIcon from "@/components/icon/heart";
 import MapIcon from "@/components/icon/map";
 import ShareIcon from "@/components/icon/share";
 
-
 export default function MerchantHeader({
   locale,
   merchantName,
@@ -35,7 +34,6 @@ export default function MerchantHeader({
             fill
             className={cn("object-center object-cover")}
             priority
-            unoptimized
           />
         ) : (
           <div className="w-full h-full bg-gray-100 flex items-center justify-center  blur-2xl grayscale"></div>
@@ -50,7 +48,6 @@ export default function MerchantHeader({
                 alt={`${outlet?.name} logo`}
                 fill
                 className="object-cover border-4 border-white shadow-lg rounded-full"
-                unoptimized
               />
             )}
           </div>

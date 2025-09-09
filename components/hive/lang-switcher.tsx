@@ -47,7 +47,6 @@ export default function LangSwitcher({
                   alt="english flag"
                   width={20}
                   height={20}
-                  unoptimized
                 />
                 {t(`${value}`)}
               </Link>

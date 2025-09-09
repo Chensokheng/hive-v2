@@ -30,7 +30,6 @@ export default function BlurImage({
         className
       )}
       onLoad={() => setLoading(false)}
-      unoptimized
       {...props}
     />
   );

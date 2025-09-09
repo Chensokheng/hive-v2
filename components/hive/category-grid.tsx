@@ -121,7 +121,6 @@ export default function CategoryGrid() {
                 fill
                 sizes="52px"
                 className="object-cover object-center rounded-full"
-                unoptimized
               />
             </div>
 

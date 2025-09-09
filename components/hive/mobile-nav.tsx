@@ -32,7 +32,6 @@ export const MobileNav = () => {
             fill
             sizes="94px"
             priority
-            unoptimized
           />
         </div>
         <div className="flex items-center gap-4 z-50">
@@ -43,7 +42,6 @@ export const MobileNav = () => {
                 alt="english flag"
                 width={20}
                 height={20}
-                unoptimized
               />
             </div>
           </LangSwitcher>

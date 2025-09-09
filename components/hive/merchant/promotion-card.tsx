@@ -1,8 +1,8 @@
 import React from "react";
+import Image from "next/image";
 import { FlashSaleItem } from "@/fake/restaurant-data";
 import { Plus } from "lucide-react";
 
-import BlurImage from "../blur-image";
 
 interface PromotionCardProps {
   title?: string;
@@ -79,12 +79,11 @@ export default function PromotionCard({
         </div>
       </div>
       <div className="h-full w-38 relative">
-        <BlurImage
+        <Image
           src={image}
           alt="promotion-card"
           fill
           className="object-cover rounded-e-xl"
-          unoptimized
         />
 
         <div className=" absolute top-3 right-3 h-9 w-9 rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer">

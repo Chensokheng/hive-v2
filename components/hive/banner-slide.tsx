@@ -19,7 +19,6 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => (
       sizes="1200px"
       className="object-cover object-center rounded-3xl"
       priority={index === 0}
-      unoptimized
     />
     <div className="absolute bottom-20 left-12 text-white">
       <div>

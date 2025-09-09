@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
 import XIcon from "@/components/icon/x";
 
-import BlurImage from "../blur-image";
 import AuthOptForm from "./auth-opt-form";
 import AuthRegisterForm from "./auth-register-form";
 
@@ -33,12 +33,11 @@ export default function AuthForm() {
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 h-[100dvh] lg:h-[775px]">
       <div className=" w-full h-full relative rounded-xl hidden lg:block">
-        <BlurImage
+        <Image
           src={"/assets/auth-banner.png"}
           alt="auth-dialog-background"
           fill
           className="object-cover object-center rounded-xl rounded-tr-none"
-          unoptimized
           priority
         />
       </div>

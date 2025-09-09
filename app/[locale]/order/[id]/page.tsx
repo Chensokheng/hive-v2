@@ -147,7 +147,6 @@ export default function OrderDetailsPage() {
                 alt={orderData.restaurant.name}
                 fill
                 className="object-cover"
-                unoptimized
               />
             </div>
             <h3 className=" font-semibold text-[#161F2F]">
@@ -166,7 +165,6 @@ export default function OrderDetailsPage() {
                   alt={item.name}
                   fill
                   className="object-cover"
-                  unoptimized
                 />
               </div>
 
