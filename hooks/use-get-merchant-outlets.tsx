@@ -4,11 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 export default function useGetMerchantOutlets(
   merchantName: string,
   latitude?: number,
-  longitude?: number
+  longitude?: number,
+  enabled: boolean = false
 ) {
   return useQuery({
-    queryKey: ["merchant-outlets", merchantName, latitude, longitude],
+    queryKey: ["merchant-outlets", merchantName],
     queryFn: () => getMerchantOutlets(merchantName, latitude, longitude),
-    enabled: false,
+    enabled: enabled,
   });
 }
