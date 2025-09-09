@@ -57,6 +57,7 @@ export default function ListOutlets({
                 width={72}
                 height={72}
                 className=" rounded-full border"
+                priority
               />
               <h1 className="text-[#161F2F] font-semibold">{outlet.name}</h1>
               <div className="text-sm text-[#303D5599] flex gap-2">
