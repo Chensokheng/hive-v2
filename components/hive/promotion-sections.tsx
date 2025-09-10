@@ -2,10 +2,12 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useGlobalState } from "@/store";
+import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
 import { ChevronRight } from "lucide-react";
 import { Blur } from "transitions-kit";
 
+import { cn } from "@/lib/utils";
 
 interface PromotionItem {
   id: string;
@@ -186,13 +188,19 @@ export default function PromotionSections({
   bestDeal = defaultBestDeal,
 }: PromotionSectionsProps) {
   const selectedCategoryId = useGlobalState((state) => state.selectCategoryId);
-
-  if (selectedCategoryId) {
-    return <></>;
-  }
+  const searchMerchantKeyword = useSearchStore(
+    (state) => state.searchMerchantKeyword
+  );
+  const filterMerchantCategoryId = useSearchStore(
+    (state) => state.filterMerchantCategoryId
+  );
 
   return (
-    <div className="mt-5 space-y-8">
+    <div
+      className={cn("mt-5 space-y-8", {
+        hidden: searchMerchantKeyword || filterMerchantCategoryId,
+      })}
+    >
       <PromotionSection {...premiumDelight} />
       <PromotionSection {...bestDeal} />
     </div>

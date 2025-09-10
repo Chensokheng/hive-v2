@@ -40,5 +40,9 @@
       "signUp": "Sign Up",
       "back": "Back"
     }
+  },
+  "listMerchant": {
+    "allStore": "All Store",
+    "notFound": "No Merchants found"
   }
 }

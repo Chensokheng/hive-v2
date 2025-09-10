@@ -5,13 +5,12 @@ import Image from "next/image";
 import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
-import { Input } from "@/components/ui/input";
 import BellIcon from "@/components/icon/bell";
-import MapPin from "@/components/icon/map-pin";
-import SearchIcon from "@/components/icon/search";
 
 import Auth from "./auth";
+import SearchMerchant from "./landing/search-merchant";
 import LangSwitcher from "./lang-switcher";
+import SelectDeliveryAddress from "./select-delivery-address";
 
 export const DesktopNav = () => {
   const t = useTranslations();
@@ -31,33 +30,11 @@ export const DesktopNav = () => {
           />
         </div>
 
-        <div className="flex-1 flex gap-2 sm:gap-3 items-center cursor-pointer">
-          <div className="h-10 w-10 bg-[#FF66CC]/10 rounded-full grid place-content-center">
-            <MapPin color="#FF66CC" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <h2 className="text-[#303D55]/60 text-xs font-medium">
-              {t("nav.deliveryAddress")}
-            </h2>
-            <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base truncate">
-              {t("nav.enterDeliveryAddress")}
-            </h1>
-          </div>
-        </div>
+        <SelectDeliveryAddress />
       </div>
 
       {/* Search Section */}
-      {isHomePage && (
-        <div className="relative z-10 flex-1">
-          <Input
-            className="bg-white rounded-full shadow-none h-10 w-full"
-            placeholder={t("nav.search.placeholder")}
-          />
-          <div className="absolute top-2 sm:top-3 right-4 sm:right-6 cursor-pointer">
-            <SearchIcon />
-          </div>
-        </div>
-      )}
+      {isHomePage && <SearchMerchant />}
 
       {/* Right Section */}
       <div className="flex items-center gap-4">

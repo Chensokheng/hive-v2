@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { rowdies } from "@/fonts";
 import { AsyncImage } from "loadable-image";

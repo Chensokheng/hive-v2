@@ -3,8 +3,8 @@ import { getAllMerchants } from "@/services/get-all-merchants";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 export default function useGetAllMerchants(
-  provinceId: number = PHNOM_PENH,
-  searchParams: string = ""
+  searchParams: string = "",
+  provinceId: number = PHNOM_PENH
 ) {
   return useInfiniteQuery({
     queryKey: ["all-merchants", provinceId, searchParams],

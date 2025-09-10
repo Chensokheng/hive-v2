@@ -3,16 +3,30 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
+import { useTranslations } from "next-intl";
 import { Blur } from "transitions-kit";
 
 import useGetAllMerchants from "@/hooks/use-get-all-merchants";
 import MapPin from "@/components/icon/map-pin";
 
-
-export default function StoreGrid({ title = "All Store" }) {
+export default function StoreGrid() {
+  const t = useTranslations();
   const params = useParams();
   const { locale } = params;
+  const searchMerchantKeyword = useSearchStore(
+    (state) => state.searchMerchantKeyword
+  );
+  const filterMerchantCategoryId = useSearchStore(
+    (state) => state.filterMerchantCategoryId
+  );
+  const searchParams =
+    searchMerchantKeyword +
+    (filterMerchantCategoryId
+      ? `&hierarchical_category_giaodoan_ids=${filterMerchantCategoryId}`
+      : "");
+
   const {
     data,
     fetchNextPage,
@@ -20,7 +34,7 @@ export default function StoreGrid({ title = "All Store" }) {
     isFetchingNextPage,
     isLoading,
     error,
-  } = useGetAllMerchants();
+  } = useGetAllMerchants(searchParams);
 
   const allMerchants = data?.pages.flatMap((page) => page.merchants) ?? [];
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -51,7 +65,7 @@ export default function StoreGrid({ title = "All Store" }) {
     return (
       <div className="space-y-2">
         <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-          {title}
+          {t("allStore")}
         </h1>
         <div className="px-4 py-8 text-center">
           <p className="text-red-500">
@@ -71,9 +85,9 @@ export default function StoreGrid({ title = "All Store" }) {
   // Show initial loading state
   if (isLoading) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-2" id="merchant-grid">
         <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-          {title}
+          {t("allStore")}
         </h1>
         <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
           {Array.from({ length: 6 }).map((_, index) => (
@@ -95,9 +109,9 @@ export default function StoreGrid({ title = "All Store" }) {
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" id="merchant-grid">
       <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-        {title}
+        {t("listMerchant.allStore")}
       </h1>
       <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
         {allMerchants.map((merchant, index) => (
@@ -172,18 +186,12 @@ export default function StoreGrid({ title = "All Store" }) {
       )}
 
       {/* End of results indicator */}
-      {!hasNextPage && allMerchants.length > 0 && (
-        <div className="text-center py-8">
-          <p className="text-gray-500">
-            {"You've reached the end of the list"}
-          </p>
-        </div>
-      )}
+      <div className="text-center py-8"></div>
 
       {/* No results */}
       {!isLoading && allMerchants.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-500">No merchants found</p>
+          <p className="text-gray-500">{t("listMerchant.notFound")}</p>
         </div>
       )}
     </div>
