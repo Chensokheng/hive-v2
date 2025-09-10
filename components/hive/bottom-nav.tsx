@@ -55,7 +55,7 @@ export default function BottomNav({ className }: BottomNavProps) {
         className
       )}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between max-w-md mx-auto">
         {defaultNavItems.map((item, index) => {
           const isActive = pathname === item.href;
           return (

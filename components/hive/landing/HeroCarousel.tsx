@@ -13,7 +13,7 @@ export default function HeroCarousel() {
   );
   return (
     <div className="relative w-full overflow-hidden">
-      <div className="max-w-[1200px] mx-auto">
+      <div className="max-w-[1200px] mx-auto hidden lg:block p-2">
         <Carousel
           items={DESKTOP_BANNERS}
           height="h-[514px]"

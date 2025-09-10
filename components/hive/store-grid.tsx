@@ -3,11 +3,12 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { AsyncImage } from "loadable-image";
+import { Blur } from "transitions-kit";
 
 import useGetAllMerchants from "@/hooks/use-get-all-merchants";
 import MapPin from "@/components/icon/map-pin";
 
-import BlurImage from "./blur-image";
 
 export default function StoreGrid({ title = "All Store" }) {
   const params = useParams();
@@ -109,12 +110,11 @@ export default function StoreGrid({ title = "All Store" }) {
             className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
           >
             <div className="relative w-full aspect-[3/2]">
-              <BlurImage
+              <AsyncImage
                 src={merchant.image}
-                alt={merchant.name}
-                fill
-                sizes="(max-width: 1024px) 50vw, 33vw"
-                className="object-center object-cover rounded-xl"
+                Transition={Blur}
+                style={{ width: "100%", height: "100%", borderRadius: 20 }}
+                loader={<div className="bg-gray-300" />}
               />
 
               {/* tag */}
@@ -124,7 +124,7 @@ export default function StoreGrid({ title = "All Store" }) {
                 </div>
               )}
             </div>
-            <div className="px-4 py-2">
+            <div className="px-2 lg:px-5 py-2">
               <h3 className="font-semibold text-[#161F2F] lg:text-lg">
                 {merchant.name}
               </h3>
@@ -132,13 +132,6 @@ export default function StoreGrid({ title = "All Store" }) {
               {/* Rating and Category */}
               {merchant.category && (
                 <div className="flex items-center gap-1">
-                  {/* <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-orange-400 text-orange-400" />
-                    <span className="text-sm font-medium text-[#161F2F]">
-                      {merchant.rating}
-                    </span>
-                  </div> */}
-                  {/* <span className="text-gray-300">·</span> */}
                   <button className="text-primary text-sm">
                     {merchant.category}
                   </button>
@@ -159,10 +152,21 @@ export default function StoreGrid({ title = "All Store" }) {
 
       {/* Loading indicator for fetching next page */}
       {isFetchingNextPage && (
-        <div className="flex justify-center py-8">
-          <div className="flex items-center space-x-2">
-            <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-            <span className="text-gray-600">Loading more...</span>
+        <div className="space-y-2">
+          <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
+            {Array.from({ length: 6 }).map((_, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl p-[6px] animate-pulse"
+              >
+                <div className="w-full aspect-[3/2] bg-gray-200 rounded-xl"></div>
+                <div className="px-4 py-2 space-y-2">
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                  <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

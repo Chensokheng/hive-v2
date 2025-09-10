@@ -1,6 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import { rowdies } from "@/fonts";
+import { AsyncImage } from "loadable-image";
+import { Blur } from "transitions-kit";
 
 import { cn } from "@/lib/utils";
 import { CarouselItem } from "@/components/hive/carousel";
@@ -12,14 +13,13 @@ interface BannerSlideProps {
 
 export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => (
   <div className="w-full h-full flex-shrink-0 relative" key={item.id}>
-    <Image
+    <AsyncImage
       src={item.image}
-      alt={item.alt}
-      fill
-      sizes="1200px"
-      className="object-cover object-center rounded-3xl"
-      priority={index === 0}
+      Transition={Blur}
+      style={{ width: "100%", height: "100%", borderRadius: 16 }}
+      loader={<div className="bg-gray-300" />}
     />
+
     <div className="absolute bottom-20 left-12 text-white">
       <div>
         <h1 className={cn("text-[3rem] font-bold", rowdies.className)}>

@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useGlobalState } from "@/store";
+import { AsyncImage } from "loadable-image";
 import { ChevronRight } from "lucide-react";
+import { Blur } from "transitions-kit";
+
 
 interface PromotionItem {
   id: string;
@@ -157,12 +159,11 @@ function PromotionSection({
                 key={item.id}
                 onClick={item.onClick}
               >
-                <Image
+                <AsyncImage
                   src={item.image}
-                  alt={item.title || "promotion"}
-                  fill
-                  className="object-cover rounded-lg"
-                  sizes="282px"
+                  Transition={Blur}
+                  style={{ width: "100%", height: "100%", borderRadius: 20 }}
+                  loader={<div className="bg-gray-300" />}
                 />
               </div>
             ))}

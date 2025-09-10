@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useGlobalState } from "@/store";
+import { AsyncImage } from "loadable-image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Blur } from "transitions-kit";
 
 import { cn, getImageUrl } from "@/lib/utils";
 import useFoodCategories from "@/hooks/use-food-categories";
@@ -115,13 +116,20 @@ export default function CategoryGrid() {
             onClick={() => handleSelectCategory(item.id)}
           >
             <div className="w-13 h-13 relative mx-auto">
-              <Image
+              <AsyncImage
+                src={getImageUrl(item.image)}
+                Transition={Blur}
+                style={{ width: "100%", height: "100%", borderRadius: 1000 }}
+                loader={<div className="bg-gray-200" />}
+              />
+
+              {/* <Image
                 src={item.image ? getImageUrl(item.image) : "/assets/logo.png"}
                 alt={locale === "en" ? item.nameEn : item.nameKH}
                 fill
                 sizes="52px"
                 className="object-cover object-center rounded-full"
-              />
+              /> */}
             </div>
 
             <h1 className="text-sm font-medium text-[#161F2F] text-center">
