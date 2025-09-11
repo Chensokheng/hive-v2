@@ -51,30 +51,29 @@ export default function BottomNav({ className }: BottomNavProps) {
   return (
     <nav
       className={cn(
-        "block lg:hidden fixed bottom-0 left-0 right-0 bg-white px-5 rounded-lg py-3 z-50",
+        "block lg:hidden fixed bottom-0 left-0 right-0 bg-white  rounded-lg pb-8 pt-2 z-50",
         className
       )}
     >
-      <div className="flex items-center justify-between max-w-md mx-auto">
+      <div className="flex items-center justify-between max-w-md mx-auto gap-2">
         {defaultNavItems.map((item, index) => {
           const isActive = pathname === item.href;
           return (
-            <div key={index}>
-              <Link
-                href={"/" + locale + item.href}
-                className="flex items-center justify-center flex-col py-1 space-y-1"
+            <Link
+              key={index}
+              href={"/" + locale + item.href}
+              className="flex items-center justify-center flex-col py-1 space-y-1 w-full"
+            >
+              <item.icon fill={isActive ? "#FF66CC" : "#BDC5DB"} />
+              <span
+                className={cn(
+                  "text-xs font-semibold",
+                  isActive ? "text-primary" : "text-[#303D55]/60"
+                )}
               >
-                <item.icon fill={isActive ? "#FF66CC" : "#BDC5DB"} />
-                <span
-                  className={cn(
-                    "text-xs font-semibold",
-                    isActive ? "text-primary" : "text-[#303D55]/60"
-                  )}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            </div>
+                {item.label}
+              </span>
+            </Link>
           );
         })}
       </div>
