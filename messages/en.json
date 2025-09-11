@@ -39,6 +39,13 @@
       "resend": "Resend",
       "signUp": "Sign Up",
       "back": "Back"
+    },
+    "common": {
+      "back": "Back"
+    },
+    "toast": {
+      "otpSentSuccess": "OTP sent successfully",
+      "otpSendError": "Failed to send OTP"
     }
   },
   "listMerchant": {

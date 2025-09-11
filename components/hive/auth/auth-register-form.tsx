@@ -26,49 +26,6 @@ import CheckCircleIcon from "@/components/icon/check-circle";
 import PhoneIcon from "@/components/icon/phone";
 import UserOutline from "@/components/icon/user-outline";
 
-const FormSchema = z.object({
-  username: z.string().min(3, { message: "Username is too short" }).optional(),
-
-  phoneNumber: z
-    .string()
-    .min(1, { message: "Phone number is required." })
-    .refine(
-      (phone) => {
-        // Remove all spaces, dashes, and other formatting
-        const cleanPhone = phone.replace(/[\s\-\(\)]/g, "");
-
-        // Check for Cambodia phone number patterns
-        // Format 1: +855 followed by 8-9 digits (international format)
-        // Format 2: 0 followed by 8-9 digits (local format)
-        // Format 3: Direct 8-9 digits (without country code or leading 0)
-
-        const cambodiaIntlPattern = /^\+855[1-9]\d{7,8}$/; // +855 + 8-9 digits
-        const cambodiaLocalPattern = /^0[1-9]\d{7,8}$/; // 0 + 8-9 digits
-        const cambodiaDirectPattern = /^[1-9]\d{7,8}$/; // 8-9 digits starting with 1-9
-
-        return (
-          cambodiaIntlPattern.test(cleanPhone) ||
-          cambodiaLocalPattern.test(cleanPhone) ||
-          cambodiaDirectPattern.test(cleanPhone)
-        );
-      },
-      {
-        message: "Please enter a valid phone number .",
-      }
-    )
-    .transform((phone) => {
-      // Clean formatting characters
-      const cleanPhone = phone.replace(/[\s\-\(\)]/g, "");
-
-      // Remove leading zero for Cambodia local numbers
-      if (cleanPhone.startsWith("0") && cleanPhone.length >= 9) {
-        return cleanPhone.substring(1); // Remove the leading 0
-      }
-
-      return cleanPhone;
-    }),
-});
-
 export default function AuthRegisterForm({
   onSubmit: onSubmitCallback,
 }: {
@@ -77,6 +34,55 @@ export default function AuthRegisterForm({
   const setAuthInfo = useAuthStore((state) => state.setAuthInfo);
   const [isUserNotExist, setUserNotExist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations("auth");
+  const [phoneInputFocus, setPhoneInputFocus] = useState(false);
+  const [usernameInputFocus, setUsernameInputFocus] = useState(false);
+
+  const FormSchema = z.object({
+    username: z
+      .string()
+      .min(3, { message: t("register.validation.usernameRequired") })
+      .optional(),
+
+    phoneNumber: z
+      .string()
+      .min(1, { message: t("register.validation.phoneRequired") })
+      .refine(
+        (phone) => {
+          // Remove all spaces, dashes, and other formatting
+          const cleanPhone = phone.replace(/[\s\-\(\)]/g, "");
+
+          // Check for Cambodia phone number patterns
+          // Format 1: +855 followed by 8-9 digits (international format)
+          // Format 2: 0 followed by 8-9 digits (local format)
+          // Format 3: Direct 8-9 digits (without country code or leading 0)
+
+          const cambodiaIntlPattern = /^\+855[1-9]\d{7,8}$/; // +855 + 8-9 digits
+          const cambodiaLocalPattern = /^0[1-9]\d{7,8}$/; // 0 + 8-9 digits
+          const cambodiaDirectPattern = /^[1-9]\d{7,8}$/; // 8-9 digits starting with 1-9
+
+          return (
+            cambodiaIntlPattern.test(cleanPhone) ||
+            cambodiaLocalPattern.test(cleanPhone) ||
+            cambodiaDirectPattern.test(cleanPhone)
+          );
+        },
+        {
+          message: t("register.validation.phoneInvalid"),
+        }
+      )
+      .transform((phone) => {
+        // Clean formatting characters
+        const cleanPhone = phone.replace(/[\s\-\(\)]/g, "");
+
+        // Remove leading zero for Cambodia local numbers
+        if (cleanPhone.startsWith("0") && cleanPhone.length >= 9) {
+          return cleanPhone.substring(1); // Remove the leading 0
+        }
+
+        return cleanPhone;
+      }),
+  });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -111,9 +117,6 @@ export default function AuthRegisterForm({
 
     onSubmitCallback?.();
   }
-  const [phoneInputFocus, setPhoneInputFocus] = useState(false);
-  const [usernameInputFocus, setUsernameInputFocus] = useState(false);
-  const t = useTranslations("auth");
 
   // Watch form values and errors for real-time updates
   const phoneValue = form.watch("phoneNumber");
