@@ -6,7 +6,6 @@ interface GlobalState {
   editCartItemSheetOpen: boolean;
   openMenuToCartSheet: boolean;
   selectCategoryId: string;
-  authPhoneNumber: string;
   isOrderChangeItem: boolean;
   addOnMenuKey: {
     outletId: number;
@@ -27,7 +26,6 @@ interface GlobalState {
 
   setOpenMenuToCartSheet: (value: boolean) => void;
   setCategoryId: (value: string) => void;
-  setAuthPhoneNumber: (value: string) => void;
   setisOrderChangeItem: (value: boolean) => void;
   setAddOnMenu: (value: { outletId: number; menuItemId: number }) => void;
   setEditCartItemData: (
@@ -48,14 +46,12 @@ export const useGlobalState = create<GlobalState>()((set) => ({
   editCartItemSheetOpen: false,
   openMenuToCartSheet: false,
   selectCategoryId: "",
-  authPhoneNumber: "",
   isOrderChangeItem: false,
   addOnMenuKey: {
     outletId: 0,
     menuItemId: 0,
   },
   editCartItemData: null,
-  setAuthPhoneNumber: (value) => set(() => ({ authPhoneNumber: value })),
   setCategoryId: (value) => set(() => ({ selectCategoryId: value })),
 
   setCheckoutSheetOpen: (value) =>

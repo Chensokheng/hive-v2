@@ -84,9 +84,7 @@ export default function OutletPage() {
                     <CouponSection
                       coupons={merchantCoupons}
                       title="Available Deals"
-                      onCouponClick={(coupon) => {
-                        console.log("Coupon clicked:", coupon);
-                      }}
+                      onCouponClick={(coupon) => {}}
                     />
                   </div>
                   <div className="space-y-5">

@@ -1,6 +1,11 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronRight, LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { signOut } from "@/services/auth/signout";
+import { useQueryClient } from "@tanstack/react-query";
+import { ChevronRight, Loader, LogOut } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
@@ -13,9 +18,20 @@ import { UserProfileSkeleton } from "../../loading/user-profile-skeleton";
 import { Button } from "../../ui/button";
 
 export default function UserProfile() {
-  const { data: user, isLoading } = useGetUserInfo();
+  const [isLoading, setLoading] = useState(false);
+  const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-  if (isLoading) {
+  const handleSignOut = async () => {
+    setLoading(true);
+    await signOut();
+    queryClient.invalidateQueries({ queryKey: ["user-info"] });
+    router.refresh();
+    setLoading(false);
+  };
+
+  if (isLoadingUser) {
     return <UserProfileSkeleton />;
   }
 
@@ -87,8 +103,14 @@ export default function UserProfile() {
       <Button
         variant={"ghost"}
         className=" font-semibold text-base mt-5 w-full cursor-pointer"
+        onClick={handleSignOut}
+        disabled={isLoading}
       >
-        <LogOut className="w-4 h-4" />
+        {isLoading ? (
+          <Loader className="w-4 h-4  animate-spin" />
+        ) : (
+          <LogOut className="w-4 h-4" />
+        )}
         Sign out
       </Button>
     </>

@@ -1,7 +1,10 @@
+"use client";
+
 import React, { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
+import { AsyncImage } from "loadable-image";
+import { Blur } from "transitions-kit";
 
 import { cn } from "@/lib/utils";
 import XIcon from "@/components/icon/x";
@@ -33,12 +36,11 @@ export default function AuthForm() {
   return (
     <div className="w-full grid grid-cols-1 lg:grid-cols-2 h-[100dvh] lg:h-[775px]">
       <div className=" w-full h-full relative rounded-xl hidden lg:block">
-        <Image
+        <AsyncImage
           src={"/assets/auth-banner.png"}
-          alt="auth-dialog-background"
-          fill
-          className="object-cover object-center rounded-xl rounded-tr-none"
-          priority
+          Transition={Blur}
+          style={{ width: "100%", height: "100%", borderRadius: 16 }}
+          loader={<div className="bg-gray-300" />}
         />
       </div>
       <div className=" relative flex items-center justify-center px-6 sm:px-12 overflow-hidden">

@@ -7,8 +7,8 @@ import "../globals.css";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
+import { Toaster } from "react-hot-toast";
 
-import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/hive/navbar";
 
 const inter = Inter({
@@ -76,7 +76,7 @@ export default async function RootLayout({
             {children}
           </main>
 
-          <Toaster position="top-right" />
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>

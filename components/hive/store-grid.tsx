@@ -65,7 +65,7 @@ export default function StoreGrid() {
     return (
       <div className="space-y-2">
         <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-          {t("allStore")}
+          {t("listMerchant.allStore")}
         </h1>
         <div className="px-4 py-8 text-center">
           <p className="text-red-500">
@@ -87,7 +87,7 @@ export default function StoreGrid() {
     return (
       <div className="space-y-2" id="merchant-grid">
         <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-          {t("allStore")}
+          {t("listMerchant.allStore")}
         </h1>
         <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
           {Array.from({ length: 6 }).map((_, index) => (

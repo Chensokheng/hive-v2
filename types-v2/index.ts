@@ -2,10 +2,7 @@
 
 export type UserResponseSuccess = {
   status: true;
-  data: {
-    status: true;
-    data: User;
-  };
+  data: User;
 };
 
 // ❌ Error Response
@@ -59,6 +56,7 @@ export type User = {
   platform: number;
   is_available_for_new_orders: number;
   user_infos: UserInfo[];
+  hasPassword: boolean;
   id: number;
   totalStamps: number;
   totalVouchers: number;
@@ -143,6 +141,7 @@ export interface UserProfile {
     totalVouchers: number;
     id: number;
     referal_code: string; // typo duplicate but included
+    hasPassword: boolean;
   };
 }
 

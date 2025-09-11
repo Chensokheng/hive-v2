@@ -51,7 +51,6 @@ export default function CheckoutSheet({
         if (res.data) {
           const deepLink = res.data.data.deeplink;
           const webView = res.data.data.webview;
-          console.log(deepLink, webView);
           const timeout = 2000; // 2 seconds timeout
           const clickedAt = Date.now();
 

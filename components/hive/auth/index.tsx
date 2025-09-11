@@ -1,5 +1,6 @@
 import React from "react";
 
+import { cn } from "@/lib/utils";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import UserIcon from "@/components/icon/user";
 
@@ -11,7 +12,14 @@ export default function Auth() {
 
   if (isLoading) {
     return (
-      <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
+      <div
+        className={cn(
+          "bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer",
+          {
+            "animate-pulse": isLoading,
+          }
+        )}
+      >
         <UserIcon fill="white" />
       </div>
     );

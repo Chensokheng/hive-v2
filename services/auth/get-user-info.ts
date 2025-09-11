@@ -14,12 +14,16 @@ export default async function getUserInfo() {
     };
   }
 
-  const res = await fetch(process.env.BASE_API + "/profile", {
-    headers: {
-      Authorization: "Bearer " + token,
-    },
-    method: "GET",
-  });
+  const res = await fetch(
+    process.env.NEXT_PUBLIC_HIVE_BASE_API +
+      "/api/web/consumer/giaodoan/profile",
+    {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      method: "GET",
+    }
+  );
   const user = (await res.json()) as UserProfile;
 
   return {
@@ -31,5 +35,6 @@ export default async function getUserInfo() {
     token,
     latitude: user.data?.user_infos[0]?.place_lat,
     longtitude: user.data?.user_infos[0]?.place_long,
+    hasPassword: user.data?.hasPassword,
   };
 }

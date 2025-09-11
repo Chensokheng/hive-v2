@@ -2,10 +2,14 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useGlobalState } from "@/store";
+import { checkUser } from "@/services/auth/check-user";
+import { sendOtp } from "@/services/auth/send-opt";
+import { useAuthStore } from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 import { cn } from "@/lib/utils";
@@ -23,7 +27,7 @@ import PhoneIcon from "@/components/icon/phone";
 import UserOutline from "@/components/icon/user-outline";
 
 const FormSchema = z.object({
-  username: z.string().min(3, { message: "Username is too short" }),
+  username: z.string().min(3, { message: "Username is too short" }).optional(),
 
   phoneNumber: z
     .string()
@@ -53,16 +57,12 @@ const FormSchema = z.object({
       }
     )
     .transform((phone) => {
-      // Normalize the phone number format
+      // Clean formatting characters
       const cleanPhone = phone.replace(/[\s\-\(\)]/g, "");
 
-      // Convert to international format if not already
-      if (cleanPhone.startsWith("+855")) {
-        return cleanPhone;
-      } else if (cleanPhone.startsWith("0")) {
-        return "+855" + cleanPhone.substring(1);
-      } else if (/^[1-9]\d{7,8}$/.test(cleanPhone)) {
-        return "+855" + cleanPhone;
+      // Remove leading zero for Cambodia local numbers
+      if (cleanPhone.startsWith("0") && cleanPhone.length >= 9) {
+        return cleanPhone.substring(1); // Remove the leading 0
       }
 
       return cleanPhone;
@@ -74,23 +74,81 @@ export default function AuthRegisterForm({
 }: {
   onSubmit?: () => void;
 }) {
-  const setPhoneNumber = useGlobalState((state) => state.setAuthPhoneNumber);
+  const setAuthInfo = useAuthStore((state) => state.setAuthInfo);
+  const [isUserNotExist, setUserNotExist] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    mode: "onChange", // Validate on change
+    reValidateMode: "onChange", // Re-validate on every change
     defaultValues: {
       phoneNumber: "",
       username: "",
     },
   });
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    // Call the callback to trigger slide animation
-    setPhoneNumber(data.phoneNumber);
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsLoading(true);
+
+    const dataSendOtp = await sendOtp(data.phoneNumber);
+
+    if (
+      !dataSendOtp.data.is_sent &&
+      dataSendOtp.data.next_available_otp_at === 0
+    ) {
+      toast.success("hh");
+      toast.error(dataSendOtp.data.message);
+      setIsLoading(false);
+      return;
+    }
+
+    setAuthInfo({
+      authPhoneNumber: data.phoneNumber,
+      authUserName: data.username,
+      authNextAvailableOtpAt: dataSendOtp.data.next_available_otp_at,
+    });
+    setIsLoading(false);
+
     onSubmitCallback?.();
   }
   const [phoneInputFocus, setPhoneInputFocus] = useState(false);
   const [usernameInputFocus, setUsernameInputFocus] = useState(false);
   const t = useTranslations("auth");
+
+  // Watch form values and errors for real-time updates
+  const phoneValue = form.watch("phoneNumber");
+  const phoneError = form.formState.errors.phoneNumber;
+  const phoneIsDirty = form.formState.dirtyFields.phoneNumber;
+  const usernameValue = form.watch("username");
+  const usernameError = form.formState.errors.username;
+  const usernameIsDirty = form.formState.dirtyFields.username;
+
+  const handleCheckIfUserExist = async () => {
+    setIsLoading(true);
+    const res = await checkUser(phoneValue);
+    if (res.status) {
+      if (!res.data) {
+        setUserNotExist(!res.data);
+      } else {
+        const dataSendOtp = await sendOtp(phoneValue);
+        if (
+          !dataSendOtp.data.is_sent &&
+          dataSendOtp.data.next_available_otp_at === 0
+        ) {
+          toast.success("hll");
+          toast.error(dataSendOtp.data.message);
+          setIsLoading(false);
+          return;
+        }
+        setAuthInfo({
+          authPhoneNumber: phoneValue,
+          authNextAvailableOtpAt: dataSendOtp.data.next_available_otp_at,
+        });
+        onSubmitCallback?.();
+      }
+    }
+    setIsLoading(false);
+  };
 
   return (
     <div className=" space-y-12">
@@ -113,40 +171,37 @@ export default function AuthRegisterForm({
             control={form.control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className={cn(isUserNotExist && "opacity-50")}>
                 <FormControl
                   className={cn(
                     "border px-5 h-[60px]  rounded-2xl space-y-0 gap-0",
-                    phoneInputFocus &&
-                      !form.getFieldState("phoneNumber").invalid &&
-                      "ring-2 ring-[#3388FF]",
-                    form.getFieldState("phoneNumber").invalid &&
-                      "ring-2 ring-red-500"
+                    phoneInputFocus && !phoneError && "ring-2 ring-[#3388FF]",
+                    phoneError && "ring-2 ring-red-500"
                   )}
                 >
                   <div className="flex items-center gap-3 w-full">
-                    <PhoneIcon
-                      fill={
-                        form.getFieldState("phoneNumber").invalid
-                          ? "#FF0000"
-                          : "#0055DD"
-                      }
-                    />
+                    <PhoneIcon fill={phoneError ? "#FF0000" : "#0055DD"} />
                     <div className="flex-1 relative">
                       <label
                         className={cn(
                           "text-xs font-semibold text-[#303D55]/60",
-                          !form.watch("phoneNumber") && "hidden"
+                          !phoneValue && "hidden"
                         )}
                       >
                         {t("register.phoneNumber")}
                       </label>
 
                       <Input
+                        readOnly={isUserNotExist}
                         type="tel"
                         placeholder={t("register.phonePlaceholder")}
                         {...field}
                         className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
+                        onChange={(e) => {
+                          field.onChange(e);
+                          // Trigger validation immediately on change
+                          form.trigger("phoneNumber");
+                        }}
                         onFocus={() => {
                           setPhoneInputFocus(true);
                         }}
@@ -155,82 +210,110 @@ export default function AuthRegisterForm({
                         }}
                       />
                     </div>
-                    {form.getFieldState("phoneNumber").isDirty &&
-                      !form.getFieldState("phoneNumber").invalid && (
-                        <div className="bg-green-500 h-5 w-5 rounded-full grid place-content-center p-2">
-                          <CheckCircleIcon fill="white" />
-                        </div>
-                      )}
+                    {phoneIsDirty && !phoneError && (
+                      <div className="bg-green-500 h-5 w-5 rounded-full grid place-content-center p-2">
+                        <CheckCircleIcon fill="white" />
+                      </div>
+                    )}
                   </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl
-                  className={cn(
-                    "border px-5 h-[60px]  rounded-2xl space-y-0 gap-0",
-                    usernameInputFocus &&
-                      !form.getFieldState("username").invalid &&
-                      "ring-2 ring-[#3388FF]",
-                    form.getFieldState("username").invalid &&
-                      "ring-2 ring-red-500"
-                  )}
-                >
-                  <div className="flex items-center gap-3 w-full">
-                    <UserOutline
-                      fill={
-                        form.getFieldState("username").invalid
-                          ? "#FF0000"
-                          : "#0055DD"
-                      }
-                    />
-                    <div className="flex-1 relative">
-                      <label
-                        className={cn(
-                          "text-xs font-semibold text-[#303D55]/60",
-                          !form.watch("username") && "hidden"
-                        )}
-                      >
-                        {t("register.username")}
-                      </label>
-
-                      <Input
-                        type="text"
-                        placeholder={t("register.usernamePlaceholder")}
-                        {...field}
-                        className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
-                        onFocus={() => {
-                          setUsernameInputFocus(true);
-                        }}
-                        onBlur={() => {
-                          setUsernameInputFocus(false);
-                        }}
+          {isUserNotExist && (
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl
+                    className={cn(
+                      "border px-5 h-[60px]  rounded-2xl space-y-0 gap-0",
+                      usernameInputFocus &&
+                        !usernameError &&
+                        "ring-2 ring-[#3388FF]",
+                      usernameError && "ring-2 ring-red-500"
+                    )}
+                  >
+                    <div className="flex items-center gap-3 w-full">
+                      <UserOutline
+                        fill={usernameError ? "#FF0000" : "#0055DD"}
                       />
-                    </div>
-                    {form.getFieldState("username").isDirty &&
-                      !form.getFieldState("username").invalid && (
+                      <div className="flex-1 relative">
+                        <label
+                          className={cn(
+                            "text-xs font-semibold text-[#303D55]/60",
+                            !usernameValue && "hidden"
+                          )}
+                        >
+                          {t("register.username")}
+                        </label>
+
+                        <Input
+                          type="text"
+                          placeholder={t("register.usernamePlaceholder")}
+                          {...field}
+                          className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
+                          onFocus={() => {
+                            setUsernameInputFocus(true);
+                          }}
+                          onBlur={() => {
+                            setUsernameInputFocus(false);
+                          }}
+                        />
+                      </div>
+                      {usernameIsDirty && !usernameError && (
                         <div className="bg-green-500 h-5 w-5 rounded-full grid place-content-center p-2">
                           <CheckCircleIcon fill="white" />
                         </div>
                       )}
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button
-            type="submit"
-            className="mt-12 w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
-          >
-            {t("register.continue")}
-          </Button>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          {!isUserNotExist ? (
+            <Button
+              type="button"
+              className="mt-12 w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
+              onClick={handleCheckIfUserExist}
+              disabled={!phoneIsDirty || !!phoneError || isLoading}
+            >
+              {isLoading ? (
+                <Loader className=" animate-spin w-4 h-4" />
+              ) : (
+                t("register.continue")
+              )}
+            </Button>
+          ) : (
+            <div className="space-y-5">
+              <Button
+                type="submit"
+                className="mt-12 w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <Loader className=" animate-spin w-4 h-4" />
+                ) : (
+                  t("register.continue")
+                )}
+              </Button>
+
+              <Button
+                type="button"
+                className="w-full rounded-full cursor-pointer"
+                variant={"ghost"}
+                onClick={() => {
+                  setUserNotExist(false);
+                }}
+              >
+                Back
+              </Button>
+            </div>
+          )}
         </form>
       </Form>
     </div>

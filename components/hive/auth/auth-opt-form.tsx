@@ -1,22 +1,31 @@
 "use client";
 
 import React, { useState } from "react";
+import { sendOtp } from "@/services/auth/send-opt";
 import signin from "@/services/auth/signin";
-import { useGlobalState } from "@/store";
+import signup from "@/services/auth/signup";
+import { useAuthStore } from "@/store/auth";
 import { useQueryClient } from "@tanstack/react-query";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Loader } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import OtpIcon from "@/components/icon/otp";
 
+import OtpCountDown from "./otp-count-down";
+
 export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
+  const [isLoading, setLoading] = useState(false);
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));
+  const setAuthInfo = useAuthStore((state) => state.setAuthInfo);
+  const setIsResendOtp = useAuthStore((state) => state.setIsResendOtp);
+
   const [otpInputFocus, setOtpInputFocus] = useState<number | null>(null);
-  const authPhoneNumber = useGlobalState((state) => state.authPhoneNumber);
+  const authInfo = useAuthStore((state) => state.authInfo);
+  const isResetOtp = useAuthStore((state) => state.isResendOtp);
   const t = useTranslations("auth");
   const queryClient = useQueryClient();
 
@@ -43,16 +52,49 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    let res;
 
-    const res = await signin("963817838");
+    if (authInfo.authUserName) {
+      res = await signup(
+        authInfo.authUserName,
+        authInfo.authPhoneNumber,
+        otp.join("")
+      );
+    } else {
+      res = await signin(authInfo.authPhoneNumber, otp.join(""));
+    }
 
-    if (!res.status) {
-      toast.error(res.errorMessage);
+    if (!res?.status) {
+      toast.error(res?.message || "Failed to authenticate user");
     } else {
       toast.success("Login success");
       queryClient.invalidateQueries({ queryKey: ["user-info"] });
       document.getElementById("auth-trigger-dialog")?.click();
     }
+    setLoading(false);
+  };
+
+  const resendOtp = async () => {
+    setLoading(true);
+    const dataSendOtp = await sendOtp(authInfo.authPhoneNumber);
+
+    if (
+      !dataSendOtp.data.is_sent &&
+      dataSendOtp.data.next_available_otp_at === 0
+    ) {
+      toast.error(dataSendOtp.data.message);
+      setLoading(false);
+      return;
+    }
+
+    setAuthInfo({
+      authPhoneNumber: authInfo.authPhoneNumber,
+      authUserName: authInfo.authUserName,
+      authNextAvailableOtpAt: dataSendOtp.data.next_available_otp_at,
+    });
+    setIsResendOtp(false);
+    setLoading(false);
   };
 
   return (
@@ -68,7 +110,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
         </h1>
         <p className="text-[#303D55]/60">
           {t("otp.subtitle")}
-          {authPhoneNumber.slice(-3)}
+          {authInfo.authPhoneNumber.slice(-3)}
         </p>
       </div>
 
@@ -100,15 +142,25 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
 
           {/* Resend Code */}
           <div>
-            <p className="text-[#303D55]/60 text-sm">
-              {t("otp.resendText")}
-              <button
-                type="button"
-                className="text-[#3388FF] font-semibold hover:underline"
-              >
-                {t("otp.resend")}
-              </button>
-            </p>
+            {new Date() < new Date(authInfo.authNextAvailableOtpAt) &&
+            !isResetOtp ? (
+              <OtpCountDown />
+            ) : (
+              <p className="text-[#303D55]/60 text-sm">
+                <span className="mr-2"> {t("otp.resendText")}</span>
+                <button
+                  type="button"
+                  className="text-[#3388FF] font-semibold hover:underline "
+                  onClick={resendOtp}
+                >
+                  {isLoading ? (
+                    <Loader className=" animate-spin w-4 h-4" />
+                  ) : (
+                    t("otp.resend")
+                  )}
+                </button>
+              </p>
+            )}
           </div>
         </div>
 
@@ -119,13 +171,21 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
             className="w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
             disabled={otp.some((digit) => !digit)}
           >
-            {t("otp.signUp")}
+            {isLoading ? (
+              <Loader className=" animate-spin w-4 h-4" />
+            ) : (
+              t("register.continue")
+            )}
           </Button>
 
           {/* Back Button */}
           <button
+            type="button"
             className="text-lg font-semibold flex items-center gap-2 cursor-pointer"
-            onClick={onBack}
+            onClick={() => {
+              setOtp(new Array(4).fill(""));
+              onBack?.();
+            }}
           >
             <ChevronLeft />
             {t("otp.back")}
