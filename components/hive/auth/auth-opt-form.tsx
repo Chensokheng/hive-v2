@@ -17,7 +17,13 @@ import OtpIcon from "@/components/icon/otp";
 
 import OtpCountDown from "./otp-count-down";
 
-export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
+export default function AuthOptForm({
+  onBack,
+  currentStep,
+}: {
+  onBack?: () => void;
+  currentStep?: string;
+}) {
   const [isLoading, setLoading] = useState(false);
   const [otp, setOtp] = useState<string[]>(new Array(4).fill(""));
   const setAuthInfo = useAuthStore((state) => state.setAuthInfo);
@@ -120,6 +126,7 @@ export default function AuthOptForm({ onBack }: { onBack?: () => void }) {
           <div className="flex gap-3">
             {otp.map((digit, index) => (
               <Input
+                disabled={currentStep === "register"}
                 key={index}
                 id={`otp-${index}`}
                 type="text"

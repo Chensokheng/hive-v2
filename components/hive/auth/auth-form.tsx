@@ -65,7 +65,7 @@ export default function AuthForm() {
             {/* Register Form Slide */}
             <div
               className={cn(
-                "w-1/2 flex items-center justify-center ",
+                "w-1/2 flex items-center justify-center",
                 currentStep === "otp" ? "opacity-0" : "opacity-100"
               )}
             >
@@ -81,8 +81,11 @@ export default function AuthForm() {
                 currentStep === "register" ? "opacity-0" : "opacity-100"
               )}
             >
-              <div className="w-full">
-                <AuthOptForm onBack={handleBackToRegister} />
+              <div className={cn("w-full")}>
+                <AuthOptForm
+                  onBack={handleBackToRegister}
+                  currentStep={currentStep}
+                />
               </div>
             </div>
           </div>

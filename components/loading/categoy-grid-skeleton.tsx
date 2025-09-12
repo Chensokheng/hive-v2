@@ -13,13 +13,13 @@ export default function CategoryGridSkeleton() {
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
-            className="items-center h-[98px] w-[98px] lg:w-[148px] lg:h-[106px] flex-shrink-0 flex flex-col snap-start gap-2 lg:justify-center"
+            className="items-center h-[120px] py-2 w-[105px] lg:w-[148px] lg:h-[106px] flex-shrink-0 flex flex-col snap-start gap-2 lg:justify-center"
           >
             {/* Image skeleton */}
             <Skeleton className="w-13 h-13 rounded-full mx-auto bg-gray-200" />
 
             {/* Text skeleton */}
-            <Skeleton className="h-4 w-16 mx-auto bg-gray-200" />
+            <Skeleton className="h-10 w-16 mx-auto bg-gray-200" />
           </div>
         ))}
       </div>

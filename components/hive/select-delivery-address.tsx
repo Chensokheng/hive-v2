@@ -46,7 +46,7 @@ export default function SelectDeliveryAddress() {
         <h2 className="text-[#303D55]/60 text-xs font-medium">
           {t("nav.deliveryAddress")}
         </h2>
-        <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base truncate">
+        <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base truncate leading-6">
           {unAuthAddress
             ? unAuthAddress.slice(0, 20) + "..."
             : address

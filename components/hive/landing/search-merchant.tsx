@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSearchStore } from "@/store/search";
 import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
@@ -7,16 +7,26 @@ import { Input } from "@/components/ui/input";
 import SearchIcon from "@/components/icon/search";
 
 export default function SearchMerchant() {
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const t = useTranslations();
 
   const setSearchMerchantKeyword = useSearchStore(
     (state) => state.setSearchMerchantKeyword
   );
+  const searchMerchantKeyword = useSearchStore(
+    (state) => state.searchMerchantKeyword
+  );
+
   const handleChangeSearchMerchant = useDebouncedCallback((value) => {
     setSearchMerchantKeyword(value);
-    inputRef.current && (inputRef.current as HTMLInputElement).blur();
   }, 500);
+
+  useEffect(() => {
+    if (searchMerchantKeyword) {
+      inputRef.current!.value = searchMerchantKeyword.split("=")[1];
+    }
+  }, []);
 
   return (
     <div className="relative z-10 flex-1">
