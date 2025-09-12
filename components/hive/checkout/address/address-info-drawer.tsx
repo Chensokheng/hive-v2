@@ -315,42 +315,31 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
                     ))}
                   </div>
                 )}
-
-                {/* No results message */}
-                {/* {showResults &&
-                  searchResults.length === 0 &&
-                  searchQuery.trim() &&
-                  !isSearching && (
-                    <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg mt-1 z-80">
-                      <div className="px-4 py-3 text-center text-gray-500">
-                        No locations found for {searchQuery}
-                      </div>
-                    </div>
-                  )} */}
               </div>
 
-              <div className="relative h-34 bg-gray-100 rounded-lg mb-2 border-secondary border-1 overflow-hidden cursor-pointer">
-                {/* Map Container - Only updates when location is selected or place details are being fetched */}
-                {isFetchingPlaceDetails ? (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <Loader2 className="w-6 h-6 animate-spin text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-500">
-                        Loading location details...
-                      </p>
+              <div className="border-1 border-secondary rounded-lg">
+                {/* Map view-only */}
+                <div className="h-30 bg-gray-100 rounded-t-lg overflow-hidden cursor-pointer">
+                  {isFetchingPlaceDetails ? (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="text-center">
+                        <Loader2 className="w-6 h-6 animate-spin text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-500">
+                          Loading location details...
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <MapViewOnlyInner
-                    key={`${selectedLocation.coordinates.lat}-${selectedLocation.coordinates.lng}`} // Force re-render with key
-                    center={selectedLocation.coordinates}
-                    showPin={true}
-                  />
-                )}
+                  ) : (
+                    <MapViewOnlyInner
+                      key={`${selectedLocation.coordinates.lat}-${selectedLocation.coordinates.lng}`}
+                      center={selectedLocation.coordinates}
+                    />
+                  )}
+                </div>
 
-                {/* Selected Location Overlay */}
-                <div className="absolute z-50 bottom-0 left-0 right-0 bg-white shadow-lg border-gray-200">
-                  <div className="flex items-center gap-3 p-2">
+                {/* Selected Location Description */}
+                <div className="bottom-0 left-0 right-0 bg-white shadow-md rounded-b-lg overflow-hidden cursor-pointer">
+                  <div className="flex items-center gap-x-2 p-2">
                     <MapPin className="text-gray-500 h-6 w-6 flex-shrink-0" />
                     <div className="min-w-0 flex-1">
                       <h4 className="font-semibold truncate">

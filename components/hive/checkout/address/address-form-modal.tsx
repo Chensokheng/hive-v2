@@ -231,24 +231,10 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
                 </button>
               </div>
 
-              <div
-                onClick={() => setShowMapPicker(true)}
-                className="relative h-34 bg-gray-100 rounded-lg mb-2 border-secondary border-1 overflow-hidden cursor-pointer"
-              >
-                <MapViewOnlyInner
-                  center={
-                    formData.address
-                      ? {
-                          lat: formData.address.lat,
-                          lng: formData.address.lng,
-                        }
-                      : DEFAULT_LAT_LNG
-                  }
-                  showPin={true}
-                />
+              <div>
                 <div
-                  className="cursor-pointer relative"
                   onClick={() => setShowMapPicker(true)}
+                  className="h-21 bg-gray-100 rounded-t-lg overflow-hidden cursor-pointer"
                 >
                   <MapViewOnlyInner
                     center={
@@ -258,26 +244,29 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
                             lng: formData.address.lng,
                           }
                         : DEFAULT_LAT_LNG
-                      // DEFAULT_LAT_LNG
                     }
-                    showPin={true}
                   />
-
-                  {/* Click overlay */}
-                  <div className="absolute inset-0 bg-transparent hover:bg-black/10 transition-colors flex items-center justify-center">
-                    <div className="bg-white/90 rounded-lg px-3 py-2 opacity-0 hover:opacity-100 transition-opacity">
-                      <span className="text-sm font-medium text-gray-700">
-                        Click to select location
-                      </span>
-                    </div>
+                  <div
+                    className="cursor-pointer relative"
+                    onClick={() => setShowMapPicker(true)}
+                  >
+                    <MapViewOnlyInner
+                      center={
+                        formData.address
+                          ? {
+                              lat: formData.address.lat,
+                              lng: formData.address.lng,
+                            }
+                          : DEFAULT_LAT_LNG
+                      }
+                    />
                   </div>
                 </div>
-
-                {/* Selected Location Overlay */}
-                <div className="absolute z-50 bottom-0 left-0 right-0 bg-white shadow-lg border-gray-200">
-                  <div className="flex items-center gap-3 p-2">
-                    <MapPin className="text-gray-500 h-6 w-6" />
-                    <div className="flex-1 min-w-0">
+                {/* Selected Location Description */}
+                <div className="bottom-0 left-0 right-0 bg-white shadow-md rounded-b-lg overflow-hidden cursor-pointer">
+                  <div className="flex items-center gap-x-2 p-2">
+                    <MapPin className="text-gray-500 h-6 w-6 flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
                       <h4 className="font-semibold truncate">
                         {formData.address
                           ? formData.address.address.split(",")[0]
