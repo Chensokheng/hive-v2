@@ -25,7 +25,7 @@ export const MobileNav = () => {
   }
 
   return (
-    <nav className=" bg-transparent">
+    <nav className=" bg-transparent z-50">
       <div className="flex items-center gap-7 justify-between w-full z-50 px-5 py-[1.125rem]   lg:hidden overflow-hidden">
         <div className="h-10 w-[5.875rem] relative">
           <Image

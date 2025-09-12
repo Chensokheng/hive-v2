@@ -16,7 +16,7 @@ import {
 import CurrentLocationIcon from "@/components/icon/current-location";
 
 // Dynamically import map component to avoid SSR issues
-const MapComponent = dynamic(() => import("@/components/map/MapComponent"), {
+const MapComponent = dynamic(() => import("@/components/map-v2/MapComponent"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">

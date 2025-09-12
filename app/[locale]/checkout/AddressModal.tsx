@@ -31,7 +31,7 @@ interface AddressFormData {
 const DEFAULT_LAT_LNG = { lat: 11.550966450309836, lng: 104.9287729533798 }; // Keystone building
 
 const MapViewOnlyInner = dynamic(
-  () => import("@/components/map/MapViewOnlyComponent"),
+  () => import("@/components/map-v2/MapViewOnlyComponent"),
   {
     ssr: false,
     loading: () => (

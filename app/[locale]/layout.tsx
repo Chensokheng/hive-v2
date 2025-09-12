@@ -10,6 +10,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Toaster } from "react-hot-toast";
 
 import Navbar from "@/components/hive/navbar";
+import Address from "@/components/map/address";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -72,6 +73,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <main className="max-w-md lg:max-w-[1920px] mx-auto bg-[#F2F6FF]">
             <Navbar />
+            <Address />
 
             {children}
           </main>

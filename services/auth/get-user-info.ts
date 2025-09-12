@@ -36,5 +36,6 @@ export default async function getUserInfo() {
     latitude: user.data?.user_infos[0]?.place_lat,
     longtitude: user.data?.user_infos[0]?.place_long,
     hasPassword: user.data?.hasPassword,
+    placeAddress: user.data.user_infos[0]?.place_address,
   };
 }
