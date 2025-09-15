@@ -41,7 +41,7 @@ export default function Breadcrumb({
             <span
               className={
                 item.active
-                  ? "text-gray-900 font-semibold px-1 py-1"
+                  ? "text-gray-900 font-semibold px-1 py-1 capitalize"
                   : "text-gray-600 px-1 py-1"
               }
             >

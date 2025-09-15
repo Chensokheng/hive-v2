@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useSearchStore } from "@/store/search";
+import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -36,9 +37,21 @@ export default function SearchMerchant() {
         placeholder={t("nav.search.placeholder")}
         onChange={(e) => handleChangeSearchMerchant(e.target.value)}
       />
-      <div className="absolute top-2 right-4 cursor-pointer">
-        <SearchIcon />
-      </div>
+      {searchMerchantKeyword ? (
+        <div
+          className="absolute top-2 right-4 cursor-pointer"
+          onClick={() => {
+            setSearchMerchantKeyword("");
+            inputRef.current!.value = "";
+          }}
+        >
+          <X />
+        </div>
+      ) : (
+        <div className="absolute top-2 right-4 cursor-pointer">
+          <SearchIcon />
+        </div>
+      )}
     </div>
   );
 }

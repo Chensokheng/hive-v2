@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { useParams } from "next/navigation";
 import { seachAddressKeyword } from "@/services/address/search-address-keyword";
 import { updateDeliveryAddress } from "@/services/address/update-delivery-address";
 import { useAddresStore } from "@/store/address";
@@ -19,6 +20,8 @@ import { Label } from "../ui/label";
 
 export default function SearchAddress() {
   const [isLoading, setLoading] = useState(false);
+  const { merchant } = useParams() as { merchant: string };
+
   const setUnAuthAddress = useAddresStore((state) => state.setUnAuthAddress);
   const [search, setSearch] = useState("");
   const { data, isFetching } = useGetAddressByKeyword(search);
@@ -49,6 +52,9 @@ export default function SearchAddress() {
         token: user.token,
       });
       queryClient.invalidateQueries({ queryKey: ["user-info"] });
+      queryClient.invalidateQueries({
+        queryKey: ["merchant-outlets", merchant],
+      });
       setSearch("");
       inputRef.current!.value = res.data.address;
     } else {
@@ -56,11 +62,21 @@ export default function SearchAddress() {
 
       const res = await seachAddressKeyword(searchParam);
       if (res.data.length) {
+        setSearch("");
         inputRef.current!.value = res.data[0].address;
         setUnAuthAddress(res.data[0].address);
         sessionStorage.setItem("address", res.data[0].address);
         sessionStorage.setItem("lat", res.data[0].lat?.toString() ?? "");
         sessionStorage.setItem("lng", res.data[0].lng?.toString() ?? "");
+        queryClient.setQueryData(["user-info"], {
+          ...user,
+          placeAddress: res.data[0].address,
+          latitude: res.data[0].lat,
+          longtitude: res.data[0].lng,
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["merchant-outlets", merchant],
+        });
       }
     }
     setLoading(false);

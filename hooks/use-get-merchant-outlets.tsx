@@ -8,7 +8,7 @@ export default function useGetMerchantOutlets(
   enabled: boolean = false
 ) {
   return useQuery({
-    queryKey: ["merchant-outlets", merchantName],
+    queryKey: ["merchant-outlets", merchantName, latitude, longitude],
     queryFn: () => getMerchantOutlets(merchantName, latitude, longitude),
     enabled: enabled,
   });

@@ -40,7 +40,7 @@ export default function SelectDeliveryAddress() {
         <MapPin color="#FF66CC" />
       </div>
       <div
-        className="flex-1 min-w-0 z-50"
+        className="flex-1 min-w-0 z-50 w-50"
         onClick={() => setOpenAddresSheet(true)}
       >
         <h2 className="text-[#303D55]/60 text-xs font-medium">
@@ -48,9 +48,9 @@ export default function SelectDeliveryAddress() {
         </h2>
         <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base truncate leading-6">
           {unAuthAddress
-            ? unAuthAddress.slice(0, 20) + "..."
+            ? unAuthAddress.slice(0, 22) + "..."
             : address
-              ? address.slice(0, 20) + "..."
+              ? address.slice(0, 22) + "..."
               : t("nav.enterDeliveryAddress")}
         </h1>
       </div>
