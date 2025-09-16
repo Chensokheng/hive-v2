@@ -2,9 +2,12 @@ import { OutletMenuResponse } from "@/types-v2";
 
 import { getImageUrl } from "@/lib/utils";
 
-export const getOutletMenu = async (outletId: number) => {
+export const getOutletMenu = async (
+  outletId: number,
+  categoryId: number | null
+) => {
   const response = await fetch(
-    `https://api-truemoney-stg.savyu.com/api/web/menu?outlet_id=${outletId}&type=delivery&limit=70`
+    `https://api-truemoney-stg.savyu.com/api/web/menu?outlet_id=${outletId}&type=delivery&limit=70${categoryId ? `&category_id=${categoryId}` : ""}`
   );
   const data = (await response.json()) as OutletMenuResponse;
 

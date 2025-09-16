@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useOutletStore } from "@/store/outlet";
 import { AsyncImage } from "loadable-image";
 import { Plus } from "lucide-react";
 import { Blur } from "transitions-kit";
 
 import { cn } from "@/lib/utils";
+import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletMenu from "@/hooks/use-get-outlet-menu";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,9 +21,23 @@ export default function OutletMenu() {
   const { data: merchantInfo, isLoading: isUserLoading } =
     useGetMerchantInfo(merchant);
 
+  const setCategoryId = useOutletStore((state) => state.setCategoryId);
+
+  const categoryId = useOutletStore((state) => state.categoryId);
+
   const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
 
-  const { data: menus, isLoading } = useGetOutletMenu(foundOutlet?.id!);
+  const { data: menus, isLoading } = useGetOutletMenu(
+    foundOutlet?.id!,
+    categoryId
+  );
+  const { data: rate } = useGetExchangeRate();
+
+  useEffect(() => {
+    return () => {
+      setCategoryId(null);
+    };
+  }, []);
 
   if (isLoading || isUserLoading) {
     return (
@@ -71,6 +87,7 @@ export default function OutletMenu() {
                           }}
                           className="rounded-t-xl object-center object-cover"
                           loader={<div className="bg-gray-300" />}
+                          alt={item.name}
                         />
                         <div
                           className={cn(
@@ -86,7 +103,7 @@ export default function OutletMenu() {
                           </div>
                         </div>
 
-                        <div className="px-5 py-4 w-full">
+                        <div className="px-3 py-4 w-full">
                           <h1 className="text-[#161F2F] font-semibold break-words overflow-hidden text-ellipsis">
                             {item.name}
                           </h1>
@@ -105,79 +122,10 @@ export default function OutletMenu() {
                               )}
                             </div>
                             <span className="text-xs font-medium text-[#363F4F]/60">
-                              ≈{Math.round(4000 * item.price)}៛
+                              ≈{Math.round(rate ? rate * item.price : 0)}៛
                             </span>
                           </div>
                         </div>
-
-                        {/* <div
-                          className={cn(
-                            " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
-                          )}
-                        >
-                          <div className="flex items-center">
-                            {quantity > 0 && (
-                              <button
-                                className={cn(
-                                  " h-9 w-9 grid place-content-center rounded-full cursor-pointer",
-                                  {
-                                    "animate-pulse": isPending,
-                                  }
-                                )}
-                                onClick={handleDecrement}
-                              >
-                                <Minus className="text-primary" />
-                              </button>
-                            )}
-
-                            <span
-                              className={cn(
-                                " text-center focus:outline-none font-bold w-9 mx-auto",
-                                quantity === 0 ? "hidden" : "block",
-                                {
-                                  "animate-pulse": isPending,
-                                }
-                              )}
-                            >
-                              {quantity}
-                            </span>
-                            <div
-                              className={cn(
-                                " h-9 w-9 grid place-content-center rounded-full",
-                                {
-                                  "animate-pulse": isPending,
-                                }
-                              )}
-                              onClick={handleIncrement}
-                            >
-                              <Plus className="text-primary" />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="px-5 py-4 w-full">
-                        <h1 className="text-[#161F2F] font-semibold break-words overflow-hidden text-ellipsis">
-                          {name}
-                        </h1>
-                        <div>
-                          <div className="flex items-center gap-1">
-                            <span className="text-lg font-bold text-primary">
-                              ${" "}
-                              {promotionPrice !== price
-                                ? promotionPrice
-                                : price}
-                            </span>
-                            {promotionPrice !== price && (
-                              <span className=" line-through text-gray-400">
-                                ${price}
-                              </span>
-                            )}
-                          </div>
-                          <span className="text-xs font-medium text-[#363F4F]/60">
-                            ≈{Math.round(rate ? rate * price : 0)}៛
-                          </span>
-                        </div>
-                      </div> */}
                       </div>
                     </div>
                   );

@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
+import { useOutletStore } from "@/store/outlet";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
+import { cn } from "@/lib/utils";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletCategory from "@/hooks/use-get-outlet-category";
 import { Input } from "@/components/ui/input";
@@ -16,6 +18,8 @@ export default function OutletCategorySidebar() {
     outlet: string;
   };
   const [searchQuery, setSearchQuery] = useState("");
+  const categoryId = useOutletStore((state) => state.categoryId);
+  const setCategoryId = useOutletStore((state) => state.setCategoryId);
 
   const { data: merchantInfo } = useGetMerchantInfo(merchant);
 
@@ -43,7 +47,15 @@ export default function OutletCategorySidebar() {
           <SearchIcon />
         </div>
       </div>
-      <div className="font-bold text-primary px-4 py-2.5 bg-[#0055DD1A] rounded-full mt-6 mb-2">
+      <div
+        className={cn(
+          "font-bold text-primary px-4 py-2.5  rounded-full mt-6 mb-2 cursor-pointer transition-all hover:bg-sky-100",
+          {
+            "bg-[#0055DD1A]": !categoryId,
+          }
+        )}
+        onClick={() => setCategoryId(null)}
+      >
         All
       </div>
       {isLoading && (
@@ -61,7 +73,13 @@ export default function OutletCategorySidebar() {
         {filteredCategories?.map((category) => (
           <div
             key={category.id}
-            className="font-bold text-[##161F2F] px-4 py-2.5 hover:bg-sky-100 rounded-full cursor-pointer"
+            className={cn(
+              "font-bold text-[##161F2F] px-4 py-2.5 hover:bg-sky-100 rounded-full cursor-pointer transition-all",
+              {
+                "bg-[#0055DD1A] text-primary": categoryId === category.id,
+              }
+            )}
+            onClick={() => setCategoryId(category.id)}
           >
             {category.nameEN}
           </div>
