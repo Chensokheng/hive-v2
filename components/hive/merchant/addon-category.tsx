@@ -18,6 +18,7 @@ export default function AddonCategoryComponent({
   selectedAddons,
   onAddonChange,
 }: AddonCategoryProps) {
+  console.log(category);
   const isMultipleSelection = category.maximum_purchase > 1;
   const isRequired = category.required === 1;
 

@@ -2,7 +2,7 @@ import { MenuAddOnItemResponse } from "@/types-v2";
 
 import { getImageUrl } from "@/lib/utils";
 
-export default async function getOutletMenuAddon(
+export default async function getOutletMenuDetail(
   outletId: number,
   menuItemId: number
 ) {

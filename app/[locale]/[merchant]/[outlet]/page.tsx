@@ -1,9 +1,11 @@
 import React from "react";
 
+import AuthDialog from "@/components/hive/auth/auth-dialog";
 import OutletCategoryMobile from "@/components/hive/merchant/outlet-category-mobile";
 import OutletCategorySidebar from "@/components/hive/merchant/outlet-category-sidebar";
 import OutletHeader from "@/components/hive/merchant/outlet-header";
 import OutletMenu from "@/components/hive/merchant/outlet-menu";
+import OutletMenuToCart from "@/components/hive/merchant/outlet-menu-to-cart";
 import OutletMobileNav from "@/components/hive/merchant/outlet-mobile-nav";
 
 import BreadCrumOutlet from "./_components/bread-crum";
@@ -29,6 +31,10 @@ export default function page() {
           </div>
         </div>
       </div>
+      <AuthDialog>
+        <div></div>
+      </AuthDialog>
+      <OutletMenuToCart />
     </>
   );
 }

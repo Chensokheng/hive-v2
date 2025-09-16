@@ -47,7 +47,7 @@ export default function OutletHeader() {
         loader={<div className="bg-gray-300" />}
         className="shadow top-[-40px] left-4 absolute border-4 border-white object-center object-cover"
       />
-      <div className="relative h-28 lg:h-20">
+      <div className="relative h-32 lg:h-20">
         {(isLoading && isEnabled) || isLoadingUser ? (
           <div className=" absolute top-[-30px] left-4 space-y-3 w-full">
             <Skeleton className="h-6 w-3/4 bg-gray-300" />

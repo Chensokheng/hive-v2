@@ -17,7 +17,7 @@ import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
-import useGetMenuAddOn from "@/hooks/use-get-menu-addOn";
+import useGetMenuAddOn from "@/hooks/use-get-menu-detail";
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";

@@ -1,77 +1,77 @@
-import React from "react";
+// import React from "react";
 
-import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
-import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
-import useGetOutletMenu from "@/hooks/use-get-outlet-menu";
-import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
-import useGetUserInfo from "@/hooks/use-get-user-info";
+// import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
+// import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
+// import useGetOutletMenu from "@/hooks/use-get-outlet-menu";
+// import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
+// import useGetUserInfo from "@/hooks/use-get-user-info";
 
-import MenuCard from "./menu-card";
+// import MenuCard from "./menu-card";
 
-export default function Menus({
-  merchantName,
-  outletName,
-}: {
-  merchantName: string;
-  outletName: string;
-}) {
-  const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchantName);
-  const { data: user } = useGetUserInfo();
+// export default function Menus({
+//   merchantName,
+//   outletName,
+// }: {
+//   merchantName: string;
+//   outletName: string;
+// }) {
+//   const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchantName);
+//   const { data: user } = useGetUserInfo();
 
-  const foundOutlet = merchantInfo?.find(
-    (item) => item.shortName === outletName
-  );
+//   const foundOutlet = merchantInfo?.find(
+//     (item) => item.shortName === outletName
+//   );
 
-  const { data: menus } = useGetOutletMenu(foundOutlet?.id!);
-  const { data: rate } = useGetExchangeRate();
+//   const { data: menus } = useGetOutletMenu(foundOutlet?.id!);
+//   const { data: rate } = useGetExchangeRate();
 
-  const { data: unpaidItem, isLoading: isLoadingCartItems } =
-    useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
+//   const { data: unpaidItem, isLoading: isLoadingCartItems } =
+//     useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
 
-  if (isLoading) {
-    return <h1>loading...</h1>;
-  }
+//   if (isLoading) {
+//     return <h1>loading...</h1>;
+//   }
 
-  return (
-    <div>
-      {menus?.map((menu, index) => {
-        return (
-          <div key={index}>
-            <h1 className="font-bold text-black text-lg px-2 my-5">
-              {menu.name}
-            </h1>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-5 px-3 lg:px-0">
-              {menu.items?.map((item, index) => {
-                const menuQuantity =
-                  unpaidItem?.items
-                    ?.filter(
-                      (value) =>
-                        value.menuItemId === item.id &&
-                        value.cartDiscountedProduct === null
-                    )
-                    ?.reduce((sum, value) => sum + (value.quantity || 0), 0) ||
-                  0;
+//   return (
+//     <div>
+//       {menus?.map((menu, index) => {
+//         return (
+//           <div key={index}>
+//             <h1 className="font-bold text-black text-lg px-2 my-5">
+//               {menu.name}
+//             </h1>
+//             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-5 px-3 lg:px-0">
+//               {menu.items?.map((item, index) => {
+//                 const menuQuantity =
+//                   unpaidItem?.items
+//                     ?.filter(
+//                       (value) =>
+//                         value.menuItemId === item.id &&
+//                         value.cartDiscountedProduct === null
+//                     )
+//                     ?.reduce((sum, value) => sum + (value.quantity || 0), 0) ||
+//                   0;
 
-                return (
-                  <MenuCard
-                    key={index}
-                    img={item.image}
-                    price={item.price}
-                    rate={rate!}
-                    userId={Number(user?.userId!)}
-                    outletId={foundOutlet?.id!}
-                    name={item.name}
-                    menuQuantity={menuQuantity}
-                    menuItemId={item.id}
-                    hasAddOn={item.hasAddOn}
-                    promotionPrice={item.promotionPrice}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+//                 return (
+//                   <MenuCard
+//                     key={index}
+//                     img={item.image}
+//                     price={item.price}
+//                     rate={rate!}
+//                     userId={Number(user?.userId!)}
+//                     outletId={foundOutlet?.id!}
+//                     name={item.name}
+//                     menuQuantity={menuQuantity}
+//                     menuItemId={item.id}
+//                     hasAddOn={item.hasAddOn}
+//                     promotionPrice={item.promotionPrice}
+//                   />
+//                 );
+//               })}
+//             </div>
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// }
