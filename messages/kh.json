@@ -53,5 +53,27 @@
   "listMerchant": {
     "allStore": "ហាងទាំងអស់",
     "notFound": "មិនមានហាងទាំងអស់"
+  },
+  "merchant": {
+    "outlet": {
+      "searchBranch": "ស្វែងរកហាង",
+      "filterBy": "តម្រូវការតាម"
+    }
+  },
+  "workingHours": {
+    "open": "បើក",
+    "closed": "បិទ",
+    "closes": "បិទម៉ោង",
+    "opens": "បើកម៉ោង",
+    "today": "ថ្ងៃនេះ",
+    "days": {
+      "monday": "ថ្ងៃចន្ទ",
+      "tuesday": "ថ្ងៃអង្គារ",
+      "wednesday": "ថ្ងៃពុធ",
+      "thursday": "ថ្ងៃព្រហស្បតិ៍",
+      "friday": "ថ្ងៃសុក្រ",
+      "saturday": "ថ្ងៃសៅរ៍",
+      "sunday": "ថ្ងៃអាទិត្យ"
+    }
   }
 }

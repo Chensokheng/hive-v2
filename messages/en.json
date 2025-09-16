@@ -51,5 +51,27 @@
   "listMerchant": {
     "allStore": "All Store",
     "notFound": "No Merchants found"
+  },
+  "merchant": {
+    "outlet": {
+      "searchBranch": "Search Branch",
+      "filterBy": "Filter By"
+    }
+  },
+  "workingHours": {
+    "open": "Open",
+    "closed": "Closed",
+    "closes": "Closes",
+    "opens": "Opens",
+    "today": "today",
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
   }
 }

@@ -1,9 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
 import MapIcon from "@/components/icon/map";
+
+import OutletWorkingHour from "./outlet-working-hour";
 
 export default function OutletCard({
   merchant,
@@ -23,6 +26,9 @@ export default function OutletCard({
     distance: number;
   };
 }) {
+  const { locale } = useParams();
+  const address = locale === "en" ? outlet.addressEn : outlet.address;
+
   return (
     <Link
       href={"/" + merchant + "/" + outlet.shortName}
@@ -38,12 +44,15 @@ export default function OutletCard({
       />
 
       <h1 className="text-[#161F2F] font-semibold">{outlet.name}</h1>
-      <div className="text-sm text-[#303D5599] flex gap-2">
+      <div className="text-sm text-[#303D5599] flex gap-2 flex-wrap">
         <MapIcon />
         <span className="text-[#161F2F]">{outlet.distance / 1000} km -</span>
-
-        <span>{outlet.addressEn.slice(0, 32)}...</span>
+        <span>{address.slice(0, 30)}...</span>
       </div>
+      <OutletWorkingHour
+        merchantName={merchant}
+        outletName={outlet.shortName}
+      />
     </Link>
   );
 }

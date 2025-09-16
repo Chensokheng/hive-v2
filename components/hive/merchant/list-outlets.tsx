@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import useGetMerchantOutlets from "@/hooks/use-get-merchant-outlets";
@@ -14,6 +15,7 @@ import OutletCard from "./outlet-card";
 
 export default function ListOutlets() {
   const { merchant } = useParams() as { merchant: string };
+  const t = useTranslations("merchant.outlet");
 
   const { data: user, isLoading: LoadingUser } = useGetUserInfo();
 
@@ -43,7 +45,7 @@ export default function ListOutlets() {
         <div className="relative z-10 flex-1 max-w-[384px]">
           <Input
             className="bg-white rounded-full shadow-none h-10 w-full pl-10 border-none text-base"
-            placeholder="Search branch"
+            placeholder={t("searchBranch")}
             onChange={(e) => setOuletName(e.target.value)}
           />
           <div className="absolute top-2.5  left-3  cursor-pointer">
@@ -51,7 +53,9 @@ export default function ListOutlets() {
           </div>
         </div>
         <div className="flex lg:items-center flex-col lg:flex-row gap-2 lg:gap-5">
-          <h1 className="fold-bold text-[#161F2F] font-semibold">Filter by:</h1>
+          <h1 className="fold-bold text-[#161F2F] font-semibold">
+            {t("filterBy")}:
+          </h1>
           <div className="flex items-center gap-2">
             {filterOptions.map((option) => (
               <button
@@ -74,7 +78,7 @@ export default function ListOutlets() {
         <div className="text-center text-gray-500">No outlets found</div>
       )}
       {isLoading && (
-        <div className="grid  grid-cols-1 gap-5 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid  grid-cols-1 gap-5 sm:gap-5 lg:grid-cols-3">
           {[1, 2, 3].map((item) => (
             <div
               className="maw-w-[384px] bg-white rounded-[16px] block py-5 pl-5 space-y-3"
@@ -86,12 +90,13 @@ export default function ListOutlets() {
 
               <Skeleton className="w-50 h-[20px] rounded-md bg-gray-300" />
               <Skeleton className="w-[90%] h-[20px] rounded-md bg-gray-300" />
+              <Skeleton className="w-[200px] h-5 mt-4" />
             </div>
           ))}
         </div>
       )}
 
-      <div className="grid  grid-cols-1 gap-5 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid  grid-cols-1 gap-5 sm:gap-5 lg:grid-cols-3">
         {merchantData?.outlets
           .filter(
             (outlet) =>
