@@ -1,11 +1,11 @@
-import React from "react";
+// import React from "react";
 
-import OutletPage from "./_components/outlet-page";
+// import OutletPage from "./_components/outlet-page";
 
-export async function generateStaticParams() {
-  return [];
-}
+// export async function generateStaticParams() {
+//   return [];
+// }
 
-export default function Page() {
-  return <OutletPage />;
-}
+// export default function Page() {
+//   return <OutletPage />;
+// }

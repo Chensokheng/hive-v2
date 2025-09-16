@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "next/navigation";
 import autoAnimate from "@formkit/auto-animate";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
@@ -8,22 +9,16 @@ import useGetOutletCategory from "@/hooks/use-get-outlet-category";
 import { Input } from "@/components/ui/input";
 import SearchIcon from "@/components/icon/search";
 
-interface OutletCategoryProps {
-  outletName: string;
-  merchantName: string;
-}
-
-export default function OutletCategoryMobile({
-  outletName,
-  merchantName,
-}: OutletCategoryProps) {
+export default function OutletCategoryMobile() {
+  const { merchant, outlet } = useParams() as {
+    merchant: string;
+    outlet: string;
+  };
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchantName);
+  const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchant);
 
-  const foundOutlet = merchantInfo?.find(
-    (item) => item.shortName === outletName
-  );
+  const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
   const { data: categories } = useGetOutletCategory(foundOutlet?.id!);
 
   // Filter categories based on search query
