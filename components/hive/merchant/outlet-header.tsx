@@ -59,7 +59,9 @@ export default function OutletHeader() {
             <h1 className="text-2xl font-bold">{data?.data?.name}</h1>
             <div className="text-sm text-[#303D5599] flex gap-2 flex-wrap">
               <MapIcon />
-              <span className="text-[#161F2F]">{2} km -</span>
+              <span className="text-[#161F2F]">
+                {data?.data?.distance} km -
+              </span>
               <span>
                 {data?.data?.address?.address +
                   " " +
