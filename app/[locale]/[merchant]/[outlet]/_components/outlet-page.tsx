@@ -12,9 +12,9 @@ import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 import { CouponSection } from "@/components/hive/merchant/coupon";
 import FlashSale from "@/components/hive/merchant/flash-sale";
 import Menus from "@/components/hive/merchant/menus";
-import MerchantHeader from "@/components/hive/merchant/merchant-header";
 import OutletCategoryMobile from "@/components/hive/merchant/outlet-category-mobile";
 import OutletCategorySidebar from "@/components/hive/merchant/outlet-category-sidebar";
+import OutletHeader from "@/components/hive/merchant/outlet-header";
 import OutletNavbar from "@/components/hive/merchant/outlet-navbar";
 import SpecialPromotion from "@/components/hive/merchant/special-promotion";
 
@@ -51,7 +51,7 @@ export default function OutletPage() {
           <div className="">
             <div className=" max-w-[900px] mx-auto lg:not-only-of-type:py-6">
               <Breadcrumb items={items} />
-              <MerchantHeader
+              <OutletHeader
                 locale={locale}
                 merchantName={merchant}
                 outletName={outlet}

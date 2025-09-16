@@ -1,25 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
-import autoAnimate from "@formkit/auto-animate";
+"use client";
+
+import React, { useState } from "react";
+import { useParams } from "next/navigation";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletCategory from "@/hooks/use-get-outlet-category";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import SearchIcon from "@/components/icon/search";
 
-export default function OutletCategorySidebar({
-  merchantName,
-  outletName,
-}: {
-  merchantName: string;
-  outletName: string;
-}) {
+export default function OutletCategorySidebar() {
+  const { merchant, outlet } = useParams() as {
+    merchant: string;
+    outlet: string;
+  };
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: merchantInfo } = useGetMerchantInfo(merchantName);
+  const { data: merchantInfo } = useGetMerchantInfo(merchant);
 
-  const foundOutlet = merchantInfo?.find(
-    (item) => item.shortName === outletName
-  );
+  const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
   const { data: categories, isLoading } = useGetOutletCategory(
     foundOutlet?.id!
   );
@@ -28,12 +28,7 @@ export default function OutletCategorySidebar({
   const filteredCategories = categories?.filter((category) =>
     category.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const parent = useRef(null);
-
-  useEffect(() => {
-    parent.current && autoAnimate(parent.current);
-  }, [parent]);
+  const [parent] = useAutoAnimate();
 
   return (
     <div className="w-[282px] py-7 sticky top-15 self-start h-fit  hidden lg:block">
@@ -51,6 +46,16 @@ export default function OutletCategorySidebar({
       <div className="font-bold text-primary px-4 py-2.5 bg-[#0055DD1A] rounded-full mt-6 mb-2">
         All
       </div>
+      {isLoading && (
+        <div className="space-y-2">
+          {[...Array(4)].map((_, index) => (
+            <Skeleton
+              key={index}
+              className="w-full h-10 bg-gray-300 rounded-full"
+            />
+          ))}
+        </div>
+      )}
 
       <div className="space-y-2" ref={parent}>
         {filteredCategories?.map((category) => (

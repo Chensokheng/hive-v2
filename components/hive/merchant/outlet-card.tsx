@@ -31,7 +31,7 @@ export default function OutletCard({
 
   return (
     <Link
-      href={"/" + merchant + "/" + outlet.shortName}
+      href={"/" + locale + "/" + merchant + "/" + outlet.shortName}
       key={outlet.id}
       className="maw-w-[384px] bg-white rounded-[16px] block py-5 pl-5 space-y-3"
     >

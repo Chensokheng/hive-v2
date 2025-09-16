@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { AsyncImage } from "loadable-image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Blur } from "transitions-kit";
 
 import { cn } from "@/lib/utils";
 
@@ -79,13 +80,12 @@ export function Carousel({
 
   const defaultRenderSlide = (item: CarouselItem, index: number) => (
     <div key={item.id} className="w-full h-full flex-shrink-0 relative">
-      <Image
-        src={item.image || "/placeholder.svg"}
-        alt={item.alt}
-        fill
-        className={cn("object-cover", imageClassName)}
-        priority={index === 0} // Priority loading for first image
-        sizes="100vw"
+      <AsyncImage
+        src={item.image}
+        Transition={Blur}
+        style={{ width: "100%", height: "100%" }}
+        className={imageClassName}
+        loader={<div className="bg-gray-300" />}
       />
 
       {(item.title || item.description) && (

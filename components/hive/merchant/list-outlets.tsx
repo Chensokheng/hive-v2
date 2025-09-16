@@ -36,7 +36,7 @@ export default function ListOutlets() {
   );
 
   const filterOptions = [2000, 5000, 7000, 10000];
-  const [selectedFilter, setSelectedFilter] = useState(10000);
+  const [selectedFilter, setSelectedFilter] = useState<number | undefined>();
   const [ouletName, setOuletName] = useState("");
 
   return (
@@ -100,7 +100,8 @@ export default function ListOutlets() {
         {merchantData?.outlets
           .filter(
             (outlet) =>
-              outlet.distance <= selectedFilter &&
+              (selectedFilter === undefined ||
+                outlet.distance <= selectedFilter) &&
               outlet.name.toLowerCase().includes(ouletName.toLowerCase())
           )
           .map((outlet) => {

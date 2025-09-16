@@ -71,7 +71,7 @@ export default async function RootLayout({
         className={`${locale === "kh" ? kantumruy.className : inter.className} antialiased`}
       >
         <NextIntlClientProvider>
-          <main className="max-w-md lg:max-w-[1920px] mx-auto bg-[#F2F6FF]">
+          <main className="max-w-md lg:max-w-[1920px] mx-auto bg-[#F2F6FF] relative">
             <Navbar />
             <Address />
 

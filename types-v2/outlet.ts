@@ -232,3 +232,25 @@ type OutletInfoResponse = {
     joined_contactless: boolean;
   };
 };
+
+type OutletBannerResponse = {
+  status: boolean;
+  data: [
+    {
+      id: number;
+      name: string;
+      image: string;
+      image_en: string;
+      status: string;
+      action_link_web: string;
+      action_link_app: string | null;
+      platform: string;
+      type: string;
+      outlet_id: string | null;
+      merchant_id: number;
+      created_at: string;
+      updated_at: string;
+      deleted_at: string | null;
+    },
+  ];
+};
