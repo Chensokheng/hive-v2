@@ -7,6 +7,8 @@ import { useOutletStore } from "@/store/outlet";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletMenu from "@/hooks/use-get-outlet-menu";
+import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import OutletMenuCard from "./outlet-menu-card";
@@ -22,7 +24,7 @@ export default function OutletMenu() {
   const setCategoryId = useOutletStore((state) => state.setCategoryId);
 
   const categoryId = useOutletStore((state) => state.categoryId);
-
+  const { data: user } = useGetUserInfo();
   const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
 
   const { data: menus, isLoading } = useGetOutletMenu(
@@ -30,6 +32,10 @@ export default function OutletMenu() {
     categoryId
   );
   const { data: rate } = useGetExchangeRate();
+  const { data: unpaidItem } = useGetOutletUnpaidItem(
+    Number(user?.userId!),
+    Number(foundOutlet?.id)
+  );
 
   useEffect(() => {
     return () => {
@@ -70,12 +76,30 @@ export default function OutletMenu() {
               </h1>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-5 lg:px-0  py-3">
                 {menu.items.map((item, index) => {
+                  // Sum up quantities for all unpaid items with the same menuItemId
+                  const totalQuantity =
+                    unpaidItem?.items
+                      ?.filter(
+                        (unpaidItem) =>
+                          unpaidItem.menuItemId === item.id &&
+                          (((unpaidItem.cartDiscountedProduct?.sellingPrice >
+                            0 ||
+                            !unpaidItem.cartDiscountedProduct) &&
+                            unpaidItem.promotionCartItem?.price > 0) ||
+                            !unpaidItem.promotionCartItem)
+                      )
+                      ?.reduce(
+                        (sum, unpaidItem) => sum + unpaidItem.quantity,
+                        0
+                      ) || 0;
+
                   return (
                     <OutletMenuCard
                       item={item}
                       rate={rate || 0}
                       key={index}
                       outletId={foundOutlet?.id!}
+                      existingItemQuantity={totalQuantity}
                     />
                   );
                 })}

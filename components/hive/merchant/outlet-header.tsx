@@ -35,7 +35,6 @@ export default function OutletHeader() {
     user?.latitude || getSessionStorageValue("lat") || 0,
     user?.longtitude || getSessionStorageValue("lng") || 0
   );
-  console.log(isLoading, isEnabled);
 
   return (
     <div className="bg-white md:rounded-2xl overflow-hidden border w-full">

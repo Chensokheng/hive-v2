@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useTransition } from "react";
+import { updateCartFee } from "@/services/outlet/update-cart-fee";
 import placeOrder from "@/services/place-order";
 import { useGlobalState } from "@/store";
 import { OutletUnpaidItemsDto } from "@/types-v2/dto";
@@ -8,6 +9,7 @@ import { Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import {
   Sheet,
   SheetContent,
@@ -33,7 +35,7 @@ export default function CheckoutSheet({
     (state) => state.setCheckoutSheetOpen
   );
   const [isPending, startTransition] = useTransition();
-
+  const { data: user } = useGetUserInfo();
   const { data: rate } = useGetExchangeRate();
   const isOrderChangeItem = useGlobalState((state) => state.isOrderChangeItem);
 
@@ -92,6 +94,17 @@ export default function CheckoutSheet({
       setCheckoutSheetOpen(false);
     }
   }, [unpaidItem?.totalQuantity]);
+
+  // update fee
+  useEffect(() => {
+    if (unpaidItem?.cartId) {
+      updateCartFee({
+        cartId: unpaidItem.cartId,
+        userId: unpaidItem.userInfo.userId,
+        token: user?.token!,
+      });
+    }
+  }, []);
 
   return (
     <Sheet

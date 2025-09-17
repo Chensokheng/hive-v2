@@ -33,7 +33,6 @@ export default function SelectDeliveryAddress() {
       <div
         className="h-10 w-10 bg-white lg:bg-[#FF66CC]/10 rounded-full grid place-content-center z-50"
         onClick={() => {
-          console.log("hello");
           setOpenAddresSheet(true);
         }}
       >

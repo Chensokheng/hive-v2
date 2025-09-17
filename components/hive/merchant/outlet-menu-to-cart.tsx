@@ -9,6 +9,7 @@ import React, {
 } from "react";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useOutletStore } from "@/store/outlet";
+import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
 import { ChevronLeft, Loader, Minus, Plus, XIcon } from "lucide-react";
 import toast from "react-hot-toast";
@@ -17,6 +18,7 @@ import { Blur } from "transitions-kit";
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetMenuDetail from "@/hooks/use-get-menu-detail";
+import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";
 import {
@@ -37,6 +39,8 @@ export interface SelectedAddon {
 }
 
 export default function OutletMenuToCart() {
+  const [isPending, startTransition] = useTransition();
+
   const openMenuSheet = useOutletStore((state) => state.openMenuSheet);
   const noteRef = useRef<HTMLInputElement>(null);
   const setOpenMenuSheet = useOutletStore((state) => state.setOpenMenuSheet);
@@ -44,18 +48,24 @@ export default function OutletMenuToCart() {
     (state) => state.selectedOutletMenu
   );
   const selectOutletId = useOutletStore((state) => state.selectOutletId);
-  const [isPending, startTransition] = useTransition();
 
+  const [basePrice, setBasePrice] = useState(selectedOutletMenu?.price || 0);
   const [selectedAddons, setSelectedAddons] = useState<SelectedAddon[]>([]);
+  const [quantity, setQuantity] = useState(1);
+
+  const { data: user } = useGetUserInfo();
 
   const { data: menuDetail } = useGetMenuDetail(
     selectOutletId!,
     selectedOutletMenu?.id! || 0
   );
-  const [basePrice, setBasePrice] = useState(selectedOutletMenu?.price || 0);
-  const [quantity, setQuantity] = useState(1);
+  const { data: unpaidItem } = useGetOutletUnpaidItem(
+    Number(user?.userId!),
+    Number(selectOutletId)
+  );
+
   const { data: rate } = useGetExchangeRate();
-  const { data: user } = useGetUserInfo();
+  const queryClient = useQueryClient();
 
   const handleAddonChange = (
     categoryId: number,
@@ -130,18 +140,35 @@ export default function OutletMenuToCart() {
   const totalPrice = (basePrice + totalAddonPrice) * quantity;
 
   const handleAddtoCart = () => {
+    const existingItem = unpaidItem?.items?.find(
+      (item) => item.menuItemId === selectedOutletMenu?.id
+    );
+
+    const addonDetails = selectedAddons.map((addon) => ({
+      qty: 1,
+      addon_detail_id: addon.itemId,
+    }));
+
+    const isSameAddOn = addonDetails.every((addon) =>
+      existingItem?.cartAddonItems.some(
+        (item) => item.addon_detail_id === addon.addon_detail_id
+      )
+    );
+
+    const cartId =
+      isSameAddOn && existingItem?.note === noteRef.current?.value
+        ? existingItem?.id
+        : null;
+
     startTransition(async () => {
       const res = await addItemtoCart({
-        cartItemId: null,
+        cartItemId: cartId,
         userId: Number(user?.userId),
         outletId: selectOutletId!,
-        qty: quantity,
+        qty: cartId ? quantity + (existingItem?.quantity || 0) : quantity,
         menuItemId: selectedOutletMenu?.id!,
         addNew: true,
-        addonDetails: selectedAddons.map((addon) => ({
-          qty: 1,
-          addon_detail_id: addon.itemId,
-        })),
+        addonDetails: addonDetails,
         note: noteRef.current?.value || "",
         token: user?.token,
       });
@@ -149,6 +176,10 @@ export default function OutletMenuToCart() {
         toast.error("Faild to add this item to cart");
         return;
       }
+      queryClient.invalidateQueries({
+        queryKey: ["outlet-unpaid-item", user?.userId, selectOutletId],
+      });
+      setOpenMenuSheet(false);
     });
   };
 
@@ -276,7 +307,7 @@ export default function OutletMenuToCart() {
           </div>
           <button
             className={cn(
-              "font-bold text-lg rounded-full py-3 w-full text-white transition-all duration-200 bg-primary flex items-center justify-center disabled:bg-gray-300",
+              "font-bold text-lg rounded-full py-3 w-full text-white transition-all duration-200 bg-primary flex items-center justify-center disabled:bg-gray-300 cursor-pointer",
               {}
             )}
             disabled={!areRequiredAddonsSelected || isPending}

@@ -65,6 +65,14 @@ export default async function getOutletUnpaidItem(
                 id: item.cart_discounted_product.id,
               }
             : null,
+          promotionCartItem: item.promotionCartItem
+            ? {
+                promotionProductId: item.promotionCartItem.promotion_product_id,
+                price: item.promotionCartItem.price,
+                cartItemId: item.promotionCartItem.cart_item_id,
+                id: item.promotionCartItem.id,
+              }
+            : null,
         };
       }),
     };

@@ -12,17 +12,6 @@ export default async function Signup(
     phoneNumber = phoneNumber.substring(1);
   }
 
-  console.log(
-    {
-      otp,
-      phone: {
-        number_phone: phoneNumber,
-        country_code: 855,
-      },
-    },
-    "###"
-  );
-
   try {
     const resVerifyOtp = await fetch(
       process.env.NEXT_PUBLIC_HIVE_BASE_API + "/api/v2/web/user/verify-otp",

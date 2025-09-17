@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useParams } from "next/navigation";
 import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
@@ -10,20 +11,16 @@ import useGetUserInfo from "@/hooks/use-get-user-info";
 import { FloatingCart } from "../floating-cart";
 import CheckoutSheet from "./checkout-sheet";
 
-export default function Checkout({
-  merchantName,
-  outletName,
-}: {
-  merchantName: string;
-  outletName: string;
-}) {
+export default function Checkout() {
+  const { merchant, outlet } = useParams() as {
+    merchant: string;
+    outlet: string;
+  };
   const { data: user } = useGetUserInfo();
 
-  const { data: merchantInfo } = useGetMerchantInfo(merchantName);
+  const { data: merchantInfo } = useGetMerchantInfo(merchant);
 
-  const foundOutlet = merchantInfo?.find(
-    (item) => item.shortName === outletName
-  );
+  const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
 
   const {
     data: unpaidItem,
@@ -37,10 +34,12 @@ export default function Checkout({
 
   return (
     <div className="w-full">
-      <FloatingCart
-        quantity={unpaidItem?.totalQuantity || 0}
-        isFetching={isFetching}
-      />
+      {unpaidItem?.totalQuantity && (
+        <FloatingCart
+          quantity={unpaidItem?.totalQuantity || 0}
+          isFetching={isFetching}
+        />
+      )}
 
       <CheckoutSheet
         unpaidItem={unpaidItem as OutletUnpaidItemsDto}

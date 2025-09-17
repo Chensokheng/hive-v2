@@ -13,6 +13,7 @@ export default function OutletMenuCard({
   item,
   rate,
   outletId,
+  existingItemQuantity,
 }: {
   item: {
     id: number;
@@ -24,11 +25,13 @@ export default function OutletMenuCard({
   };
   rate: number;
   outletId: number;
+  existingItemQuantity: number;
 }) {
   const setSelectedOutletMenu = useOutletStore(
     (state) => state.setSelectedOutletMenu
   );
   const { data: user } = useGetUserInfo();
+
   return (
     <div
       className=" block w-full max-w-full rounded-lg bg-white hover:shadow transition-all cursor-pointer"
@@ -59,9 +62,15 @@ export default function OutletMenuCard({
           )}
         >
           <div
-            className={cn(" h-9 w-9 grid place-content-center rounded-full")}
+            className={cn(" h-9 w-9 grid place-content-center rounded-full", {
+              "ring-primary ring-2": existingItemQuantity > 0,
+            })}
           >
-            <Plus className="text-primary" />
+            {existingItemQuantity ? (
+              <span className="font-bold">{existingItemQuantity}</span>
+            ) : (
+              <Plus className="text-primary" />
+            )}
           </div>
         </div>
 
