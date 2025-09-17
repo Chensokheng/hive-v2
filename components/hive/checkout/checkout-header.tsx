@@ -13,18 +13,21 @@ export default function CheckoutHeader() {
 
   return (
     <>
-      <div
-        className="flex items-center py-3 border-primary-bg absolute top-0 left-0 w-full bg-white"
-        onClick={() => setOpenCheckoutSheet(false)}
-      >
-        <ChevronLeft className="text-primary w-8 h-8 cursor-pointer" />
-        <h1 className="flex-1 text-center text-lg font-bold">Checkout</h1>
+      <div className="bg-white px-4 pt-15 sticky top-0 left-0 w-full z-50">
+        <div
+          className="flex items-center py-3 border-primary-bg absolute top-0 left-0 w-full bg-white"
+          onClick={() => setOpenCheckoutSheet(false)}
+        >
+          <ChevronLeft className="text-primary w-8 h-8 cursor-pointer" />
+          <h1 className="flex-1 text-center text-lg font-bold">Checkout</h1>
+        </div>
       </div>
-      <div className="flex">
+
+      <div className="flex px-4">
         <div className="flex p-1 bg-[#EBEFF7] rounded-full">
           <button
             className={cn(
-              "py-2 px-4.5  rounded-full font-semibold cursor-pointer transition-all",
+              "py-2 px-4.5  rounded-full font-semibold cursor-pointer transition-all text-sm",
               {
                 "bg-white text-[#161F2F]": isDelivery,
               }
@@ -36,7 +39,7 @@ export default function CheckoutHeader() {
 
           <button
             className={cn(
-              "py-2 px-4.5  rounded-full font-semibold cursor-pointer transition-all",
+              "py-2 px-4.5  rounded-full font-semibold cursor-pointer transition-all text-sm",
               {
                 "bg-white text-[#161F2F]": !isDelivery,
               }

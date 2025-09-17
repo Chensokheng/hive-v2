@@ -13,14 +13,14 @@ import {
 
 import CheckoutHeader from "./checkout-header";
 import DeliveryInfo from "./delivery-info";
+import OrderItems from "./order-items";
 
 export default function CheckoutSheet({ outletId }: { outletId: number }) {
   const { data: user } = useGetUserInfo();
-  const {
-    data: unpaidItem,
-    isFetching,
-    isLoading,
-  } = useGetOutletUnpaidItem(Number(user?.userId!), outletId);
+  const { data: unpaidItem } = useGetOutletUnpaidItem(
+    Number(user?.userId!),
+    outletId
+  );
 
   const openCheckoutSheet = useOutletStore((state) => state.openCheckoutSheet);
   const setOpenCheckoutSheet = useOutletStore(
@@ -30,7 +30,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
 
   return (
     <Sheet open={openCheckoutSheet} onOpenChange={setOpenCheckoutSheet}>
-      <SheetContent className="w-full sm:max-w-[900px]" showCloseBtn={false}>
+      <SheetContent className="w-full sm:max-w-[800px]" showCloseBtn={false}>
         <SheetHeader className="hidden">
           <SheetTitle className="hidden" aria-readonly>
             Checkout
@@ -39,10 +39,9 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
             This is checkout
           </SheetDescription>
         </SheetHeader>
-        <div className="overflow-y-auto relative hide-scroll flex flex-col min-h-[90vh]">
-          <div className=" bg-white px-4 pt-15 sticky top-0 left-0 w-full z-50">
-            <CheckoutHeader />
-          </div>
+        <div className="overflow-y-auto relative hide-scroll flex flex-col min-h-screen">
+          <CheckoutHeader />
+
           {unpaidItem?.cartId && isDelivery && (
             <DeliveryInfo cartId={unpaidItem?.cartId} />
           )}
@@ -50,13 +49,13 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
             <div className="px-4">
               <Input
                 placeholder="Note to driver"
-                className="h-15 rounded-xl placeholder:text-[#303D5599] text-normal"
+                className="h-15 rounded-2xl placeholder:text-[#303D5599] text-normal"
                 tabIndex={-1}
               />
             </div>
           )}
-          <div className=" border-t-8 mt-2 border-primary-bg h-96 w-full">
-            <h1>hllo</h1>
+          <div className=" border-t-8 mt-2 border-primary-bg h-96 w-full px-5">
+            <OrderItems outletId={outletId} />
           </div>
         </div>
       </SheetContent>

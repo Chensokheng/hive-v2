@@ -39,7 +39,7 @@ export default function DeliveryInfo({ cartId }: { cartId: number }) {
   }, [user?.placeAddress]);
 
   return (
-    <div className="space-y-3 bg-white p-4">
+    <div className="space-y-5 bg-white p-4">
       <div className="space-y-3">
         <h1 className="font-bold">Delivery to:</h1>
         <button
