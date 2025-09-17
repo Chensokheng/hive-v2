@@ -1,6 +1,6 @@
 "use client";
 
-import { useGlobalState } from "@/store";
+import { useOutletStore } from "@/store/outlet";
 
 import { cn } from "@/lib/utils";
 
@@ -14,8 +14,8 @@ export function FloatingCart({
   quantity: number;
   isFetching: boolean;
 }) {
-  const setCheckoutSheetOpen = useGlobalState(
-    (state) => state.setCheckoutSheetOpen
+  const setOpenCheckoutSheet = useOutletStore(
+    (state) => state.setOpenCheckoutSheet
   );
 
   return (
@@ -26,7 +26,7 @@ export function FloatingCart({
           className="relative bg-gradient-to-r from-blue-500 to-pink-500 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-15 sm:w-auto sm:px-6 h-15 flex items-center justify-center cursor-pointer"
           onClick={() => {
             if (quantity > 0) {
-              setCheckoutSheetOpen(true);
+              setOpenCheckoutSheet(true);
             }
           }}
         >

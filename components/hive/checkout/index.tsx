@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
-import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
@@ -41,10 +40,7 @@ export default function Checkout() {
         />
       )}
 
-      <CheckoutSheet
-        unpaidItem={unpaidItem as OutletUnpaidItemsDto}
-        isFetching={isFetching}
-      />
+      {foundOutlet?.id && <CheckoutSheet outletId={foundOutlet?.id} />}
     </div>
   );
 }
