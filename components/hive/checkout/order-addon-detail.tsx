@@ -22,9 +22,9 @@ export default function OrderAddonDetail({ text }: { text: string }) {
 
   return (
     <div className="">
-      <div className="s text-gray-700 font-sans flex flex-col lg:flex-row lg:divide-x lg:gap-2">
+      <div className="  font-sans flex flex-col lg:flex-row lg:divide-x lg:gap-2">
         {combined.map((line, i) => (
-          <p key={i} className="pr-2">
+          <p key={i} className="pr-2 text-sm text-[#303D5599]">
             {line}
           </p>
         ))}

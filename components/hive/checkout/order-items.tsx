@@ -69,16 +69,29 @@ export default function OrderItems({ outletId }: { outletId: number }) {
                   {!isFree && (
                     <div>
                       <h1 className="font-bold text-[#161F2F] text-right">
-                        ${item.promotionPrice}
+                        ${item.promotionPrice * item.quantity}
                       </h1>
                       <p className="text-sm text-[#303D55]/60">
-                        ≈{item.promotionPrice * 4000}
+                        ≈{item.promotionPrice * item.quantity * 4000}
                       </p>
                     </div>
                   )}
                 </div>
                 {!isFree && (
-                  <div className="w-full">
+                  <div className="w-full flex justify-between items-end pl-[68px]">
+                    <div className="flex flex-col items-start gap-2">
+                      {item.note && (
+                        <button className="text-primary font-semibold text-sm">
+                          Edit
+                        </button>
+                      )}
+
+                      {item.note && (
+                        <span className="border-l-4 pl-2.5 py-1 border-[#FF66CC] text-[#161F2F] text-sm">
+                          Note: {item.note} asdfasdfasfds
+                        </span>
+                      )}
+                    </div>
                     <div className="flex gap-2 items-center justify-end">
                       <button className="h-7 w-7 bg-[#0055DD1A] text-primary rounded-full grid place-content-center cursor-pointer">
                         <Minus className="w-4 h-4" />
