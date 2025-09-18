@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 export default function useGetOutletInfo(
   merchantName: string,
   outletName: string,
-  latitude: number,
-  longitude: number
+  latitude: number | null,
+  longitude: number | null
 ) {
   return useQuery({
     queryKey: ["merchant", merchantName, outletName, latitude, longitude],

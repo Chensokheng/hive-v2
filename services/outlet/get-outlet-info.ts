@@ -6,8 +6,8 @@ export const getOutletInfo = async ({
 }: {
   merchantName: string;
   outletName: string;
-  latitude: number;
-  longitude: number;
+  latitude: number | null;
+  longitude: number | null;
 }) => {
   const searchParams =
     latitude && longitude ? `&latitude=${latitude}&longitude=${longitude}` : "";

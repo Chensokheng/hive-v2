@@ -45,6 +45,8 @@ export default function OrderItem({
         qty: qty,
         addNew: false,
         userId: Number(user?.userId!),
+        note: item.note,
+        addonDetails: item.cartAddonItems,
       });
       if (!res.status) {
         toast.error("Fail to remove item from the cart");

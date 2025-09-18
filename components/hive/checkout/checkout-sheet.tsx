@@ -5,6 +5,7 @@ import { Loader } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { cn } from "@/lib/utils";
+import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";
@@ -32,7 +33,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
     isLoading,
     isFetching,
   } = useGetOutletUnpaidItem(Number(user?.userId!), outletId);
-
+  const { data: rate } = useGetExchangeRate();
   const openCheckoutSheet = useOutletStore((state) => state.openCheckoutSheet);
   const setOpenCheckoutSheet = useOutletStore(
     (state) => state.setOpenCheckoutSheet
@@ -127,7 +128,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
               </h1>
               <p className=" text-[#161F2F]">
                 {" "}
-                ≈{(unpaidItem?.finalTotal || 0) * 4000}៛
+                ≈{((unpaidItem?.finalTotal || 0) * (rate || 0)).toFixed(2)}៛
               </p>
             </div>
           </div>

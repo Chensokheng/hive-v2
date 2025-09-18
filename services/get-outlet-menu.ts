@@ -7,7 +7,8 @@ export const getOutletMenu = async (
   categoryId: number | null
 ) => {
   const response = await fetch(
-    `https://api-truemoney-stg.savyu.com/api/web/menu?outlet_id=${outletId}&type=delivery&limit=70${categoryId ? `&category_id=${categoryId}` : ""}`
+    process.env.NEXT_PUBLIC_HIVE_BASE_API +
+      `/api/web/menu?outlet_id=${outletId}&type=delivery&limit=70${categoryId ? `&category_id=${categoryId}` : ""}`
   );
   const data = (await response.json()) as OutletMenuResponse;
 
