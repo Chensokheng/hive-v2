@@ -39,7 +39,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
             This is checkout
           </SheetDescription>
         </SheetHeader>
-        <div className="overflow-y-auto relative hide-scroll flex flex-col min-h-screen">
+        <div className="overflow-y-auto relative hide-scroll flex flex-col min-h-screen pb-20">
           <CheckoutHeader />
 
           {unpaidItem?.cartId && isDelivery && (

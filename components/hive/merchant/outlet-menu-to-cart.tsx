@@ -216,7 +216,7 @@ export default function OutletMenuToCart() {
             </div>
           </div>
 
-          <div className="relative aspect-square  w-full">
+          <div className="relative aspect-video lg:aspect-square  w-full">
             <AsyncImage
               src={selectedOutletMenu?.image || ""}
               Transition={Blur}
