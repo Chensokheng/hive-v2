@@ -1,8 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { Check, ChevronRight } from "lucide-react";
+import { Check } from "lucide-react";
 
-import PromotionIcon from "@/components/icon/promotion";
 
 export default function PaymentMethod() {
   return (
@@ -20,18 +19,18 @@ export default function PaymentMethod() {
         </div>
         <div className="flex-1 w-full">
           <h1 className="text-[#161F2F] font-bold">TrueMoney Wallet</h1>
-          <h2 className="text-sm text-primary">KHQR</h2>
+          <h2 className="text-sm text-[#EC0000]">KHQR</h2>
         </div>
         <div className="h-5 w-5 rounded-full bg-primary text-white grid place-content-center">
           <Check className="h-3 w-3" />
         </div>
       </div>
 
-      <div className="bg-[#FF66CC]/10 py-5 px-4 rounded-md  gap-4 flex ">
+      {/* <div className="bg-[#FF66CC]/10 py-5 px-4 rounded-md  gap-4 flex ">
         <PromotionIcon />
         <h1 className="text-[#161F2F] font-bold flex-1">Use Promotion Code</h1>
         <ChevronRight className="text-[#FF66CC]" />
-      </div>
+      </div> */}
     </div>
   );
 }

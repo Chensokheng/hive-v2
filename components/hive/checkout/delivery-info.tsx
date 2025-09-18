@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { updateCartFee } from "@/services/outlet/update-cart-fee";
 import { useAddresStore } from "@/store/address";
 import { useOutletStore } from "@/store/outlet";
+import { useQueryClient } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -9,7 +10,13 @@ import MapPin from "@/components/icon/map-pin";
 
 import UserTemInfo from "./user-tem-info";
 
-export default function DeliveryInfo({ cartId }: { cartId: number }) {
+export default function DeliveryInfo({
+  cartId,
+  outletId,
+}: {
+  cartId: number;
+  outletId: number;
+}) {
   const { data: user } = useGetUserInfo();
   const initialLoad = useRef(true);
   const setOpenAddresSheet = useAddresStore(
@@ -22,6 +29,18 @@ export default function DeliveryInfo({ cartId }: { cartId: number }) {
   const checkoutUserTemInfo = useOutletStore(
     (state) => state.checkoutUserTemInfo
   );
+  const queryClient = useQueryClient();
+
+  const updateFee = async () => {
+    await updateCartFee({
+      cartId,
+      userId: Number(user?.userId),
+      token: user?.token!,
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["outlet-unpaid-item", user?.userId, outletId],
+    });
+  };
 
   useEffect(() => {
     if (initialLoad.current) {
@@ -29,11 +48,7 @@ export default function DeliveryInfo({ cartId }: { cartId: number }) {
       return;
     } else {
       if (user?.userId) {
-        updateCartFee({
-          cartId,
-          userId: Number(user?.userId),
-          token: user?.token!,
-        });
+        updateFee();
       }
     }
   }, [user?.placeAddress]);

@@ -133,38 +133,6 @@
 //           <PaymentMethod />
 //           <div className="flex-1"></div>
 
-//           <div className="sticky flex-col bottom-0 gap-4 w-auto py-4 flex items-center justify-center bg-white px-4">
-//             <div className="w-full flex items-center justify-between">
-//               <h1 className="text-primary text-[1.375rem] font-bold">
-//                 Total:{" "}
-//               </h1>
-//               <div className="flex flex-col justify-end">
-//                 <h1 className=" font-bold text-right bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent text-[1.375rem]">
-//                   ${unpaidItem?.finalTotal}
-//                 </h1>
-//                 <p className=" text-[#161F2F]">
-//                   {" "}
-//                   ≈{unpaidItem?.finalTotal * (rate || 0)}៛
-//                 </p>
-//               </div>
-//             </div>
-//             <button
-//               className={cn(
-//                 "font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white",
-//                 {
-//                   " animate-pulse": isOrderChangeItem || isPending,
-//                 }
-//               )}
-//               disabled={isFetching || isOrderChangeItem || isPending}
-//               onClick={makeOrder}
-//             >
-//               {isFetching ? (
-//                 <Loader2 className=" animate-spin mx-auto h-7" />
-//               ) : (
-//                 "PLACE ORDER"
-//               )}
-//             </button>
-//           </div>
 //         </div>
 //       </SheetContent>
 //     </Sheet>

@@ -90,13 +90,13 @@ export default function OrderItem({
           "animate-pulse opacity-50": isPending,
         })}
       >
-        <div className="flex gap-3 items-start">
-          <div className="flex items-center gap-4">
+        <div
+          className="flex gap-3 items-start  cursor-pointer"
+          onClick={handleEditItem}
+        >
+          <div className="flex items-center gap-4 ">
             {!isFree && (
-              <div
-                className="h-5 w-5 bg-[#FF5757] hidden place-content-center text-white rounded-full  lg:grid cursor-pointer"
-                onClick={() => handleRemoveItem(0)}
-              >
+              <div className="h-5 w-5 bg-[#FF5757] hidden place-content-center text-white rounded-full  lg:grid cursor-pointer">
                 <X className="w-4 h-4 mx-auto" />
               </div>
             )}
@@ -114,7 +114,7 @@ export default function OrderItem({
               onClick={handleEditItem}
             />
           </div>
-          <div className="flex-1">
+          <div className="flex-1" onClick={handleEditItem}>
             <h1 className="font-semibold text-[#161F2F] ">{item.name}</h1>
             {isFree && (
               <p className="text-sm text-[#303D55]/60">{item.quantity} Free</p>
@@ -124,11 +124,10 @@ export default function OrderItem({
           {!isFree && (
             <div>
               <h1 className="font-bold text-[#161F2F] text-right">
-                ${Math.round(item.promotionPrice * item.quantity)}
+                ${(item.promotionPrice * item.quantity).toFixed(2)}
               </h1>
               <p className="text-sm text-[#303D55]/60">
-                ≈ ៛
-                {Math.round(item.promotionPrice * item.quantity * (rate || 0))}
+                ≈ ៛{item.promotionPrice * item.quantity * (rate || 0)}
               </p>
             </div>
           )}
@@ -171,7 +170,9 @@ export default function OrderItem({
                   <Minus className="w-5 h-5" />
                 </button>
               )}
-              <span className="font-bold text-[#161F2F]">{quantity}</span>
+              <span className="font-bold text-[#161F2F] w-5 text-center">
+                {quantity}
+              </span>
               <button
                 className="h-7 w-7 bg-[#0055DD1A] text-primary rounded-full grid place-content-center cursor-pointer"
                 onClick={() => {
