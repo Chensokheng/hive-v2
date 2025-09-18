@@ -7,14 +7,13 @@ import React, {
   useState,
   useTransition,
 } from "react";
+import Image from "next/image";
 import { addItemtoCart } from "@/services/add-item-to-cart";
-import { useGlobalState } from "@/store";
+import { useOutletStore } from "@/store/outlet";
 import { SelectedAddon } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
-import { AsyncImage } from "loadable-image";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
 import { toast } from "sonner";
-import { Blur } from "transitions-kit";
 
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
@@ -31,7 +30,7 @@ import {
 } from "@/components/ui/sheet";
 import XIcon from "@/components/icon/x";
 
-import AddonCategoryComponent from "./addon-category";
+import AddonCategoryComponent from "../merchant/addon-category";
 
 // Utility function to convert cart addon items to SelectedAddon format
 const convertCartAddonsToSelectedAddons = (
@@ -64,14 +63,13 @@ const convertCartAddonsToSelectedAddons = (
 };
 
 export default function EditMenuCartItem() {
-  const editCartItemData = useGlobalState((state) => state.editCartItemData);
-  const editCartItemSheetOpen = useGlobalState(
+  const editCartItemData = useOutletStore((state) => state.editCartItemData);
+  const editCartItemSheetOpen = useOutletStore(
     (state) => state.editCartItemSheetOpen
   );
-  const setEditCartItemSheetOpen = useGlobalState(
+  const setEditCartItemSheetOpen = useOutletStore(
     (state) => state.setEditCartItemSheetOpen
   );
-  const addOnMenuKey = useGlobalState((state) => state.addOnMenuKey);
 
   const [quantity, setQuantity] = useState(editCartItemData?.quantity || 1);
   const [selectedAddons, setSelectedAddons] = useState<SelectedAddon[]>(
@@ -82,15 +80,15 @@ export default function EditMenuCartItem() {
   const queryClient = useQueryClient();
 
   const { data: menuAddOn } = useGetMenuAddOn(
-    addOnMenuKey.outletId,
-    addOnMenuKey.menuItemId
+    editCartItemData?.outletId || 0,
+    editCartItemData?.menuItemId || 0
   );
 
   const { data: user } = useGetUserInfo();
 
   const { data: unpaidItem } = useGetOutletUnpaidItem(
     Number(user?.userId),
-    Number(addOnMenuKey.outletId)
+    Number(editCartItemData?.outletId || 0)
   );
 
   const [basePrice, setBasePrice] = useState(menuAddOn?.price || 0);
@@ -160,9 +158,9 @@ export default function EditMenuCartItem() {
       const res = await addItemtoCart({
         cartItemId: editCartItemData?.cartItemId || null,
         userId: Number(user?.userId),
-        outletId: addOnMenuKey?.outletId,
+        outletId: editCartItemData?.outletId || 0,
         qty: isRemove ? 0 : quantity,
-        menuItemId: addOnMenuKey?.menuItemId,
+        menuItemId: editCartItemData?.menuItemId || 0,
         addNew: false, // This is an update, not a new item
         addonDetails: addonDetails,
         note: noteRef.current,
@@ -177,7 +175,11 @@ export default function EditMenuCartItem() {
 
       setEditCartItemSheetOpen(false);
       queryClient.invalidateQueries({
-        queryKey: ["outlet-unpaid-item", user?.userId, addOnMenuKey.outletId],
+        queryKey: [
+          "outlet-unpaid-item",
+          user?.userId,
+          editCartItemData?.outletId,
+        ],
       });
     });
   };
@@ -237,16 +239,11 @@ export default function EditMenuCartItem() {
           </div>
 
           <div className="relative aspect-square w-full">
-            <AsyncImage
-              src={menuAddOn?.image || ""}
-              Transition={Blur}
-              style={{
-                width: "56px",
-                height: "56px",
-              }}
-              className="object-center object-cover rounded-md"
-              loader={<div className="bg-gray-300 animate-pulse" />}
-              alt={menuAddOn?.name || "Example"}
+            <Image
+              src={menuAddOn?.image || "/fake/menu-popup.png"}
+              alt="Example"
+              fill
+              className="object-cover"
             />
           </div>
 

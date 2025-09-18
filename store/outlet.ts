@@ -18,6 +18,15 @@ interface OutletStoreState {
     name: string;
     phoneNumber: string;
   } | null;
+  editCartItemSheetOpen: boolean;
+  editCartItemData: {
+    cartItemId: number;
+    outletId: number;
+    menuItemId: number;
+    quantity: number;
+    note: string;
+    selectedAddons: any[];
+  } | null;
   setIsDelivery: (value: boolean) => void;
   setOpenCheckoutSheet: (value: boolean) => void;
 
@@ -41,6 +50,18 @@ interface OutletStoreState {
       phoneNumber: string;
     } | null
   ) => void;
+
+  setEditCartItemSheetOpen: (value: boolean) => void;
+  setEditCartItemData: (
+    value: {
+      cartItemId: number;
+      outletId: number;
+      menuItemId: number;
+      quantity: number;
+      note: string;
+      selectedAddons: any[];
+    } | null
+  ) => void;
 }
 
 export const useOutletStore = create<OutletStoreState>()((set) => ({
@@ -50,6 +71,8 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
   selectOutletId: null,
   openCheckoutSheet: false,
   isDelivery: true,
+  editCartItemSheetOpen: false,
+  editCartItemData: null,
   setIsDelivery: (value) => set(() => ({ isDelivery: value })),
   setOpenCheckoutSheet: (value) => set(() => ({ openCheckoutSheet: value })),
   setCategoryId: (value) => set(() => ({ categoryId: value })),
@@ -63,4 +86,11 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
   checkoutUserTemInfo: null,
   setCheckoutUserTemInfo: (value) =>
     set(() => ({ checkoutUserTemInfo: value })),
+  setEditCartItemSheetOpen: (value) =>
+    set(() => ({ editCartItemSheetOpen: value })),
+  setEditCartItemData: (value) =>
+    set(() => ({
+      editCartItemData: value,
+      editCartItemSheetOpen: value !== null,
+    })),
 }));

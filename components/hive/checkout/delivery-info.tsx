@@ -51,7 +51,7 @@ export default function DeliveryInfo({ cartId }: { cartId: number }) {
               <MapPin color="#FF66CC" />
             </div>
             <p className=" font-medium flex-1 text-left">
-              {user?.placeAddress}
+              {user?.placeAddress || "Please select location"}
             </p>
           </div>
 

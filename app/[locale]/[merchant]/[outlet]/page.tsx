@@ -2,6 +2,7 @@ import React from "react";
 
 import AuthDialog from "@/components/hive/auth/auth-dialog";
 import Checkout from "@/components/hive/checkout";
+import EditMenuCartItem from "@/components/hive/checkout/edit-menu-cart-item";
 import OutletCategoryMobile from "@/components/hive/merchant/outlet-category-mobile";
 import OutletCategorySidebar from "@/components/hive/merchant/outlet-category-sidebar";
 import OutletHeader from "@/components/hive/merchant/outlet-header";
@@ -36,6 +37,7 @@ export default function page() {
         <div></div>
       </AuthDialog>
       <OutletMenuToCart />
+      <EditMenuCartItem />
       <Checkout />
     </>
   );
