@@ -11,13 +11,15 @@ export default function Navbar() {
   const noteDisplayPaths = ["/profile"];
   const isHistory = pathname === "/history";
 
+  const isOrderPage = pathname.includes("/order");
+
   if (noteDisplayPaths.includes(pathname)) {
     return null;
   }
 
   return (
     <>
-      {!isHistory && <DesktopNav />}
+      {(!isHistory || !isOrderPage) && <DesktopNav />}
       <div className="relative">
         <MobileNav />
         <div

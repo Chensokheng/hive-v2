@@ -13,5 +13,6 @@ export default function useGetOutletUnpaidItem(
     queryKey: ["outlet-unpaid-item", userId, outletId],
     queryFn: () => getOutletUnpaidItem(userId, outletId, user?.token),
     enabled: !!outletId && !!userId && !!user?.token,
+    staleTime: 0,
   });
 }

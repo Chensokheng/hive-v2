@@ -1156,7 +1156,8 @@ export type PromotionCodeResponse = {
   }[];
 };
 
-//
+// Order Detail Types - Comprehensive type definitions for order detail response
+export * from "./order-detail";
 
 //
 
@@ -1206,3 +1207,8 @@ export type OrdersResponse = {
     };
   };
 };
+
+// Order Detail Types - Comprehensive type definitions for order detail response
+export * from "./order-detail";
+
+//

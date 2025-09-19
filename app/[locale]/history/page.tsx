@@ -77,9 +77,19 @@ export default function Page() {
             )}
             {history?.data.items.map((item) => {
               return (
-                <div
+                <Link
+                  href={
+                    "/" +
+                    locale +
+                    "/" +
+                    item.outlet.short_name +
+                    "/" +
+                    item.outlet.merchant.sub_domain +
+                    "/order/" +
+                    item.id
+                  }
                   key={item.id}
-                  className="space-y-3 border-b-4 border-primary-bg px-6 pb-3 cursor-pointer hover:bg-primary/10 py-4 transition-all bg-white"
+                  className="space-y-3 border-b-4 border-primary-bg px-6 pb-3 cursor-pointer hover:bg-primary/10 py-4 transition-all bg-white block"
                 >
                   <div className="flex gap-2 items-start">
                     <AsyncImage
@@ -135,7 +145,7 @@ export default function Page() {
                       </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })}
           </div>

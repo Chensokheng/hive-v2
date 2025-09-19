@@ -14,6 +14,8 @@ export const MobileNav = () => {
 
   const isHomePage = pathname === "/";
 
+  const isOrderPage = pathname.includes("/order");
+
   const cleanPath = pathname.split("?")[0];
   const isHistory = pathname === "/history";
 
@@ -25,7 +27,7 @@ export const MobileNav = () => {
     return <></>;
   }
 
-  if (isHistory) {
+  if (isHistory || isOrderPage) {
     return <BottomNav />;
   }
 
