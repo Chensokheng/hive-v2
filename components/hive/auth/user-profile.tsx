@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import { signOut } from "@/services/auth/signout";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronRight, Loader, LogOut } from "lucide-react";
@@ -18,6 +19,7 @@ import { UserProfileSkeleton } from "../../loading/user-profile-skeleton";
 import { Button } from "../../ui/button";
 
 export default function UserProfile() {
+  const { locale } = useParams();
   const [isLoading, setLoading] = useState(false);
   const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
   const queryClient = useQueryClient();
@@ -85,13 +87,16 @@ export default function UserProfile() {
       </div>
       <div className="h-[1px] w-full bg-[#D8DEEE] my-5"></div>
       <div className="space-y-2">
-        <button className="text-black flex bg-whit p-4 rounded-2xl font-semibold bg-white w-full justify-between cursor-pointer">
+        <Link
+          href={"/" + locale + "/history"}
+          className="text-black flex bg-whit p-4 rounded-2xl font-semibold bg-white w-full justify-between cursor-pointer"
+        >
           <div className="flex gap-3 items-center">
             <OrderHistoryIcon />
             <span>My Orders</span>
           </div>
           <ChevronRight className="text-[#BDC5DB]" />
-        </button>
+        </Link>
         <button className="text-black flex bg-whit p-4 rounded-2xl font-semibold bg-white w-full justify-between cursor-pointer">
           <div className="flex gap-3 items-center">
             <SettingIcon />

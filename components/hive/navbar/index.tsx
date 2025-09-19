@@ -9,6 +9,7 @@ import { MobileNav } from "../mobile-nav";
 export default function Navbar() {
   const pathname = usePathname();
   const noteDisplayPaths = ["/profile"];
+  const isHistory = pathname === "/history";
 
   if (noteDisplayPaths.includes(pathname)) {
     return null;
@@ -16,7 +17,7 @@ export default function Navbar() {
 
   return (
     <>
-      <DesktopNav />
+      {!isHistory && <DesktopNav />}
       <div className="relative">
         <MobileNav />
         <div

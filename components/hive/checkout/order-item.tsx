@@ -129,7 +129,8 @@ export default function OrderItem({
                 ${(item.promotionPrice * item.quantity).toFixed(2)}
               </h1>
               <p className="text-sm text-[#303D55]/60">
-                ≈ ៛{item.promotionPrice * item.quantity * (rate || 0)}
+                ≈ ៛
+                {(item.promotionPrice * item.quantity * (rate || 0)).toFixed(2)}
               </p>
             </div>
           )}

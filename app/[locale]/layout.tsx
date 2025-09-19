@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
 import { Toaster } from "react-hot-toast";
+import { Toaster as SonnerToast } from "sonner";
 
 import Navbar from "@/components/hive/navbar";
 import Address from "@/components/map/address";
@@ -41,13 +42,6 @@ export const metadata: Metadata = {
   },
 };
 
-// export const viewport = {
-//   width: "device-width",
-//   initialScale: 1,
-//   maximumScale: 1, // prevent zoom
-//   userScalable: false,
-// };
-
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -79,6 +73,7 @@ export default async function RootLayout({
           </main>
 
           <Toaster />
+          <SonnerToast />
         </NextIntlClientProvider>
       </body>
     </html>

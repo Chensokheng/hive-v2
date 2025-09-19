@@ -33,7 +33,7 @@ const defaultNavItems: NavItem[] = [
     label: "Store",
   },
   {
-    href: "/order",
+    href: "/history",
     icon: OrderIcon,
     label: "My Orders",
   },

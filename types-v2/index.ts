@@ -1157,3 +1157,52 @@ export type PromotionCodeResponse = {
 };
 
 //
+
+//
+
+export type OrdersResponse = {
+  status: boolean;
+  data: {
+    items: {
+      qty: number;
+      distance: number;
+      shipping_tip: number;
+      is_web: number;
+      type: string;
+      discountDetails: any[]; // could be more specific if you know the structure
+      id: number;
+      final_total: number;
+      status: string;
+      created_at: string;
+      outlet: {
+        approved: number;
+        id: number;
+        name: string;
+        short_name: string;
+        merchant: {
+          approved: number;
+          allow_invite_friend: number;
+          language: string;
+          id: number;
+          name: string;
+          logo_image: string;
+          sub_domain: string;
+        };
+        outlet_images: {
+          id: number;
+          status: number;
+          image_path: string;
+          image_name: string;
+          created_at: string;
+        }[];
+      };
+    }[];
+    meta: {
+      totalItems: number;
+      itemCount: number;
+      itemsPerPage: number;
+      totalPages: number;
+      currentPage: number;
+    };
+  };
+};
