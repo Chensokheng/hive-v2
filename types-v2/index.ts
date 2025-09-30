@@ -1265,3 +1265,56 @@ export type BannerResponse = {
     }[];
   }[];
 };
+
+// home page section
+export type HomepageResponse = {
+  status: boolean;
+  data: {
+    id: number;
+    title: string;
+    subtitle: string;
+    homepageSectionItems: {
+      id: number;
+      image: string;
+      url: string | null;
+      merchants: {
+        id: number;
+        name: string;
+        image: string;
+        subDomain: string;
+        address: {
+          city: string;
+          cityEn: string;
+          district: string;
+          districtEn: string;
+          address: string;
+        };
+        hierarchicalCategories: {
+          id: number;
+          name: string;
+          name_en: string;
+        }[];
+        joinedDelivery: boolean;
+        joinedContactless: boolean;
+        joinedTableBooking: boolean;
+        outlets: {
+          id: number;
+          name: string;
+          shortName: string;
+          joinedDelivery: boolean;
+          joinedContactless: boolean;
+          joinedTableBooking: boolean;
+          address: {
+            city: string;
+            cityEn: string;
+            district: string;
+            districtEn: string;
+            ward: string;
+            wardEn: string;
+            address: string;
+          };
+        }[];
+      }[];
+    }[];
+  }[];
+};

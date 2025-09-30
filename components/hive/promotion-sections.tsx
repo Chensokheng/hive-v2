@@ -1,19 +1,20 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { useGlobalState } from "@/store";
+import { useParams, useRouter } from "next/navigation";
 import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
-import { ChevronRight } from "lucide-react";
 import { Blur } from "transitions-kit";
 
-import { cn } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
+import useGetHomePageSection from "@/hooks/use-get-home-page-sections";
 
 interface PromotionItem {
   id: string;
   image: string;
   title?: string;
   onClick?: () => void;
+  url: string | null;
 }
 
 interface PromotionSectionProps {
@@ -27,38 +28,6 @@ interface PromotionSectionsProps {
   premiumDelight?: PromotionSectionProps;
   bestDeal?: PromotionSectionProps;
 }
-
-const defaultPremiumDelight: PromotionSectionProps = {
-  title: "Premium Delight",
-  subtitle: "Save more when you order",
-  hasGradientBackground: true,
-  items: [
-    { id: "1", image: "/assets/mini/promotion.png" },
-    { id: "2", image: "/assets/mini/promotion.png" },
-    { id: "3", image: "/assets/mini/promotion.png" },
-    { id: "4", image: "/assets/mini/promotion.png" },
-    { id: "5", image: "/assets/mini/promotion.png" },
-    { id: "6", image: "/assets/mini/promotion.png" },
-    { id: "7", image: "/assets/mini/promotion.png" },
-  ],
-};
-
-const defaultBestDeal: PromotionSectionProps = {
-  title: "Best Deal",
-  hasGradientBackground: false,
-  items: [
-    { id: "1", image: "/assets/mini/best-deal.png" },
-    { id: "2", image: "/assets/mini/best-deal.png" },
-    { id: "3", image: "/assets/mini/best-deal.png" },
-    { id: "4", image: "/assets/mini/best-deal.png" },
-    { id: "5", image: "/assets/mini/best-deal.png" },
-    { id: "6", image: "/assets/mini/best-deal.png" },
-    { id: "7", image: "/assets/mini/best-deal.png" },
-    { id: "8", image: "/assets/mini/best-deal.png" },
-    { id: "9", image: "/assets/mini/best-deal.png" },
-    { id: "10", image: "/assets/mini/best-deal.png" },
-  ],
-};
 
 function PromotionSection({
   title,
@@ -108,12 +77,11 @@ function PromotionSection({
   }, [items]);
 
   const containerClasses = hasGradientBackground
-    ? "bg-[linear-gradient(180deg,rgba(255,102,204,0.1)_0%,rgba(0,85,221,0.1)_50%,rgba(242,246,255,0.7)_100%)] pl-4 pt-7 rounded-xl"
+    ? "bg-[linear-gradient(180deg,rgba(255,102,204,0.1)_0%,rgba(0,85,221,0.1)_50%,rgba(242,246,255,0.7)_100%)] pl-4 pt-7 rounded-xl "
     : "pl-4";
-
   return (
     <div className={containerClasses}>
-      <div className="w-auto lg:max-w-[1200px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         <div className="space-y-10">
           <div className="flex items-center justify-between">
             <div>
@@ -139,20 +107,20 @@ function PromotionSection({
 
               {/* Right Navigation Button - Only show on lg screens and up */}
 
-              <button
+              {/* <button
                 onClick={scrollRight}
                 className=" w-8 h-8 rounded-full transition-all duration-200 cursor-pointer hidden md:flex lg:items-center lg:justify-center"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="w-8 h-8 text-primary" />
-              </button>
+              </button> */}
             </div>
           </div>
 
           {/* Promotions Container */}
           <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto gap-3 lg:gap-6 scroll-smooth snap-x snap-mandatory hide-scroll"
+            className="flex overflow-x-auto gap-3 scroll-smooth snap-x snap-mandatory hide-scroll"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {items.map((item) => (
@@ -183,11 +151,8 @@ function PromotionSection({
   );
 }
 
-export default function PromotionSections({
-  premiumDelight = defaultPremiumDelight,
-  bestDeal = defaultBestDeal,
-}: PromotionSectionsProps) {
-  const selectedCategoryId = useGlobalState((state) => state.selectCategoryId);
+export default function PromotionSections() {
+  const { locale } = useParams();
   const searchMerchantKeyword = useSearchStore(
     (state) => state.searchMerchantKeyword
   );
@@ -195,14 +160,49 @@ export default function PromotionSections({
     (state) => state.filterMerchantCategoryId
   );
 
+  const { data } = useGetHomePageSection();
+
+  const router = useRouter();
   return (
     <div
       className={cn("mt-5 space-y-8", {
         hidden: searchMerchantKeyword || filterMerchantCategoryId,
       })}
     >
-      <PromotionSection {...premiumDelight} />
-      <PromotionSection {...bestDeal} />
+      {data?.data.map((promotion, index) => {
+        return (
+          <PromotionSection
+            {...{
+              title: promotion?.title,
+              subtitle: promotion?.subtitle,
+              hasGradientBackground: index === 0,
+              items: promotion?.homepageSectionItems?.map((item) => {
+                return {
+                  id: item.id.toString(),
+                  image: getImageUrl(item.image),
+                  url: item.url,
+                  onClick() {
+                    if (item.url) {
+                      router.push(item.url);
+                    } else {
+                      router.push(
+                        "/" +
+                          locale +
+                          "/promotions" +
+                          "/" +
+                          promotion.title.split(" ").join("-") +
+                          "/" +
+                          `${promotion.id}-${item.id}`
+                      );
+                    }
+                  },
+                };
+              }),
+            }}
+            key={promotion.id}
+          />
+        );
+      })}
     </div>
   );
 }

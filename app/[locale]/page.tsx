@@ -17,7 +17,6 @@ export default function Page() {
           <StoreGrid />
         </div>
       </div>
-      {/* <OrderListener /> */}
     </>
   );
 }
