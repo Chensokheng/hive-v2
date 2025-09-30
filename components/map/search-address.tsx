@@ -55,8 +55,8 @@ export default function SearchAddress() {
         placeId: value.id,
         token: user.token,
       });
-      queryClient.invalidateQueries({ queryKey: ["user-info"] });
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({ queryKey: ["user-info"] });
+      await queryClient.invalidateQueries({
         queryKey: ["merchant-outlets", merchant],
       });
       setSearch("");
@@ -79,7 +79,7 @@ export default function SearchAddress() {
           latitude: res.data[0].lat,
           longtitude: res.data[0].lng,
         });
-        queryClient.invalidateQueries({
+        await queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
         });
         setOpenAddressSheet(false);

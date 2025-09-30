@@ -32,6 +32,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
     data: unpaidItem,
     isLoading,
     isFetching,
+    isRefetching,
   } = useGetOutletUnpaidItem(Number(user?.userId!), outletId);
   const { data: rate } = useGetExchangeRate();
   const openCheckoutSheet = useOutletStore((state) => state.openCheckoutSheet);
@@ -140,6 +141,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
                 "animate-pulse": isFetching || isPending,
               }
             )}
+            disabled={isRefetching}
             onClick={handleCheckout}
           >
             {isPending && <Loader className=" animate-spin" />}
