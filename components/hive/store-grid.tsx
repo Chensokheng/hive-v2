@@ -11,7 +11,7 @@ import { Blur } from "transitions-kit";
 import useGetAllMerchants from "@/hooks/use-get-all-merchants";
 import MapPin from "@/components/icon/map-pin";
 
-export default function StoreGrid() {
+export default function StoreGrid({ hidetitle }: { hidetitle: boolean }) {
   const t = useTranslations();
   const params = useParams();
   const { locale } = params;
@@ -64,9 +64,11 @@ export default function StoreGrid() {
   if (error) {
     return (
       <div className="space-y-2">
-        <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-          {t("listMerchant.allStore")}
-        </h1>
+        {!hidetitle && (
+          <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
+            {t("listMerchant.allStore")}
+          </h1>
+        )}
         <div className="px-4 py-8 text-center">
           <p className="text-red-500">
             Error loading merchants. Please try again.
@@ -86,9 +88,11 @@ export default function StoreGrid() {
   if (isLoading) {
     return (
       <div className="space-y-2" id="merchant-grid">
-        <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-          {t("listMerchant.allStore")}
-        </h1>
+        {!hidetitle && (
+          <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
+            {t("listMerchant.allStore")}
+          </h1>
+        )}
         <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
           {Array.from({ length: 6 }).map((_, index) => (
             <div
@@ -110,9 +114,11 @@ export default function StoreGrid() {
 
   return (
     <div className="space-y-2" id="merchant-grid">
-      <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-        {t("listMerchant.allStore")}
-      </h1>
+      {!hidetitle && (
+        <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
+          {t("listMerchant.allStore")}
+        </h1>
+      )}
       <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
         {allMerchants.map((merchant, index) => (
           <Link

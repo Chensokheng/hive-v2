@@ -1,972 +1,625 @@
 {
   "status": true,
-  "message": "success",
-  "data": {
-    "qty": 9,
-    "distance": 1.68,
-    "shipping_tip": 0,
-    "is_web": 1,
-    "type": "delivery",
-    "discountDetails": [],
-    "id": 674,
-    "user_id": 281,
-    "outlet_id": 12,
-    "cart_id": 1038,
-    "transaction_code": 1746,
-    "shipping_service": null,
-    "shipping_code": null,
-    "ahamove_shipping_code": null,
-    "lalamove_shipping_code": null,
-    "be_shipping_code": null,
-    "xanhSMShippingCode": null,
-    "truemoneyShippingCode": null,
-    "old_shipping_code": null,
-    "fullname": "sokheng",
-    "phone": "095412421",
-    "location": {
-      "id": "ChIJyeiRrEP3pa0RrVNNqLGoIys",
-      "lat": 11.5508193,
-      "long": 104.9287515,
-      "address": "146 Norodom Blvd, Phnom Penh, Cambodia"
-    },
-    "address_note": "",
-    "note": "",
-    "contactless_notes": null,
-    "subtotal": 5.6,
-    "discount": 0,
-    "shipping_fee": 0.58,
-    "other_fee": 0,
-    "total_fee": 0.58,
-    "final_total": 6.18,
-    "system_fee": 0,
-    "total_custom_vat": 0,
-    "applicable_fees": [
-      {
-        "title": "Shipping fee",
-        "value": 0.58,
-        "position": 1
-      }
-    ],
-    "mca": 5.6,
-    "payment_gateway": "true-money",
-    "payment": {
-      "amount": "6.180",
-      "gateway": "true-money",
-      "language": "en",
-      "payment_key": "payment_truemoney",
-      "vnpt_pay_type": "",
-      "transaction_code": 1746
-    },
-    "reward": null,
-    "shipping": null,
-    "status": "new",
-    "merchant_status": "new",
-    "shipping_status": null,
-    "cancel_by": null,
-    "cancel_reason": null,
-    "cancel_detail": null,
-    "rejected_times": null,
-    "meta": {
-      "vat": 0,
-      "host": "api-truemoney-stg.savyu.com",
-      "note": "",
-      "accept": "*/*",
-      "cf-ray": "98162f98ea6c3bd7-PNH",
-      "origin": "http://localhost:3000",
-      "reward": 0,
-      "referer": "http://localhost:3000/",
-      "cdn-loop": "cloudflare; loops=1",
-      "eta_time": 5,
-      "priority": "u=1, i",
-      "receiver": {
-        "phone": "095412421",
-        "fullname": "sokheng"
-      },
-      "settings": {
-        "maximum_reward": null,
-        "reward_percent": 0,
-        "default_eta_time": 5,
-        "extra_fee_percent": 0,
-        "service_fee_percent": null,
-        "service_fee_based_on": "subtotal",
-        "fixed_cashback_first_time": 0
-      },
-      "bill_info": {
-        "mca": "+5.6",
-        "vat": 0,
-        "reward_vat": 0,
-        "system_fee": 0,
-        "service_fee": 0,
-        "service_fee_vat": 0,
-        "service_fee_not_vat": 0
-      },
-      "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"Google Chrome\";v=\"140\"",
-      "cf-visitor": "{\"scheme\":\"https\"}",
-      "connection": "upgrade",
-      "enable_eta": true,
-      "quotations": {
-        "details": [
-          {
-            "distance": 1.68,
-            "totalFee": 0.58
-          }
-        ],
-        "distance": 1.68,
-        "duration": 0,
-        "totalFee": 0.58
-      },
-      "reward_vat": 0,
-      "browserName": "chrome",
-      "service_fee": 0,
-      "address_note": "",
-      "cf-ipcountry": "KH",
-      "content-type": "application/json",
-      "serviceFeeKol": 0,
-      "content-length": "226",
-      "isCircleKOrder": false,
-      "originSubtotal": 6.6,
-      "sec-fetch-dest": "empty",
-      "sec-fetch-mode": "cors",
-      "sec-fetch-site": "cross-site",
-      "accept-encoding": "gzip, br",
-      "accept-language": "en-US,en;q=0.9",
-      "service_fee_vat": 0,
-      "isCircleKWebView": false,
-      "sec-ch-ua-mobile": "?0",
-      "estimated_arrival": 0,
-      "info_for_customer": [
+  "data": [
+    {
+      "id": 1,
+      "title": "Premium Delight",
+      "subtitle": "test",
+      "homepageSectionItems": [
         {
-          "title": "VAT",
-          "key": "vat",
-          "value": 0
-        },
-        {
-          "title": "Shipping fee",
-          "key": "shipping_fee",
-          "value": 0.58
-        },
-        {
-          "title": "Discount",
-          "key": "discount",
-          "value": 0
-        }
-      ],
-      "info_for_merchant": [
-        {
-          "title": "Service charge fee",
-          "key": "service_charge_fee",
-          "value": 0
-        },
-        {
-          "title": "VAT",
-          "key": "vat",
-          "value": 0
-        },
-        {
-          "title": "Revenue",
-          "key": "revenue",
-          "value": 5.6
-        },
-        {
-          "title": "Service fee",
-          "key": "service_fee",
-          "value": 0
-        },
-        {
-          "title": "Reward",
-          "key": "reward",
-          "value": 0
-        },
-        {
-          "title": "VAT (HIVE)",
-          "key": "vat_savyu",
-          "value": 0
-        },
-        {
-          "title": "Amount credited to your account",
-          "key": "mca",
-          "value": 5.6
-        }
-      ],
-      "user_loyalty_info": {
-        "totalGmv": 0,
-        "lastVisit": null,
-        "totalTransactions": 0
-      },
-      "x-forwarded-proto": "https",
-      "isSevenElevenOrder": false,
-      "sec-ch-ua-platform": "\"macOS\"",
-      "service_fee_not_vat": 0,
-      "payment_trxn_fee_vat": 0,
-      "hasUseCampaignDiscount": true,
-      "hasUseCustomDiscounted": false,
-      "sentPurchasedEventToGGA": true,
-      "merchant_applicable_fees": [],
-      "payment_trxn_fee_not_vat": 0,
-      "extra_payment_trxn_fee_vat": 0,
-      "extra_payment_trxn_fee_not_vat": 0
-    },
-    "timelines": {
-      "consumer": [
-        {
-          "status": "new",
-          "datetime": "2025-09-19T04:02:35.000Z"
-        }
-      ],
-      "merchant": [
-        {
-          "status": "new",
-          "datetime": "2025-09-19T04:02:35.000Z"
-        }
-      ],
-      "shipping": []
-    },
-    "rating": null,
-    "rating_description": null,
-    "processing_at": null,
-    "user_tmp_uuid": null,
-    "created_at": "2025-09-19T04:02:35.000Z",
-    "updated_at": "2025-09-19T04:02:40.000Z",
-    "paid": 1,
-    "alias_code": null,
-    "is_printed": 0,
-    "person_in_charge_id": null,
-    "offer_id": null,
-    "printedAt": null,
-    "pickUpTime": null,
-    "assignedAt": null,
-    "driverAcceptedAt": null,
-    "pickedUpAt": null,
-    "deliveredAt": null,
-    "merchantReadAt": null,
-    "usdToKhrExchangeRate": 4000,
-    "outsideShippingPartnerTracking": null,
-    "items": [
-      {
-        "id": 920,
-        "order_id": 674,
-        "menu_item_id": 133,
-        "qty": 8,
-        "note": "",
-        "base_price": 1,
-        "final_price": 0.7,
-        "created_at": "2025-09-19T04:02:35.000Z",
-        "updated_at": "2025-09-19T04:02:35.000Z",
-        "isCompensationProduct": 0,
-        "promotionQty": 0,
-        "vat": 0,
-        "finalTotal": 5.6,
-        "menuItem": {
-          "id": 133,
-          "outlet_id": 12,
-          "category_id": 13,
-          "name": "Iced Americano",
-          "name_en": "Iced Americano",
-          "name_zh": "冰美式咖啡",
-          "name_ko": "아이스 아메리카노",
-          "name_fr": "Americano glacé",
-          "name_ru": "Холодный американо",
-          "name_ja": "アイスアメリカーノ",
-          "name_vi": "Americano đá",
-          "name_th": "อเมริกาโน่เย็น",
-          "description": "",
-          "description_en": "",
-          "description_zh": "",
-          "description_ko": "",
-          "description_fr": "",
-          "description_ru": "",
-          "description_ja": "",
-          "description_vi": "",
-          "description_th": "",
-          "notes": null,
-          "image_name": "0e6c1574-bdcd-4dee-93af-cba9a7feeb02.jpg",
-          "thumbnail_image_name": "5451debb-6f13-45a3-8fe5-e73d2345c95f.jpg",
-          "base_price": 1,
-          "promotion_price": 0.7,
-          "discount_amount": null,
-          "discount_percent": 30,
-          "order": 1,
-          "status": 1,
-          "adults_only": 0,
-          "recommended": true,
-          "type": "all",
-          "vat": 0,
-          "tax_id": 19,
-          "time_out_of_stock": null,
-          "created_at": "2025-06-27T04:40:30.000Z",
-          "updated_at": "2025-07-11T05:09:41.000Z",
-          "itemCd": "0e3b5e8ee8c89aaa",
-          "master_menu_id": 31,
-          "menuCategory": {
-            "id": 13,
-            "status": 1,
-            "order": 1,
-            "name": "ភេសជ្ជៈ",
-            "name_en": "Drinks",
-            "name_zh": "饮料",
-            "name_ko": "음료수",
-            "name_fr": "Boissons",
-            "name_ru": "Напитки",
-            "name_ja": "ドリンク",
-            "name_vi": "Đồ uống",
-            "name_th": "เครื่องดื่ม",
-            "merchant_id": 14,
-            "created_at": "2025-06-26T09:12:42.000Z",
-            "updated_at": "2025-06-27T02:43:11.000Z",
-            "use_showing_hours": 0,
-            "showing_hours": null,
-            "available_time_id": null,
-            "available_times": null
-          },
-          "icons": []
-        },
-        "order_addon_items": [
-          {
-            "id": 234,
-            "qty": 1,
-            "base_price": 0,
-            "final_price": 0,
-            "order_item_id": 920,
-            "addon_detail_id": 7,
-            "created_at": "2025-09-19T04:02:35.000Z",
-            "updated_at": "2025-09-19T04:02:35.000Z",
-            "vat": 0,
-            "addon_item_detail": {
-              "id": 7,
-              "status": 1,
-              "time_out_of_stock": null,
-              "price": 0,
-              "outlet_id": 12,
-              "addon_id": null,
-              "vat": 0,
-              "tax_id": 19,
-              "order": 1,
-              "name": "Sugar 0%",
-              "name_en": "Sugar 0%",
-              "name_zh": "糖 0%",
-              "name_ko": "설탕 0%",
-              "name_fr": "Sucre 0%",
-              "name_ru": "Сахар 0%",
-              "name_ja": "糖質0%",
-              "name_vi": "Đường 0%",
-              "name_th": "น้ำตาล 0%",
-              "minimum_purchase": 0,
-              "maximum_purchase": 1,
-              "addon_category_id": 7,
-              "created_at": "2025-06-26T09:26:52.000Z",
-              "updated_at": "2025-06-26T09:26:52.000Z",
-              "itemCd": "d097ce63b4b9e030",
-              "master_addon_id": 7,
-              "category": {
-                "id": 7,
-                "name": "Sugar Level",
-                "name_en": "Sugar Level",
-                "name_zh": "血糖水平",
-                "name_ko": "혈당 수치",
-                "name_fr": "Taux de sucre",
-                "name_ru": "Уровень сахара",
-                "name_ja": "血糖値",
-                "required": 1
-              }
-            },
-            "addon_item": {
-              "id": 7,
-              "status": 1,
-              "time_out_of_stock": null,
-              "price": 0,
-              "outlet_id": 12,
-              "addon_id": null,
-              "vat": 0,
-              "tax_id": 19,
-              "order": 1,
-              "name": "Sugar 0%",
-              "name_en": "Sugar 0%",
-              "name_zh": "糖 0%",
-              "name_ko": "설탕 0%",
-              "name_fr": "Sucre 0%",
-              "name_ru": "Сахар 0%",
-              "name_ja": "糖質0%",
-              "name_vi": "Đường 0%",
-              "name_th": "น้ำตาล 0%",
-              "minimum_purchase": 0,
-              "maximum_purchase": 1,
-              "addon_category_id": 7,
-              "created_at": "2025-06-26T09:26:52.000Z",
-              "updated_at": "2025-06-26T09:26:52.000Z",
-              "itemCd": "d097ce63b4b9e030",
-              "master_addon_id": 7,
-              "category": {
-                "id": 7,
-                "name": "Sugar Level",
-                "name_en": "Sugar Level",
-                "name_zh": "血糖水平",
-                "name_ko": "혈당 수치",
-                "name_fr": "Taux de sucre",
-                "name_ru": "Уровень сахара",
-                "name_ja": "血糖値",
-                "required": 1
-              }
-            }
-          },
-          {
-            "id": 235,
-            "qty": 1,
-            "base_price": 0,
-            "final_price": 0,
-            "order_item_id": 920,
-            "addon_detail_id": 12,
-            "created_at": "2025-09-19T04:02:35.000Z",
-            "updated_at": "2025-09-19T04:02:35.000Z",
-            "vat": 0,
-            "addon_item_detail": {
-              "id": 12,
-              "status": 1,
-              "time_out_of_stock": null,
-              "price": 0,
-              "outlet_id": 12,
-              "addon_id": null,
-              "vat": 0,
-              "tax_id": 19,
-              "order": 1,
-              "name": "No Ice",
-              "name_en": "No Ice",
-              "name_zh": "无冰",
-              "name_ko": "얼음 없음",
-              "name_fr": "Pas de glace",
-              "name_ru": "Нет льда",
-              "name_ja": "氷なし",
-              "name_vi": "Không có băng",
-              "name_th": "ไม่มีน้ำแข็ง",
-              "minimum_purchase": 0,
-              "maximum_purchase": 1,
-              "addon_category_id": 8,
-              "created_at": "2025-06-26T10:00:45.000Z",
-              "updated_at": "2025-06-26T10:00:45.000Z",
-              "itemCd": "1e8ad39ad5dbf88a",
-              "master_addon_id": 12,
-              "category": {
-                "id": 8,
-                "name": "Ice Level",
-                "name_en": "Ice Level",
-                "name_zh": "冰层",
-                "name_ko": "얼음 수준",
-                "name_fr": "Niveau de glace",
-                "name_ru": "Уровень льда",
-                "name_ja": "氷のレベル",
-                "required": 1
-              }
-            },
-            "addon_item": {
-              "id": 12,
-              "status": 1,
-              "time_out_of_stock": null,
-              "price": 0,
-              "outlet_id": 12,
-              "addon_id": null,
-              "vat": 0,
-              "tax_id": 19,
-              "order": 1,
-              "name": "No Ice",
-              "name_en": "No Ice",
-              "name_zh": "无冰",
-              "name_ko": "얼음 없음",
-              "name_fr": "Pas de glace",
-              "name_ru": "Нет льда",
-              "name_ja": "氷なし",
-              "name_vi": "Không có băng",
-              "name_th": "ไม่มีน้ำแข็ง",
-              "minimum_purchase": 0,
-              "maximum_purchase": 1,
-              "addon_category_id": 8,
-              "created_at": "2025-06-26T10:00:45.000Z",
-              "updated_at": "2025-06-26T10:00:45.000Z",
-              "itemCd": "1e8ad39ad5dbf88a",
-              "master_addon_id": 12,
-              "category": {
-                "id": 8,
-                "name": "Ice Level",
-                "name_en": "Ice Level",
-                "name_zh": "冰层",
-                "name_ko": "얼음 수준",
-                "name_fr": "Niveau de glace",
-                "name_ru": "Уровень льда",
-                "name_ja": "氷のレベル",
-                "required": 1
-              }
-            }
-          },
-          {
-            "id": 236,
-            "qty": 1,
-            "base_price": 0,
-            "final_price": 0,
-            "order_item_id": 920,
-            "addon_detail_id": 13,
-            "created_at": "2025-09-19T04:02:35.000Z",
-            "updated_at": "2025-09-19T04:02:35.000Z",
-            "vat": 0,
-            "addon_item_detail": {
-              "id": 13,
-              "status": 1,
-              "time_out_of_stock": null,
-              "price": 0,
-              "outlet_id": 12,
-              "addon_id": null,
-              "vat": 0,
-              "tax_id": 19,
-              "order": 1,
-              "name": "Ice In",
-              "name_en": "Ice In",
-              "name_zh": "冰封",
-              "name_ko": "얼음",
-              "name_fr": "Glace dans",
-              "name_ru": "Лед в",
-              "name_ja": "氷が入った",
-              "name_vi": "Đá Trong",
-              "name_th": "น้ำแข็งใน",
-              "minimum_purchase": 0,
-              "maximum_purchase": 1,
-              "addon_category_id": 9,
-              "created_at": "2025-06-27T03:47:47.000Z",
-              "updated_at": "2025-06-27T03:47:47.000Z",
-              "itemCd": "ee5b5a1850b958ba",
-              "master_addon_id": 13,
-              "category": {
-                "id": 9,
-                "name": "Ice In or Out",
-                "name_en": "Ice In or Out",
-                "name_zh": "冰进或冰出",
-                "name_ko": "얼음이 들어가거나 나오지 않음",
-                "name_fr": "Glace à l'intérieur ou à l'extérieur",
-                "name_ru": "Лед внутри или снаружи",
-                "name_ja": "氷が張っているか、それとも解けているか",
-                "required": 1
-              }
-            },
-            "addon_item": {
-              "id": 13,
-              "status": 1,
-              "time_out_of_stock": null,
-              "price": 0,
-              "outlet_id": 12,
-              "addon_id": null,
-              "vat": 0,
-              "tax_id": 19,
-              "order": 1,
-              "name": "Ice In",
-              "name_en": "Ice In",
-              "name_zh": "冰封",
-              "name_ko": "얼음",
-              "name_fr": "Glace dans",
-              "name_ru": "Лед в",
-              "name_ja": "氷が入った",
-              "name_vi": "Đá Trong",
-              "name_th": "น้ำแข็งใน",
-              "minimum_purchase": 0,
-              "maximum_purchase": 1,
-              "addon_category_id": 9,
-              "created_at": "2025-06-27T03:47:47.000Z",
-              "updated_at": "2025-06-27T03:47:47.000Z",
-              "itemCd": "ee5b5a1850b958ba",
-              "master_addon_id": 13,
-              "category": {
-                "id": 9,
-                "name": "Ice In or Out",
-                "name_en": "Ice In or Out",
-                "name_zh": "冰进或冰出",
-                "name_ko": "얼음이 들어가거나 나오지 않음",
-                "name_fr": "Glace à l'intérieur ou à l'extérieur",
-                "name_ru": "Лед внутри или снаружи",
-                "name_ja": "氷が張っているか、それとも解けているか",
-                "required": 1
-              }
-            }
-          }
-        ],
-        "order_discounted_product": null,
-        "order_custom_discounted_product": null,
-        "promotionOrderItem": null,
-        "promotion_price": 0.7,
-        "formated_addon_items": "- Sugar Level: \n\t • 1x  Sugar 0%\n- Ice Level: \n\t • 1x  No Ice\n- Ice In or Out: \n\t • 1x  Ice In\n",
-        "is_happy_hour_product": false
-      },
-      {
-        "id": 921,
-        "order_id": 674,
-        "menu_item_id": 139,
-        "qty": 1,
-        "note": "",
-        "base_price": 1,
-        "final_price": 0,
-        "created_at": "2025-09-19T04:02:35.000Z",
-        "updated_at": "2025-09-19T04:02:35.000Z",
-        "isCompensationProduct": 0,
-        "promotionQty": 0,
-        "vat": 0,
-        "finalTotal": 0,
-        "menuItem": {
-          "id": 139,
-          "outlet_id": 12,
-          "category_id": 14,
-          "name": "Donut",
-          "name_en": "Donut",
-          "name_zh": "油炸圈饼",
-          "name_ko": "도넛",
-          "name_fr": "Donut",
-          "name_ru": "Пончик",
-          "name_ja": "ドーナツ",
-          "name_vi": "bánh rán",
-          "name_th": "โดนัท",
-          "description": "",
-          "description_en": "",
-          "description_zh": "",
-          "description_ko": "",
-          "description_fr": "",
-          "description_ru": "",
-          "description_ja": "",
-          "description_vi": "",
-          "description_th": "",
-          "notes": null,
-          "image_name": "3f06fd37-8252-4787-96ca-9a49e4661dfa.jpg",
-          "thumbnail_image_name": "d270d490-698e-4cae-9992-141c11ca738c.jpg",
-          "base_price": 1,
-          "promotion_price": 1,
-          "discount_amount": 0,
-          "discount_percent": null,
-          "order": 1,
-          "status": 1,
-          "adults_only": 0,
-          "recommended": false,
-          "type": "all",
-          "vat": 0,
-          "tax_id": 19,
-          "time_out_of_stock": null,
-          "created_at": "2025-06-27T04:45:08.000Z",
-          "updated_at": "2025-06-27T04:45:08.000Z",
-          "itemCd": "e7da53aa20ccf29a",
-          "master_menu_id": 37,
-          "menuCategory": {
-            "id": 14,
-            "status": 1,
-            "order": 1,
-            "name": "Bread",
-            "name_en": "Bread",
-            "name_zh": "面包",
-            "name_ko": "빵",
-            "name_fr": "Pain",
-            "name_ru": "Хлеб",
-            "name_ja": "パン",
-            "name_vi": "Bánh mỳ",
-            "name_th": "ขนมปัง",
-            "merchant_id": 14,
-            "created_at": "2025-06-26T09:21:18.000Z",
-            "updated_at": "2025-06-26T09:42:19.000Z",
-            "use_showing_hours": 0,
-            "showing_hours": null,
-            "available_time_id": null,
-            "available_times": null
-          },
-          "icons": []
-        },
-        "order_addon_items": [],
-        "order_discounted_product": {
-          "id": 15,
-          "order_item_id": 921,
-          "discounted_product_id": 5,
-          "itemCd": "e7da53aa20ccf29a",
-          "selling_price": 0
-        },
-        "order_custom_discounted_product": null,
-        "promotionOrderItem": null,
-        "formated_addon_items": "",
-        "is_happy_hour_product": false
-      }
-    ],
-    "promoCodes": [],
-    "generatedPromotionCodes": [],
-    "user": {
-      "email_confirm": 0,
-      "allow_invite_friend": 0,
-      "language": "text_en",
-      "allow_send_sms": 0,
-      "managed_outlet_ids": [],
-      "managed_merchant_id": null,
-      "belong_merchant_id": null,
-      "id": 281,
-      "user_id": {
-        "type": "Buffer",
-        "data": [
-          99, 102, 99, 97, 54, 48, 50, 101, 45, 100, 54, 101, 98, 45, 52, 54,
-          57, 49, 45, 56, 99, 55, 99, 45, 57, 48, 101, 49, 98, 50, 54, 53, 54,
-          98, 53, 56
-        ]
-      },
-      "national_id": null,
-      "phone": "095412421",
-      "temporaryPhone": null,
-      "email": null,
-      "birthdate": null,
-      "password": null,
-      "pin": null,
-      "picture": null,
-      "status": 1,
-      "fb_id": null,
-      "gg_id": null,
-      "apple_id": null,
-      "first_name": "sokheng",
-      "middle_name": null,
-      "last_name": null,
-      "fullName": "sokheng",
-      "gender": null,
-      "created_at": "2025-09-17T15:54:14.000Z",
-      "updated_at": "2025-09-18T07:39:30.000Z",
-      "last_login": null,
-      "deleted_at": null,
-      "country_code": 855,
-      "savyu_balance": "0.000",
-      "identity_card_id": null,
-      "merchant_group_id": null,
-      "ringtoneNewOrder": null,
-      "ringtoneNewReservation": null,
-      "platform": 3,
-      "is_auto": null,
-      "is_available_for_new_orders": 0,
-      "identifier": null
-    },
-    "outlet": {
-      "approved": 1,
-      "id": 12,
-      "merchant_id": 14,
-      "status": 1,
-      "name": "Black Coffee BKK",
-      "address": {
-        "address": "ផ្លូវលេខ ២៩២",
-        "district": "ចំការមន",
-        "ward": "",
-        "city": "ភ្នំពេញ"
-      },
-      "latitude": "11.552656200000000",
-      "longitude": "104.91659830000000",
-      "open_hour": "00:00",
-      "close_hour": "00:00",
-      "use_working_hours": 1,
-      "working_hours": null,
-      "contactless_temporarily_closed": 0,
-      "contactless_closed_from": null,
-      "contactless_closed_to": null,
-      "contactless_last_order_time": null,
-      "temporarily_closed_from": null,
-      "temporarily_closed_to": null,
-      "tolerance_radius": 1,
-      "tolerance_time": 1,
-      "onboard_at": null,
-      "deactive_at": null,
-      "terminated_at": null,
-      "created_at": "2025-06-26T08:27:23.000Z",
-      "updated_at": "2025-06-26T08:27:23.000Z",
-      "deleted_at": null,
-      "is_franchise": 0,
-      "mca": "0.000",
-      "phone": "+85570865489",
-      "delivery_note": "https://maps.app.goo.gl/RDxtuSUE5fgz6nFy5",
-      "parking_fee": null,
-      "city_key": "hcm",
-      "province_id": 1,
-      "district_id": 2,
-      "ward_id": 1,
-      "address_detail": "ផ្លូវលេខ ២៩២",
-      "short_name": "blackcoffeebkk",
-      "available_time_id": 3,
-      "storeCd": null,
-      "province_detail": {
-        "id": 1,
-        "name": "ភ្នំពេញ",
-        "name_en": "Phnom Penh"
-      },
-      "district_detail": {
-        "id": 2,
-        "name": "ចំការមន",
-        "name_en": "Chamkarmon",
-        "province_id": 1
-      },
-      "ward_detail": {
-        "id": 1,
-        "name": "",
-        "name_en": "",
-        "district_id": null
-      },
-      "available_times": {
-        "id": 3,
-        "merchant_id": 14,
-        "name": "Opening Hour",
-        "week": [
-          {
-            "day": [
-              "monday",
-              "tuesday",
-              "wednesday",
-              "thursday",
-              "friday",
-              "saturday",
-              "sunday"
-            ],
-            "time": [
-              {
-                "to": "17:30",
-                "from": "06:30"
-              }
-            ]
-          }
-        ],
-        "created_at": "2025-06-26T08:24:39.000Z",
-        "updated_at": "2025-07-03T09:32:19.000Z",
-        "deletedAt": null,
-        "type": "opening_hours"
-      },
-      "merchant": {
-        "approved": 1,
-        "allow_invite_friend": 0,
-        "language": "text_km",
-        "id": 14,
-        "status": 1,
-        "name": "Black Coffee",
-        "short_name": "Black Coffee",
-        "email": "blackcoffee@gmail.com",
-        "mca": "31.390",
-        "address": {
-          "city": "ភ្នំពេញ",
-          "ward": "",
-          "address": "Keystone Building",
-          "district": "ចំការមន",
-          "address_detail": "ភ្នំពេញ"
-        },
-        "phone": "+85570865489",
-        "logo_path": "assets",
-        "logo_image": "7f75c15c-e822-486d-a53f-9bd67ffc1087.jpg",
-        "fanpage": "",
-        "website": "",
-        "introduction": "Black coffee",
-        "tax_code": "",
-        "company_name": "",
-        "company_address": "",
-        "beneficiary": "black coffee",
-        "bank_account": "070865489",
-        "bank_name": "True Money",
-        "bank_branch": "Norodom ",
-        "onboard_at": null,
-        "deactive_at": null,
-        "terminated_at": null,
-        "created_at": "2025-06-26T08:10:20.000Z",
-        "updated_at": "2025-09-19T03:31:37.000Z",
-        "deleted_at": null,
-        "zalo_notification": false,
-        "pay_by_cash_fee_percentage": null,
-        "redeem_svd_fee_percentage": null,
-        "redeem_voucher_fee_percentage": null,
-        "transaction_reward_percentage": null,
-        "max_transaction_reward_value": null,
-        "menus": [],
-        "hidden": false,
-        "merchant_group_id": null,
-        "apply_contactless_pay_by_cash": 0,
-        "merchant_type": "restaurant",
-        "enable_custom_menu_show_time": 1,
-        "allow_contactless_guest_user": 1,
-        "recent_origin_language": null,
-        "preferred_language": null,
-        "translated_characters": 3912,
-        "sub_domain": "blackcofee",
-        "show_take_away_orders_page": 0,
-        "enable_order_distribution": 0,
-        "approved_menu": 1,
-        "package_code": null,
-        "sale_code": null,
-        "province_id": 1,
-        "district_id": 2,
-        "ward_id": null,
-        "address_detail": "ភ្នំពេញ",
-        "sentEmailsMonthlyCount": 1,
-        "businessType": "individual",
-        "merchantOwnerName": "A",
-        "categories": [
-          {
-            "id": 2,
-            "name": "Restaurant",
-            "status": 1,
-            "image_path": null,
-            "image_name": null,
-            "created_at": "2025-06-13T08:24:58.000Z",
-            "updated_at": "2025-06-13T08:24:58.000Z",
-            "deleted_at": null,
-            "position": 2
-          },
-          {
-            "id": 3,
-            "name": "Cafe & Bakery",
-            "status": 1,
-            "image_path": null,
-            "image_name": null,
-            "created_at": "2025-06-13T08:24:58.000Z",
-            "updated_at": "2025-06-13T08:24:58.000Z",
-            "deleted_at": null,
-            "position": 3
-          },
-          {
-            "id": 4,
-            "name": "Bar & Club",
-            "status": 1,
-            "image_path": null,
-            "image_name": null,
-            "created_at": "2025-06-13T08:24:58.000Z",
-            "updated_at": "2025-06-13T08:24:58.000Z",
-            "deleted_at": null,
-            "position": 4
-          }
-        ]
-      },
-      "outlet_images": [
-        {
-          "id": 34,
-          "status": 1,
-          "image_path": "assets",
-          "image_name": "7f75c15c-e822-486d-a53f-9bd67ffc1087.jpg",
-          "created_at": "2025-06-26T08:27:23.000Z"
-        }
-      ],
-      "is_opening": true
-    },
-    "items_history": [],
-    "timelines_html": "\u003Cul\u003E\u003Cbr\u003E\u003C/br\u003E\u003Cli style=\"font-weight: bold;\"\u003EConsumer\u003Cul\u003E\u003Cli style=\"color: black; font-weight: bold;\"\u003E\n                    new | 2025-09-19 11:02:35 | \u003Cspan style=\"color: undefined\"\u003E\u003C/li\u003E\u003C/ul\u003E\u003C/li\u003E\u003Cbr\u003E\u003C/br\u003E\u003Cli style=\"font-weight: bold;\"\u003EMerchant\u003Cul\u003E\u003Cli style=\"color: black; font-weight: bold;\"\u003E\n                    new | 2025-09-19 11:02:35 | \u003Cspan style=\"color: undefined\"\u003E\u003C/li\u003E\u003C/ul\u003E\u003C/li\u003E\u003Cbr\u003E\u003C/br\u003E\u003Cli style=\"font-weight: bold;\"\u003EShipping\u003Cul\u003E\u003C/ul\u003E\u003C/li\u003E\u003C/ul\u003E",
-    "new_timelines": [
-      {
-        "datetime": "2025-09-19T04:02:35.000Z",
-        "status": {
-          "consumer": [
+          "id": 8,
+          "image": "8f699f58-4689-4bd4-8c21-86aa0d995488.jpg",
+          "url": null,
+          "merchants": [
             {
-              "status": "new",
-              "datetime": "2025-09-19T04:02:35.000Z"
+              "id": 17,
+              "name": "Miruku tea",
+              "image": "efbccad2-5f2c-4fd9-b972-abdd917cfb7d.jpg",
+              "subDomain": "MirukuTea",
+              "address": {
+                "city": "ភ្នំពេញ",
+                "cityEn": "Phnom Penh",
+                "district": "៧មករា",
+                "districtEn": "Prampi Makara",
+                "ward": "",
+                "wardEn": "",
+                "address": "សាកលវិទ្យាល័យភ្នំពេញអន្តរជាតិ"
+              },
+              "hierarchicalCategories": [
+                {
+                  "id": 11,
+                  "name": "ភេសជ្ជៈ",
+                  "name_en": "Dinks"
+                }
+              ],
+              "joinedDelivery": true,
+              "joinedContactless": true,
+              "joinedTableBooking": true,
+              "outlets": [
+                {
+                  "id": 17,
+                  "name": "Miruku Tea CN2",
+                  "shortName": "MirukuTeaCN2",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "សែនសុខ",
+                    "districtEn": "Sen Sok",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "​ផ្សារ​អ៊ីអន សែន​សុខ."
+                  }
+                },
+                {
+                  "id": 16,
+                  "name": "Miruku Tea CN1",
+                  "shortName": "MirukuTeaCN1",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "៧មករា",
+                    "districtEn": "Prampi Makara",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "សាកលវិទ្យាល័យភ្នំពេញអន្តរជាតិ"
+                  }
+                }
+              ]
             }
-          ],
-          "merchant": [
+          ]
+        },
+        {
+          "id": 5,
+          "image": "f7a9e2a1-ce20-413c-bad2-18101c12be14.jpg",
+          "url": null,
+          "merchants": [
             {
-              "status": "new",
-              "datetime": "2025-09-19T04:02:35.000Z"
+              "id": 14,
+              "name": "Black Coffee",
+              "image": "7f75c15c-e822-486d-a53f-9bd67ffc1087.jpg",
+              "subDomain": "blackcofee",
+              "address": {
+                "city": "ភ្នំពេញ",
+                "cityEn": "Phnom Penh",
+                "district": "ចំការមន",
+                "districtEn": "Chamkarmon",
+                "address": "ភ្នំពេញ"
+              },
+              "hierarchicalCategories": [
+                {
+                  "id": 3,
+                  "name": "អាហារបញ្ចាប់ប្បន្ន - អាហារសម្រន់",
+                  "name_en": "Fast food - Snacks"
+                },
+                {
+                  "id": 1,
+                  "name": "អាហាររស់មានសុខភាព",
+                  "name_en": "Healthy food"
+                },
+                {
+                  "id": 5,
+                  "name": "តែទឹកដោះគោ - កាហ្វេ",
+                  "name_en": "Milk Tea - Coffee"
+                },
+                {
+                  "id": 2,
+                  "name": "អង្ករ - បបរ",
+                  "name_en": "Rice - Porridge"
+                }
+              ],
+              "joinedDelivery": true,
+              "joinedContactless": true,
+              "joinedTableBooking": false,
+              "outlets": [
+                {
+                  "id": 12,
+                  "name": "Black Coffee BKK",
+                  "shortName": "blackcoffeebkk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "ផ្លូវលេខ ២៩២"
+                  }
+                },
+                {
+                  "id": 24,
+                  "name": "Black Coffee TK",
+                  "shortName": "blackcoffeetk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ទួលគោក",
+                    "districtEn": "Tuol Kork",
+                    "ward": "ផ្សារដេប៉ូទី១",
+                    "wardEn": "Phsar Depo I",
+                    "address": "ខណ្ឌទួលគោក"
+                  }
+                },
+                {
+                  "id": 13,
+                  "name": "Black Coffee TTP",
+                  "shortName": "blackcoffeettp",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "GWR7+QJ7 Phnom Penh, Cambodia"
+                  }
+                }
+              ]
             }
-          ],
-          "shipping": []
+          ]
+        },
+        {
+          "id": 7,
+          "image": "731e7383-d677-457c-854e-67e2125a356e.jpg",
+          "url": null,
+          "merchants": [
+            {
+              "id": 14,
+              "name": "Black Coffee",
+              "image": "7f75c15c-e822-486d-a53f-9bd67ffc1087.jpg",
+              "subDomain": "blackcofee",
+              "address": {
+                "city": "ភ្នំពេញ",
+                "cityEn": "Phnom Penh",
+                "district": "ចំការមន",
+                "districtEn": "Chamkarmon",
+                "address": "ភ្នំពេញ"
+              },
+              "hierarchicalCategories": [
+                {
+                  "id": 2,
+                  "name": "អង្ករ - បបរ",
+                  "name_en": "Rice - Porridge"
+                },
+                {
+                  "id": 1,
+                  "name": "អាហាររស់មានសុខភាព",
+                  "name_en": "Healthy food"
+                },
+                {
+                  "id": 5,
+                  "name": "តែទឹកដោះគោ - កាហ្វេ",
+                  "name_en": "Milk Tea - Coffee"
+                },
+                {
+                  "id": 3,
+                  "name": "អាហារបញ្ចាប់ប្បន្ន - អាហារសម្រន់",
+                  "name_en": "Fast food - Snacks"
+                }
+              ],
+              "joinedDelivery": true,
+              "joinedContactless": true,
+              "joinedTableBooking": false,
+              "outlets": [
+                {
+                  "id": 24,
+                  "name": "Black Coffee TK",
+                  "shortName": "blackcoffeetk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ទួលគោក",
+                    "districtEn": "Tuol Kork",
+                    "ward": "ផ្សារដេប៉ូទី១",
+                    "wardEn": "Phsar Depo I",
+                    "address": "ខណ្ឌទួលគោក"
+                  }
+                },
+                {
+                  "id": 13,
+                  "name": "Black Coffee TTP",
+                  "shortName": "blackcoffeettp",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "GWR7+QJ7 Phnom Penh, Cambodia"
+                  }
+                },
+                {
+                  "id": 12,
+                  "name": "Black Coffee BKK",
+                  "shortName": "blackcoffeebkk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "ផ្លូវលេខ ២៩២"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "image": "e783fbd6-d31b-4c8f-8766-917a000595bb.jpg",
+          "url": null,
+          "merchants": [
+            {
+              "id": 14,
+              "name": "Black Coffee",
+              "image": "7f75c15c-e822-486d-a53f-9bd67ffc1087.jpg",
+              "subDomain": "blackcofee",
+              "address": {
+                "city": "ភ្នំពេញ",
+                "cityEn": "Phnom Penh",
+                "district": "ចំការមន",
+                "districtEn": "Chamkarmon",
+                "address": "ភ្នំពេញ"
+              },
+              "hierarchicalCategories": [
+                {
+                  "id": 3,
+                  "name": "អាហារបញ្ចាប់ប្បន្ន - អាហារសម្រន់",
+                  "name_en": "Fast food - Snacks"
+                },
+                {
+                  "id": 1,
+                  "name": "អាហាររស់មានសុខភាព",
+                  "name_en": "Healthy food"
+                },
+                {
+                  "id": 5,
+                  "name": "តែទឹកដោះគោ - កាហ្វេ",
+                  "name_en": "Milk Tea - Coffee"
+                },
+                {
+                  "id": 2,
+                  "name": "អង្ករ - បបរ",
+                  "name_en": "Rice - Porridge"
+                }
+              ],
+              "joinedDelivery": true,
+              "joinedContactless": true,
+              "joinedTableBooking": false,
+              "outlets": [
+                {
+                  "id": 12,
+                  "name": "Black Coffee BKK",
+                  "shortName": "blackcoffeebkk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "ផ្លូវលេខ ២៩២"
+                  }
+                },
+                {
+                  "id": 24,
+                  "name": "Black Coffee TK",
+                  "shortName": "blackcoffeetk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ទួលគោក",
+                    "districtEn": "Tuol Kork",
+                    "ward": "ផ្សារដេប៉ូទី១",
+                    "wardEn": "Phsar Depo I",
+                    "address": "ខណ្ឌទួលគោក"
+                  }
+                },
+                {
+                  "id": 13,
+                  "name": "Black Coffee TTP",
+                  "shortName": "blackcoffeettp",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "GWR7+QJ7 Phnom Penh, Cambodia"
+                  }
+                }
+              ]
+            },
+            {
+              "id": 44,
+              "name": "KOI Thé",
+              "image": "b7806ac2-6f10-464b-b2f5-0bac2afe54a6.jpg",
+              "subDomain": "koithe",
+              "address": {
+                "city": "ភ្នំពេញ",
+                "cityEn": "Phnom Penh",
+                "district": "ចំការមន",
+                "districtEn": "Chamkarmon",
+                "address": "ហាងតែកុជ សាខា​ព្រះ​នរោត្ដម"
+              },
+              "hierarchicalCategories": [
+                {
+                  "id": 12,
+                  "name": "តែ និង បង្អែម",
+                  "name_en": "Tea and Dessert "
+                }
+              ],
+              "joinedDelivery": true,
+              "joinedContactless": true,
+              "joinedTableBooking": true,
+              "outlets": [
+                {
+                  "id": 51,
+                  "name": "KOI Thé (Preah Norodom Blvd.)",
+                  "shortName": "koithe",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "ហាងតែកុជ សាខា​ព្រះ​នរោត្ដម"
+                  }
+                },
+                {
+                  "id": 52,
+                  "name": "KOI Thé (Koh Norea Riverside)",
+                  "shortName": "koithe",
+                  "joinedDelivery": true,
+                  "joinedContactless": false,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ច្បារអំពៅ",
+                    "districtEn": "Chbar Ampov",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "ហាង KOI Thé កោះ​នរា"
+                  }
+                },
+                {
+                  "id": 53,
+                  "name": "KOI Thé (Aeon Mall-Mean Chey)",
+                  "shortName": "koithe",
+                  "joinedDelivery": true,
+                  "joinedContactless": false,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "មានជ័យ",
+                    "districtEn": "Meanchey",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "KOI Thé Aeon Mall Mean Chey"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "image": "c469d982-0255-42f3-8dce-fab5759930e5.jpg",
+          "url": null,
+          "merchants": [
+            {
+              "id": 14,
+              "name": "Black Coffee",
+              "image": "7f75c15c-e822-486d-a53f-9bd67ffc1087.jpg",
+              "subDomain": "blackcofee",
+              "address": {
+                "city": "ភ្នំពេញ",
+                "cityEn": "Phnom Penh",
+                "district": "ចំការមន",
+                "districtEn": "Chamkarmon",
+                "address": "ភ្នំពេញ"
+              },
+              "hierarchicalCategories": [
+                {
+                  "id": 3,
+                  "name": "អាហារបញ្ចាប់ប្បន្ន - អាហារសម្រន់",
+                  "name_en": "Fast food - Snacks"
+                },
+                {
+                  "id": 1,
+                  "name": "អាហាររស់មានសុខភាព",
+                  "name_en": "Healthy food"
+                },
+                {
+                  "id": 5,
+                  "name": "តែទឹកដោះគោ - កាហ្វេ",
+                  "name_en": "Milk Tea - Coffee"
+                },
+                {
+                  "id": 2,
+                  "name": "អង្ករ - បបរ",
+                  "name_en": "Rice - Porridge"
+                }
+              ],
+              "joinedDelivery": true,
+              "joinedContactless": true,
+              "joinedTableBooking": false,
+              "outlets": [
+                {
+                  "id": 12,
+                  "name": "Black Coffee BKK",
+                  "shortName": "blackcoffeebkk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "ផ្លូវលេខ ២៩២"
+                  }
+                },
+                {
+                  "id": 24,
+                  "name": "Black Coffee TK",
+                  "shortName": "blackcoffeetk",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ទួលគោក",
+                    "districtEn": "Tuol Kork",
+                    "ward": "ផ្សារដេប៉ូទី១",
+                    "wardEn": "Phsar Depo I",
+                    "address": "ខណ្ឌទួលគោក"
+                  }
+                },
+                {
+                  "id": 13,
+                  "name": "Black Coffee TTP",
+                  "shortName": "blackcoffeettp",
+                  "joinedDelivery": true,
+                  "joinedContactless": true,
+                  "joinedTableBooking": true,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "ចំការមន",
+                    "districtEn": "Chamkarmon",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "GWR7+QJ7 Phnom Penh, Cambodia"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "image": "41a3d629-95c2-4f08-a7e7-2785030de9fc.jpg",
+          "url": null,
+          "merchants": [
+            {
+              "id": 32,
+              "name": "Tea 1",
+              "image": "5bfe8551-d98b-421f-8fd3-76bec8cea05a.jpg",
+              "subDomain": "tea1",
+              "address": {
+                "city": "ភ្នំពេញ",
+                "cityEn": "Phnom Penh",
+                "district": "សែនសុខ",
+                "districtEn": "Sen Sok",
+                "address": "Fitness center"
+              },
+              "hierarchicalCategories": [
+                {
+                  "id": 12,
+                  "name": "តែ និង បង្អែម",
+                  "name_en": "Tea and Dessert "
+                },
+                {
+                  "id": 10,
+                  "name": "ម្ហូបខ្មែរ",
+                  "name_en": "Cambodia cuisine"
+                }
+              ],
+              "joinedDelivery": true,
+              "joinedContactless": false,
+              "joinedTableBooking": false,
+              "outlets": [
+                {
+                  "id": 32,
+                  "name": "Tea 1 Store 1",
+                  "shortName": "tea1-store1",
+                  "joinedDelivery": true,
+                  "joinedContactless": false,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "សែនសុខ",
+                    "districtEn": "Sen Sok",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "Fitness center"
+                  }
+                },
+                {
+                  "id": 33,
+                  "name": "Tea 1 Store 2",
+                  "shortName": "tea1-store2",
+                  "joinedDelivery": true,
+                  "joinedContactless": false,
+                  "joinedTableBooking": false,
+                  "address": {
+                    "city": "ភ្នំពេញ",
+                    "cityEn": "Phnom Penh",
+                    "district": "សែនសុខ",
+                    "districtEn": "Sen Sok",
+                    "ward": "",
+                    "wardEn": "",
+                    "address": "Fitness center"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "image": "83da85bd-2f25-4de7-a303-b11dd1df3912.jpg",
+          "url": "https://react-icons.github.io/react-icons/search/#q=opo",
+          "merchants": []
         }
-      }
-    ],
-    "payment_gateway_translation": "TrueMoney",
-    "consumer_timelines": {
-      "new": "11:02"
-    },
-    "secret": false,
-    "vat": 0,
-    "user_loyalty_info": {
-      "totalGmv": 0,
-      "lastVisit": null,
-      "totalTransactions": 0
+      ]
     }
-  }
+  ]
 }

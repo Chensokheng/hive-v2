@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import { useSearchStore } from "@/store/search";
 import { X } from "lucide-react";
@@ -33,7 +35,7 @@ export default function SearchMerchant() {
     <div className="relative z-10 flex-1">
       <Input
         ref={inputRef}
-        className="bg-white rounded-full shadow-none h-10 w-full"
+        className="bg-white rounded-full shadow-none h-10 w-full border-none outline-0"
         placeholder={t("nav.search.placeholder")}
         onChange={(e) => handleChangeSearchMerchant(e.target.value)}
       />

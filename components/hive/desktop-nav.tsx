@@ -15,7 +15,7 @@ import SelectDeliveryAddress from "./select-delivery-address";
 export const DesktopNav = () => {
   const t = useTranslations();
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
+  const isHomePage = pathname === "/" || pathname === "/store";
 
   return (
     <nav className="px-5 py-[1.125rem] bg-white hidden items-center gap-10 xl:gap-50 shadow-[0px_2px_4px_rgba(0,0,0,0.08)] lg:flex z-[50] sticky top-0 w-full justify-between">
