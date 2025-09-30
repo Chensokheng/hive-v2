@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
@@ -161,9 +161,38 @@ export default function PromotionSections() {
     (state) => state.filterMerchantCategoryId
   );
 
-  const { data } = useGetHomePageSection();
+  const { data, isLoading } = useGetHomePageSection();
 
-  const router = useRouter();
+  if (isLoading) {
+    return (
+      <div className="w-full py-8">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="space-y-10">
+            {/* Header Skeleton */}
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                {/* Title Skeleton */}
+                <div className="h-8 lg:h-10 w-64 bg-gray-300 rounded-lg animate-pulse" />
+                {/* Subtitle Skeleton */}
+                <div className="h-4 lg:h-5 w-48 bg-gray-300 rounded-lg animate-pulse" />
+              </div>
+            </div>
+
+            {/* Items Container Skeleton */}
+            <div className="flex overflow-x-hidden gap-3">
+              {/* Generate 5 skeleton items */}
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="relative w-[152px] h-[200px] lg:w-[282px] lg:h-[372px] flex-shrink-0 bg-gray-300 rounded-[20px] animate-pulse"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
