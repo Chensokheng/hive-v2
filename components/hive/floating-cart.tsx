@@ -1,6 +1,5 @@
 "use client";
 
-import { updateCartFee } from "@/services/outlet/update-cart-fee";
 import { useOutletStore } from "@/store/outlet";
 
 import { cn } from "@/lib/utils";
@@ -25,17 +24,6 @@ export function FloatingCart({
   );
   const { data: user } = useGetUserInfo();
 
-  const refetchFee = async () => {
-    if (user?.userId && user.token) {
-      await updateCartFee({
-        cartId,
-        userId: user?.userId,
-        token: user?.token,
-      });
-      await refetch();
-    }
-  };
-
   return (
     <>
       {/* Floating Cart Button */}
@@ -45,7 +33,6 @@ export function FloatingCart({
           onClick={() => {
             if (quantity > 0) {
               setOpenCheckoutSheet(true);
-              refetchFee();
             }
           }}
         >

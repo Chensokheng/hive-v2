@@ -13,7 +13,7 @@ import { useOutletStore } from "@/store/outlet";
 import { SelectedAddon } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";

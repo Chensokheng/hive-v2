@@ -10,7 +10,11 @@ export default function OutletMobileNav() {
   const { locale, outlet } = useParams();
   const router = useRouter();
   const handleBack = () => {
-    router.back();
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push(`/${locale}`);
+    }
   };
   return (
     <div className=" sticky top-0 w-full lg:hidden left-0 z-50">
