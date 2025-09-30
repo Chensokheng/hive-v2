@@ -54,9 +54,10 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
           </p>
         </div>
 
-        <button
-          onClick={handleCta}
-          className="
+        {item.ctaButtonTitle && (
+          <button
+            onClick={handleCta}
+            className="
           bg-primary/10 backdrop-blur-md 
           shadow-lg shadow-black/20
            font-semibold text-lg
@@ -66,12 +67,13 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
           border-l-0 border-r-0 rounded-full
           hover:bg-primary/20 cursor-pointer hover:scale-105
         "
-          style={{
-            color: item.ctaButtonTitleColor,
-          }}
-        >
-          {item.ctaButtonTitle}
-        </button>
+            style={{
+              color: item.ctaButtonTitleColor,
+            }}
+          >
+            {item.ctaButtonTitle}
+          </button>
+        )}
       </div>
     </div>
   );
