@@ -46,7 +46,7 @@ export default function Page() {
       <PromotionSections />
 
       {/* Store Grid */}
-      <StoreGrid />
+      <StoreGrid hidetitle={false} />
 
       {/* Bottom Navigation */}
       <BottomNav />
