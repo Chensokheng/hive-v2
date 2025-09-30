@@ -13,15 +13,28 @@ export function FloatingCart({
   cartId,
   quantity,
   isFetching,
+  refetch,
 }: {
   cartId: number;
   quantity: number;
   isFetching: boolean;
+  refetch: () => void;
 }) {
   const setOpenCheckoutSheet = useOutletStore(
     (state) => state.setOpenCheckoutSheet
   );
   const { data: user } = useGetUserInfo();
+
+  const refetchFee = async () => {
+    if (user?.userId && user.token) {
+      await updateCartFee({
+        cartId,
+        userId: user?.userId,
+        token: user?.token,
+      });
+      await refetch();
+    }
+  };
 
   return (
     <>
@@ -32,13 +45,7 @@ export function FloatingCart({
           onClick={() => {
             if (quantity > 0) {
               setOpenCheckoutSheet(true);
-              if (user?.userId && user.token) {
-                updateCartFee({
-                  cartId,
-                  userId: user?.userId,
-                  token: user?.token,
-                });
-              }
+              refetchFee();
             }
           }}
         >

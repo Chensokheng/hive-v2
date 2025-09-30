@@ -25,6 +25,7 @@ export default function Checkout() {
     data: unpaidItem,
     isFetching,
     isLoading,
+    refetch,
   } = useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
 
   if (isLoading) {
@@ -38,6 +39,7 @@ export default function Checkout() {
           cartId={unpaidItem.cartId}
           quantity={unpaidItem?.totalQuantity || 0}
           isFetching={isFetching}
+          refetch={refetch}
         />
       )}
 
