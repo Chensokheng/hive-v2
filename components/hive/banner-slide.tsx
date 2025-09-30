@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { rowdies } from "@/fonts";
-import { useRouter } from "@/i18n/navigation";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
@@ -15,15 +16,7 @@ interface BannerSlideProps {
 }
 
 export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
-  const router = useRouter();
-
-  const handleCta = () => {
-    if (item.ctaButtonUrl) {
-      router.push(item.ctaButtonUrl);
-    } else if (item.merchants.length) {
-      router.push("/banner/" + item.id);
-    }
-  };
+  const { locale } = useParams();
 
   return (
     <div className="w-full h-full flex-shrink-0 relative" key={item.id}>
@@ -55,8 +48,8 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
         </div>
 
         {item.ctaButtonTitle && (
-          <button
-            onClick={handleCta}
+          <Link
+            href={item.ctaButtonUrl || `/${locale}/banner/` + item.id}
             className="
           bg-primary/10 backdrop-blur-md 
           shadow-lg shadow-black/20
@@ -72,7 +65,7 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
             }}
           >
             {item.ctaButtonTitle}
-          </button>
+          </Link>
         )}
       </div>
     </div>

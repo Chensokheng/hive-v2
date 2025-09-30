@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
+import { useParams } from "next/navigation";
 import { rowdies } from "@/fonts";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
@@ -46,6 +47,7 @@ export default function BannerCarousel({
 }: BannerCarouselProps) {
   const { data, isLoading } = useGetBanner();
   const router = useRouter();
+  const { locale } = useParams();
   if (isLoading) {
     return (
       <Skeleton className="h-44 w-[calc(100vw-3rem)] bg-gray-300 mx-auto" />
@@ -99,23 +101,19 @@ export default function BannerCarousel({
                 </div>
 
                 {banner.ctaButtonTitle && (
-                  <button
+                  <Link
+                    href={
+                      banner.ctaButtonUrl || `/${locale}/banner/` + banner.id
+                    }
                     className={cn(
                       "bg-primary/10 backdrop-blur-md  shadow-lg shadow-black/20 font-semibold text-sm transition-all duration-300 py-2 px-4 inline-block mt-3 border-t border-b border-white/30 border-l-0 border-r-0 rounded-full hover:bg-primary/20"
                     )}
-                    onClick={() =>
-                      handleCta(
-                        banner.ctaButtonUrl,
-                        banner.merchants.length,
-                        banner.id
-                      )
-                    }
                     style={{
                       color: banner.ctaButtonTitleColor,
                     }}
                   >
                     {banner.ctaButtonTitle}
-                  </button>
+                  </Link>
                 )}
               </div>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
@@ -14,7 +15,7 @@ interface PromotionItem {
   image: string;
   title?: string;
   onClick?: () => void;
-  url: string | null;
+  url: string;
 }
 
 interface PromotionSectionProps {
@@ -124,10 +125,10 @@ function PromotionSection({
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {items.map((item) => (
-              <div
+              <Link
+                href={item.url}
                 className="relative w-[152px] h-[200px] lg:w-[282px] lg:h-[372px] flex-shrink-0 snap-start cursor-pointer hover:scale-95 transition-transform"
                 key={item.id}
-                onClick={item.onClick}
               >
                 <AsyncImage
                   src={item.image}
@@ -135,7 +136,7 @@ function PromotionSection({
                   style={{ width: "100%", height: "100%", borderRadius: 20 }}
                   loader={<div className="bg-gray-300" />}
                 />
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -163,6 +164,7 @@ export default function PromotionSections() {
   const { data } = useGetHomePageSection();
 
   const router = useRouter();
+
   return (
     <div
       className={cn("mt-5 space-y-8", {
@@ -177,25 +179,20 @@ export default function PromotionSections() {
               subtitle: promotion?.subtitle,
               hasGradientBackground: index === 0,
               items: promotion?.homepageSectionItems?.map((item) => {
+                // Prefetch the promotion page URL
+
                 return {
                   id: item.id.toString(),
                   image: getImageUrl(item.image),
-                  url: item.url,
-                  onClick() {
-                    if (item.url) {
-                      router.push(item.url);
-                    } else {
-                      router.push(
-                        "/" +
-                          locale +
-                          "/promotions" +
-                          "/" +
-                          promotion.title.split(" ").join("-") +
-                          "/" +
-                          `${promotion.id}-${item.id}`
-                      );
-                    }
-                  },
+                  url:
+                    item.url ||
+                    "/" +
+                      locale +
+                      "/promotions" +
+                      "/" +
+                      promotion.title.split(" ").join("-") +
+                      "/" +
+                      `${promotion.id}-${item.id}`,
                 };
               }),
             }}
