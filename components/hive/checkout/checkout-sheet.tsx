@@ -54,8 +54,9 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
         addressNote: addressNoteRef.current?.value || "",
         token: user?.token || "",
       });
+
       if (!res.status) {
-        toast.error("Fail to checkout");
+        toast.error(res.data.error_message || "Fail to checkout");
         return;
       }
       const deeplink = res.data.data.deeplink;

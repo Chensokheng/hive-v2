@@ -1,22 +1,27 @@
 "use client";
 
+import { updateCartFee } from "@/services/outlet/update-cart-fee";
 import { useOutletStore } from "@/store/outlet";
 
 import { cn } from "@/lib/utils";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 
 import CartIcon from "../icon/cart";
 import EyeIcon from "../icon/eye";
 
 export function FloatingCart({
+  cartId,
   quantity,
   isFetching,
 }: {
+  cartId: number;
   quantity: number;
   isFetching: boolean;
 }) {
   const setOpenCheckoutSheet = useOutletStore(
     (state) => state.setOpenCheckoutSheet
   );
+  const { data: user } = useGetUserInfo();
 
   return (
     <>
@@ -27,6 +32,13 @@ export function FloatingCart({
           onClick={() => {
             if (quantity > 0) {
               setOpenCheckoutSheet(true);
+              if (user?.userId && user.token) {
+                updateCartFee({
+                  cartId,
+                  userId: user?.userId,
+                  token: user?.token,
+                });
+              }
             }
           }}
         >

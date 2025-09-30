@@ -46,15 +46,15 @@ export default function OutletHeader() {
         loader={<div className="bg-gray-300" />}
         className="shadow top-[-40px] left-4 absolute border-4 border-white object-center object-cover"
       />
-      <div className="relative h-32 lg:h-20">
+      <div className="relative h-auto pt-2">
         {(isLoading && isEnabled) || isLoadingUser ? (
-          <div className=" absolute top-[-30px] left-4 space-y-3 w-full">
+          <div className="relative left-4 space-y-3 w-full">
             <Skeleton className="h-6 w-3/4 bg-gray-300" />
             <Skeleton className="h-4 w-1/2 bg-gray-300" />
             <Skeleton className="h-4 w-1/2 bg-gray-300" />
           </div>
         ) : (
-          <div className=" absolute  top-[-35px] left-4 space-y-3">
+          <div className="relative left-4 -top-5 space-y-3">
             <h1 className="text-2xl font-bold">{data?.data?.name}</h1>
             <div className="text-sm text-[#303D5599] flex gap-2 flex-wrap">
               <MapIcon />

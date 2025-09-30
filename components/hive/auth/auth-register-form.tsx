@@ -6,7 +6,7 @@ import { checkUser } from "@/services/auth/check-user";
 import { sendOtp } from "@/services/auth/send-opt";
 import { useAuthStore } from "@/store/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader } from "lucide-react";
+import { ChevronLeft, Loader } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -305,16 +305,16 @@ export default function AuthRegisterForm({
                 )}
               </Button>
 
-              <Button
+              <button
                 type="button"
-                className="w-full rounded-full cursor-pointer"
-                variant={"ghost"}
+                className="text-lg font-semibold flex items-center gap-2 cursor-pointer"
                 onClick={() => {
                   setUserNotExist(false);
                 }}
               >
-                Back
-              </Button>
+                <ChevronLeft />
+                {t("otp.back")}
+              </button>
             </div>
           )}
         </form>

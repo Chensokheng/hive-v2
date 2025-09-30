@@ -23,6 +23,10 @@ export default function SearchAddress() {
   const { merchant } = useParams() as { merchant: string };
 
   const setUnAuthAddress = useAddresStore((state) => state.setUnAuthAddress);
+  const setOpenAddressSheet = useAddresStore(
+    (state) => state.setOpenAddressSheet
+  );
+  const openAddresSheet = useAddresStore((state) => state.openAddresSheet);
   const [search, setSearch] = useState("");
   const { data, isFetching } = useGetAddressByKeyword(search);
   const { data: user } = useGetUserInfo();
@@ -57,6 +61,7 @@ export default function SearchAddress() {
       });
       setSearch("");
       inputRef.current!.value = res.data.address;
+      setOpenAddressSheet(false);
     } else {
       const searchParam = "?keyword=" + value + "&placeId=" + value.id;
 
@@ -77,6 +82,7 @@ export default function SearchAddress() {
         queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
         });
+        setOpenAddressSheet(false);
       }
     }
     setLoading(false);
@@ -105,18 +111,20 @@ export default function SearchAddress() {
           </div>
         )}
 
-        {(user?.placeAddress || sessoinsLocation) && !isLoading && (
-          <button
-            className=" absolute top-1/2 right-3 transform -translate-y-1/2  cursor-pointer z-50"
-            onClick={() => {
-              inputRef.current!.value = "";
-              setSearch("");
-              inputRef.current!.focus();
-            }}
-          >
-            <X className=" w-4 h-4" />
-          </button>
-        )}
+        {(user?.placeAddress || sessoinsLocation) &&
+          !isLoading &&
+          !isFetching && (
+            <button
+              className=" absolute top-1/2 right-3 transform -translate-y-1/2  cursor-pointer z-50"
+              onClick={() => {
+                inputRef.current!.value = "";
+                setSearch("");
+                inputRef.current!.focus();
+              }}
+            >
+              <X className=" w-4 h-4" />
+            </button>
+          )}
 
         <div
           className={cn(

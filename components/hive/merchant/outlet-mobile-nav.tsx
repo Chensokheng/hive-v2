@@ -14,7 +14,7 @@ export default function OutletMobileNav() {
   };
   return (
     <div className=" sticky top-0 w-full lg:hidden left-0 z-50">
-      <nav className="max-w-md mx-auto backdrop-blur-lg py-3 z-50 flex items-center justify-between pr-3">
+      <nav className="max-w-md mx-auto bg-white  py-3 z-50 flex items-center justify-between pr-3">
         <div className="w-20 pl-3" onClick={handleBack}>
           <ChevronLeft className="text-primary w-8 h-8" />
         </div>

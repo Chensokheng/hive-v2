@@ -40,6 +40,7 @@ export default async function placeOrder(params: {
     status: boolean;
     message: string;
     data: {
+      error_message?: string;
       status: {
         code: string;
         message: string;
@@ -54,5 +55,7 @@ export default async function placeOrder(params: {
       };
     };
   };
+  console.log(data);
+
   return data;
 }

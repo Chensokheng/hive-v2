@@ -35,6 +35,7 @@ export default function Checkout() {
     <div className="w-full">
       {unpaidItem?.totalQuantity && (
         <FloatingCart
+          cartId={unpaidItem.cartId}
           quantity={unpaidItem?.totalQuantity || 0}
           isFetching={isFetching}
         />

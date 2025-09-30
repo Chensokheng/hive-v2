@@ -176,7 +176,7 @@ export default function AuthOptForm({
           <Button
             type="submit"
             className="w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
-            disabled={otp.some((digit) => !digit)}
+            disabled={otp.some((digit) => !digit) || isLoading}
           >
             {isLoading ? (
               <Loader className=" animate-spin w-4 h-4" />
