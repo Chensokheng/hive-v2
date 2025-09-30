@@ -15,8 +15,6 @@ interface BannerSlideProps {
 }
 
 export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
-  const titleColor = `text-[${item.titleColor}]`;
-  const descriptionColor = `text-[${item.descriptionColor}]`;
   const router = useRouter();
 
   const handleCta = () => {
@@ -39,15 +37,19 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
       <div className="absolute bottom-20 left-12 text-white">
         <div>
           <h1
-            className={cn(
-              "text-[3rem] font-bold",
-              rowdies.className,
-              titleColor
-            )}
+            className={cn("text-[3rem] font-bold", rowdies.className)}
+            style={{
+              color: item.titleColor,
+            }}
           >
             {item.title}
           </h1>
-          <p className={cn("text-xl font-normal", descriptionColor)}>
+          <p
+            className={cn("text-xl font-normal")}
+            style={{
+              color: item.descriptionColor,
+            }}
+          >
             {item.description}
           </p>
         </div>
@@ -57,13 +59,16 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
           className="
           bg-primary/10 backdrop-blur-md 
           shadow-lg shadow-black/20
-          text-white font-semibold text-lg
+           font-semibold text-lg
           transition-all duration-300
           py-2 px-4 inline-block mt-3
           border-t border-b border-white/30
           border-l-0 border-r-0 rounded-full
           hover:bg-primary/20 cursor-pointer hover:scale-105
         "
+          style={{
+            color: item.ctaButtonTitleColor,
+          }}
         >
           {item.ctaButtonTitle}
         </button>

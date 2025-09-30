@@ -23,9 +23,12 @@ export default function HeroCarousel() {
 
   if (isLoading) {
     return (
-      <div className="max-w-[1200px] mx-auto hidden lg:block p-2">
-        <Skeleton className="h-[514px] bg-gray-300 rounded-3xl" />
-      </div>
+      <>
+        <Skeleton className="h-44 w-[calc(100vw-3rem)] bg-gray-300 mx-auto lg:hidden rounded-2xl" />
+        <div className="max-w-[1200px] mx-auto hidden lg:block p-2">
+          <Skeleton className="h-[514px] bg-gray-300 rounded-3xl" />
+        </div>
+      </>
     );
   }
 

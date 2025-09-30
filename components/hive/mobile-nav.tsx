@@ -13,6 +13,7 @@ export const MobileNav = () => {
   const t = useTranslations();
 
   const isHomePage = pathname === "/";
+  const isBanner = pathname.includes("banner");
 
   const isOrderPage = pathname.includes("/order");
 
@@ -23,7 +24,7 @@ export const MobileNav = () => {
   const segments = cleanPath.split("/").filter(Boolean); // filter removes empty strings
   const isOutletPage = segments.length === 2;
 
-  if (isOutletPage) {
+  if (isOutletPage && !isBanner) {
     return <></>;
   }
 

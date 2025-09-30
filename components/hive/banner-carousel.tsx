@@ -9,6 +9,8 @@ import { Blur } from "transitions-kit";
 import { cn, getImageUrl } from "@/lib/utils";
 import useGetBanner from "@/hooks/use-get-banner";
 
+import { Skeleton } from "../ui/skeleton";
+
 interface BannerItem {
   id: string;
   image: string;
@@ -45,7 +47,9 @@ export default function BannerCarousel({
   const { data, isLoading } = useGetBanner();
   const router = useRouter();
   if (isLoading) {
-    return <h1>Loading..</h1>;
+    return (
+      <Skeleton className="h-44 w-[calc(100vw-3rem)] bg-gray-300 mx-auto" />
+    );
   }
   const handleCta = (
     url: string | null,
@@ -62,10 +66,6 @@ export default function BannerCarousel({
   return (
     <div className="flex overflow-x-auto gap-4 pr-16 scroll-smooth snap-x snap-mandatory hide-scroll ml-5 ">
       {data?.data.map((banner) => {
-        const titleColor = `text-[${banner.titleColor}]`;
-        const descriptionColor = `text-[${banner.subtitleColor}]`;
-        const ctaButtonTitleColor = `text-[${banner.ctaButtonTitleColor}]`;
-
         return (
           <div key={banner.id}>
             <div className="h-44 w-[calc(100vw-3rem)] sm:w-[calc(448px-3rem)] flex-shrink-0 relative snap-start">
@@ -80,21 +80,27 @@ export default function BannerCarousel({
                   <h1
                     className={cn(
                       "text-[22px] leading-[28px] font-bold traking-[-0.4px]",
-                      rowdies.className,
-                      titleColor
+                      rowdies.className
                     )}
+                    style={{
+                      color: banner.titleColor,
+                    }}
                   >
                     {banner.title}
                   </h1>
-                  <p className={cn("text-sm leading-[18px]", descriptionColor)}>
+                  <p
+                    className={cn("text-sm leading-[18px]")}
+                    style={{
+                      color: banner.subtitleColor,
+                    }}
+                  >
                     {banner.subtitle}
                   </p>
                 </div>
 
                 <button
                   className={cn(
-                    "bg-primary/10 backdrop-blur-md  shadow-lg shadow-black/20 font-semibold text-sm transition-all duration-300 py-2 px-4 inline-block mt-3 border-t border-b border-white/30 border-l-0 border-r-0 rounded-full hover:bg-primary/20",
-                    ctaButtonTitleColor
+                    "bg-primary/10 backdrop-blur-md  shadow-lg shadow-black/20 font-semibold text-sm transition-all duration-300 py-2 px-4 inline-block mt-3 border-t border-b border-white/30 border-l-0 border-r-0 rounded-full hover:bg-primary/20"
                   )}
                   onClick={() =>
                     handleCta(
@@ -103,6 +109,9 @@ export default function BannerCarousel({
                       banner.id
                     )
                   }
+                  style={{
+                    color: banner.ctaButtonTitleColor,
+                  }}
                 >
                   {banner.ctaButtonTitle}
                 </button>
