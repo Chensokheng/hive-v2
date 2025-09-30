@@ -1212,3 +1212,56 @@ export type OrdersResponse = {
 export * from "./order-detail";
 
 //
+
+// Banner
+
+export type BannerResponse = {
+  status: boolean;
+  data: {
+    id: number;
+    image: string;
+    title: string;
+    titleColor: string;
+    subtitle: string;
+    subtitleColor: string;
+    ctaButtonTitle: string;
+    ctaButtonTitleColor: string;
+    ctaButtonUrl: string | null;
+    merchants: {
+      id: number;
+      name: string;
+      image: string;
+      subDomain: string;
+      address: {
+        city: string;
+        cityEn: string;
+        district: string;
+        districtEn: string;
+        ward?: string;
+        wardEn?: string;
+        address: string;
+      };
+      hierarchicalCategories: any[];
+      joinedDelivery: boolean;
+      joinedContactless: boolean;
+      joinedTableBooking: boolean;
+      outlets: {
+        id: number;
+        name: string;
+        shortName: string;
+        joinedDelivery: boolean;
+        joinedContactless: boolean;
+        joinedTableBooking: boolean;
+        address: {
+          city: string;
+          cityEn: string;
+          district: string;
+          districtEn: string;
+          ward?: string;
+          wardEn?: string;
+          address: string;
+        };
+      }[];
+    }[];
+  }[];
+};

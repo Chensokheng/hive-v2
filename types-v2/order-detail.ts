@@ -7,6 +7,7 @@ export type OrderDetailResponse = {
 };
 
 export type OrderDetailData = {
+  error_message: string;
   qty: number;
   distance: number;
   shipping_tip: number;

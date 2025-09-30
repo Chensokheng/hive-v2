@@ -2,6 +2,7 @@
 
 import React from "react";
 import { rowdies } from "@/fonts";
+import { useRouter } from "@/i18n/navigation";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
@@ -13,25 +14,47 @@ interface BannerSlideProps {
   index: number;
 }
 
-export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => (
-  <div className="w-full h-full flex-shrink-0 relative" key={item.id}>
-    <AsyncImage
-      src={item.image}
-      Transition={Blur}
-      style={{ width: "100%", height: "100%", borderRadius: 16 }}
-      loader={<div className="bg-gray-300" />}
-    />
+export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
+  const titleColor = `text-[${item.titleColor}]`;
+  const descriptionColor = `text-[${item.descriptionColor}]`;
+  const router = useRouter();
 
-    <div className="absolute bottom-20 left-12 text-white">
-      <div>
-        <h1 className={cn("text-[3rem] font-bold", rowdies.className)}>
-          {item.title}
-        </h1>
-        <p className="text-xl font-normal">{item.description}</p>
-      </div>
+  const handleCta = () => {
+    if (item.ctaButtonUrl) {
+      router.push(item.ctaButtonUrl);
+    } else if (item.merchants.length) {
+      router.push("/banner/" + item.id);
+    }
+  };
 
-      <button
-        className="
+  return (
+    <div className="w-full h-full flex-shrink-0 relative" key={item.id}>
+      <AsyncImage
+        src={item.image}
+        Transition={Blur}
+        style={{ width: "100%", height: "100%", borderRadius: 16 }}
+        loader={<div className="bg-gray-300" />}
+      />
+
+      <div className="absolute bottom-20 left-12 text-white">
+        <div>
+          <h1
+            className={cn(
+              "text-[3rem] font-bold",
+              rowdies.className,
+              titleColor
+            )}
+          >
+            {item.title}
+          </h1>
+          <p className={cn("text-xl font-normal", descriptionColor)}>
+            {item.description}
+          </p>
+        </div>
+
+        <button
+          onClick={handleCta}
+          className="
           bg-primary/10 backdrop-blur-md 
           shadow-lg shadow-black/20
           text-white font-semibold text-lg
@@ -41,9 +64,10 @@ export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => (
           border-l-0 border-r-0 rounded-full
           hover:bg-primary/20 cursor-pointer hover:scale-105
         "
-      >
-        Reserve Table
-      </button>
+        >
+          {item.ctaButtonTitle}
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
+};

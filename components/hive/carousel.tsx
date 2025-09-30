@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { BannerResponse } from "@/types-v2";
 import { AsyncImage } from "loadable-image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Blur } from "transitions-kit";
@@ -13,6 +14,12 @@ export interface CarouselItem {
   alt: string;
   title?: string;
   description?: string;
+  titleColor?: string;
+  descriptionColor?: string;
+  ctaButtonTitle?: string;
+  ctaButtonTitleColor?: string;
+  ctaButtonUrl?: string;
+  merchants: BannerResponse["data"][0]["merchants"];
 }
 
 export interface CarouselProps {

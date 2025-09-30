@@ -22,6 +22,16 @@ export default function OrderDetailsPage() {
 
   const { data, isLoading } = useGetOrderDetail(id, merchant, outlet);
 
+  if (!isLoading && !data?.status) {
+    return (
+      <div className="min-h-screen max-w-5xl mx-auto bg-white py-50">
+        <h1 className="text-center text-2xl font-bold">
+          {data?.message || data?.data?.error_message} ☹️
+        </h1>
+      </div>
+    );
+  }
+
   return (
     <div className=" bg-primary-bg">
       <div className=" min-h-screen max-w-5xl mx-auto bg-white pb-50">
