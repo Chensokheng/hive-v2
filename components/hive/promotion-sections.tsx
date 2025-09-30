@@ -165,7 +165,7 @@ export default function PromotionSections() {
 
   if (isLoading) {
     return (
-      <div className="w-full py-8">
+      <div className="w-full py-8 px-3">
         <div className="max-w-[1200px] mx-auto">
           <div className="space-y-10">
             {/* Header Skeleton */}
