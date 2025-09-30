@@ -1,6 +1,6 @@
 import { CarouselItem } from "@/components/hive/carousel";
 
-export const DESKTOP_BANNERS: CarouselItem[] = [
+export const DESKTOP_BANNERS: CarouselItem[] | any = [
   {
     id: "1",
     image: "/assets/mini/banner.png",

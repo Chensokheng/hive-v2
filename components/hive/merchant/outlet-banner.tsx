@@ -22,7 +22,7 @@ export default function OutletBanner({ outletId }: { outletId: number }) {
     id: item.id,
     image: getImageUrl(item.image),
     alt: item.name,
-  }));
+  })) as any;
 
   return (
     <div>
