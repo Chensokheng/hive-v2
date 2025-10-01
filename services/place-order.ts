@@ -59,7 +59,6 @@ export default async function placeOrder(params: {
       };
     };
   };
-  console.log(data);
 
   return data;
 }

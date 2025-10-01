@@ -2,18 +2,13 @@ import React, { useState, useTransition } from "react";
 import { useParams } from "next/navigation";
 import { applyPromoCode } from "@/services/apply-promo-code";
 import { useCheckoutStore } from "@/store/checkout";
-import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
-import {
-  ChevronRight,
-  Loader,
-  X,
-} from "lucide-react";
+import { ChevronRight, Loader, X } from "lucide-react";
 import toast from "react-hot-toast";
 import { Blur } from "transitions-kit";
 
-import { getImageUrl } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
 import useGetPromotionCode from "@/hooks/use-get-promotion-code";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -65,16 +60,11 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
         toast.error(res.message || "Failed to apply promotion code");
         return;
       } else {
-        setSelectedPromotionCode({ code, id });
-        queryClient.setQueryData(
-          ["outlet-unpaid-item", user?.userId, outletInfo?.data.id],
-          (oldData: OutletUnpaidItemsDto) => {
-            return {
-              ...oldData,
-              finalTotal: res.data.discount_info.after_final_total,
-            };
-          }
-        );
+        setSelectedPromotionCode({
+          code,
+          id,
+          discoundAmount: res.data.discount_info.discount_value,
+        });
         setOpen(false);
       }
     });
@@ -83,7 +73,12 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <button
-        className="bg-[#FF66CC]/10 py-5 px-4 rounded-2xl  gap-4 flex mx-4 mb-4 cursor-pointer "
+        className={cn(
+          "bg-[#FF66CC]/10 py-5 px-4 rounded-2xl  gap-4 flex mx-4 mb-4 cursor-pointer ",
+          {
+            "ring ring-primary": selectedPromotionCode.code,
+          }
+        )}
         onClick={() => {
           if (!selectedPromotionCode.code) {
             setOpen(true);
@@ -104,13 +99,10 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
             className="w-6 h-6 text-[#FF66CC]"
             onClick={() => {
               if (selectedPromotionCode) {
-                setSelectedPromotionCode({ code: "", id: -1 });
-                queryClient.invalidateQueries({
-                  queryKey: [
-                    "outlet-unpaid-item",
-                    user?.userId,
-                    outletInfo?.data.id,
-                  ],
+                setSelectedPromotionCode({
+                  code: "",
+                  id: -1,
+                  discoundAmount: 0,
                 });
               }
             }}
@@ -143,7 +135,9 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
               {promotionCodes?.data.map((item) => {
                 return (
                   <div
-                    className="flex items-center flex-col lg:flex-row gap-4"
+                    className={cn(
+                      "flex items-center flex-col lg:flex-row gap-4"
+                    )}
                     key={item.id}
                   >
                     <div className="flex items-center gap-4 flex-1 w-full">

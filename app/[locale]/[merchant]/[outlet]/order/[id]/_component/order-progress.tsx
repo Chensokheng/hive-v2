@@ -16,7 +16,6 @@ export default function OrderProgress({
 }) {
   // Map status to display text
   const getStatusDisplay = (status: string) => {
-    console.log(status);
     switch (status) {
       case "new":
         return "Processing";

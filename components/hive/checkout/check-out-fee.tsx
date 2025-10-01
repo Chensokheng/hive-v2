@@ -1,4 +1,5 @@
 import React from "react";
+import { useCheckoutStore } from "@/store/checkout";
 
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -8,6 +9,9 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
   const { data: unpaidItem } = useGetOutletUnpaidItem(
     Number(user?.userId!),
     outletId
+  );
+  const selectedPromotionCode = useCheckoutStore(
+    (state) => state.selectedPromotionCode
   );
 
   return (
@@ -43,6 +47,16 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
           ${unpaidItem?.totalVat}
         </span>
       </div>
+      {selectedPromotionCode.discoundAmount && (
+        <div className="flex items-center justify-between pl-2">
+          <div className="space-x-2">
+            <span className="text-[#303D5599]">Promotion:</span>
+          </div>
+          <span className="font-semibold text-[#161F2F]">
+            -${selectedPromotionCode.discoundAmount}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
