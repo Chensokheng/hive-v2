@@ -1,5 +1,6 @@
 import { useRef, useTransition } from "react";
 import placeOrder from "@/services/place-order";
+import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
 import { Loader } from "lucide-react";
 import toast from "react-hot-toast";
@@ -22,6 +23,7 @@ import CheckoutHeader from "./checkout-header";
 import DeliveryInfo from "./delivery-info";
 import OrderItems from "./order-items";
 import PaymentMethod from "./payment-method";
+import PromotionCode from "./promotion-code";
 
 export default function CheckoutSheet({ outletId }: { outletId: number }) {
   const [isPending, startTransition] = useTransition();
@@ -44,6 +46,14 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
     (state) => state.checkoutUserTemInfo
   );
 
+  const selectedPromotionCode = useCheckoutStore(
+    (state) => state.selectedPromotionCode
+  );
+
+  const setSelectedPromotionCode = useCheckoutStore(
+    (state) => state.setSelectedPromotionCode
+  );
+
   const handleCheckout = () => {
     startTransition(async () => {
       const res = await placeOrder({
@@ -54,7 +64,10 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
         note: noteRef.current?.value || "",
         addressNote: addressNoteRef.current?.value || "",
         token: user?.token || "",
+        promotionCode: selectedPromotionCode.code,
+        promotionId: selectedPromotionCode.id,
       });
+      setSelectedPromotionCode({ code: "", id: -1 });
 
       if (!res.status) {
         toast.error(res.data.error_message || "Fail to checkout");
@@ -117,6 +130,8 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
               ref={noteRef}
             />
           </div>
+          {unpaidItem?.cartId && <PromotionCode cartId={unpaidItem?.cartId} />}
+
           <CheckOutFee outletId={outletId} />
           <PaymentMethod />
         </div>

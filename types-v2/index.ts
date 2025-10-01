@@ -1318,3 +1318,61 @@ export type HomepageResponse = {
     }[];
   }[];
 };
+
+// apply promo code
+
+export type ApplyPromotionCodeResponse = {
+  status: boolean;
+  message: string;
+  data: {
+    id: number;
+    name: string;
+    name_en: string;
+    code: string;
+    status: string;
+    hidden: number;
+    default_qty_per_merchant: number;
+    max_used_times_per_user: number;
+    discount_percent: number | null;
+    discount_value: number;
+    max_discount: number | null;
+    discount_type: string;
+    min_required_subtotal: number;
+    savyu_sponsor_percent: number;
+    merchant_sponsor_percent: number;
+    description: string;
+    description_en: string;
+    image_name: string;
+    valid_from: string; // ISO date
+    valid_to: string; // ISO date
+    created_at: string; // ISO date
+    updated_at: string; // ISO date
+    delivery_first_time: number;
+    apply_for_delivery: boolean;
+    apply_for_contactless: boolean;
+    apply_for_deal: boolean;
+    email_domain_name: string | null;
+    required_email: boolean;
+    isAllowedSendPromotionCodeToEmail: boolean;
+    minBillValueToSendPromotionCodeToEmail: number;
+    maxSendPerUser: number | null;
+    payment_methods: {
+      id: number;
+      name: string;
+      status: string;
+      key: string;
+      created_at: string;
+      updated_at: string;
+    }[];
+    deals: any[];
+    discount_info: {
+      after_final_total: number;
+      before_final_total: number;
+      after_reward: number;
+      before_reward: number;
+      discount_value: number;
+      before_subtotal: number;
+      after_subtotal: number;
+    };
+  };
+};

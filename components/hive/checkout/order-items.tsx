@@ -44,7 +44,7 @@ export default function OrderItems({ outletId }: { outletId: number }) {
         </Button>
       </div>
       <div>
-        <div className="space-y-3" ref={animateParent}>
+        <div className="space-y-3">
           {unpaidItem?.items?.map((item) => {
             return <OrderItem item={item} key={item.id} />;
           })}

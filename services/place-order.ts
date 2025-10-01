@@ -7,6 +7,8 @@ export default async function placeOrder(params: {
   note?: string;
   addressNote?: string;
   token: string;
+  promotionCode?: string;
+  promotionId?: number;
 }) {
   const api =
     process.env.NEXT_PUBLIC_HIVE_BASE_API +
@@ -33,6 +35,8 @@ export default async function placeOrder(params: {
       // TODO: change later
       payment_key: "payment_truemoney",
       password: "",
+      code: params.promotionCode || null,
+      promotion_code_id: params.promotionId !== -1 ? params.promotionId : null,
     }),
   });
 
