@@ -43,13 +43,8 @@ export default function DeliveryInfo({
   };
 
   useEffect(() => {
-    if (initialLoad.current) {
-      initialLoad.current = false;
-      return;
-    } else {
-      if (user?.userId) {
-        updateFee();
-      }
+    if (user?.userId) {
+      updateFee();
     }
   }, [user?.placeAddress]);
 
