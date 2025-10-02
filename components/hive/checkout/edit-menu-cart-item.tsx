@@ -146,11 +146,18 @@ export default function EditMenuCartItem() {
     });
   };
 
-  const allowAddItem = menuAddOn?.activatedCustomDiscountedProduct
-    ? menuAddOn?.activatedCustomDiscountedProduct?.max_usage_per_order ||
-      0 - (menuAddOn?.activatedCustomDiscountedProduct?.user_total_used || 0) >
+  const allowAddItem =
+    menuAddOn?.activatedCustomDiscountedProduct &&
+    editCartItemData?.isCustomDiscounted
+      ? menuAddOn?.activatedCustomDiscountedProduct?.max_usage_per_order! -
+          menuAddOn?.activatedCustomDiscountedProduct?.user_total_used! >
         0
-    : true;
+      : true;
+
+  const isLimitQuantity =
+    quantity >=
+      menuAddOn?.activatedCustomDiscountedProduct?.max_usage_per_order! &&
+    editCartItemData?.isCustomDiscounted;
 
   const handleUpdateCart = async (isRemove: boolean = false) => {
     startTranstition(async () => {
@@ -195,14 +202,16 @@ export default function EditMenuCartItem() {
     );
     if (!isHasVariationAddOn) {
       setBasePrice(
-        menuAddOn?.activatedCustomDiscountedProduct?.selling_price ||
-          menuAddOn?.price ||
-          0
+        editCartItemData?.isCustomDiscounted
+          ? menuAddOn?.activatedCustomDiscountedProduct?.selling_price ||
+              menuAddOn?.price ||
+              0
+          : menuAddOn?.price || 0
       );
     } else {
       setBasePrice(0);
     }
-  }, [menuAddOn]);
+  }, [menuAddOn, editCartItemData?.isCustomDiscounted]);
 
   // Reset form when opening with new data
   useEffect(() => {
@@ -309,17 +318,9 @@ export default function EditMenuCartItem() {
               </button>
               <span className="text-[#161F2F] font-bold">{quantity}</span>
               <button
-                className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer"
+                className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer disabled:opacity-50"
                 onClick={() => handleQuantityChange(true)}
-                disabled={
-                  !allowAddItem ||
-                  quantity >
-                    (menuAddOn?.activatedCustomDiscountedProduct
-                      ?.max_usage_per_order
-                      ? menuAddOn?.activatedCustomDiscountedProduct
-                          ?.max_usage_per_order
-                      : Infinity)
-                }
+                disabled={!allowAddItem || isLimitQuantity}
               >
                 <Plus className="text-primary" />
               </button>

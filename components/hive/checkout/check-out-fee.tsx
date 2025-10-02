@@ -14,6 +14,11 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
     (state) => state.selectedPromotionCode
   );
 
+  const cardDiscount = unpaidItem?.discountDetails?.reduce(
+    (acc, curr) => acc + curr.value,
+    0
+  );
+
   return (
     <div className="px-5 space-y-4 pb-2">
       <h1 className="text-[#161F2F] font-bold">Summary</h1>
@@ -47,13 +52,13 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
           ${unpaidItem?.totalVat}
         </span>
       </div>
-      {selectedPromotionCode.discoundAmount && (
+      {(selectedPromotionCode.discoundAmount || cardDiscount) !== 0 && (
         <div className="flex items-center justify-between pl-2">
           <div className="space-x-2">
             <span className="text-[#303D5599]">Promotion:</span>
           </div>
           <span className="font-semibold text-[#161F2F]">
-            -${selectedPromotionCode.discoundAmount}
+            -${cardDiscount + selectedPromotionCode.discoundAmount}
           </span>
         </div>
       )}

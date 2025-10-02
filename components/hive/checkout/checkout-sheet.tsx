@@ -94,7 +94,12 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
   };
 
   return (
-    <Sheet open={openCheckoutSheet} onOpenChange={setOpenCheckoutSheet}>
+    <Sheet
+      open={openCheckoutSheet}
+      onOpenChange={(value) => {
+        setOpenCheckoutSheet(value);
+      }}
+    >
       <SheetContent className="w-full sm:max-w-[800px]" showCloseBtn={false}>
         <SheetHeader className="hidden">
           <SheetTitle className="hidden" aria-readonly>
@@ -142,7 +147,9 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
             <div className="flex flex-col justify-end">
               <h1 className=" font-bold text-right bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent text-[1.375rem]">
                 $
-                {unpaidItem?.finalTotal! - selectedPromotionCode.discoundAmount}
+                {(
+                  unpaidItem?.finalTotal! - selectedPromotionCode.discoundAmount
+                ).toFixed(2)}
               </h1>
               <p className=" text-[#161F2F]">
                 {" "}

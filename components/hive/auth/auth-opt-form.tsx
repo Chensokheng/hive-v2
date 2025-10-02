@@ -159,6 +159,7 @@ export default function AuthOptForm({
                   type="button"
                   className="text-[#3388FF] font-semibold hover:underline "
                   onClick={resendOtp}
+                  disabled={currentStep === "register"}
                 >
                   {isLoading ? (
                     <Loader className=" animate-spin w-4 h-4" />
@@ -176,7 +177,11 @@ export default function AuthOptForm({
           <Button
             type="submit"
             className="w-full rounded-full text-lg font-semibold py-6 cursor-pointer"
-            disabled={otp.some((digit) => !digit) || isLoading}
+            disabled={
+              otp.some((digit) => !digit) ||
+              isLoading ||
+              currentStep === "register"
+            }
           >
             {isLoading ? (
               <Loader className=" animate-spin w-4 h-4" />
@@ -193,6 +198,7 @@ export default function AuthOptForm({
               setOtp(new Array(4).fill(""));
               onBack?.();
             }}
+            disabled={currentStep === "register"}
           >
             <ChevronLeft />
             {t("otp.back")}

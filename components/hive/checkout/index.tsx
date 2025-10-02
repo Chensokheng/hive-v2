@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useCheckoutStore } from "@/store/checkout";
 
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
@@ -27,6 +28,12 @@ export default function Checkout() {
     isLoading,
     refetch,
   } = useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
+
+  const resetPromotCode = useCheckoutStore((state) => state.resetPromotCode);
+
+  useEffect(() => {
+    resetPromotCode();
+  }, []);
 
   if (isLoading) {
     return <></>;

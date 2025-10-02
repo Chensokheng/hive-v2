@@ -139,11 +139,14 @@ export default function OutletMenuToCart() {
   }, [selectedAddons]);
   const totalPrice = (basePrice + totalAddonPrice) * quantity;
 
-  const allowAddItem = menuDetail?.activatedCustomDiscountedProduct
-    ? menuDetail?.activatedCustomDiscountedProduct?.max_usage_per_order ||
-      0 - (menuDetail?.activatedCustomDiscountedProduct?.user_total_used || 0) >
-        0
-    : true;
+  const allowAddItem =
+    selectedOutletMenu?.isCustomDiscounted &&
+    menuDetail?.activatedCustomDiscountedProduct
+      ? menuDetail?.activatedCustomDiscountedProduct?.max_usage_per_order ||
+        0 -
+          (menuDetail?.activatedCustomDiscountedProduct?.user_total_used || 0) >
+          0
+      : true;
 
   const handleAddtoCart = () => {
     const existingItem = unpaidItem?.items?.find(
@@ -223,7 +226,7 @@ export default function OutletMenuToCart() {
             </div>
           </div>
 
-          <div className="relative aspect-video lg:aspect-square  w-full">
+          <div className="relative aspect-square  w-full">
             <AsyncImage
               src={selectedOutletMenu?.image || ""}
               Transition={Blur}
@@ -265,15 +268,16 @@ export default function OutletMenuToCart() {
             <p className="text-sm text-[#303D55]/60">
               {menuDetail?.description}
             </p>{" "}
-            {menuDetail?.activatedCustomDiscountedProduct && (
-              <p className="text-sm text-gray-500">
-                Maximum per order:{" "}
-                {
-                  menuDetail?.activatedCustomDiscountedProduct
-                    ?.max_usage_per_order
-                }
-              </p>
-            )}
+            {menuDetail?.activatedCustomDiscountedProduct &&
+              selectedOutletMenu?.isCustomDiscounted && (
+                <p className="text-sm text-gray-500">
+                  Maximum per order:{" "}
+                  {
+                    menuDetail?.activatedCustomDiscountedProduct
+                      ?.max_usage_per_order
+                  }
+                </p>
+              )}
             {selectedOutletMenu?.hasAddOn && (
               <div className="py-6 space-y-6">
                 {menuDetail?.addOn.map((category) => (
@@ -320,7 +324,8 @@ export default function OutletMenuToCart() {
               disabled={
                 !allowAddItem ||
                 quantity >=
-                  (menuDetail?.activatedCustomDiscountedProduct
+                  (selectedOutletMenu?.isCustomDiscounted &&
+                  menuDetail?.activatedCustomDiscountedProduct
                     ?.max_usage_per_order
                     ? menuDetail?.activatedCustomDiscountedProduct
                         ?.max_usage_per_order

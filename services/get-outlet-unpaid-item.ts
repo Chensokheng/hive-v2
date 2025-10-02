@@ -39,6 +39,7 @@ export default async function getOutletUnpaidItem(
         name: cartOutlet.data.user.fullName,
         phone: cartOutlet.data.user.phone,
       },
+      discountDetails: cartOutlet.data.discountDetails,
       items: cartOutlet.data.items.map((item) => {
         return {
           id: item.id,
