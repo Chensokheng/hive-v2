@@ -187,7 +187,7 @@ export default function PromotionCard({
         "opacity-65": isUsed,
       })}
     >
-      <div className="w-64 h-full bg-white rounded-s-xl pb-1">
+      <div className="w-64 h-full bg-white rounded-s-xl pb-2">
         <div
           className={`py-1 px-3 ${isExpired ? "bg-gradient-to-r from-[rgba(128,128,128,0.1)] to-[rgba(255,255,255,0.1)]" : expireBgColor} rounded-t-xl`}
         >

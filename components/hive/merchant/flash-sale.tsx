@@ -7,13 +7,14 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import useGetGlashSale from "@/hooks/use-get-flash-sale";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
 import useGetUserInfo from "@/hooks/use-get-user-info";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import PromotionCard from "./promotion-card";
 
 export default function FlashSale() {
   const { merchant, outlet } = useParams();
   const { data: user } = useGetUserInfo();
-  const { data: outletInfo } = useGetOutletInfo(
+  const { data: outletInfo, isLoading: isOutletLoading } = useGetOutletInfo(
     merchant as string,
     outlet as string,
     null,
@@ -44,6 +45,17 @@ export default function FlashSale() {
       });
     }
   };
+  if (isLoading || isOutletLoading) {
+    return (
+      <div className="px-4 space-y-5 mt-5">
+        <Skeleton className=" h-10 w-30 bg-gray-300" />
+
+        <div></div>
+        <Skeleton className=" h-40 w-96 bg-gray-300" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between px-2">
