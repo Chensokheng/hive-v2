@@ -2,7 +2,6 @@ import React, { useState, useTransition } from "react";
 import { useParams } from "next/navigation";
 import { applyPromoCode } from "@/services/apply-promo-code";
 import { useCheckoutStore } from "@/store/checkout";
-import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
 import { ChevronRight, Loader, X } from "lucide-react";
 import toast from "react-hot-toast";
@@ -12,6 +11,7 @@ import { cn, getImageUrl } from "@/lib/utils";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
 import useGetPromotionCode from "@/hooks/use-get-promotion-code";
 import useGetUserInfo from "@/hooks/use-get-user-info";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Dialog,
   DialogContent,
@@ -46,7 +46,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
     outletInfo?.data.merchant_id as number
   );
 
-  const queryClient = useQueryClient();
+  const isMobile = useIsMobile();
 
   const handleApplyCode = async (code: string, id: number) => {
     startTransition(async () => {
@@ -57,7 +57,9 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
         user?.token as string
       );
       if (!res.status) {
-        toast.error(res.message || "Failed to apply promotion code");
+        toast.error(res.message || "Failed to apply promotion code", {
+          position: isMobile ? "bottom-center" : "top-center",
+        });
         return;
       } else {
         setSelectedPromotionCode({
@@ -173,7 +175,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
                       disabled={isPending}
                     >
                       {isPending ? (
-                        <Loader className="w-4 h-4 animate-spin" />
+                        <Loader className="w-4 h-4 animate-spin mx-auto" />
                       ) : (
                         "USE"
                       )}

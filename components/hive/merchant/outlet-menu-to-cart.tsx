@@ -139,10 +139,11 @@ export default function OutletMenuToCart() {
   }, [selectedAddons]);
   const totalPrice = (basePrice + totalAddonPrice) * quantity;
 
-  const allowAddItem =
-    menuDetail?.activatedCustomDiscountedProduct?.max_usage_per_order ||
-    0 - (menuDetail?.activatedCustomDiscountedProduct?.user_total_used || 0) >
-      0;
+  const allowAddItem = menuDetail?.activatedCustomDiscountedProduct
+    ? menuDetail?.activatedCustomDiscountedProduct?.max_usage_per_order ||
+      0 - (menuDetail?.activatedCustomDiscountedProduct?.user_total_used || 0) >
+        0
+    : true;
 
   const handleAddtoCart = () => {
     const existingItem = unpaidItem?.items?.find(
@@ -320,7 +321,10 @@ export default function OutletMenuToCart() {
                 !allowAddItem ||
                 quantity >=
                   (menuDetail?.activatedCustomDiscountedProduct
-                    ?.max_usage_per_order || 0)
+                    ?.max_usage_per_order
+                    ? menuDetail?.activatedCustomDiscountedProduct
+                        ?.max_usage_per_order
+                    : Infinity)
               }
             >
               <Plus className="text-primary" />

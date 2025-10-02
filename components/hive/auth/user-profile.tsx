@@ -28,9 +28,7 @@ export default function UserProfile() {
   const handleSignOut = async () => {
     setLoading(true);
     await signOut();
-    queryClient.invalidateQueries({ queryKey: ["user-info"] });
-    router.refresh();
-    setLoading(false);
+    window.location.reload();
   };
 
   if (isLoadingUser) {

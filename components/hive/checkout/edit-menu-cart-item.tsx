@@ -146,9 +146,11 @@ export default function EditMenuCartItem() {
     });
   };
 
-  const allowAddItem =
-    menuAddOn?.activatedCustomDiscountedProduct?.max_usage_per_order ||
-    0 - (menuAddOn?.activatedCustomDiscountedProduct?.user_total_used || 0) > 0;
+  const allowAddItem = menuAddOn?.activatedCustomDiscountedProduct
+    ? menuAddOn?.activatedCustomDiscountedProduct?.max_usage_per_order ||
+      0 - (menuAddOn?.activatedCustomDiscountedProduct?.user_total_used || 0) >
+        0
+    : true;
 
   const handleUpdateCart = async (isRemove: boolean = false) => {
     startTranstition(async () => {
@@ -313,7 +315,10 @@ export default function EditMenuCartItem() {
                   !allowAddItem ||
                   quantity >
                     (menuAddOn?.activatedCustomDiscountedProduct
-                      ?.max_usage_per_order || 0)
+                      ?.max_usage_per_order
+                      ? menuAddOn?.activatedCustomDiscountedProduct
+                          ?.max_usage_per_order
+                      : Infinity)
                 }
               >
                 <Plus className="text-primary" />
