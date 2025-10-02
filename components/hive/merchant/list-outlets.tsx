@@ -56,17 +56,21 @@ export default function ListOutlets() {
           <h1 className="fold-bold text-[#161F2F] font-semibold">
             {t("filterBy")}:
           </h1>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {filterOptions.map((option) => (
               <button
                 key={option}
                 className={cn(
-                  " text-[#303D5599] bg-[#EBEFF7] font-semibold px-4 py-2.5 rounded-full cursor-pointer hover:bg-[#0055DD1A] hover:text-primary transition-all",
+                  " text-[#303D5599] bg-[#EBEFF7] font-semibold px-4 py-2.5 rounded-full cursor-pointer  hover:text-primary transition-all",
                   {
                     "text-primary bg-[#0055DD1A]": selectedFilter === option,
                   }
                 )}
-                onClick={() => setSelectedFilter(option)}
+                onClick={() =>
+                  setSelectedFilter(
+                    selectedFilter === option ? undefined : option
+                  )
+                }
               >
                 {option === 10000 ? "<" : ""} {option / 1000} km
               </button>

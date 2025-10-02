@@ -112,7 +112,7 @@ export default function CategoryGrid() {
           <div
             key={item.id}
             className={cn(
-              "items-center h-[120px] py-2 w-[105px] lg:w-[148px] lg:h-[106px] flex-shrink-0 flex flex-col snap-start cursor-pointer transition-all hover:bg-primary/5 rounded-lg gap-2 lg:justify-center",
+              "items-center h-[120px] py-2 w-[105px] lg:w-[148px] lg:h-[106px] flex-shrink-0 flex flex-col snap-start cursor-pointer transition-all sm:hover:bg-primary/5 rounded-lg gap-2 lg:justify-center",
               {
                 "bg-primary/10":
                   filterMerchantCategoryId === item.id.toString(), // Keep index === 1 for backward compatibility

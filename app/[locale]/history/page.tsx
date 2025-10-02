@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { AsyncImage } from "loadable-image";
-import { ChevronLeft, RotateCcw } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { Blur } from "transitions-kit";
 
 import { cn, formatDate, getImageUrl } from "@/lib/utils";
@@ -35,8 +35,6 @@ export default function Page() {
           <h1 className="text-lg lg:text-3xl font-bold text-[#161F2F] text-center flex-1">
             My Orders
           </h1>
-
-          <RotateCcw className="text-[#FF66CC]" />
         </div>
 
         <div>
@@ -74,6 +72,9 @@ export default function Page() {
                 <OrderCardSkeleton />
                 <OrderCardSkeleton />
               </>
+            )}
+            {history?.data.items.length === 0 && (
+              <div className="text-center text-gray-500">No orders found</div>
             )}
             {history?.data.items.map((item) => {
               return (
@@ -124,7 +125,7 @@ export default function Page() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center flex-wrap text-sm">
                       <span className="text-[#303D5599] font-semibold capitalize">
                         {item.type}
                       </span>

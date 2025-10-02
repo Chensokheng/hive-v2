@@ -146,7 +146,7 @@ export default function OrderDetailsPage() {
           </div>
 
           {/* Cancel Button */}
-          <div className="p-4 bg-white pt-10 fixed bottom-25 w-full lg:bottom-0 lg:w-5xl">
+          <div className="p-4 bg-white pt-10 fixed bottom-24 w-full lg:bottom-0 lg:w-5xl">
             <Link
               href={"tel:" + data?.data.outlet.phone}
               className="bg-primary/10 text-primary text-lg py-2 rounded-full w-full font-semibold cursor-pointer block"
