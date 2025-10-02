@@ -1,7 +1,16 @@
-// export const getOutletCustomDiscountMenus = async (outletId: string) => {
-//   const response = await fetch(
-//     `${process.env.NEXT_PUBLIC_HIVE_BASE_API}/api/web/menu/custom-discounted?user_id=281&outlet_id=12&type=delivery`
-//   );
-//   // https://api-truemoney-stg.savyu.com/api/web/menu/custom-discounted?user_id=281&outlet_id=12&type=delivery
-//   // return response.data;
-// };
+import { FlashSaleItemResponse } from "@/types-v2";
+
+export const getOutletCustomDiscountMenus = async ({
+  userId,
+  outletId,
+}: {
+  userId: number;
+  outletId: number;
+}) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_HIVE_BASE_API}/api/web/menu/custom-discounted?outlet_id=${outletId}&type=delivery` +
+      (userId ? `&user_id=${userId}` : "")
+  );
+  const data = (await response.json()) as FlashSaleItemResponse;
+  return data;
+};

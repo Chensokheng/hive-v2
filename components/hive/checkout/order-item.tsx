@@ -47,9 +47,14 @@ export default function OrderItem({
         userId: Number(user?.userId!),
         note: item.note,
         addonDetails: item.cartAddonItems,
+        isCustomDiscounted: item.cartCustomDiscountedProduct ? true : false,
       });
       if (!res.status) {
-        toast.error("Fail to remove item from the cart");
+        toast.error(res.message || "Fail to remove item from the cart");
+        if (qty !== 0) {
+          setIsUserAction(false);
+          setQuantity((prev) => prev - 1);
+        }
         return;
       }
       queryClient.invalidateQueries({
@@ -71,6 +76,7 @@ export default function OrderItem({
       quantity: item.quantity,
       note: item.note || "",
       selectedAddons: item.cartAddonItems || [],
+      isCustomDiscounted: item.cartCustomDiscountedProduct ? true : false,
     });
   };
 
@@ -156,7 +162,9 @@ export default function OrderItem({
             <div className="flex gap-2 items-center justify-end">
               {quantity === 1 ? (
                 <button
-                  className="h-7 w-7 bg-[#0055DD1A] text-primary rounded-full grid place-content-center cursor-pointer"
+                  className={cn(
+                    "h-7 w-7 bg-[#0055DD1A] text-primary rounded-full grid place-content-center cursor-pointer"
+                  )}
                   onClick={() => handleRemoveItem(0)}
                 >
                   <Trash className="w-5 h-5" />

@@ -68,7 +68,6 @@ export default async function RootLayout({
           <main className="max-w-md lg:max-w-[1920px] mx-auto bg-[#F2F6FF] relative">
             <Navbar />
             <Address />
-
             {children}
           </main>
 

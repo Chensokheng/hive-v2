@@ -40,8 +40,7 @@ export default function OutletMenuCard({
           document.getElementById("auth-trigger-dialog")?.click();
           return;
         }
-
-        setSelectedOutletMenu(item, outletId);
+        setSelectedOutletMenu({ ...item, isCustomDiscounted: false }, outletId);
       }}
     >
       <div className="w-full aspect-square relative">

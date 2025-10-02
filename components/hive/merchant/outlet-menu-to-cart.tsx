@@ -139,6 +139,11 @@ export default function OutletMenuToCart() {
   }, [selectedAddons]);
   const totalPrice = (basePrice + totalAddonPrice) * quantity;
 
+  const allowAddItem =
+    menuDetail?.activatedCustomDiscountedProduct?.max_usage_per_order ||
+    0 - (menuDetail?.activatedCustomDiscountedProduct?.user_total_used || 0) >
+      0;
+
   const handleAddtoCart = () => {
     const existingItem = unpaidItem?.items?.find(
       (item) => item.menuItemId === selectedOutletMenu?.id
@@ -171,9 +176,11 @@ export default function OutletMenuToCart() {
         addonDetails: addonDetails,
         note: noteRef.current?.value || "",
         token: user?.token,
+        isCustomDiscounted: selectedOutletMenu?.isCustomDiscounted || false,
       });
       if (!res.status) {
-        toast.error("Faild to add this item to cart");
+        console.log(res);
+        toast.error(res.message || "Faild to add this item to cart");
         return;
       }
       queryClient.invalidateQueries({
@@ -258,6 +265,15 @@ export default function OutletMenuToCart() {
             <p className="text-sm text-[#303D55]/60">
               {menuDetail?.description}
             </p>{" "}
+            {menuDetail?.activatedCustomDiscountedProduct && (
+              <p className="text-sm text-gray-500">
+                Maximum per order:{" "}
+                {
+                  menuDetail?.activatedCustomDiscountedProduct
+                    ?.max_usage_per_order
+                }
+              </p>
+            )}
             {selectedOutletMenu?.hasAddOn && (
               <div className="py-6 space-y-6">
                 {menuDetail?.addOn.map((category) => (
@@ -292,15 +308,21 @@ export default function OutletMenuToCart() {
             <button
               className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer text-primary disabled:text-primary/50"
               onClick={() => setQuantity(quantity - 1)}
-              disabled={quantity <= 1}
+              disabled={quantity <= 1 || !allowAddItem}
             >
               <Minus />
             </button>
 
             <span className="text-[#161F2F] font-bold">{quantity}</span>
             <button
-              className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer"
+              className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer disabled:opacity-50"
               onClick={() => setQuantity(quantity + 1)}
+              disabled={
+                !allowAddItem ||
+                quantity >=
+                  (menuDetail?.activatedCustomDiscountedProduct
+                    ?.max_usage_per_order || 0)
+              }
             >
               <Plus className="text-primary" />
             </button>

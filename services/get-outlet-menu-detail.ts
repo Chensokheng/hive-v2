@@ -21,5 +21,7 @@ export default async function getOutletMenuDetail(
     menuItemId: menuItemId,
     addOn: data.data.addon_categories,
     description: data.data.description,
+    activatedCustomDiscountedProduct:
+      data.data.activated_custom_discounted_product,
   };
 }

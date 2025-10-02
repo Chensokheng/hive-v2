@@ -65,6 +65,18 @@ export default async function getOutletUnpaidItem(
                 id: item.cart_discounted_product.id,
               }
             : null,
+          cartCustomDiscountedProduct: item.cart_custom_discounted_product
+            ? {
+                id: item.cart_custom_discounted_product.id,
+                cart_item_id: item.cart_custom_discounted_product.cart_item_id,
+                custom_discounted_product_id:
+                  item.cart_custom_discounted_product
+                    .custom_discounted_product_id,
+                itemCd: item.cart_custom_discounted_product.item_cd,
+                selling_price:
+                  item.cart_custom_discounted_product.selling_price,
+              }
+            : null,
           promotionCartItem: item.promotionCartItem
             ? {
                 promotionProductId: item.promotionCartItem.promotion_product_id,

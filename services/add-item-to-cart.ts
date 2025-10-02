@@ -11,6 +11,7 @@ export const addItemtoCart = async (params: {
   addonDetails?: { qty: number; addon_detail_id: number }[];
   cartItemId?: number | null;
   token: string | undefined;
+  isCustomDiscounted: boolean;
 }) => {
   if (!params.token) {
     return {
@@ -35,7 +36,7 @@ export const addItemtoCart = async (params: {
       cart_item_id: params.cartItemId ? params.cartItemId : null,
       qty: params.qty,
       add_new: params.addNew,
-      // isCustomDiscounted: false,
+      isCustomDiscounted: params.isCustomDiscounted,
       note: params.note || "",
       is_web: 1,
       type: "delivery",
@@ -50,5 +51,6 @@ export const addItemtoCart = async (params: {
     totalQuantity: data.data?.qty || 0,
     subtotal: data.data?.subtotal || 0,
     finalTotal: data.data?.final_total || 0,
+    message: data.message || "",
   };
 };

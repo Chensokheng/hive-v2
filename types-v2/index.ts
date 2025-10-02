@@ -1071,6 +1071,25 @@ export type MenuAddOnItemResponse = {
     discount_percent: number;
     icons: any[];
     brand: string | null;
+    activated_custom_discounted_product: {
+      id: number;
+      name: string;
+      name_en: string;
+      itemCd: string;
+      selling_price: number;
+      usage_limit: number;
+      max_usage_per_user: number;
+      max_usage_per_order: number;
+      total_used: 2;
+      merchant_id: number;
+      start_date: string;
+      end_date: string;
+      status: string;
+      created_at: string;
+      updated_at: string;
+      deleted_at: null;
+      user_total_used: 0;
+    } | null;
   };
 };
 
@@ -1374,5 +1393,49 @@ export type ApplyPromotionCodeResponse = {
       before_subtotal: number;
       after_subtotal: number;
     };
+  };
+};
+
+// flashSale
+
+export type FlashSaleItemResponse = {
+  status: boolean;
+  data: {
+    items: {
+      id: number;
+      name: string;
+      name_vi: string;
+      name_th: string;
+      description_vi: string;
+      description_th: string;
+      thumbnail_image_name: string;
+      base_price: number;
+      promotion_price: number;
+      status: number;
+      adults_only: number;
+      time_out_of_stock: string | null;
+      itemCd: string;
+      hasAddon: boolean;
+      brand: string | null;
+      activated_custom_discounted_product: {
+        id: number;
+        name: string;
+        name_en: string;
+        itemCd: string;
+        selling_price: number;
+        usage_limit: number;
+        max_usage_per_user: number;
+        max_usage_per_order: number;
+        total_used: number;
+        merchant_id: number;
+        start_date: string;
+        end_date: string;
+        status: number;
+        created_at: string;
+        updated_at: string;
+        deleted_at: string | null;
+        user_total_used: number;
+      } | null;
+    }[];
   };
 };

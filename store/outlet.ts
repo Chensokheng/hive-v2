@@ -10,6 +10,7 @@ interface OutletStoreState {
     hasAddOn: boolean;
     price: number;
     promotionPrice: number;
+    isCustomDiscounted: boolean;
   } | null;
   selectOutletId: number | null;
   openCheckoutSheet: boolean;
@@ -26,6 +27,7 @@ interface OutletStoreState {
     quantity: number;
     note: string;
     selectedAddons: any[];
+    isCustomDiscounted: boolean;
   } | null;
   setIsDelivery: (value: boolean) => void;
   setOpenCheckoutSheet: (value: boolean) => void;
@@ -40,6 +42,7 @@ interface OutletStoreState {
       hasAddOn: boolean;
       price: number;
       promotionPrice: number;
+      isCustomDiscounted: boolean;
     } | null,
     outletId: number | null
   ) => void;
@@ -60,6 +63,7 @@ interface OutletStoreState {
       quantity: number;
       note: string;
       selectedAddons: any[];
+      isCustomDiscounted: boolean;
     } | null
   ) => void;
 }

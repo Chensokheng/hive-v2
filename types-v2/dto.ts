@@ -32,6 +32,13 @@ export type OutletUnpaidItemsDto = {
       cartItemId: number;
       id: number;
     } | null;
+    cartCustomDiscountedProduct: {
+      id: number;
+      cart_item_id: number;
+      custom_discounted_product_id: number;
+      itemCd: string;
+      selling_price: number;
+    } | null;
     promotionCartItem: {
       promotionProductId: number;
       price: number;

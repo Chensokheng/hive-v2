@@ -18,7 +18,6 @@ import { toast } from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetMenuAddOn from "@/hooks/use-get-menu-detail";
-import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Input } from "@/components/ui/input";
 import {
@@ -86,12 +85,11 @@ export default function EditMenuCartItem() {
 
   const { data: user } = useGetUserInfo();
 
-  const { data: unpaidItem } = useGetOutletUnpaidItem(
-    Number(user?.userId),
-    Number(editCartItemData?.outletId || 0)
+  const [basePrice, setBasePrice] = useState(
+    menuAddOn?.activatedCustomDiscountedProduct?.selling_price ||
+      menuAddOn?.price ||
+      0
   );
-
-  const [basePrice, setBasePrice] = useState(menuAddOn?.price || 0);
 
   const { data: rate } = useGetExchangeRate();
 
@@ -148,6 +146,10 @@ export default function EditMenuCartItem() {
     });
   };
 
+  const allowAddItem =
+    menuAddOn?.activatedCustomDiscountedProduct?.max_usage_per_order ||
+    0 - (menuAddOn?.activatedCustomDiscountedProduct?.user_total_used || 0) > 0;
+
   const handleUpdateCart = async (isRemove: boolean = false) => {
     startTranstition(async () => {
       const addonDetails = selectedAddons.map((addon) => ({
@@ -165,10 +167,11 @@ export default function EditMenuCartItem() {
         addonDetails: addonDetails,
         note: noteRef.current,
         token: user?.token,
+        isCustomDiscounted: editCartItemData?.isCustomDiscounted || false,
       });
 
       if (!res.status) {
-        toast.error("Failed to update cart item");
+        toast.error(res.message || "Failed to update cart item");
       } else {
         toast.success("Cart item updated successfully");
       }
@@ -189,7 +192,11 @@ export default function EditMenuCartItem() {
       (item) => item.name.toLowerCase() === "variation"
     );
     if (!isHasVariationAddOn) {
-      setBasePrice(menuAddOn?.price || 0);
+      setBasePrice(
+        menuAddOn?.activatedCustomDiscountedProduct?.selling_price ||
+          menuAddOn?.price ||
+          0
+      );
     } else {
       setBasePrice(0);
     }
@@ -251,7 +258,7 @@ export default function EditMenuCartItem() {
             <h1 className="font-semibold text-[#161F2F]">{menuAddOn?.name}</h1>
             <div className="flex items-center gap-2">
               <span className="text-primary font-bold text-lg">
-                ${menuAddOn?.price}
+                $ {basePrice}
               </span>
               <span className="text-xs font-medium text-[#363F4F]/60">
                 ≈{((menuAddOn?.price || 0) * (rate || 0)).toFixed(2)}៛
@@ -293,7 +300,7 @@ export default function EditMenuCartItem() {
             <div className="flex items-center gap-4">
               <button
                 className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer text-primary disabled:text-primary/50"
-                disabled={quantity <= 1}
+                disabled={quantity <= 1 || !allowAddItem}
                 onClick={() => handleQuantityChange(false)}
               >
                 <Minus />
@@ -302,6 +309,12 @@ export default function EditMenuCartItem() {
               <button
                 className="rounded-full bg-primary/10 h-8 w-8 grid place-content-center cursor-pointer"
                 onClick={() => handleQuantityChange(true)}
+                disabled={
+                  !allowAddItem ||
+                  quantity >
+                    (menuAddOn?.activatedCustomDiscountedProduct
+                      ?.max_usage_per_order || 0)
+                }
               >
                 <Plus className="text-primary" />
               </button>
