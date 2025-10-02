@@ -124,20 +124,22 @@ function PromotionSection({
             className="flex overflow-x-auto gap-3 scroll-smooth snap-x snap-mandatory hide-scroll"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            {items.map((item) => (
-              <Link
-                href={item.url}
-                className="relative w-[152px] h-[200px] lg:w-[282px] lg:h-[372px] flex-shrink-0 snap-start cursor-pointer hover:scale-95 transition-transform"
-                key={item.id}
-              >
-                <AsyncImage
-                  src={item.image}
-                  Transition={Blur}
-                  style={{ width: "100%", height: "100%", borderRadius: 20 }}
-                  loader={<div className="bg-gray-300" />}
-                />
-              </Link>
-            ))}
+            {items.map((item) => {
+              return (
+                <Link
+                  href={item.url}
+                  className="relative w-[152px] h-[200px] lg:w-[282px] lg:h-[372px] flex-shrink-0 snap-start cursor-pointer hover:scale-95 transition-transform"
+                  key={item.id}
+                >
+                  <AsyncImage
+                    src={item.image}
+                    Transition={Blur}
+                    style={{ width: "100%", height: "100%", borderRadius: 20 }}
+                    loader={<div className="bg-gray-300" />}
+                  />
+                </Link>
+              );
+            })}
           </div>
 
           {/* Hide scrollbar styles */}
@@ -209,19 +211,26 @@ export default function PromotionSections() {
               hasGradientBackground: index === 0,
               items: promotion?.homepageSectionItems?.map((item) => {
                 // Prefetch the promotion page URL
+                let url =
+                  item.url ||
+                  "/" +
+                    locale +
+                    "/promotions" +
+                    "/" +
+                    promotion.title.split(" ").join("-") +
+                    "/" +
+                    `${promotion.id}-${item.id}`;
+                if (item.merchants.length === 1) {
+                  url =
+                    item.merchants[0].outlets.length === 1
+                      ? `/${locale}/${item.merchants[0].subDomain}/${item.merchants[0].outlets[0].shortName}`
+                      : `/${locale}/${item.merchants[0].subDomain}`;
+                }
 
                 return {
                   id: item.id.toString(),
                   image: getImageUrl(item.image),
-                  url:
-                    item.url ||
-                    "/" +
-                      locale +
-                      "/promotions" +
-                      "/" +
-                      promotion.title.split(" ").join("-") +
-                      "/" +
-                      `${promotion.id}-${item.id}`,
+                  url,
                 };
               }),
             }}

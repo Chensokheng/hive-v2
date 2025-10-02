@@ -179,7 +179,6 @@ export default function OutletMenuToCart() {
         isCustomDiscounted: selectedOutletMenu?.isCustomDiscounted || false,
       });
       if (!res.status) {
-        console.log(res);
         toast.error(res.message || "Faild to add this item to cart");
         return;
       }
