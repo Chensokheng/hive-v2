@@ -56,6 +56,10 @@ export default function FlashSale() {
     );
   }
 
+  if (data?.data.items.length === 0) {
+    return <></>;
+  }
+
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between px-2">
