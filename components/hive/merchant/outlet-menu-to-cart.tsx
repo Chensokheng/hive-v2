@@ -149,9 +149,13 @@ export default function OutletMenuToCart() {
       : true;
 
   const handleAddtoCart = () => {
-    const existingItem = unpaidItem?.items?.find(
-      (item) => item.menuItemId === selectedOutletMenu?.id
-    );
+    const existingItem = selectedOutletMenu?.isCustomDiscounted
+      ? null
+      : unpaidItem?.items?.find(
+          (item) =>
+            item.menuItemId === selectedOutletMenu?.id &&
+            item.basePrice === selectedOutletMenu.price
+        );
 
     const addonDetails = selectedAddons.map((addon) => ({
       qty: 1,
