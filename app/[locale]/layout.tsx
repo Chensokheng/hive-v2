@@ -12,6 +12,8 @@ import { Toaster as SonnerToast } from "sonner";
 
 import Navbar from "@/components/hive/navbar";
 import Address from "@/components/map/address";
+import JsBridgeListener from "@/components/mini/js-bridge-listener";
+import MiniNavbar from "@/components/mini/mini-navbar";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -66,8 +68,10 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider>
           <main className="max-w-md lg:max-w-[1920px] mx-auto bg-[#F2F6FF] relative">
+            <MiniNavbar />
             <Navbar />
             <Address />
+            <JsBridgeListener />
             {children}
           </main>
 

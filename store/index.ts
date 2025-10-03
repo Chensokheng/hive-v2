@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface GlobalState {
+  jsBridgeStatus: string;
   checkoutSheetOpen: boolean;
   addOnSheetOpen: boolean;
   editCartItemSheetOpen: boolean;
@@ -41,6 +42,7 @@ interface GlobalState {
 }
 
 export const useGlobalState = create<GlobalState>()((set) => ({
+  jsBridgeStatus: "pending",
   checkoutSheetOpen: false,
   addOnSheetOpen: false,
   editCartItemSheetOpen: false,

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useGlobalState } from "@/store";
 import { AsyncImage } from "loadable-image";
 import { ChevronLeft } from "lucide-react";
 import { Blur } from "transitions-kit";
@@ -25,17 +26,34 @@ export default function Page() {
   );
   const { data: rate } = useGetExchangeRate();
 
+  const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
+
   return (
     <div className="min-h-screen">
       <div className="max-w-[800px] mx-auto  min-h-screen lg:bg-white">
-        <div className="flex items-center gap-2 py-6 lg:px-10 border-b px-2">
-          <Link href={"/" + locale}>
-            <ChevronLeft className="text-primary" />
-          </Link>
-          <h1 className="text-lg lg:text-3xl font-bold text-[#161F2F] text-center flex-1">
-            My Orders
-          </h1>
-        </div>
+        {jsBridgeStatus === "success" ? (
+          <div
+            className=" fixed top-0 right-0 w-full flex items-center justify-between px-5"
+            style={{
+              zIndex: 1000,
+            }}
+          >
+            <Link href={"/"}>
+              <ChevronLeft />
+            </Link>
+            <h1 className="text-lg font-bold flex-1 text-center">My Orders</h1>
+            <span></span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 py-6 lg:px-10 border-b px-2">
+            <Link href={"/" + locale}>
+              <ChevronLeft className="text-primary" />
+            </Link>
+            <h1 className="text-lg lg:text-3xl font-bold text-[#161F2F] text-center flex-1">
+              My Orders
+            </h1>
+          </div>
+        )}
 
         <div>
           <div className="flex px-6">
