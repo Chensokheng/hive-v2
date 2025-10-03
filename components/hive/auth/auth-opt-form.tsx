@@ -141,7 +141,7 @@ export default function AuthOptForm({
                   "w-12 h-15 text-center text-lg font-semibold border-2 rounded-xl",
                   otpInputFocus === index &&
                     "ring-2 ring-[#3388FF] border-[#3388FF]",
-                  digit && "border-green-500"
+                  digit && "border-primary"
                 )}
               />
             ))}
@@ -186,7 +186,7 @@ export default function AuthOptForm({
             {isLoading ? (
               <Loader className=" animate-spin w-4 h-4" />
             ) : (
-              t("register.continue")
+              <>{authInfo?.authUserName ? "Sign Up" : t("register.continue")}</>
             )}
           </Button>
 

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface OutletStoreState {
+  isOpen: boolean;
   categoryId: number | null;
   openMenuSheet: boolean;
   selectedOutletMenu: {
@@ -66,9 +67,11 @@ interface OutletStoreState {
       isCustomDiscounted: boolean;
     } | null
   ) => void;
+  setOutletOpen: (value: boolean) => void;
 }
 
 export const useOutletStore = create<OutletStoreState>()((set) => ({
+  isOpen: true,
   categoryId: null,
   openMenuSheet: false,
   selectedOutletMenu: null,
@@ -77,6 +80,7 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
   isDelivery: true,
   editCartItemSheetOpen: false,
   editCartItemData: null,
+  setOutletOpen: (value) => set(() => ({ isOpen: value })),
   setIsDelivery: (value) => set(() => ({ isDelivery: value })),
   setOpenCheckoutSheet: (value) => set(() => ({ openCheckoutSheet: value })),
   setCategoryId: (value) => set(() => ({ categoryId: value })),

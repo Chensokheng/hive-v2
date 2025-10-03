@@ -95,7 +95,7 @@ export default function CategoryGrid() {
       {showRightButton && (
         <button
           onClick={scrollRight}
-          className="absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full  transition-all duration-200  items-center justify-center cursor-pointer hidden lg:flex"
+          className=" absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full  transition-all duration-200  items-center justify-center cursor-pointer hidden xl:flex"
           aria-label="Scroll right"
         >
           <ChevronRight className="w-8 h-8 text-primary" />
