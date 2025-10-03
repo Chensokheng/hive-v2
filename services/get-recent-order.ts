@@ -1,3 +1,5 @@
+import { RecendOrders } from "@/types-v2";
+
 export const getRecentOrder = async (token: string) => {
   const api =
     process.env.NEXT_PUBLIC_HIVE_BASE_API +
@@ -9,6 +11,6 @@ export const getRecentOrder = async (token: string) => {
     },
     method: "GET",
   });
-  const data = await res.json();
+  const data = (await res.json()) as RecendOrders;
   return data;
 };

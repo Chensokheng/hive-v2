@@ -1439,3 +1439,82 @@ export type FlashSaleItemResponse = {
     }[];
   };
 };
+
+// happy hours
+export type HappyHourResponse = {
+  status: boolean;
+  data: {
+    startTime: string;
+    endTime: string;
+    totalQty: number;
+    usedQty: number;
+    maxQtyPerOrder: number;
+    id: number;
+    name: string;
+    thumbnail_image_name: string;
+    base_price: number;
+    promotion_price: number;
+    happyHoursPrice: number;
+    status: number;
+    adults_only: number;
+    time_out_of_stock: string | null;
+    hasAddon: boolean;
+  }[];
+};
+
+//
+export type AvailableTimeResponse = {
+  status: boolean;
+  data: {
+    id: number;
+    name: string;
+    availableTime: {
+      to: string;
+      from: string;
+    };
+  }[];
+};
+
+// recend order
+
+export type RecendOrders = {
+  status: boolean;
+  data: {
+    id: number;
+    name: string;
+    image: string;
+    subDomain: string;
+    address: {
+      city: string;
+      cityEn: string;
+      district: string;
+      districtEn: string;
+      address: string;
+    };
+    hierarchicalCategories: {
+      id: number;
+      name: string;
+      name_en: string;
+    }[];
+    joinedDelivery: boolean;
+    joinedContactless: boolean;
+    joinedTableBooking: boolean;
+    outlets: {
+      id: number;
+      name: string;
+      shortName: string;
+      joinedDelivery: boolean;
+      joinedContactless: boolean;
+      joinedTableBooking: boolean;
+      address: {
+        city: string;
+        cityEn: string;
+        district: string;
+        districtEn: string;
+        ward: string;
+        wardEn: string;
+        address: string;
+      };
+    }[];
+  }[];
+};
