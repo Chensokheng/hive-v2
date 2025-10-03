@@ -4,11 +4,12 @@ import { getImageUrl } from "@/lib/utils";
 
 export const getOutletMenu = async (
   outletId: number,
-  categoryId: number | null
+  categoryId: number | null,
+  searchMenu: string
 ) => {
   const response = await fetch(
     process.env.NEXT_PUBLIC_HIVE_BASE_API +
-      `/api/web/menu?outlet_id=${outletId}&type=delivery&limit=70${categoryId ? `&category_id=${categoryId}` : ""}`
+      `/api/web/menu?outlet_id=${outletId}&type=delivery&limit=70${categoryId ? `&category_id=${categoryId}` : ""}${searchMenu ? `&name=${searchMenu}` : ""}`
   );
   const data = (await response.json()) as OutletMenuResponse;
 

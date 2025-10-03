@@ -22,6 +22,7 @@ export default function OutletMenu() {
     useGetMerchantInfo(merchant);
 
   const setCategoryId = useOutletStore((state) => state.setCategoryId);
+  const searchMenu = useOutletStore((state) => state.searchMenu);
 
   const categoryId = useOutletStore((state) => state.categoryId);
   const { data: user } = useGetUserInfo();
@@ -29,7 +30,8 @@ export default function OutletMenu() {
 
   const { data: menus, isLoading } = useGetOutletMenu(
     foundOutlet?.id!,
-    categoryId
+    categoryId,
+    searchMenu
   );
   const { data: rate } = useGetExchangeRate();
   const { data: unpaidItem } = useGetOutletUnpaidItem(

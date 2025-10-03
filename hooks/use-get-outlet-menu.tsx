@@ -3,11 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function useGetOutletMenu(
   outletId: number,
-  categoryId: number | null
+  categoryId: number | null,
+  searchMenu: string
 ) {
   return useQuery({
-    queryKey: ["outlet-menu", outletId, categoryId],
-    queryFn: () => getOutletMenu(outletId, categoryId),
+    queryKey: ["outlet-menu", outletId, categoryId, searchMenu],
+    queryFn: () => getOutletMenu(outletId, categoryId, searchMenu),
     enabled: !!outletId,
   });
 }

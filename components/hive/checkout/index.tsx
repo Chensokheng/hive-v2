@@ -41,9 +41,9 @@ export default function Checkout() {
 
   return (
     <div className="w-full">
-      {unpaidItem?.totalQuantity && (
+      {(unpaidItem?.totalQuantity || 0) > 0 && (
         <FloatingCart
-          cartId={unpaidItem.cartId}
+          cartId={unpaidItem?.cartId || 0}
           quantity={unpaidItem?.totalQuantity || 0}
           isFetching={isFetching}
           refetch={refetch}

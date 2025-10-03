@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "next/navigation";
 import { useOutletStore } from "@/store/outlet";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
@@ -17,9 +18,10 @@ export default function OutletCategorySidebar() {
     merchant: string;
     outlet: string;
   };
-  const [searchQuery, setSearchQuery] = useState("");
+
   const categoryId = useOutletStore((state) => state.categoryId);
   const setCategoryId = useOutletStore((state) => state.setCategoryId);
+  const setSearchMenu = useOutletStore((state) => state.setSearchMenu);
 
   const { data: merchantInfo } = useGetMerchantInfo(merchant);
 
@@ -29,10 +31,11 @@ export default function OutletCategorySidebar() {
   );
 
   // Filter categories based on search query
-  const filteredCategories = categories?.filter((category) =>
-    category.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
-  );
   const [parent] = useAutoAnimate();
+
+  const handleChange = useDebouncedCallback((value: string) => {
+    setSearchMenu(value);
+  }, 300);
 
   return (
     <div className="w-[282px] py-7 sticky top-15 self-start h-fit  hidden lg:block">
@@ -40,8 +43,7 @@ export default function OutletCategorySidebar() {
         <Input
           className=" rounded-full bg-white shadow-none w-full pl-12 py-5"
           placeholder="Search in menu"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
         />
         <div className=" absolute top-3 left-4">
           <SearchIcon />
@@ -70,7 +72,7 @@ export default function OutletCategorySidebar() {
       )}
 
       <div className="space-y-2" ref={parent}>
-        {filteredCategories?.map((category) => (
+        {categories?.map((category) => (
           <div
             key={category.id}
             className={cn(

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { useOutletStore } from "@/store/outlet";
 import autoAnimate from "@formkit/auto-animate";
+import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
 import useGetMerchantInfo from "@/hooks/use-get-merchant-info";
@@ -16,7 +17,6 @@ export default function OutletCategoryMobile() {
     merchant: string;
     outlet: string;
   };
-  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchant);
   const setCategoryId = useOutletStore((state) => state.setCategoryId);
@@ -25,12 +25,12 @@ export default function OutletCategoryMobile() {
   const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
   const { data: categories } = useGetOutletCategory(foundOutlet?.id!);
 
-  // Filter categories based on search query
-  const filteredCategories = categories?.filter((category) =>
-    category.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const parent = useRef(null);
+  const setSearchMenu = useOutletStore((state) => state.setSearchMenu);
+
+  const handleChange = useDebouncedCallback((value: string) => {
+    setSearchMenu(value);
+  }, 300);
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
@@ -46,8 +46,7 @@ export default function OutletCategoryMobile() {
             <Input
               className=" rounded-full bg-[#EBEFF7] shadow-none w-full pl-12 py-5"
               placeholder="Search in menu"
-              value={searchQuery || ""}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleChange(e.target.value)}
             />
             <div className=" absolute top-3 left-4">
               <SearchIcon />
@@ -70,7 +69,7 @@ export default function OutletCategoryMobile() {
             >
               All
             </div>
-            {filteredCategories?.map((category) => (
+            {categories?.map((category) => (
               <div
                 key={category.id}
                 className={cn(

@@ -1,10 +1,11 @@
 import { OutletCategoryResponse } from "@/types-v2";
 
 export const getOutletCategory = async (outletId: number) => {
-  const response = await fetch(
+  const api =
     process.env.NEXT_PUBLIC_HIVE_BASE_API +
-      `/api/web/menu/categories?outlet_id=${outletId}&type=delivery&lang=km`
-  );
+    `/api/web/menu/categories?outlet_id=${outletId}&type=delivery&lang=km`;
+
+  const response = await fetch(api);
   const data = (await response.json()) as OutletCategoryResponse;
 
   if (data.status === false) {
