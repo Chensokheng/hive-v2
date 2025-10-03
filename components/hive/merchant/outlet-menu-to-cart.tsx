@@ -120,18 +120,11 @@ export default function OutletMenuToCart() {
   }, [selectedOutletMenu]);
 
   useEffect(() => {
-    const isHasVariationAddOn = menuDetail?.addOn.find(
-      (item) => item.name.toLowerCase() === "variation"
-    );
-    if (!isHasVariationAddOn) {
-      const price =
-        selectedOutletMenu?.promotionPrice !== selectedOutletMenu?.price
-          ? selectedOutletMenu?.promotionPrice
-          : selectedOutletMenu?.price || 0;
-      setBasePrice(price || 0);
-    } else {
-      setBasePrice(0);
-    }
+    const price =
+      selectedOutletMenu?.promotionPrice !== selectedOutletMenu?.price
+        ? selectedOutletMenu?.promotionPrice
+        : selectedOutletMenu?.price || 0;
+    setBasePrice(price || 0);
   }, [menuDetail]);
 
   const totalAddonPrice = useMemo(() => {

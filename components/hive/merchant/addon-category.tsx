@@ -121,7 +121,7 @@ export default function AddonCategoryComponent({
                   </span>
                 </div>
                 <span className="text-sm font-medium text-[#161F2F]">
-                  {priceDisplay}
+                  +{priceDisplay}
                 </span>
               </div>
             );
