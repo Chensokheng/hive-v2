@@ -55,9 +55,12 @@ export default function SearchAddress() {
         placeId: value.id,
         token: user.token,
       });
-      await queryClient.invalidateQueries({ queryKey: ["user-info"] });
-      await queryClient.invalidateQueries({
+      queryClient.invalidateQueries({ queryKey: ["user-info"] });
+      queryClient.invalidateQueries({
         queryKey: ["merchant-outlets", merchant],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["outlet-menu-nearby"],
       });
       setSearch("");
       inputRef.current!.value = res.data.address;
@@ -79,8 +82,11 @@ export default function SearchAddress() {
           latitude: res.data[0].lat,
           longtitude: res.data[0].lng,
         });
-        await queryClient.invalidateQueries({
+        queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ["outlet-menu-nearby"],
         });
         setOpenAddressSheet(false);
       }

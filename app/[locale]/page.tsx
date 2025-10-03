@@ -3,6 +3,7 @@ import React from "react";
 import { PromotionSections, StoreGrid } from "@/components/hive";
 import CategoryGrid from "@/components/hive/category-grid";
 import HeroCarousel from "@/components/hive/landing/HeroCarousel";
+import OutletNearBy from "@/components/hive/outlet-near-by";
 import RecentOrder from "@/components/hive/recent-order";
 
 export default function Page() {
@@ -15,6 +16,7 @@ export default function Page() {
         </div>
         <PromotionSections />
         <RecentOrder />
+        <OutletNearBy />
         <div className="max-w-[1200px] mx-auto mt-10">
           <StoreGrid hidetitle={false} />
         </div>

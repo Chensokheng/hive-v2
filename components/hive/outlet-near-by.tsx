@@ -7,15 +7,25 @@ import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
 import { getImageUrl } from "@/lib/utils";
-import useGetRecentOrders from "@/hooks/use-get-recent-orders";
+import useGetOutletNearby from "@/hooks/use-get-outlet-nearby";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
 import MapPin from "../icon/map-pin";
 
-export default function RecentOrder() {
+export default function OutletNearBy() {
   const { locale } = useParams();
   const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
-  const { data, isLoading } = useGetRecentOrders(user?.token!);
+  const { data, isLoading } = useGetOutletNearby(
+    user?.latitude! ||
+      (typeof window !== "undefined"
+        ? Number(sessionStorage.getItem("lat"))
+        : 0)!,
+    user?.longtitude! ||
+      (typeof window !== "undefined"
+        ? Number(sessionStorage.getItem("lng"))
+        : 0)!,
+    ""
+  );
 
   if (isLoading || isLoadingUser) {
     return (
@@ -23,11 +33,11 @@ export default function RecentOrder() {
         <div className="max-w-[1200px] mx-auto mt-10 px-2 space-y-5">
           <h1 className="text-3xl font-bold ">
             <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-              Recent Order
+              Nearby
             </span>
           </h1>
-          <div className="grid grid-cols-2 lg:grid-cols-3  gap-2 lg:gap-6">
-            <div className="bg-card rounded-2xl p-[6px]">
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
+            <div className="bg-card rounded-2xl p-[6px] flex-shrink-0 w-64">
               {/* Image skeleton */}
               <div className="relative w-full aspect-[3/2] overflow-hidden rounded-2xl bg-gray-300 animate-pulse" />
 
@@ -48,7 +58,7 @@ export default function RecentOrder() {
     );
   }
 
-  if (!data?.data.length) {
+  if (!data?.data.items.length) {
     return <></>;
   }
 
@@ -56,16 +66,16 @@ export default function RecentOrder() {
     <div className="max-w-[1200px] mx-auto mt-10 px-2 space-y-5">
       <h1 className="text-xl lg:text-3xl font-bold ">
         <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-          Recent Order
+          Nearby
         </span>
       </h1>
-      <div className="grid grid-cols-2 lg:grid-cols-3  gap-2 lg:gap-6">
-        {data?.data.map((item) => {
+      <div className="flex gap-2 sm:gap-4 overflow-x-auto scrollbar-hide pb-2">
+        {data?.data.items.map((item) => {
           return (
             <Link
-              href={`${locale}/${item.subDomain}`}
+              href={`${locale}/${item.sub_domain}`}
               key={item.id}
-              className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow flex-shrink-0 w-1/2 sm:w-72"
             >
               <div className="relative w-full aspect-[3/2]">
                 <AsyncImage
@@ -84,7 +94,7 @@ export default function RecentOrder() {
                 <div className="flex items-center gap-1">
                   <MapPin color="#FF66CC" />
                   <span className="text-sm text-[#303D55]/60">
-                    {item.address.district}
+                    {item.distance} km
                   </span>
                 </div>
               </div>

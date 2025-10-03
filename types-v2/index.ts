@@ -1518,3 +1518,51 @@ export type RecendOrders = {
     }[];
   }[];
 };
+
+//  nearby outlet
+
+export type OutletsNearByResponse = {
+  status: boolean;
+  data: {
+    items: {
+      id: number;
+      name: string;
+      address: {
+        city: string;
+        ward: string;
+        address: string;
+        city_en: string;
+        city_id: number;
+        ward_en: string;
+        ward_id: number;
+        district: string;
+        district_en: string;
+        district_id: number;
+      };
+      distance: number;
+      short_name: string;
+      joinedDeliveryProgram: boolean;
+      joinedTableBookingProgram: boolean;
+      image: string;
+      sub_domain: string;
+      categories: {
+        id: number;
+        name: string;
+      }[];
+      hierarchical_categories: {
+        id: number;
+        name: string;
+      }[];
+      tags: string[] | null;
+      enableTableBooking: number;
+      other_outlet: number;
+    }[];
+    meta: {
+      totalItems: number;
+      itemCount: number;
+      itemsPerPage: number;
+      totalPages: number;
+      currentPage: number;
+    };
+  };
+};
