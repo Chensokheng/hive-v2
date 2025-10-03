@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "next/navigation";
+import { useOutletStore } from "@/store/outlet";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
@@ -35,6 +36,16 @@ export default function OutletHeader() {
     user?.latitude || getSessionStorageValue("lat") || 0,
     user?.longtitude || getSessionStorageValue("lng") || 0
   );
+  const setCheckoutNotes = useOutletStore((state) => state.setCheckoutNotes);
+
+  useEffect(() => {
+    return () => {
+      setCheckoutNotes({
+        addressNote: "",
+        storeNote: "",
+      });
+    };
+  }, []);
 
   return (
     <div className="bg-white md:rounded-2xl overflow-hidden border w-full">

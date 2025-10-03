@@ -45,6 +45,8 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
   const checkoutUserTemInfo = useOutletStore(
     (state) => state.checkoutUserTemInfo
   );
+  const checkoutNotes = useOutletStore((state) => state.checkoutNotes);
+  const setCheckoutNotes = useOutletStore((state) => state.setCheckoutNotes);
 
   const selectedPromotionCode = useCheckoutStore(
     (state) => state.selectedPromotionCode
@@ -61,13 +63,15 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
         userId: Number(user?.userId!),
         receiverName: checkoutUserTemInfo?.name || user?.userName || "",
         receiverPhone: checkoutUserTemInfo?.phoneNumber || user?.phone || "",
-        note: noteRef.current?.value || "",
-        addressNote: addressNoteRef.current?.value || "",
+        note: checkoutNotes.storeNote || "",
+        addressNote: checkoutNotes.addressNote || "",
         token: user?.token || "",
         promotionCode: selectedPromotionCode.code,
         promotionId: selectedPromotionCode.id,
       });
       setSelectedPromotionCode({ code: "", id: -1, discoundAmount: 0 });
+      // Clear notes after successful order
+      setCheckoutNotes({ addressNote: "", storeNote: "" });
 
       if (!res.status) {
         toast.error(res.data.error_message || "Fail to checkout");
@@ -121,6 +125,13 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
                 className="h-15 rounded-2xl placeholder:text-[#303D5599] text-normal"
                 tabIndex={-1}
                 ref={addressNoteRef}
+                value={checkoutNotes.addressNote}
+                onChange={(e) =>
+                  setCheckoutNotes({
+                    ...checkoutNotes,
+                    addressNote: e.target.value,
+                  })
+                }
               />
             </div>
           )}
@@ -133,6 +144,13 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
               className="h-15 rounded-2xl placeholder:text-[#303D5599] text-normal"
               tabIndex={-1}
               ref={noteRef}
+              value={checkoutNotes.storeNote}
+              onChange={(e) =>
+                setCheckoutNotes({
+                  ...checkoutNotes,
+                  storeNote: e.target.value,
+                })
+              }
             />
           </div>
           {unpaidItem?.cartId && <PromotionCode cartId={unpaidItem?.cartId} />}

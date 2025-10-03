@@ -21,6 +21,10 @@ interface OutletStoreState {
     name: string;
     phoneNumber: string;
   } | null;
+  checkoutNotes: {
+    addressNote: string;
+    storeNote: string;
+  };
   editCartItemSheetOpen: boolean;
   editCartItemData: {
     cartItemId: number;
@@ -57,6 +61,7 @@ interface OutletStoreState {
       phoneNumber: string;
     } | null
   ) => void;
+  setCheckoutNotes: (value: { addressNote: string; storeNote: string }) => void;
 
   setEditCartItemSheetOpen: (value: boolean) => void;
   setEditCartItemData: (
@@ -97,8 +102,13 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
       selectOutletId: outletId,
     })),
   checkoutUserTemInfo: null,
+  checkoutNotes: {
+    addressNote: "",
+    storeNote: "",
+  },
   setCheckoutUserTemInfo: (value) =>
     set(() => ({ checkoutUserTemInfo: value })),
+  setCheckoutNotes: (value) => set(() => ({ checkoutNotes: value })),
   setEditCartItemSheetOpen: (value) =>
     set(() => ({ editCartItemSheetOpen: value })),
   setEditCartItemData: (value) =>
