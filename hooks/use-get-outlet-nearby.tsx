@@ -7,7 +7,7 @@ export default function useGetOutletNearby(
   keyword: string
 ) {
   return useQuery({
-    queryKey: ["outlet-menu-nearby"],
+    queryKey: ["outlet-menu-nearby", latitude, longitude, keyword],
     queryFn: () => getNearbyOutlet(latitude, longitude, keyword),
     enabled: !!latitude && !!longitude,
   });

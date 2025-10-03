@@ -26,17 +26,17 @@ export default function SearchAddress() {
   const setOpenAddressSheet = useAddresStore(
     (state) => state.setOpenAddressSheet
   );
-  const openAddresSheet = useAddresStore((state) => state.openAddresSheet);
+
   const [search, setSearch] = useState("");
   const { data, isFetching } = useGetAddressByKeyword(search);
   const { data: user } = useGetUserInfo();
   const handleSearch = useDebouncedCallback((value: string) => {
-    const userExistinLocatoin =
-      user && user.latitude && user.longtitude
-        ? `&lat=${user?.latitude}&lng=${user?.longtitude}`
-        : "";
+    // const userExistinLocatoin =
+    //   user && user.latitude && user.longtitude
+    //     ? `&lat=${user?.latitude}&lng=${user?.longtitude}`
+    //     : "";
 
-    const searchParam = "?keyword=" + value + userExistinLocatoin;
+    const searchParam = "?keyword=" + value;
     setSearch(searchParam);
   }, 500);
   const [animationParent] = useAutoAnimate();
@@ -55,11 +55,11 @@ export default function SearchAddress() {
         placeId: value.id,
         token: user.token,
       });
-      queryClient.invalidateQueries({ queryKey: ["user-info"] });
+      await queryClient.invalidateQueries({ queryKey: ["user-info"] });
       queryClient.invalidateQueries({
         queryKey: ["merchant-outlets", merchant],
       });
-      queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["outlet-menu-nearby"],
       });
       setSearch("");
@@ -84,9 +84,6 @@ export default function SearchAddress() {
         });
         queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ["outlet-menu-nearby"],
         });
         setOpenAddressSheet(false);
       }
