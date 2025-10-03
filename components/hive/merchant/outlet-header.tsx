@@ -54,7 +54,7 @@ export default function OutletHeader() {
             <Skeleton className="h-4 w-1/2 bg-gray-300" />
           </div>
         ) : (
-          <div className="relative left-4 -top-5 space-y-3">
+          <div className="relative pl-4 -top-5 space-y-3 pr-2">
             <h1 className="text-2xl font-bold">{data?.data?.name}</h1>
             <div className="text-sm text-[#303D5599] flex gap-2 flex-wrap">
               <MapIcon />
