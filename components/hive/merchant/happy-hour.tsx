@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useOutletStore } from "@/store/outlet";
 import { AsyncImage } from "loadable-image";
 import { ChevronDown, Clock, Plus } from "lucide-react";
 import { Blur } from "transitions-kit";
@@ -11,6 +12,8 @@ import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetHappyHourAvailableTimes from "@/hooks/use-get-happy-hour-available-times";
 import useGetHappyHours from "@/hooks/use-get-happy-hours";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
+import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,13 +21,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-
-
 import HappyHourCountDown from "./happy-hour-count-down";
 
 export default function HappyHour() {
   const { merchant, outlet } = useParams();
-
+  const { data: user } = useGetUserInfo();
   const { data: outletInfo, isLoading: isOutletLoading } = useGetOutletInfo(
     merchant as string,
     outlet as string,
@@ -39,11 +40,19 @@ export default function HappyHour() {
     undefined
   );
 
+  const setSelectedOutletMenu = useOutletStore(
+    (state) => state.setSelectedOutletMenu
+  );
+
   const {
     data: happyHour,
     isLoading: isHappyHourLoading,
     isRefetching,
   } = useGetHappyHours(Number(outletInfo?.data.id), availableTimeId!);
+  const { data: unpaidItem } = useGetOutletUnpaidItem(
+    Number(user?.userId!),
+    Number(outletInfo?.data.id)
+  );
   const { data: rate } = useGetExchangeRate();
 
   useEffect(() => {
@@ -110,6 +119,19 @@ export default function HappyHour() {
     (item) => item.id === availableTimeId
   );
 
+  function parseTodayTime(timeString: string): Date {
+    const [hoursString, minutesString] = timeString.split(":");
+    const hours = Number(hoursString);
+    const minutes = Number(minutesString);
+    const now = new Date();
+    const parsed = new Date(now);
+    parsed.setHours(hours, minutes, 0, 0);
+    return parsed;
+  }
+
+  const startTimeString = selectHappyHourAvailableTime?.availableTime.from!;
+  const startTime = startTimeString ? parseTodayTime(startTimeString) : null;
+  const isUpcoming = startTime ? Date.now() < startTime.getTime() : false;
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between px-2">
@@ -160,10 +182,51 @@ export default function HappyHour() {
 
         <div className="flex items-center gap-2 overflow-x-auto flex-nowrap">
           {happyHour?.data.map((item) => {
+            const isUsedHappyHour = (
+              unpaidItem?.items?.filter(
+                (cartItem) =>
+                  cartItem.menuItemId === item.id &&
+                  cartItem.basePrice === item.happyHoursPrice
+              ) ?? []
+            ).reduce((acc, curr) => acc + curr.quantity, 0);
+
+            const isOrdered = isUsedHappyHour >= item.maxQtyPerOrder;
+
+            const isPurchased = item.maxQtyPerOrder === item.usedQty;
+
             return (
               <div
-                className="shrink-0 w-[272px] rounded-lg bg-white hover:shadow transition-all cursor-pointer"
+                className={cn(
+                  "shrink-0 w-[272px] rounded-lg bg-white hover:shadow transition-all cursor-pointer",
+                  {
+                    "opacity-65": isOrdered || isPurchased,
+                  }
+                )}
                 key={item.id}
+                onClick={() => {
+                  if (isOrdered || isPurchased || isUpcoming) {
+                    return;
+                  }
+                  if (!user?.userId) {
+                    document.getElementById("auth-trigger-dialog")?.click();
+                    return;
+                  }
+                  setSelectedOutletMenu(
+                    {
+                      ...item,
+                      isCustomDiscounted: false,
+                      image: getImageUrl(item.thumbnail_image_name),
+                      hasAddOn: item.hasAddon,
+                      price: item.base_price,
+                      promotionPrice: item.happyHoursPrice,
+                      isHappyHourProduct: true,
+                      happyHourMaxQtyPerOrder: item.maxQtyPerOrder,
+                      happyHourAvailableTimeId:
+                        selectHappyHourAvailableTime?.id,
+                    },
+                    Number(outletInfo?.data.id)
+                  );
+                }}
               >
                 <div className="w-full aspect-square relative">
                   <AsyncImage
@@ -182,13 +245,22 @@ export default function HappyHour() {
                       " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
                     )}
                   >
-                    <div
-                      className={cn(
-                        " h-9 w-9 grid place-content-center rounded-full"
-                      )}
-                    >
-                      <Plus className="text-primary" />
-                    </div>
+                    {!isOrdered && !isPurchased && !isUpcoming && (
+                      <div
+                        className={cn(
+                          " h-9 w-9 grid place-content-center rounded-full"
+                        )}
+                      >
+                        <Plus className="text-primary" />
+                      </div>
+                    )}
+                  </div>
+                  <div className=" absolute top-2 left-2">
+                    {(isOrdered || isPurchased) && (
+                      <div className="bg-red-500 text-white font-medium px-2 rounded text-xs py-1">
+                        {isPurchased ? "Purchased" : "Added"}
+                      </div>
+                    )}
                   </div>
 
                   <div className="px-3 py-4 w-full">
@@ -198,7 +270,7 @@ export default function HappyHour() {
                     <div>
                       <div className="flex items-center gap-1">
                         <span className="text-lg font-bold text-primary">
-                          ${item.happyHoursPrice}
+                          $ {isUpcoming ? "???" : item.happyHoursPrice}
                         </span>
                         {item.happyHoursPrice !== item.base_price && (
                           <span className=" line-through text-gray-400">
@@ -207,7 +279,11 @@ export default function HappyHour() {
                         )}
                       </div>
                       <span className="text-xs font-medium text-[#363F4F]/60">
-                        ≈{Math.round(rate ? rate * item.happyHoursPrice : 0)}៛
+                        ≈
+                        {isUpcoming
+                          ? "???"
+                          : Math.round(rate ? rate * item.happyHoursPrice : 0)}
+                        ៛
                       </span>
                     </div>
                   </div>

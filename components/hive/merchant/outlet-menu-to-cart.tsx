@@ -130,7 +130,38 @@ export default function OutletMenuToCart() {
   const totalAddonPrice = useMemo(() => {
     return selectedAddons.reduce((total, addon) => total + addon.price, 0);
   }, [selectedAddons]);
-  const totalPrice = (basePrice + totalAddonPrice) * quantity;
+  // Calculate total price with Happy Hour logic:
+  // - If the item is a Happy Hour product and quantity <= happyHourMaxQtyPerOrder,
+  //   use promotionPrice for those units; any units above the limit use normal price.
+  // - Add-ons are charged per unit.
+  const totalPrice = useMemo(() => {
+    const promoPrice =
+      selectedOutletMenu?.promotionPrice ?? selectedOutletMenu?.price ?? 0;
+    const normalPrice = selectedOutletMenu?.price ?? 0;
+    const happyMax = selectedOutletMenu?.happyHourMaxQtyPerOrder ?? 0;
+    const isHappyHour =
+      Boolean(selectedOutletMenu?.isHappyHourProduct) && happyMax > 0;
+
+    const addonTotal = totalAddonPrice * quantity;
+
+    if (isHappyHour) {
+      const happyQty = Math.min(quantity, happyMax);
+      const normalQty = Math.max(quantity - happyMax, 0);
+      const baseTotal = happyQty * promoPrice + normalQty * normalPrice;
+      return baseTotal + addonTotal;
+    }
+
+    // Fallback to using basePrice when not in Happy Hour context
+    return basePrice * quantity + addonTotal;
+  }, [
+    basePrice,
+    quantity,
+    selectedOutletMenu?.happyHourMaxQtyPerOrder,
+    selectedOutletMenu?.isHappyHourProduct,
+    selectedOutletMenu?.price,
+    selectedOutletMenu?.promotionPrice,
+    totalAddonPrice,
+  ]);
 
   const allowAddItem =
     selectedOutletMenu?.isCustomDiscounted &&
@@ -142,13 +173,15 @@ export default function OutletMenuToCart() {
       : true;
 
   const handleAddtoCart = () => {
-    const existingItem = selectedOutletMenu?.isCustomDiscounted
-      ? null
-      : unpaidItem?.items?.find(
-          (item) =>
-            item.menuItemId === selectedOutletMenu?.id &&
-            item.basePrice === selectedOutletMenu.price
-        );
+    const existingItem =
+      selectedOutletMenu?.isCustomDiscounted ||
+      selectedOutletMenu?.isHappyHourProduct
+        ? null
+        : unpaidItem?.items?.find(
+            (item) =>
+              item.menuItemId === selectedOutletMenu?.id &&
+              item.basePrice === selectedOutletMenu.price
+          );
 
     const addonDetails = selectedAddons.map((addon) => ({
       qty: 1,
@@ -178,6 +211,8 @@ export default function OutletMenuToCart() {
         note: noteRef.current?.value || "",
         token: user?.token,
         isCustomDiscounted: selectedOutletMenu?.isCustomDiscounted || false,
+        happyHourAvailableTimeId:
+          selectedOutletMenu?.happyHourAvailableTimeId || null,
       });
       if (!res.status) {
         toast.error(res.message || "Faild to add this item to cart");
@@ -265,16 +300,17 @@ export default function OutletMenuToCart() {
             <p className="text-sm text-[#303D55]/60">
               {menuDetail?.description}
             </p>{" "}
-            {menuDetail?.activatedCustomDiscountedProduct &&
-              selectedOutletMenu?.isCustomDiscounted && (
-                <p className="text-sm text-gray-500">
-                  Maximum per order:{" "}
-                  {
-                    menuDetail?.activatedCustomDiscountedProduct
-                      ?.max_usage_per_order
-                  }
-                </p>
-              )}
+            {(menuDetail?.activatedCustomDiscountedProduct &&
+              selectedOutletMenu?.isCustomDiscounted) ||
+              (selectedOutletMenu?.happyHourMaxQtyPerOrder &&
+                selectedOutletMenu?.happyHourMaxQtyPerOrder > 0 && (
+                  <p className="text-sm text-red-500 font-medium">
+                    Maximum per order:{" "}
+                    {menuDetail?.activatedCustomDiscountedProduct
+                      ?.max_usage_per_order ||
+                      selectedOutletMenu?.happyHourMaxQtyPerOrder}
+                  </p>
+                ))}
             {selectedOutletMenu?.hasAddOn && (
               <div className="py-6 space-y-6">
                 {menuDetail?.addOn.map((category) => (
@@ -320,6 +356,9 @@ export default function OutletMenuToCart() {
               onClick={() => setQuantity(quantity + 1)}
               disabled={
                 !allowAddItem ||
+                (selectedOutletMenu?.happyHourMaxQtyPerOrder
+                  ? quantity >= selectedOutletMenu.happyHourMaxQtyPerOrder
+                  : false) ||
                 quantity >=
                   (selectedOutletMenu?.isCustomDiscounted &&
                   menuDetail?.activatedCustomDiscountedProduct
@@ -343,7 +382,7 @@ export default function OutletMenuToCart() {
             {isPending && <Loader className=" animate-spin" />}
             <span> {`Add to Cart - $${totalPrice}`}</span>
             <span className="text-xs font-medium">
-              ≈{Math.round(totalPrice * quantity * (rate || 0))}៛
+              ≈{Math.round(totalPrice * (rate || 0))}៛
             </span>
           </button>
         </div>

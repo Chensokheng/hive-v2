@@ -13,6 +13,9 @@ interface OutletStoreState {
     price: number;
     promotionPrice: number;
     isCustomDiscounted: boolean;
+    isHappyHourProduct?: boolean;
+    happyHourMaxQtyPerOrder?: number;
+    happyHourAvailableTimeId?: number | null;
   } | null;
   selectOutletId: number | null;
   openCheckoutSheet: boolean;
@@ -34,6 +37,9 @@ interface OutletStoreState {
     note: string;
     selectedAddons: any[];
     isCustomDiscounted: boolean;
+    isHappyHourProduct?: boolean;
+    happyHourMaxQtyPerOrder?: number;
+    happyHourAvailableTimeId?: number | null;
   } | null;
   setSearchMenu: (value: string) => void;
 
@@ -51,6 +57,9 @@ interface OutletStoreState {
       price: number;
       promotionPrice: number;
       isCustomDiscounted: boolean;
+      isHappyHourProduct?: boolean;
+      happyHourMaxQtyPerOrder?: number;
+      happyHourAvailableTimeId?: number | null;
     } | null,
     outletId: number | null
   ) => void;
@@ -73,6 +82,9 @@ interface OutletStoreState {
       note: string;
       selectedAddons: any[];
       isCustomDiscounted: boolean;
+      isHappyHourProduct?: boolean;
+      happyHourMaxQtyPerOrder?: number;
+      happyHourAvailableTimeId?: number | null;
     } | null
   ) => void;
   setOutletOpen: (value: boolean) => void;

@@ -12,6 +12,7 @@ export const addItemtoCart = async (params: {
   cartItemId?: number | null;
   token: string | undefined;
   isCustomDiscounted: boolean;
+  happyHourAvailableTimeId: number | null;
 }) => {
   if (!params.token) {
     return {
@@ -41,6 +42,7 @@ export const addItemtoCart = async (params: {
       is_web: 1,
       type: "delivery",
       addon_items: params.addonDetails || [],
+      happy_hour_available_time_id: params.happyHourAvailableTimeId || null,
     }),
   });
 
