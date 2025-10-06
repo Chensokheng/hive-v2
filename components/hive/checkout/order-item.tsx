@@ -48,6 +48,7 @@ export default function OrderItem({
         note: item.note,
         addonDetails: item.cartAddonItems,
         isCustomDiscounted: item.cartCustomDiscountedProduct ? true : false,
+        happyHourAvailableTimeId: null,
       });
       if (!res.status) {
         toast.error(res.message || "Fail to remove item from the cart");

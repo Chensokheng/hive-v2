@@ -177,6 +177,7 @@ export default function EditMenuCartItem() {
         note: noteRef.current,
         token: user?.token,
         isCustomDiscounted: editCartItemData?.isCustomDiscounted || false,
+        happyHourAvailableTimeId: null,
       });
 
       if (!res.status) {
