@@ -162,7 +162,7 @@ export default function StoreGrid({ hidetitle }: { hidetitle: boolean }) {
               <div className="flex items-center gap-1">
                 <MapPin color="#FF66CC" />
                 <span className="text-sm text-[#303D55]/60">
-                  {merchant.districtKh}
+                  {merchant.districtEn}
                 </span>
               </div>
             </div>

@@ -5,6 +5,7 @@ import Checkout from "@/components/hive/checkout";
 import EditMenuCartItem from "@/components/hive/checkout/edit-menu-cart-item";
 import { CouponSection } from "@/components/hive/merchant/coupon";
 import FlashSale from "@/components/hive/merchant/flash-sale";
+import HappyHour from "@/components/hive/merchant/happy-hour";
 import OutletCategoryMobile from "@/components/hive/merchant/outlet-category-mobile";
 import OutletCategorySidebar from "@/components/hive/merchant/outlet-category-sidebar";
 import OutletHeader from "@/components/hive/merchant/outlet-header";
@@ -31,6 +32,7 @@ export default function page() {
               <OutletHeader />
               <OutletCategoryMobile />
               <CouponSection />
+              <HappyHour />
               <FlashSale />
               <OutletMenu />
             </div>

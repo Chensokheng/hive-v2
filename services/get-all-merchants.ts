@@ -30,7 +30,7 @@ export const getAllMerchants = async (
     id: merchant.id,
     name: merchant.name,
     image: merchant.image ? getImageUrl(merchant.image) : "",
-    districtEn: merchant.address.district_en,
+    districtEn: merchant.address.district_en ?? merchant.address.district,
     districtKh: merchant.address.district,
     category: merchant.hierarchical_categories?.length
       ? merchant.hierarchical_categories[0].name
