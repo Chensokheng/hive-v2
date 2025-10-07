@@ -45,5 +45,6 @@ export type OutletUnpaidItemsDto = {
       cartItemId: number;
       id: number;
     } | null;
+    isHappyHourProduct: boolean;
   }[];
 };

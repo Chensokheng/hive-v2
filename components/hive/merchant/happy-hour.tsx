@@ -133,7 +133,7 @@ export default function HappyHour() {
   const startTime = startTimeString ? parseTodayTime(startTimeString) : null;
   const isUpcoming = startTime ? Date.now() < startTime.getTime() : false;
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 px-3 my-5">
       <div className="flex items-center justify-between px-2">
         <h1 className="text-xl font-bold ">
           🤩{" "}
@@ -180,33 +180,15 @@ export default function HappyHour() {
           </DropdownMenu>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto flex-nowrap">
+        <div className="flex items-center gap-3 overflow-x-auto flex-nowrap hide-scroll">
           {happyHour?.data.map((item) => {
-            const isUsedHappyHour = (
-              unpaidItem?.items?.filter(
-                (cartItem) =>
-                  cartItem.menuItemId === item.id &&
-                  cartItem.basePrice === item.happyHoursPrice
-              ) ?? []
-            ).reduce((acc, curr) => acc + curr.quantity, 0);
-
-            const isOrdered = isUsedHappyHour >= item.maxQtyPerOrder;
-
-            const isPurchased = item.maxQtyPerOrder === item.usedQty;
-
             return (
               <div
                 className={cn(
-                  "shrink-0 w-[272px] rounded-lg bg-white hover:shadow transition-all cursor-pointer",
-                  {
-                    "opacity-65": isOrdered || isPurchased,
-                  }
+                  "shrink-0 w-[260px] rounded-lg bg-white hover:shadow transition-all cursor-pointer"
                 )}
                 key={item.id}
                 onClick={() => {
-                  if (isOrdered || isPurchased || isUpcoming) {
-                    return;
-                  }
                   if (!user?.userId) {
                     document.getElementById("auth-trigger-dialog")?.click();
                     return;
@@ -245,22 +227,13 @@ export default function HappyHour() {
                       " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
                     )}
                   >
-                    {!isOrdered && !isPurchased && !isUpcoming && (
-                      <div
-                        className={cn(
-                          " h-9 w-9 grid place-content-center rounded-full"
-                        )}
-                      >
-                        <Plus className="text-primary" />
-                      </div>
-                    )}
-                  </div>
-                  <div className=" absolute top-2 left-2">
-                    {(isOrdered || isPurchased) && (
-                      <div className="bg-red-500 text-white font-medium px-2 rounded text-xs py-1">
-                        {isPurchased ? "Purchased" : "Added"}
-                      </div>
-                    )}
+                    <div
+                      className={cn(
+                        " h-9 w-9 grid place-content-center rounded-full"
+                      )}
+                    >
+                      <Plus className="text-primary" />
+                    </div>
                   </div>
 
                   <div className="px-3 py-4 w-full">

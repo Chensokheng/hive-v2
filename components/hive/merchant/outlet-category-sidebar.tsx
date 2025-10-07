@@ -38,7 +38,7 @@ export default function OutletCategorySidebar() {
   }, 300);
 
   return (
-    <div className="w-[282px] py-7 sticky top-15 self-start h-fit  hidden lg:block">
+    <div className="w-[230px] py-7 sticky top-15 self-start h-fit  hidden lg:block">
       <div className="w-full relative">
         <Input
           className=" rounded-full bg-white shadow-none w-full pl-12 py-5"

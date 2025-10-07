@@ -14,7 +14,8 @@ export default async function getOutletUnpaidItem(
   }
 
   const res = await fetch(
-    `https://api-truemoney-stg.savyu.com/api/web/delivery/unpaid-carts?user_id=${userId}&outlet_id=${outletId}`,
+    process.env.NEXT_PUBLIC_HIVE_BASE_API +
+      `/api/web/delivery/unpaid-carts?user_id=${userId}&outlet_id=${outletId}`,
     {
       headers: {
         Authorization: "Bearer " + token,
@@ -86,6 +87,7 @@ export default async function getOutletUnpaidItem(
                 id: item.promotionCartItem.id,
               }
             : null,
+          isHappyHourProduct: item.is_happy_hour_product,
         };
       }),
     };

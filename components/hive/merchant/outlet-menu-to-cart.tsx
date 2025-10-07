@@ -300,17 +300,17 @@ export default function OutletMenuToCart() {
             <p className="text-sm text-[#303D55]/60">
               {menuDetail?.description}
             </p>{" "}
-            {(menuDetail?.activatedCustomDiscountedProduct &&
+            {((menuDetail?.activatedCustomDiscountedProduct &&
               selectedOutletMenu?.isCustomDiscounted) ||
               (selectedOutletMenu?.happyHourMaxQtyPerOrder &&
-                selectedOutletMenu?.happyHourMaxQtyPerOrder > 0 && (
-                  <p className="text-sm text-red-500 font-medium">
-                    Maximum per order:{" "}
-                    {menuDetail?.activatedCustomDiscountedProduct
-                      ?.max_usage_per_order ||
-                      selectedOutletMenu?.happyHourMaxQtyPerOrder}
-                  </p>
-                ))}
+                selectedOutletMenu?.happyHourMaxQtyPerOrder > 0)) && (
+              <p className="text-sm text-red-500 font-medium">
+                Maximum per order:{" "}
+                {menuDetail?.activatedCustomDiscountedProduct
+                  ?.max_usage_per_order ||
+                  selectedOutletMenu?.happyHourMaxQtyPerOrder}
+              </p>
+            )}
             {selectedOutletMenu?.hasAddOn && (
               <div className="py-6 space-y-6">
                 {menuDetail?.addOn.map((category) => (

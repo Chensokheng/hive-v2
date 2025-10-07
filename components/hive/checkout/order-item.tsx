@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useOutletStore } from "@/store/outlet";
 import { OutletUnpaidItemsDto } from "@/types-v2/dto";
@@ -11,6 +11,8 @@ import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
+import useGetHappyHourAvailableTimes from "@/hooks/use-get-happy-hour-available-times";
+import useGetHappyHours from "@/hooks/use-get-happy-hours";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
 import OrderAddonDetail from "./order-addon-detail";
@@ -31,25 +33,55 @@ export default function OrderItem({
     (state) => state.setEditCartItemData
   );
 
+  const { data: happyHourAvailableTimes, isLoading } =
+    useGetHappyHourAvailableTimes(Number(item.outletId));
+
+  const {
+    data: happyHour,
+    isLoading: isHappyHourLoading,
+    isRefetching,
+  } = useGetHappyHours(
+    Number(item.outletId),
+    happyHourAvailableTimes?.data[0].id!
+  );
+
   const queryClient = useQueryClient();
   const { data: rate } = useGetExchangeRate();
 
-  const handleRemoveItem = async (qty: number) => {
+  const handleItemToCart = async (qty: number) => {
+    let happyHourAvailableTimeId = null;
+    let addNew = false;
+    let cartItemId = null;
+
+    if (isDisableHappyHour) {
+      happyHourAvailableTimeId = happyHourAvailableTimes?.data[0]?.id || null;
+      addNew = true;
+      qty = qty - item.quantity;
+    } else {
+      cartItemId = item.id;
+    }
+
     setIsUserAction(true);
     startTransition(async () => {
       const res = await addItemtoCart({
-        cartItemId: item.id,
+        cartItemId,
         token: user?.token!,
         menuItemId: item.menuItemId,
         outletId: item.outletId,
-        qty: qty,
-        addNew: false,
+        qty,
+        addNew,
         userId: Number(user?.userId!),
         note: item.note,
         addonDetails: item.cartAddonItems,
         isCustomDiscounted: item.cartCustomDiscountedProduct ? true : false,
-        happyHourAvailableTimeId: null,
+        happyHourAvailableTimeId: happyHourAvailableTimeId,
       });
+
+      if (isDisableHappyHour) {
+        setIsUserAction(false);
+        setQuantity((prev) => prev - 1);
+      }
+
       if (!res.status) {
         toast.error(res.message || "Fail to remove item from the cart");
         if (qty !== 0) {
@@ -66,10 +98,13 @@ export default function OrderItem({
   };
 
   const handleUpdateCartItem = useDebouncedCallback(() => {
-    handleRemoveItem(quantity);
+    handleItemToCart(quantity);
   }, 500);
 
   const handleEditItem = () => {
+    if (item.isHappyHourProduct) {
+      return;
+    }
     setEditCartItemData({
       cartItemId: item.id,
       outletId: item.outletId,
@@ -78,6 +113,7 @@ export default function OrderItem({
       note: item.note || "",
       selectedAddons: item.cartAddonItems || [],
       isCustomDiscounted: item.cartCustomDiscountedProduct ? true : false,
+      isHappyHourProduct: item.isHappyHourProduct,
     });
   };
 
@@ -92,8 +128,23 @@ export default function OrderItem({
     setQuantity(item.quantity);
   }, [item.quantity]);
 
+  const happyHourItem = happyHour?.data.find(
+    (value) =>
+      value.id === item.menuItemId &&
+      value.happyHoursPrice === item.basePrice &&
+      item.isHappyHourProduct
+  );
+
+  const isDisableHappyHour = useMemo(() => {
+    return happyHourItem && item.isHappyHourProduct
+      ? happyHourItem?.totalQty === happyHourItem?.usedQty ||
+          quantity >= happyHourItem?.maxQtyPerOrder!
+      : false;
+  }, [happyHourItem, item.isHappyHourProduct, quantity]);
+
   return (
     <>
+      {/* {JSON.stringify(happyHourItem, null, 2)} */}
       <div
         className={cn("pb-4 border-b border-[#D8DEEE]", {
           "animate-pulse opacity-50": isPending,
@@ -128,6 +179,21 @@ export default function OrderItem({
             {isFree && (
               <p className="text-sm text-[#303D55]/60">{item.quantity} Free</p>
             )}
+            {item.isHappyHourProduct && (
+              <>
+                <p className="text-sm text-primary font-medium">
+                  Happy hour product 🤣
+                </p>
+              </>
+            )}
+
+            {item.cartCustomDiscountedProduct && (
+              <>
+                <p className="text-sm text-primary font-medium">
+                  Flash Sale ⚡️
+                </p>
+              </>
+            )}
             <OrderAddonDetail text={item.formatedAddonItems} />
           </div>
           {!isFree && (
@@ -142,6 +208,7 @@ export default function OrderItem({
             </div>
           )}
         </div>
+
         {!isFree && (
           <div className="w-full flex justify-between items-end pl-[68px] lg:pl-[108px]">
             <div className="flex flex-col items-start gap-2 cursor-pointer">
@@ -166,7 +233,7 @@ export default function OrderItem({
                   className={cn(
                     "h-7 w-7 bg-[#0055DD1A] text-primary rounded-full grid place-content-center cursor-pointer"
                   )}
-                  onClick={() => handleRemoveItem(0)}
+                  onClick={() => handleItemToCart(0)}
                 >
                   <Trash className="w-5 h-5" />
                 </button>
@@ -186,11 +253,12 @@ export default function OrderItem({
                 {quantity}
               </span>
               <button
-                className="h-7 w-7 bg-[#0055DD1A] text-primary rounded-full grid place-content-center cursor-pointer"
+                className="h-7 w-7 bg-[#0055DD1A] text-primary rounded-full grid place-content-center cursor-pointer disabled:opacity-50"
                 onClick={() => {
                   setIsUserAction(true);
                   setQuantity(quantity + 1);
                 }}
+                disabled={quantity === 0}
               >
                 <Plus className="w-5 h-5" />
               </button>
