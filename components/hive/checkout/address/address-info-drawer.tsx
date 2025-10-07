@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { reverseGeocode, searchAddresses } from "@/services/map/get-map";
 import type { Address } from "@/services/map/get-map";
+import { useAddresStore } from "@/store/address";
 import {
   BriefcaseBusiness,
   ChevronLeft,
@@ -67,6 +68,10 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
   const [showResults, setShowResults] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
 
+  const setSavedAddressModal = useAddresStore(
+    (state) => state.setSavedAddressModal
+  );
+
   // This state controls the map - only updates when user makes a selection
   const [selectedLocation, setSelectedLocation] = useState({
     name: "Keystone Building",
@@ -109,40 +114,6 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
 
     return () => clearTimeout(timeoutId);
   }, [searchQuery, handleSearch]);
-
-  // Function to get place details using place_id
-  /* const getPlaceDetails = async (
-    placeId: string
-  ): Promise<PlaceDetailResponse | null> => {
-    try {
-      const response = await fetch(
-        "https://api.gohive.online/api/web/delivery/places",
-        {
-          method: "POST",
-          headers: {
-            accept: "application/json",
-            "accept-language": "km",
-            "content-type": "application/json",
-            "user-agent": "NextJS-Map-App/1.0",
-          },
-          body: JSON.stringify({
-            user_id: 74, // You might want to make this dynamic
-            place_id: placeId,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data: PlaceDetailResponse = await response.json();
-      return data.status ? data : null;
-    } catch (error) {
-      console.error("Error fetching place details:", error);
-      return null;
-    }
-  }; */
 
   // Handle location selection from search results - ONLY this updates the map
   const handleLocationSelect = async (address: Address) => {
@@ -422,22 +393,10 @@ export function AddressInfoDrawer({ isOpen, onClose }: AddressDrawerProps) {
         </SheetContent>
       </Sheet>
 
-      {/* Map Location Picker Dialog */}
-      {/* <MapLocationPicker
-        isOpen={showMapPicker}
-        onClose={() => setShowMapPicker(false)}
-        onLocationSelect={handleLocationSelect}
-        initialCenter={
-          formData.address
-            ? { lat: formData.address.lat, lng: formData.address.lng }
-            : DEFAULT_LAT_LNG
-        }
-      /> */}
-
       {showAddressModal && (
         <AddressModal
           addressType={addressType}
-          setOpenModal={setShowAddressModal}
+          setOpenModal={setSavedAddressModal}
         />
       )}
     </>

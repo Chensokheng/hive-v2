@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
-import { reverseGeocode } from "@/services/map/get-map";
-import { ChevronDown, Loader2, X } from "lucide-react";
+import { useAddresStore } from "@/store/address";
+import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,9 +14,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import UseCurrentLocation from "@/components/google-map/current-location";
+import StaticMapImage from "@/components/google-map/static-google-map-image";
 import { MapLocationPicker } from "@/components/hive/checkout/address/map-draggable-modal";
-import CurrentLocationIcon from "@/components/icon/current-location";
-import MapPin from "@/components/icon/map-pin";
+import SearchAddress from "@/components/map/search-address";
 
 const addressTypes = {
   home: "Home",
@@ -37,7 +37,7 @@ interface LocationData {
 
 interface AddressModalProps {
   addressType: TAddressType;
-  setOpenModal: (isOpen: boolean) => void;
+  setOpenModal: (isOpen: string) => void;
 }
 
 interface AddressFormData {
@@ -46,22 +46,22 @@ interface AddressFormData {
 }
 
 const DEFAULT_LAT_LNG = { lat: 11.550966450309836, lng: 104.9287729533798 }; // Keystone building
-
-const MapViewOnlyInner = dynamic(
-  () => import("@/components/map-v2/MapViewOnlyComponent"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-      </div>
-    ),
-  }
-);
+const DEFAULT_ADDRESS =
+  "No. 86A, Street 110, Russian Federation Blvd (110), Phnom Penh, Cambodia";
 
 export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
+  const savedAddressType = useAddresStore((state) => state.savedAddressType);
+  const setSavedAddressModal = useAddresStore(
+    (state) => state.setSavedAddressModal
+  );
+
+  const modalType: TAddressType =
+    savedAddressType && savedAddressType in addressTypes
+      ? (savedAddressType as TAddressType)
+      : "other";
+
   const [formData, setFormData] = useState<AddressFormData>({
-    label: addressType,
+    label: modalType,
     address: undefined,
   });
 
@@ -71,7 +71,7 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
   console.log("Form Data:", formData);
 
   const isHomeOrWork = [addressTypes.home, addressTypes.work].includes(
-    addressTypes[addressType]
+    addressTypes[modalType]
   );
 
   const handleSaveAddress = () => {
@@ -81,12 +81,8 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
       return;
     }
 
-    console.log("Saving address:", formData);
+    setOpenModal("");
 
-    setOpenModal(false);
-    // Reset form
-
-    // NOTE: Use React-hook-form
     setFormData({
       label: "home",
       address: undefined,
@@ -103,85 +99,18 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
     setShowMapPicker(false);
   };
 
-  const handleUseCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const coords = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-
-          const address = await reverseGeocode(coords.lat, coords.lng);
-
-          try {
-            const locationData: LocationData = {
-              // id: data.data.id,
-              lat: coords.lat,
-              lng: coords.lng,
-              address: address,
-            };
-
-            setFormData((prev) => ({ ...prev, address: locationData }));
-            // Call the Hive API for reverse geocoding
-            /* const response = await fetch(
-              `https://api.gohive.online/api/web/consumer/address/place-by-geocode?latlng=${coords.lat},${coords.lng}`,
-              {
-                headers: {
-                  "User-Agent": "NextJS-Map-App/1.0",
-                  Accept: "application/json",
-                },
-              }
-            );
-
-            console.log(">>>>> response", response);
-
-            if (response.ok) {
-              const data = await response.json();
-              if (data.status && data.data) {
-                const locationData: LocationData = {
-                  id: data.data.id,
-                  lat: data.data.lat,
-                  lng: data.data.lng,
-                  address: data.data.address,
-                };
-
-                setFormData((prev) => ({ ...prev, address: locationData }));
-              }
-            } else {
-              throw new Error("Failed to get address");
-            } */
-          } catch (error) {
-            console.error("Error getting address:", error);
-            // Fallback to coordinates
-            const fallbackLocation: LocationData = {
-              id: `current-${Date.now()}`,
-              lat: coords.lat,
-              lng: coords.lng,
-              address: `${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)}`,
-            };
-            setFormData((prev) => ({ ...prev, address: fallbackLocation }));
-          }
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          alert(
-            "Unable to get your current location. Please ensure location services are enabled."
-          );
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  };
-
   return (
     <>
-      <Dialog open={true} onOpenChange={setOpenModal}>
+      <Dialog
+        open={!!savedAddressType}
+        onOpenChange={(open) =>
+          setSavedAddressModal(open ? savedAddressType : "")
+        }
+      >
         <DialogContent className="w-full max-w-sm max-h-[90vh] p-0 overflow-hidden">
           <DialogHeader className="hidden">
             <DialogTitle className="hidden" aria-readonly>
-              {`Add ${addressTypes[addressType]} Address`}
+              {`Add ${addressTypes[modalType]} Address`}
             </DialogTitle>
             <DialogDescription className="hidden" aria-readonly>
               Add a new address for delivery
@@ -191,12 +120,12 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
           {/* Modal Header */}
           <div className="flex items-center justify-between p-4 border-b">
             <h3 className="text-lg font-semibold">
-              {`Add ${addressTypes[addressType]} Address`}
+              {`Add ${addressTypes[modalType]} Address`}
             </h3>
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setOpenModal(false)}
+              onClick={() => setOpenModal("")}
               className="h-8 w-8"
             >
               <X className="h-4 w-4" />
@@ -204,94 +133,34 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
           </div>
 
           {/* Modal Content */}
-          <div className="p-4 space-y-4 max-h-[calc(90vh-120px)] overflow-y-auto">
-            {/* Address Label */}
-            <Input
-              id="label"
-              value={isHomeOrWork ? addressType : ""}
-              onChange={(e) => handleInputChange("label", e.target.value)}
-              className={cn("py-6 rounded-2xl", isHomeOrWork ? "hidden" : "")}
-              placeholder={"Add address name"}
-            />
+          <div className="space-y-4 max-h-[calc(90vh-120px)] overflow-y-auto">
+            <div className="px-4 space-y-3">
+              <Input
+                id="label"
+                value={isHomeOrWork ? modalType : ""}
+                onChange={(e) => handleInputChange("label", e.target.value)}
+                className={cn(
+                  "rounded-2xl p-4 h-14",
+                  isHomeOrWork ? "hidden" : ""
+                )}
+                placeholder={"Add address name"}
+              />
 
-            <div className="">
-              <h3 className="text-base font-bold mb-3">Choose Address</h3>
+              <SearchAddress className="space-y-3" />
 
-              {/* Address Dropdown */}
-              <div className="relative mb-4">
-                <button
-                  onClick={() => setShowMapPicker(true)}
-                  className="w-full flex items-center gap-3 px-3 py-2 border border-gray-200 rounded-full bg-secondary hover:bg-gray-50 transition-colors cursor-pointer"
-                >
-                  <MapPin className="h-5 w-5 text-primary" />
-                  <span className="text-gray-500 flex-1 text-left">
-                    {formData.address ? "Change address" : "Enter address"}
-                  </span>
-                  <ChevronDown className="h-5 w-5 text-gray-500" />
-                </button>
-              </div>
-
-              <div>
-                <div
-                  onClick={() => setShowMapPicker(true)}
-                  className="h-21 bg-gray-100 rounded-t-lg overflow-hidden cursor-pointer"
-                >
-                  <MapViewOnlyInner
-                    center={
-                      formData.address
-                        ? {
-                            lat: formData.address.lat,
-                            lng: formData.address.lng,
-                          }
-                        : DEFAULT_LAT_LNG
-                    }
-                  />
-                  <div
-                    className="cursor-pointer relative"
-                    onClick={() => setShowMapPicker(true)}
-                  >
-                    <MapViewOnlyInner
-                      center={
-                        formData.address
-                          ? {
-                              lat: formData.address.lat,
-                              lng: formData.address.lng,
-                            }
-                          : DEFAULT_LAT_LNG
-                      }
-                    />
-                  </div>
-                </div>
-                {/* Selected Location Description */}
-                <div className="bottom-0 left-0 right-0 bg-white shadow-md rounded-b-lg overflow-hidden cursor-pointer">
-                  <div className="flex items-center gap-x-2 p-2">
-                    <MapPin className="text-gray-500 h-6 w-6 flex-shrink-0" />
-                    <div className="min-w-0 flex-1">
-                      <h4 className="font-semibold truncate">
-                        {formData.address
-                          ? formData.address.address.split(",")[0]
-                          : "Keystone Building"}
-                      </h4>
-                      <p className="text-sm text-gray-500 truncate">
-                        {formData.address
-                          ? formData.address.address
-                          : "Phnom Penh"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Use Current Location */}
-              <button
-                onClick={handleUseCurrentLocation}
-                className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group cursor-pointer"
+              <div
+                onClick={() => setShowMapPicker(true)}
+                className="h-44 bg-gray-100 rounded-lg mb-2 border-secondary border-1 cursor-pointer"
               >
-                <CurrentLocationIcon className="h-5 w-5 text-primary" />
-                <span className="text-primary font-semibold">
-                  Use Current Location
-                </span>
-              </button>
+                <StaticMapImage
+                  lat={DEFAULT_LAT_LNG.lat}
+                  lng={DEFAULT_LAT_LNG.lng}
+                  address={DEFAULT_ADDRESS}
+                  addressLength={30}
+                />
+              </div>
+
+              <UseCurrentLocation />
             </div>
           </div>
 

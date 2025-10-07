@@ -6,14 +6,14 @@ interface DraggableGoogleMapProps {
   center: { lat: number; lng: number };
   zoom?: number;
   onMapMove?: (lat: number, lng: number) => void;
-  apiKey: string;
+  apiKey?: string;
 }
 
 export default function DraggableGoogleMap({
   center,
   zoom = 16,
+  apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_STATIC_KEY || "",
   onMapMove,
-  apiKey,
 }: DraggableGoogleMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const googleMapRef = useRef<google.maps.Map | null>(null);

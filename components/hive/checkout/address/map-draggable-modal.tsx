@@ -10,20 +10,23 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import CurrentLocationIcon from "@/components/icon/current-location";
 
-// Dynamically import map component to avoid SSR issues
-const MapComponent = dynamic(() => import("@/components/map-v2/MapComponent"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
-      <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-    </div>
-  ),
-});
+const DraggableGoogleMap = dynamic(
+  () => import("@/components/google-map/draggable-google-map"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
+        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
+      </div>
+    ),
+  }
+);
 
 interface LocationData {
   id: string;
@@ -157,7 +160,7 @@ export function MapLocationPicker({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full max-w-lg max-h-[90vh] p-0 overflow-hidden">
+      <DialogContent className="w-full max-w-lg max-h-[90vh] p-0 overflow-y-auto">
         <DialogHeader className="hidden">
           <DialogTitle className="hidden" aria-readonly>
             Select Location on Map
@@ -192,16 +195,12 @@ export function MapLocationPicker({
             </div>
           </div>
 
-          {/* Map Container */}
           <div className="relative">
             <div className="w-full h-80 rounded-lg overflow-hidden border border-gray-200">
-              <MapComponent
+              <DraggableGoogleMap
                 center={mapCenter}
-                selectedAddress={null}
                 zoom={16}
-                showDropPin={true}
                 onMapMove={handleMapMove}
-                allowProgrammaticUpdate={false}
               />
             </div>
 
@@ -239,13 +238,6 @@ export function MapLocationPicker({
               <p className="text-sm text-gray-600 break-words">
                 {currentLocation.address}
               </p>
-
-              {/* DEBUG */}
-              {/* <div className="text-xs text-gray-500">
-                <p>Lat: {currentLocation.lat.toFixed(6)}</p>
-                <p>Lng: {currentLocation.lng.toFixed(6)}</p>
-                <p>ID: {currentLocation.id}</p>
-              </div> */}
             </div>
           )}
 
@@ -256,9 +248,7 @@ export function MapLocationPicker({
             </div>
           )}
         </div>
-
-        {/* Modal Footer */}
-        <div className="flex justify-between gap-3 p-4 border-t">
+        <DialogFooter className="flex justify-between gap-3 p-4 border-t">
           <Button onClick={onClose} variant="outline" className="flex-1">
             Cancel
           </Button>
@@ -270,7 +260,7 @@ export function MapLocationPicker({
             <Check className="w-4 h-4 mr-2" />
             Confirm Location
           </Button>
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
