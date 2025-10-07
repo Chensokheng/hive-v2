@@ -67,9 +67,6 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
 
   const [showMapPicker, setShowMapPicker] = useState(false);
 
-  // NOTE: use the formData for /saved-location
-  console.log("Form Data:", formData);
-
   const isHomeOrWork = [addressTypes.home, addressTypes.work].includes(
     addressTypes[modalType]
   );

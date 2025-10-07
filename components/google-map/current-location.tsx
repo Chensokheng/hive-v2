@@ -67,8 +67,6 @@ export default function UseCurrentLocation() {
         await queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
         });
-
-        setOpenAddressSheet(false);
       } else {
         // Not logged in - update sessionStorage
         sessionStorage.setItem("address", locationAddress);
@@ -87,8 +85,6 @@ export default function UseCurrentLocation() {
         await queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
         });
-
-        setOpenAddressSheet(false);
       }
     } catch (error) {
       console.error("Error getting current location:", error);

@@ -63,7 +63,7 @@ export default function SearchAddress({ className }: { className?: string }) {
       });
       setSearch("");
       inputRef.current!.value = res.data.address;
-      setOpenAddressSheet(false);
+      // setOpenAddressSheet(false);
     } else {
       const searchParam = "?keyword=" + value + "&placeId=" + value.id;
 
@@ -84,7 +84,7 @@ export default function SearchAddress({ className }: { className?: string }) {
         queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
         });
-        setOpenAddressSheet(false);
+        // setOpenAddressSheet(false);
       }
     }
     setLoading(false);
