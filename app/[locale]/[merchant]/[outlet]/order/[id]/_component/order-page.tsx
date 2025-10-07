@@ -20,7 +20,7 @@ export default function OrderDetailsPage() {
     id: string;
   };
 
-  const { data, isLoading } = useGetOrderDetail(id, merchant, outlet);
+  const { data, isLoading } = useGetOrderDetail(id, outlet, merchant);
 
   if (!isLoading && !data?.status) {
     return (

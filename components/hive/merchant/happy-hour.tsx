@@ -150,7 +150,7 @@ export default function HappyHour() {
           />
 
           <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger className="outline-none">
               {" "}
               <div className="bg-primary py-2 px-3 rounded-full text-white font-medium flex items-center gap-2">
                 <Clock className="w-4 h-4" />
@@ -158,8 +158,8 @@ export default function HappyHour() {
                 <ChevronDown className="w-4 h-4" />
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="space-y-2">
-              {happyHourAvailableTimes?.data.map((item) => {
+            <DropdownMenuContent className="space-y-2  outline-none">
+              {happyHourAvailableTimes?.data.map((item, index) => {
                 return (
                   <DropdownMenuItem
                     key={item.id}
@@ -169,10 +169,10 @@ export default function HappyHour() {
                         "bg-primary/10 text-primary":
                           item.id === availableTimeId,
                       },
-                      "cursor-pointer text-center grid place-content-center font-medium"
+                      "cursor-pointer text-center font-medium"
                     )}
                   >
-                    {item.name}
+                    {item.name} {index !== 0 ? "| upcoming" : "| current"}
                   </DropdownMenuItem>
                 );
               })}
@@ -189,6 +189,9 @@ export default function HappyHour() {
                 )}
                 key={item.id}
                 onClick={() => {
+                  if (isUpcoming) {
+                    return;
+                  }
                   if (!user?.userId) {
                     document.getElementById("auth-trigger-dialog")?.click();
                     return;
@@ -227,12 +230,28 @@ export default function HappyHour() {
                       " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
                     )}
                   >
-                    <div
-                      className={cn(
-                        " h-9 w-9 grid place-content-center rounded-full"
-                      )}
-                    >
-                      <Plus className="text-primary" />
+                    {!isUpcoming && (
+                      <div
+                        className={cn(
+                          " h-9 w-9 grid place-content-center rounded-full"
+                        )}
+                      >
+                        <Plus className="text-primary" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="px-3 space-y-1 text-sm">
+                    <div className="h-1 w-full bg-gray-200 rounded-lg overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] rounded-lg transition-all duration-300"
+                        style={{
+                          width: `${Math.min(100, (item.usedQty / item.totalQty) * 100)}%`,
+                        }}
+                      ></div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span> {item.totalQty} items</span>
+                      <span> {item.totalQty - item.usedQty} item left</span>
                     </div>
                   </div>
 

@@ -101,9 +101,9 @@ export default function Page() {
                     "/" +
                     locale +
                     "/" +
-                    item.outlet.short_name +
-                    "/" +
                     item.outlet.merchant.sub_domain +
+                    "/" +
+                    item.outlet.short_name +
                     "/order/" +
                     item.id
                   }
