@@ -16,8 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import UseCurrentLocation from "@/components/google-map/current-location";
 import StaticMapImage from "@/components/google-map/static-google-map-image";
-import { MapLocationPicker } from "@/components/hive/checkout/address/map-draggable-modal";
 import SearchAddress from "@/components/map/search-address";
+
+import { MapLocationPicker } from "./map-draggable-modal";
 
 const addressTypes = {
   home: "Home",
@@ -26,8 +27,6 @@ const addressTypes = {
 };
 
 export type TAddressType = keyof typeof addressTypes;
-
-// FIXME: move to DTOs
 interface LocationData {
   id?: string;
   lat: number;
@@ -73,6 +72,7 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
 
   const handleSaveAddress = () => {
     // Validate that we have address data
+
     if (!formData.address) {
       alert("Please select a location on the map");
       return;
@@ -174,6 +174,9 @@ export function AddressModal({ addressType, setOpenModal }: AddressModalProps) {
         </DialogContent>
       </Dialog>
 
+      {/* NOTE-v1.2.2:
+      -  This is the pop-up
+       */}
       {/* Map Location Picker Dialog */}
       <MapLocationPicker
         isOpen={showMapPicker}

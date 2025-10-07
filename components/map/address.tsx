@@ -15,7 +15,7 @@ import {
 
 import UseCurrentLocation from "../google-map/current-location";
 import StaticMapImage from "../google-map/static-google-map-image";
-import { AddressModal } from "../hive/checkout/address/address-form-modal";
+import { AddressModal } from "./modal/address-form-modal";
 import SavedAddress from "./saved-address";
 import SearchAddress from "./search-address";
 
