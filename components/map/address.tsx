@@ -16,7 +16,7 @@ import {
 import UseCurrentLocation from "../google-map/current-location";
 import StaticMapImage from "../google-map/static-google-map-image";
 import { AddressModal } from "../hive/checkout/address/address-form-modal";
-import SavedAddress from "./saved-address/saved-address";
+import SavedAddress from "./saved-address";
 import SearchAddress from "./search-address";
 
 // NOTE: We need to use this default location to render the map
