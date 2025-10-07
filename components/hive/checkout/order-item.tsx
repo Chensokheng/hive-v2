@@ -42,7 +42,7 @@ export default function OrderItem({
     isRefetching,
   } = useGetHappyHours(
     Number(item.outletId),
-    happyHourAvailableTimes?.data[0].id!
+    happyHourAvailableTimes?.data[0]?.id!
   );
 
   const queryClient = useQueryClient();
