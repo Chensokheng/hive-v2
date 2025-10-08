@@ -2,6 +2,7 @@ import React, { useState, useTransition } from "react";
 import { useParams } from "next/navigation";
 import { applyPromoCode } from "@/services/apply-promo-code";
 import { useCheckoutStore } from "@/store/checkout";
+import { useOutletStore } from "@/store/outlet";
 import { AsyncImage } from "loadable-image";
 import { ChevronRight, Loader, X } from "lucide-react";
 import toast from "react-hot-toast";
@@ -47,7 +48,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
   );
 
   const isMobile = useIsMobile();
-
+  const isDelivery = useOutletStore((state) => state.isDelivery);
   const handleApplyCode = async (code: string, id: number) => {
     startTransition(async () => {
       const res = await applyPromoCode(
@@ -135,6 +136,10 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
           <div>
             <div className="space-y-3 mt-3">
               {promotionCodes?.data.map((item) => {
+                if (item.apply_for_delivery && !isDelivery) {
+                  return <span key={item.id}></span>;
+                }
+
                 return (
                   <div
                     className={cn(
@@ -169,6 +174,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
                         </p>
                       </div>
                     </div>
+
                     <button
                       className="text-primary text-sm font-semibold bg-[#0055DD1A] px-4 py-2 rounded-full cursor-pointer hover:scale-95 transition-all w-full lg:w-auto"
                       onClick={() => handleApplyCode(item.code, item.id)}

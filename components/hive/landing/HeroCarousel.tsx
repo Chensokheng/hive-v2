@@ -41,7 +41,7 @@ export default function HeroCarousel() {
       <div className="max-w-[1200px] mx-auto hidden lg:block p-2">
         <Carousel
           items={
-            data?.data.map((item) => ({
+            data?.data?.map((item) => ({
               id: item.id,
               image: getImageUrl(item.image),
               alt: item.title,

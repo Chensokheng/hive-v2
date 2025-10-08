@@ -56,8 +56,13 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
     (state) => state.setSelectedPromotionCode
   );
 
+  const pickupTime = useOutletStore((state) => state.pickupTime);
+
   const handleCheckout = () => {
     startTransition(async () => {
+      const validatedPickupTime =
+        pickupTime && new Date(pickupTime) < new Date() ? null : pickupTime;
+
       const res = await placeOrder({
         cartId: unpaidItem?.cartId!,
         userId: Number(user?.userId!),
@@ -68,6 +73,8 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
         token: user?.token || "",
         promotionCode: selectedPromotionCode.code,
         promotionId: selectedPromotionCode.id,
+        isSelfPickup: !isDelivery,
+        pickupTime: validatedPickupTime,
       });
       setSelectedPromotionCode({ code: "", id: -1, discoundAmount: 0 });
       // Clear notes after successful order
@@ -95,6 +102,16 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
 
       setOpenCheckoutSheet(false);
     });
+  };
+
+  const renderFinalPrice = () => {
+    let finalPrice =
+      unpaidItem?.finalTotal! - selectedPromotionCode.discoundAmount;
+
+    if (!isDelivery && unpaidItem?.shippingFee) {
+      finalPrice -= unpaidItem?.shippingFee;
+    }
+    return finalPrice;
   };
 
   return (
@@ -164,14 +181,11 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
             <h1 className="text-primary text-[1.375rem] font-bold">Total: </h1>
             <div className="flex flex-col justify-end">
               <h1 className=" font-bold text-right bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent text-[1.375rem]">
-                $
-                {(
-                  unpaidItem?.finalTotal! - selectedPromotionCode.discoundAmount
-                ).toFixed(2)}
+                ${renderFinalPrice().toFixed(2)}
               </h1>
               <p className=" text-[#161F2F]">
                 {" "}
-                ≈{((unpaidItem?.finalTotal || 0) * (rate || 0)).toFixed(2)}៛
+                ≈{renderFinalPrice() * (rate || 0)}៛
               </p>
             </div>
           </div>

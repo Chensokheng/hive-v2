@@ -273,7 +273,7 @@ export default function EditMenuCartItem() {
                 $ {basePrice}
               </span>
               <span className="text-xs font-medium text-[#363F4F]/60">
-                ≈{((menuAddOn?.price || 0) * (rate || 0)).toFixed(2)}៛
+                ≈{(menuAddOn?.price || 0) * (rate || 0)}៛
               </span>
             </div>
             <p className="text-sm text-[#303D55]/60">
@@ -355,7 +355,7 @@ export default function EditMenuCartItem() {
                   : `Update - $${totalPrice.toFixed(2)}`}{" "}
                 {areRequiredAddonsSelected && (
                   <span className="text-xs font-medium">
-                    ≈{(totalPrice * (rate || 0)).toFixed(2)}៛
+                    ≈{totalPrice * (rate || 0)}៛
                   </span>
                 )}
               </button>

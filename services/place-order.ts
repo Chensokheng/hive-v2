@@ -9,6 +9,8 @@ export default async function placeOrder(params: {
   token: string;
   promotionCode?: string;
   promotionId?: number;
+  isSelfPickup?: boolean;
+  pickupTime?: number | null;
 }) {
   const api =
     process.env.NEXT_PUBLIC_HIVE_BASE_API +
@@ -37,6 +39,8 @@ export default async function placeOrder(params: {
       password: "",
       code: params.promotionCode || null,
       promotion_code_id: params.promotionId !== -1 ? params.promotionId : null,
+      is_self_pickup: params.isSelfPickup || false,
+      pickup_time: params.pickupTime || null,
     }),
   });
 

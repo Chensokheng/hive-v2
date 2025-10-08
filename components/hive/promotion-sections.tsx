@@ -202,7 +202,7 @@ export default function PromotionSections() {
         hidden: searchMerchantKeyword || filterMerchantCategoryId,
       })}
     >
-      {data?.data.map((promotion, index) => {
+      {data?.data?.map((promotion, index) => {
         return (
           <PromotionSection
             {...{

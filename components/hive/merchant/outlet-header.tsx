@@ -47,11 +47,15 @@ export default function OutletHeader() {
     };
   }, []);
 
+  if (!isLoading && !data?.status) {
+    return <h1>Outlet Not Found</h1>;
+  }
+
   return (
     <div className="bg-white md:rounded-2xl overflow-hidden border w-full">
       <OutletBanner outletId={data?.data?.id!} />
       <AsyncImage
-        src={getImageUrl(data?.data?.outlet_images[0].image_name || "")}
+        src={getImageUrl(data?.data?.outlet_images?.[0]?.image_name || "")}
         Transition={Blur}
         style={{ width: 80, height: 80, borderRadius: 10000 }}
         loader={<div className="bg-gray-300" />}

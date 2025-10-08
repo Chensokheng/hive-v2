@@ -4,7 +4,9 @@ import { getImageUrl } from "@/lib/utils";
 
 export const getMerchantInfo = async (merchantName: string) => {
   const res = await fetch(
-    process.env.NEXT_PUBLIC_BASE_API + "/merchants/sub-domain/" + merchantName
+    process.env.NEXT_PUBLIC_HIVE_BASE_API +
+      "/api/web/consumer/giaodoan/merchants/sub-domain/" +
+      merchantName
   );
 
   const merchant = (await res.json()) as MerchantInfoResponse;

@@ -35,5 +35,10 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
-[ ] my order
-[ ] track order
+[x] happy hour render
+[x] happy hour order
+[ ] happy hour edit and order item edit
+[ ] display happy our item and flash sale
+
+[ ] self-pick up
+[ ] payment

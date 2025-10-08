@@ -138,7 +138,7 @@ export default function Page() {
                     <div className="text-right">
                       <h1 className="font-bold">${item.final_total}</h1>
                       <p className="text-[#363F4F99] text-sm">
-                        ≈{(item.final_total * (rate ? rate : 0)).toFixed(2)}៛
+                        ≈{item.final_total * (rate ? rate : 0)}៛
                       </p>
                     </div>
                   </div>

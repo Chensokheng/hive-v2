@@ -27,16 +27,16 @@ export default async function getUserInfo() {
   const user = (await res.json()) as UserProfile;
 
   return {
-    userId: user.data.id,
-    userName: user.data.fullName,
-    voucher: user.data.totalVouchers,
-    stamps: user.data.totalVouchers,
-    tmRewardBalance: user.data.savyu_balance,
+    userId: user.data?.id,
+    userName: user.data?.fullName,
+    voucher: user.data?.totalVouchers,
+    stamps: user.data?.totalVouchers,
+    tmRewardBalance: user.data?.savyu_balance,
     token,
     latitude: user.data?.user_infos[0]?.place_lat,
     longtitude: user.data?.user_infos[0]?.place_long,
     hasPassword: user.data?.hasPassword,
-    placeAddress: user.data.user_infos[0]?.place_address,
-    phone: user.data.phone,
+    placeAddress: user.data?.user_infos[0]?.place_address,
+    phone: user.data?.phone,
   };
 }

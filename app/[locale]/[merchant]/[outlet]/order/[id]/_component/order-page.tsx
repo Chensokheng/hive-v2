@@ -138,7 +138,7 @@ export default function OrderDetailsPage() {
                     </span>
                   </div>
                   <p className="text-sm text-[#303D55]/60">
-                    ≈{(item.final_price * 4000).toFixed(2)}៛
+                    ≈{item.final_price * 4000}៛
                   </p>
                 </div>
               </div>

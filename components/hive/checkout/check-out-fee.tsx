@@ -1,5 +1,6 @@
 import React from "react";
 import { useCheckoutStore } from "@/store/checkout";
+import { useOutletStore } from "@/store/outlet";
 
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -19,6 +20,8 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
     0
   );
 
+  const isDelivery = useOutletStore((state) => state.isDelivery);
+
   return (
     <div className="px-5 space-y-4 pb-2">
       <h1 className="text-[#161F2F] font-bold">Summary</h1>
@@ -33,17 +36,20 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
           ${unpaidItem?.subtotal}
         </span>
       </div>
-      <div className="flex items-center justify-between pl-2">
-        <div className="space-x-2">
-          <span className="text-[#303D5599]">Delivery Fee:</span>
+      {isDelivery && (
+        <div className="flex items-center justify-between pl-2">
+          <div className="space-x-2">
+            <span className="text-[#303D5599]">Delivery Fee:</span>
+            <span className="font-semibold text-[#161F2F]">
+              {unpaidItem?.distance || 0} km
+            </span>
+          </div>
           <span className="font-semibold text-[#161F2F]">
-            {unpaidItem?.distance || 0} km
+            ${unpaidItem?.shippingFee}
           </span>
         </div>
-        <span className="font-semibold text-[#161F2F]">
-          ${unpaidItem?.shippingFee}
-        </span>
-      </div>
+      )}
+
       <div className="flex items-center justify-between pl-2">
         <div className="space-x-2">
           <span className="text-[#303D5599]">Vat:</span>
@@ -52,6 +58,7 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
           ${unpaidItem?.totalVat}
         </span>
       </div>
+
       {(selectedPromotionCode.discoundAmount || cardDiscount) !== 0 && (
         <div className="flex items-center justify-between pl-2">
           <div className="space-x-2">

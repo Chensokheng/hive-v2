@@ -20,6 +20,7 @@ interface OutletStoreState {
   selectOutletId: number | null;
   openCheckoutSheet: boolean;
   isDelivery: boolean;
+  pickupTime: number | null;
   checkoutUserTemInfo: {
     name: string;
     phoneNumber: string;
@@ -42,6 +43,7 @@ interface OutletStoreState {
     happyHourAvailableTimeId?: number | null;
   } | null;
   setSearchMenu: (value: string) => void;
+  setPickupTime: (value: number | null) => void;
 
   setIsDelivery: (value: boolean) => void;
   setOpenCheckoutSheet: (value: boolean) => void;
@@ -98,12 +100,14 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
   selectOutletId: null,
   openCheckoutSheet: false,
   isDelivery: true,
+  pickupTime: null,
   editCartItemSheetOpen: false,
   editCartItemData: null,
   searchMenu: "",
   setSearchMenu: (value) => set(() => ({ searchMenu: value })),
   setOutletOpen: (value) => set(() => ({ isOpen: value })),
   setIsDelivery: (value) => set(() => ({ isDelivery: value })),
+  setPickupTime: (value) => set(() => ({ pickupTime: value })),
   setOpenCheckoutSheet: (value) => set(() => ({ openCheckoutSheet: value })),
   setCategoryId: (value) => set(() => ({ categoryId: value })),
   setOpenMenuSheet: (value) => set(() => ({ openMenuSheet: value })),
