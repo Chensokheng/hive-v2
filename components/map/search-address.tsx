@@ -18,15 +18,11 @@ import MapIcon from "../icon/map";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
-export default function SearchAddress() {
+export default function SearchAddress({ className }: { className?: string }) {
   const [isLoading, setLoading] = useState(false);
   const { merchant } = useParams() as { merchant: string };
 
   const setUnAuthAddress = useAddresStore((state) => state.setUnAuthAddress);
-  const setOpenAddressSheet = useAddresStore(
-    (state) => state.setOpenAddressSheet
-  );
-
   const [search, setSearch] = useState("");
   const { data, isFetching } = useGetAddressByKeyword(search);
   const { data: user } = useGetUserInfo();
@@ -42,7 +38,7 @@ export default function SearchAddress() {
   const [animationParent] = useAutoAnimate();
   const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
-  const sessoinsLocation = sessionStorage.getItem("address");
+  const sessionsLocation = sessionStorage.getItem("address");
 
   const handleSelectAddress = async (value: {
     id: string;
@@ -64,7 +60,7 @@ export default function SearchAddress() {
       });
       setSearch("");
       inputRef.current!.value = res.data.address;
-      setOpenAddressSheet(false);
+      // setOpenAddressSheet(false);
     } else {
       const searchParam = "?keyword=" + value + "&placeId=" + value.id;
 
@@ -85,14 +81,14 @@ export default function SearchAddress() {
         queryClient.invalidateQueries({
           queryKey: ["merchant-outlets", merchant],
         });
-        setOpenAddressSheet(false);
+        // setOpenAddressSheet(false);
       }
     }
     setLoading(false);
   };
 
   return (
-    <div className="p-4 space-y-3">
+    <div className={className}>
       <Label className="font-bold text-base">{"Choose Address"}</Label>
 
       <div className="relative">
@@ -101,7 +97,8 @@ export default function SearchAddress() {
         </div>
 
         <Input
-          defaultValue={user?.placeAddress || sessoinsLocation || ""}
+          key={user?.placeAddress || sessionsLocation} // Force re-mount when address changes
+          defaultValue={user?.placeAddress || sessionsLocation || ""}
           ref={inputRef}
           className=" rounded-full bg-[#EBEFF7] h-10 border-none pl-10 w-full pr-10"
           tabIndex={-1}
@@ -114,7 +111,7 @@ export default function SearchAddress() {
           </div>
         )}
 
-        {(user?.placeAddress || sessoinsLocation) &&
+        {(user?.placeAddress || sessionsLocation) &&
           !isLoading &&
           !isFetching && (
             <button
@@ -131,7 +128,7 @@ export default function SearchAddress() {
 
         <div
           className={cn(
-            "absolute mt-2 -bottom-auto right-0 h-auto w-full rounded-xl bg-white  transition-all duration-300 divide-y",
+            "absolute mt-2 -bottom-auto right-0 h-auto w-full rounded-xl bg-white  transition-all duration-300 divide-y z-10",
             {
               "border  ": data?.data.length,
             }
