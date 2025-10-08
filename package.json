@@ -57,6 +57,7 @@
     "@ianvs/prettier-plugin-sort-imports": "^4.6.1",
     "@tailwindcss/postcss": "^4",
     "@tanstack/react-query-devtools": "^5.85.0",
+    "@types/google.maps": "^3.58.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -135,6 +135,9 @@ importers:
       '@tanstack/react-query-devtools':
         specifier: ^5.85.0
         version: 5.85.0(@tanstack/react-query@5.85.0(react@19.1.0))(react@19.1.0)
+      '@types/google.maps':
+        specifier: ^3.58.1
+        version: 3.58.1
       '@types/node':
         specifier: ^20
         version: 20.19.9
