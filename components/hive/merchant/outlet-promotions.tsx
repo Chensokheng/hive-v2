@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import useGetOrderPromotionCampaign from "@/hooks/use-get-order-promotion-campaign";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
 import useGetOutletPromotions from "@/hooks/use-get-outlet-promotions";
 import { Skeleton } from "@/components/ui/skeleton";
 
+import OrderPromotionCard from "./order-promotion-card";
 import PromotionDetailsModal from "./promotion-details-modal";
 import SetPromotionCard from "./set-promotion-card";
 
@@ -23,6 +25,9 @@ export default function OutletPromotions() {
   const { data, isLoading } = useGetOutletPromotions(
     Number(outletInfo?.data.id)
   );
+
+  const { data: orderPromotionData, isLoading: isOrderPromotionLoading } =
+    useGetOrderPromotionCampaign(Number(outletInfo?.data.id));
 
   const [selectedPromotion, setSelectedPromotion] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -57,7 +62,7 @@ export default function OutletPromotions() {
     setIsModalOpen(true);
   };
 
-  if (isLoading || isOutletLoading) {
+  if (isLoading || isOutletLoading || isOrderPromotionLoading) {
     return (
       <div className="px-4 space-y-5 mt-5">
         <Skeleton className=" h-10 w-30 bg-gray-300" />
@@ -68,18 +73,23 @@ export default function OutletPromotions() {
     );
   }
 
-  if (!data?.data || data?.data.length === 0) {
+  const filteredPromotions =
+    data?.data?.filter(
+      (promotion) =>
+        promotion.type === "COMBO" || promotion.type === "BUY_GET_FREE"
+    ) || [];
+
+  const orderPromotionCampaigns = orderPromotionData?.status
+    ? orderPromotionData.data || []
+    : [];
+
+  // Show nothing if there are no promotions at all
+  if (filteredPromotions.length === 0 && orderPromotionCampaigns.length === 0) {
     return <></>;
   }
 
-  const filteredPromotions = data?.data.filter(
-    (promotion) =>
-      promotion.type === "COMBO" || promotion.type === "BUY_GET_FREE"
-  );
-
-  if (filteredPromotions.length === 0) {
-    return <></>;
-  }
+  const totalPromotions =
+    filteredPromotions.length + orderPromotionCampaigns.length;
 
   return (
     <>
@@ -91,7 +101,7 @@ export default function OutletPromotions() {
               Special Promotions
             </span>
           </h2>
-          {filteredPromotions.length > 2 && (
+          {totalPromotions > 2 && (
             <div className="flex items-center gap-2 ">
               <ChevronLeft
                 className="cursor-pointer hover:text-blue-600 transition-colors"
@@ -109,6 +119,28 @@ export default function OutletPromotions() {
           className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 px-2"
           id="outlet-promotions-container"
         >
+          {/* Order Promotion Campaign Cards */}
+          {orderPromotionCampaigns.map((campaign) => {
+            const discountedProduct = campaign.discounted_products?.[0];
+            if (!discountedProduct) return null;
+
+            return (
+              <OrderPromotionCard
+                key={`order-promo-${campaign.id}`}
+                id={campaign.id}
+                title={campaign.name_en || campaign.name}
+                description={campaign.description_en || campaign.description}
+                image={discountedProduct.menu_item.thumbnail_image_name}
+                minBillAmount={campaign.min_bill_amount}
+                freeItemName={discountedProduct.menu_item.name}
+                freeItemPrice={discountedProduct.menu_item.base_price}
+                quantity={discountedProduct.qty_per_usage}
+                expiryTime={campaign.end_date || ""}
+              />
+            );
+          })}
+
+          {/* Regular Promotions (COMBO and BUY_GET_FREE) */}
           {filteredPromotions.map((promotion) => {
             return (
               <SetPromotionCard

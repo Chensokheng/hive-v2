@@ -1716,3 +1716,42 @@ export type PromotionResponse = {
     }[];
   }[];
 };
+
+export type OrderPromotionCampaign = {
+  status: boolean;
+  data: {
+    id: number;
+    name: string;
+    name_en: string;
+    description: string;
+    description_en: string;
+    merchant_id: number;
+    min_bill_amount: number;
+    max_usage_per_user: number | null;
+    start_date: string;
+    end_date: string;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+    status: string;
+    discounted_products: {
+      id: number;
+      itemCd: string;
+      selling_price: number;
+      qty_per_usage: number;
+      usage_limit: number;
+      total_used: number;
+      order_promotion_campaign_id: number;
+      created_at: string;
+      updated_at: string;
+      deleted_at: string | null;
+      menu_item: {
+        name: string;
+        description: string;
+        base_price: number;
+        thumbnail_image_name: string;
+        promotion_price: number;
+      };
+    }[];
+  }[];
+};
