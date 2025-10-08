@@ -5,6 +5,7 @@ import { useAddresStore } from "@/store/address";
 import { ChevronLeft } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Sheet,
   SheetContent,
@@ -13,10 +14,10 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 
-import UseCurrentLocation from "../google-map/current-location";
 import StaticMapImage from "../google-map/static-google-map-image";
-import { AddressModal } from "./modal/address-form-modal";
-import SavedAddress from "./saved-address";
+import UseCurrentLocation from "./current-location";
+import AddressModal from "./saved-address/address-form-modal";
+import SavedAddress from "./saved-address/saved-address";
 import SearchAddress from "./search-address";
 
 // NOTE: We need to use this default location to render the map
@@ -24,7 +25,9 @@ const DEFAULT_LAT_LNG = { lat: 11.550966450309836, lng: 104.9287729533798 }; // 
 const DEFAULT_ADDRESS = "146 Norodom Blvd, Phnom Penh, Cambodia";
 
 export default function Address() {
+  const isMobile = useIsMobile();
   const { data: user } = useGetUserInfo();
+
   const openAddresSheet = useAddresStore((state) => state.openAddresSheet);
   const setOpenAddresSheet = useAddresStore(
     (state) => state.setOpenAddressSheet
@@ -83,10 +86,10 @@ export default function Address() {
           <SheetTitle>Config Address</SheetTitle>
           <SheetDescription>User set address</SheetDescription>
         </SheetHeader>
-        <div className="w-full">
+        <div className="w-full overflow-y-auto">
           {/* header */}
           <div
-            className="flex items-center p-4 lg:p-6  cursor-pointer border-b"
+            className="flex items-center p-4 lg:p-6 cursor-pointer border-b"
             onClick={() => setOpenAddresSheet(false)}
           >
             <ChevronLeft className="text-primary w-8 h-8 cursor-pointer" />
@@ -101,6 +104,7 @@ export default function Address() {
               lat={currentMapData.lat}
               lng={currentMapData.lng}
               address={currentMapData.address}
+              addressLength={isMobile ? 30 : 50}
             />
 
             <UseCurrentLocation />

@@ -23,9 +23,6 @@ export default function SearchAddress({ className }: { className?: string }) {
   const { merchant } = useParams() as { merchant: string };
 
   const setUnAuthAddress = useAddresStore((state) => state.setUnAuthAddress);
-  const setOpenAddressSheet = useAddresStore(
-    (state) => state.setOpenAddressSheet
-  );
   const [search, setSearch] = useState("");
   const { data, isFetching } = useGetAddressByKeyword(search);
   const { data: user } = useGetUserInfo();
