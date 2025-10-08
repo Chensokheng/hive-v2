@@ -10,9 +10,11 @@ import TruckIcon from "@/components/icon/truck";
 export default function OrderProgress({
   status,
   cancelReason,
+  isSelfPickup,
 }: {
   status: string;
   cancelReason: string;
+  isSelfPickup: boolean;
 }) {
   // Map status to display text
   const getStatusDisplay = (status: string) => {
@@ -25,7 +27,7 @@ export default function OrderProgress({
       case "picked_up":
         return "Delivery in progress";
       case "completed":
-        return "Delivered";
+        return isSelfPickup ? "Ready to Pick Up" : "Delivered";
       case "canceled":
         return "Merchant Canceled";
       default:
@@ -34,7 +36,9 @@ export default function OrderProgress({
   };
 
   // Define the order flow
-  const statusOrder = ["new", "processing", "picked_up", "completed"];
+  const statusOrder = isSelfPickup
+    ? ["new", "processing", "picked_up", "completed"]
+    : ["new", "processing", "completed"];
 
   // Normalize status for flow tracking
   const normalizedStatus =
@@ -86,6 +90,7 @@ export default function OrderProgress({
       <div className="flex items-center justify-between px-4 pb-4">
         {progressSteps.map((step, index) => {
           const IconComponent = step.icon;
+          if (isSelfPickup && index === 2) return null;
           return (
             <React.Fragment key={index}>
               <div className="flex flex-col items-center">

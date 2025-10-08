@@ -41,3 +41,7 @@ export const renderStatus = (status: string) => {
       return status;
   }
 };
+
+export const getGoogleMapLocation = (lat: number, long: number) => {
+  return `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
+};

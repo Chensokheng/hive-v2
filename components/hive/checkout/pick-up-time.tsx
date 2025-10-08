@@ -98,7 +98,7 @@ export default function PickUpTime({
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
                   disabled={selectedOption !== "specific"}
-                  className="disabled:cursor-not-allowed"
+                  className="disabled:cursor-not-allowed bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
               </div>
               <div className="flex flex-col gap-3 flex-1">
@@ -112,7 +112,7 @@ export default function PickUpTime({
                   value={selectedTime}
                   onChange={(e) => setSelectedTime(e.target.value)}
                   disabled={selectedOption !== "specific"}
-                  className="disabled:cursor-not-allowed"
+                  className="disabled:cursor-not-allowed bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
               </div>
             </div>

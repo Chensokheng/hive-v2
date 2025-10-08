@@ -6,9 +6,10 @@ import { useParams } from "next/navigation";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
-import { getImageUrl } from "@/lib/utils";
+import { getGoogleMapLocation, getImageUrl } from "@/lib/utils";
 import useGetOrderDetail from "@/hooks/use-get-order-detail";
 import OrderAddonDetail from "@/components/hive/checkout/order-addon-detail";
+import MapIcon from "@/components/icon/map";
 import RefreshIcon from "@/components/icon/refresh";
 
 import OrderProgress from "./order-progress";
@@ -49,6 +50,7 @@ export default function OrderDetailsPage() {
           <OrderProgress
             status={data?.data.status || ""}
             cancelReason={data?.data.cancel_reason || ""}
+            isSelfPickup={data?.data.type === "delivery_self_pickup"}
           />
 
           {/* Order Information */}
@@ -72,13 +74,44 @@ export default function OrderDetailsPage() {
                 <span className="text-[#303D55]/60">Phone Number:</span>
                 <span className="text-[#161F2F]">{data?.data.phone}</span>
               </div>
+              {data?.data.type !== "delivery_self_pickup" && (
+                <div className="flex justify-between items-start">
+                  <span className="text-[#303D55]/60">Address:</span>
+                  <span className="text-[#161F2F] text-right ">
+                    {data?.data.location.address}
+                  </span>
+                </div>
+              )}
+              {/* {"hello"} */}
 
-              <div className="flex justify-between items-start">
-                <span className="text-[#303D55]/60">Address:</span>
-                <span className="text-[#161F2F] text-right ">
-                  {data?.data.location.address}
-                </span>
-              </div>
+              {data?.data.type === "delivery_self_pickup" && (
+                <div className="flex justify-between items-start">
+                  <span className="text-[#303555]/60">Pickup Time:</span>
+                  <span className="text-[#161F2F] text-right ">
+                    {data?.data.pickUpTime
+                      ? new Date(data?.data.pickUpTime).toLocaleString()
+                      : "As soon as possible"}
+                  </span>
+                </div>
+              )}
+
+              {data?.data.type === "delivery_self_pickup" && (
+                <div className="flex justify-between items-start">
+                  <span className="text-[#303555]/60">Pickup Location:</span>
+                  <span className="text-[#161F2F] text-right ">
+                    <Link
+                      href={getGoogleMapLocation(
+                        data?.data.location.lat,
+                        data?.data.location.long
+                      )}
+                      target="_blank"
+                      className="underline flex gap-2"
+                    >
+                      <MapIcon /> Map
+                    </Link>
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
