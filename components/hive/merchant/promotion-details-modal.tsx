@@ -189,7 +189,7 @@ export default function PromotionDetailsSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="h-screen overflow-y-auto px-4 w-full max-w-md pb-5"
+        className="h-screen overflow-y-auto px-4 w-full max-w-md pb-14"
       >
         <SheetHeader>
           <SheetTitle className="text-xl font-bold flex items-center gap-2">
