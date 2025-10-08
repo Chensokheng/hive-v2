@@ -1,9 +1,21 @@
 "use client";
 
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { updateDeliveryAddress } from "@/services/address/update-delivery-address";
 import { useAddresStore } from "@/store/address";
 import { useSavedLocationStore } from "@/store/saved-address";
-import { BriefcaseBusiness, Home, MapPin, Pencil, Plus } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  BriefcaseBusiness,
+  Home,
+  Loader,
+  MapPin,
+  Pencil,
+  Plus,
+} from "lucide-react";
 
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import useSavedLocations from "@/hooks/use-saved-locations";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -17,6 +29,10 @@ const addressTypes = {
 export type TAddressType = keyof typeof addressTypes;
 
 export default function SavedAddress() {
+  const { merchant } = useParams() as { merchant: string };
+  const queryClient = useQueryClient();
+  const { data: user } = useGetUserInfo();
+
   const setSavedAddressModal = useAddresStore(
     (state) => state.setSavedAddressModal
   );
@@ -25,21 +41,70 @@ export default function SavedAddress() {
   );
 
   const { savedLocations, isLoading } = useSavedLocations();
+  const [selectingLocationId, setSelectingLocationId] = useState<number | null>(
+    null
+  );
 
   // Get locations by type
   const homeLocation = savedLocations.find((loc) => loc.type === "HOME");
   const workLocation = savedLocations.find((loc) => loc.type === "WORK");
   const otherLocations = savedLocations.filter((loc) => loc.type === "OTHER");
 
-  const handleAddOrEdit = (
-    type: TAddressType,
-    location?: (typeof savedLocations)[0]
+  // Handle selecting a saved address to use as delivery address
+  const handleSelectAddress = async (
+    location: (typeof savedLocations)[0],
+    e: React.MouseEvent
   ) => {
-    if (location) {
-      setEditingLocation(location);
-    } else {
-      setEditingLocation(null);
+    e.stopPropagation(); // Prevent event bubbling
+
+    if (!user?.userId || !user?.token) {
+      alert("Please login to use saved addresses");
+      return;
     }
+
+    setSelectingLocationId(location.id);
+
+    try {
+      // Update user's delivery address to this saved location
+      await updateDeliveryAddress({
+        userId: Number(user.userId),
+        placeId: location.place_id,
+        token: user.token,
+      });
+
+      // Refresh user data and outlets
+      await queryClient.invalidateQueries({ queryKey: ["user-info"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["merchant-outlets", merchant],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["outlet-menu-nearby"],
+      });
+
+      // Close the address sheet
+      // setOpenAddressSheet(false);
+    } catch (error) {
+      console.error("Error selecting saved address:", error);
+      alert("Failed to select address. Please try again.");
+    } finally {
+      setSelectingLocationId(null);
+    }
+  };
+
+  // Handle editing a saved address
+  const handleEditAddress = (
+    type: TAddressType,
+    location: (typeof savedLocations)[0],
+    e: React.MouseEvent
+  ) => {
+    e.stopPropagation(); // Prevent triggering handleSelectAddress
+    setEditingLocation(location);
+    setSavedAddressModal(type);
+  };
+
+  // Handle adding a new address
+  const handleAddAddress = (type: TAddressType) => {
+    setEditingLocation(null);
     setSavedAddressModal(type);
   };
 
@@ -64,11 +129,16 @@ export default function SavedAddress() {
         {/* Home Address */}
         {homeLocation ? (
           <button
-            onClick={() => handleAddOrEdit("home", homeLocation)}
-            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left"
+            onClick={(e) => handleSelectAddress(homeLocation, e)}
+            disabled={selectingLocationId === homeLocation.id}
+            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <div className="flex items-center gap-3 flex-1">
-              <Home className="h-4 w-4 text-primary" strokeWidth={2.5} />
+              {selectingLocationId === homeLocation.id ? (
+                <Loader className="h-4 w-4 text-primary animate-spin" />
+              ) : (
+                <Home className="h-4 w-4 text-primary" strokeWidth={2.5} />
+              )}
               <div className="flex-1">
                 <p className="text-gray-400 font-semibold text-xs mb-1">
                   Home Address
@@ -78,11 +148,17 @@ export default function SavedAddress() {
                 </p>
               </div>
             </div>
-            <Pencil className="h-4 w-4 text-primary" />
+            <button
+              onClick={(e) => handleEditAddress("home", homeLocation, e)}
+              className="p-2 hover:bg-primary/20 rounded-full transition-colors"
+              disabled={selectingLocationId === homeLocation.id}
+            >
+              <Pencil className="h-4 w-4 text-primary" />
+            </button>
           </button>
         ) : (
           <button
-            onClick={() => handleAddOrEdit("home")}
+            onClick={() => handleAddAddress("home")}
             className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group"
           >
             <div className="flex items-center gap-3">
@@ -97,14 +173,19 @@ export default function SavedAddress() {
         {/* Work Address */}
         {workLocation ? (
           <button
-            onClick={() => handleAddOrEdit("work", workLocation)}
-            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left"
+            onClick={(e) => handleSelectAddress(workLocation, e)}
+            disabled={selectingLocationId === workLocation.id}
+            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <div className="flex items-center gap-3 flex-1">
-              <BriefcaseBusiness
-                className="h-4 w-4 text-primary"
-                strokeWidth={2.5}
-              />
+              {selectingLocationId === workLocation.id ? (
+                <Loader className="h-4 w-4 text-primary animate-spin" />
+              ) : (
+                <BriefcaseBusiness
+                  className="h-4 w-4 text-primary"
+                  strokeWidth={2.5}
+                />
+              )}
               <div className="flex-1">
                 <p className="text-gray-400 font-semibold text-xs mb-1">
                   Work Address
@@ -114,11 +195,17 @@ export default function SavedAddress() {
                 </p>
               </div>
             </div>
-            <Pencil className="h-4 w-4 text-primary" />
+            <button
+              onClick={(e) => handleEditAddress("work", workLocation, e)}
+              className="p-2 hover:bg-primary/20 rounded-full transition-colors"
+              disabled={selectingLocationId === workLocation.id}
+            >
+              <Pencil className="h-4 w-4 text-primary" />
+            </button>
           </button>
         ) : (
           <button
-            onClick={() => handleAddOrEdit("work")}
+            onClick={() => handleAddAddress("work")}
             className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group"
           >
             <div className="flex items-center gap-3">
@@ -137,14 +224,19 @@ export default function SavedAddress() {
         {otherLocations.map((location) => (
           <div key={location.id}>
             <button
-              onClick={() => handleAddOrEdit("other", location)}
-              className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left"
+              onClick={(e) => handleSelectAddress(location, e)}
+              disabled={selectingLocationId === location.id}
+              className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <div className="flex items-center gap-3 flex-1">
-                <MapPin
-                  className="h-4 w-4 text-primary mt-1"
-                  strokeWidth={2.5}
-                />
+                {selectingLocationId === location.id ? (
+                  <Loader className="h-4 w-4 text-primary animate-spin" />
+                ) : (
+                  <MapPin
+                    className="h-4 w-4 text-primary mt-1"
+                    strokeWidth={2.5}
+                  />
+                )}
                 <div className="flex-1">
                   <p className="text-gray-400 font-semibold text-xs mb-1">
                     {location.name || "Other"}
@@ -152,7 +244,13 @@ export default function SavedAddress() {
                   <p className="text-black line-clamp-2">{location.address}</p>
                 </div>
               </div>
-              <Pencil className="h-4 w-4 text-primary" />
+              <button
+                onClick={(e) => handleEditAddress("other", location, e)}
+                className="p-2 hover:bg-primary/20 rounded-full transition-colors"
+                disabled={selectingLocationId === location.id}
+              >
+                <Pencil className="h-4 w-4 text-primary" />
+              </button>
             </button>
             <Separator className="mb-0" />
           </div>
@@ -160,7 +258,7 @@ export default function SavedAddress() {
 
         {/* Add Other Address Button */}
         <button
-          onClick={() => handleAddOrEdit("other")}
+          onClick={() => handleAddAddress("other")}
           className="flex items-center gap-3 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left"
         >
           <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />

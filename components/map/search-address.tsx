@@ -97,6 +97,7 @@ export default function SearchAddress({ className }: { className?: string }) {
         </div>
 
         <Input
+          key={user?.placeAddress || sessionsLocation} // Force re-mount when address changes
           defaultValue={user?.placeAddress || sessionsLocation || ""}
           ref={inputRef}
           className=" rounded-full bg-[#EBEFF7] h-10 border-none pl-10 w-full pr-10"
