@@ -15,6 +15,7 @@ import {
   Plus,
 } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import useSavedLocations from "@/hooks/use-saved-locations";
 import { Separator } from "@/components/ui/separator";
@@ -80,9 +81,6 @@ export default function SavedAddress() {
       await queryClient.invalidateQueries({
         queryKey: ["outlet-menu-nearby"],
       });
-
-      // Close the address sheet
-      // setOpenAddressSheet(false);
     } catch (error) {
       console.error("Error selecting saved address:", error);
       alert("Failed to select address. Please try again.");
@@ -128,10 +126,19 @@ export default function SavedAddress() {
       <div>
         {/* Home Address */}
         {homeLocation ? (
-          <button
-            onClick={(e) => handleSelectAddress(homeLocation, e)}
-            disabled={selectingLocationId === homeLocation.id}
-            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left disabled:opacity-50 disabled:cursor-not-allowed"
+          <div
+            onClick={(e) => {
+              if (!(e.target as HTMLElement).closest("[data-edit-button]")) {
+                handleSelectAddress(homeLocation, e);
+              }
+            }}
+            className={cn(
+              "flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left cursor-pointer",
+              {
+                "opacity-50 cursor-not-allowed":
+                  selectingLocationId === homeLocation.id,
+              }
+            )}
           >
             <div className="flex items-center gap-3 flex-1">
               {selectingLocationId === homeLocation.id ? (
@@ -149,13 +156,18 @@ export default function SavedAddress() {
               </div>
             </div>
             <button
-              onClick={(e) => handleEditAddress("home", homeLocation, e)}
+              data-edit-button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditAddress("home", homeLocation, e);
+              }}
               className="p-2 hover:bg-primary/20 rounded-full transition-colors"
               disabled={selectingLocationId === homeLocation.id}
             >
               <Pencil className="h-4 w-4 text-primary" />
             </button>
-          </button>
+          </div>
         ) : (
           <button
             onClick={() => handleAddAddress("home")}
@@ -172,10 +184,19 @@ export default function SavedAddress() {
 
         {/* Work Address */}
         {workLocation ? (
-          <button
-            onClick={(e) => handleSelectAddress(workLocation, e)}
-            disabled={selectingLocationId === workLocation.id}
-            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left disabled:opacity-50 disabled:cursor-not-allowed"
+          <div
+            onClick={(e) => {
+              if (!(e.target as HTMLElement).closest("[data-edit-button]")) {
+                handleSelectAddress(workLocation, e);
+              }
+            }}
+            className={cn(
+              "flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left cursor-pointer",
+              {
+                "opacity-50 cursor-not-allowed":
+                  selectingLocationId === workLocation.id,
+              }
+            )}
           >
             <div className="flex items-center gap-3 flex-1">
               {selectingLocationId === workLocation.id ? (
@@ -196,13 +217,18 @@ export default function SavedAddress() {
               </div>
             </div>
             <button
-              onClick={(e) => handleEditAddress("work", workLocation, e)}
+              data-edit-button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEditAddress("work", workLocation, e);
+              }}
               className="p-2 hover:bg-primary/20 rounded-full transition-colors"
               disabled={selectingLocationId === workLocation.id}
             >
               <Pencil className="h-4 w-4 text-primary" />
             </button>
-          </button>
+          </div>
         ) : (
           <button
             onClick={() => handleAddAddress("work")}
@@ -223,10 +249,19 @@ export default function SavedAddress() {
         {/* Other Addresses */}
         {otherLocations.map((location) => (
           <div key={location.id}>
-            <button
-              onClick={(e) => handleSelectAddress(location, e)}
-              disabled={selectingLocationId === location.id}
-              className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left disabled:opacity-50 disabled:cursor-not-allowed"
+            <div
+              onClick={(e) => {
+                if (!(e.target as HTMLElement).closest("[data-edit-button]")) {
+                  handleSelectAddress(location, e);
+                }
+              }}
+              className={cn(
+                "flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group text-left cursor-pointer",
+                {
+                  "opacity-50 cursor-not-allowed":
+                    selectingLocationId === location.id,
+                }
+              )}
             >
               <div className="flex items-center gap-3 flex-1">
                 {selectingLocationId === location.id ? (
@@ -245,13 +280,18 @@ export default function SavedAddress() {
                 </div>
               </div>
               <button
-                onClick={(e) => handleEditAddress("other", location, e)}
+                data-edit-button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEditAddress("other", location, e);
+                }}
                 className="p-2 hover:bg-primary/20 rounded-full transition-colors"
                 disabled={selectingLocationId === location.id}
               >
                 <Pencil className="h-4 w-4 text-primary" />
               </button>
-            </button>
+            </div>
             <Separator className="mb-0" />
           </div>
         ))}
