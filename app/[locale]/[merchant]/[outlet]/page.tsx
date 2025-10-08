@@ -12,6 +12,7 @@ import OutletHeader from "@/components/hive/merchant/outlet-header";
 import OutletMenu from "@/components/hive/merchant/outlet-menu";
 import OutletMenuToCart from "@/components/hive/merchant/outlet-menu-to-cart";
 import OutletMobileNav from "@/components/hive/merchant/outlet-mobile-nav";
+import OutletPromotions from "@/components/hive/merchant/outlet-promotions";
 
 import BreadCrumOutlet from "./_components/bread-crum";
 
@@ -32,6 +33,7 @@ export default function page() {
               <OutletHeader />
               <OutletCategoryMobile />
               <CouponSection />
+              <OutletPromotions />
               <HappyHour />
               <FlashSale />
               <OutletMenu />

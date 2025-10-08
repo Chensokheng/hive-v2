@@ -210,6 +210,7 @@ export default function PromotionCard({
                 {originalPrice}
               </span>
             </div>
+
             <span className="text-xs font-medium text-[#363F4F]/60">
               ≈{localPrice.toLocaleString()}
               {localCurrency}{" "}
