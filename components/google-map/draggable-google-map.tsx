@@ -82,6 +82,7 @@ export default function DraggableGoogleMap({
         onMapMove(newCenter.lat(), newCenter.lng());
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded, center.lat, center.lng, zoom, onMapMove]);
 
   // Update map center when prop changes
@@ -112,11 +113,16 @@ export default function DraggableGoogleMap({
               }`}
             >
               <svg
-                viewBox="0 0 24 24"
+                viewBox="0 0 32 32"
+                xmlns="http://www.w3.org/2000/svg"
                 className="w-10 h-10 text-primary drop-shadow-xl"
-                fill="currentColor"
               >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                <path
+                  fill="currentColor"
+                  stroke="#fff"
+                  stroke-width="2"
+                  d="M16 3C10.477 3 6 7.477 6 13c0 8 10 16 10 16s10-8 10-16c0-5.523-4.477-10-10-10zm0 13.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"
+                />
               </svg>
             </div>
 
@@ -127,7 +133,7 @@ export default function DraggableGoogleMap({
             >
               {/* Circle at top */}
               <div className="absolute -top-10 left-1/2 -translate-x-1/2">
-                <div className="w-6 h-6 rounded-full bg-primary shadow-lg animate-pulse" />
+                <div className="w-6 border-2 border-white h-6 rounded-full bg-primary shadow-lg animate-pulse" />
               </div>
               {/* Dashed line */}
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 h-2 flex items-center justify-center">
@@ -151,7 +157,7 @@ export default function DraggableGoogleMap({
 
               {/* Dot at bottom */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2">
-                <div className="w-2 h-2 rounded-full bg-primary shadow-md" />
+                <div className="w-2 h-2 border-1 border-white rounded-full bg-primary shadow-md" />
               </div>
             </div>
           </div>

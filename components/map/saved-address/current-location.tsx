@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { getPlaceByGeocode } from "@/services/address/get-place-by-geocode";
 import { useSavedAddressStore } from "@/store/saved-address";
 import { Loader } from "lucide-react";
+import toast from "react-hot-toast";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
@@ -48,7 +49,7 @@ export default function SavedAddressUseCurrentLocation() {
       });
 
       if (!geocodeResult.status || !geocodeResult.data) {
-        throw new Error("Failed to get address from location");
+        toast.error("Failed to get address from location");
       }
 
       const locationData = geocodeResult.data;

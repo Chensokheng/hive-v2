@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useAddresStore } from "@/store/address";
+import {
+  DEFAULT_ADDRESS,
+  DEFAULT_LAT_LNG,
+  useAddresStore,
+} from "@/store/address";
 import { ChevronLeft } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -21,13 +25,12 @@ import AddressModal from "./saved-address/address-form-modal";
 import SavedAddress from "./saved-address/saved-address";
 import SearchAddress from "./search-address";
 
-// NOTE: We need to use this default location to render the map
-const DEFAULT_LAT_LNG = { lat: 11.550966450309836, lng: 104.9287729533798 }; // Keystone building
-const DEFAULT_ADDRESS = "146 Norodom Blvd, Phnom Penh, Cambodia";
-
 export default function Address() {
   const isMobile = useIsMobile();
   const { data: user } = useGetUserInfo();
+  const setOpenDraggableMap = useAddresStore(
+    (state) => state.setOpenDraggableMap
+  );
 
   const openAddresSheet = useAddresStore((state) => state.openAddresSheet);
   const setOpenAddresSheet = useAddresStore(
@@ -100,7 +103,10 @@ export default function Address() {
           </div>
           <SearchAddress className="p-4 space-y-3" />
 
-          <div className="px-4">
+          <div
+            className="px-4 cursor-pointer"
+            onClick={() => setOpenDraggableMap(true, "user-location")}
+          >
             <StaticMapImage
               lat={currentMapData.lat}
               lng={currentMapData.lng}

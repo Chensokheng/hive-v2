@@ -1,7 +1,7 @@
 import { SavedLocation } from "@/services/address/saved-locations";
 import { create } from "zustand";
 
-interface LocationData {
+export interface LocationData {
   id: string;
   lat: number;
   lng: number;
