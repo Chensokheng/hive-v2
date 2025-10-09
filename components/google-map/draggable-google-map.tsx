@@ -18,6 +18,7 @@ export default function DraggableGoogleMap({
   const mapRef = useRef<HTMLDivElement>(null);
   const googleMapRef = useRef<google.maps.Map | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -64,6 +65,16 @@ export default function DraggableGoogleMap({
 
     googleMapRef.current = map;
 
+    // Listen for drag start
+    map.addListener("dragstart", () => {
+      setIsDragging(true);
+    });
+
+    // Listen for drag end
+    map.addListener("dragend", () => {
+      setIsDragging(false);
+    });
+
     // Listen for center changes (when user drags the map)
     map.addListener("idle", () => {
       const newCenter = map.getCenter();
@@ -94,14 +105,54 @@ export default function DraggableGoogleMap({
       {isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
           <div className="relative">
-            <div className="w-10 h-10 relative transform -translate-y-5">
+            {/* Pin - visible when not dragging */}
+            <div
+              className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-5 transition-all duration-200 ease-in-out ${
+                isDragging ? "opacity-0 scale-75" : "opacity-100 scale-100"
+              }`}
+            >
               <svg
                 viewBox="0 0 24 24"
-                className="w-10 h-10 text-red-500 drop-shadow-xl"
+                className="w-10 h-10 text-primary drop-shadow-xl"
                 fill="currentColor"
               >
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
+            </div>
+
+            <div
+              className={`absolute top-0 left-1/2 -translate-x-1/2 transition-all duration-200 ${
+                isDragging ? "opacity-100 scale-100" : "opacity-0 scale-75"
+              }`}
+            >
+              {/* Circle at top */}
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2">
+                <div className="w-6 h-6 rounded-full bg-primary shadow-lg animate-pulse" />
+              </div>
+              {/* Dashed line */}
+              <div className="absolute -top-2 left-1/2 -translate-x-1/2 h-2 flex items-center justify-center">
+                <svg
+                  width="2"
+                  height="20"
+                  className="overflow-visible animate-pulse"
+                >
+                  <line
+                    x1="1"
+                    y1="0"
+                    x2="1"
+                    y2="20"
+                    stroke="#0055dd"
+                    strokeWidth="2"
+                    strokeDasharray="4,4"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+
+              {/* Dot at bottom */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2">
+                <div className="w-2 h-2 rounded-full bg-primary shadow-md" />
+              </div>
             </div>
           </div>
         </div>

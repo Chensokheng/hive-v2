@@ -1,16 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { reverseGeocode } from "@/services/map/get-map";
+import { getPlaceByGeocode } from "@/services/address/get-place-by-geocode";
 import { useAddresStore } from "@/store/address";
-import { Check, Loader2, Target, X } from "lucide-react";
+import { Check, Loader2, MapPin, X } from "lucide-react";
+import toast from "react-hot-toast";
 
+import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -33,86 +34,137 @@ const DEFAULT_CENTER = { lat: 11.550966450309836, lng: 104.9287729533798 }; // K
 export function MapLocationPicker({
   initialCenter = DEFAULT_CENTER,
 }: MapLocationPickerProps) {
+  const { data: user } = useGetUserInfo();
+
   const [mapCenter, setMapCenter] = useState(initialCenter);
   const [isReverseGeocoding, setIsReverseGeocoding] = useState(false);
   const [currentLocation, setCurrentLocation] = useState<LocationData | null>(
     null
   );
   const [error, setError] = useState<string | null>(null);
+  const [isInitializing, setIsInitializing] = useState(false);
+  const [canRenderMap, setCanRenderMap] = useState(false);
 
   const openDraggableMap = useAddresStore((state) => state.openDraggableMap);
-
   const setOpenDraggableMap = useAddresStore(
     (state) => state.setOpenDraggableMap
   );
 
-  // Function to call the Hive API for reverse geocoding
-  const reverseGeocodeWithHiveAPI = useCallback(
+  // Function to get place data using getPlaceByGeocode
+  const getPlaceData = useCallback(
     async (lat: number, lng: number) => {
+      if (!user?.token) {
+        throw new Error("User token is required");
+      }
+
       setIsReverseGeocoding(true);
       setError(null);
 
       try {
-        const address = await reverseGeocode(lat, lng);
+        const geocodeResult = await getPlaceByGeocode({
+          lat,
+          lng,
+          token: user.token,
+        });
 
-        // const data = await response.json();
-        if (address) {
+        if (geocodeResult.status && geocodeResult.data) {
           const locationData: LocationData = {
-            // id: data.data.id,
-            id: "placeholder-id",
-            lat: lat,
-            lng: lng,
-            address: address,
+            id: geocodeResult.data.id,
+            lat: geocodeResult.data.lat,
+            lng: geocodeResult.data.lng,
+            address: geocodeResult.data.address,
           };
 
           setCurrentLocation(locationData);
           return locationData;
         } else {
-          throw new Error("Invalid API response format");
+          toast.error("Invalid location response format");
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Reverse geocoding error:", error);
-        setError("Failed to get address for this location");
-
-        // Fallback location data
-        const fallbackLocation: LocationData = {
-          id: `fallback-${error}-${Date.now()}`,
-          lat: 0.0,
-          lng: 0.0,
-          address: `${lat.toFixed(6)}, ${lng.toFixed(6)}`,
-        };
-
-        setCurrentLocation(fallbackLocation);
-        return fallbackLocation;
+        toast.error("Failed to get address for this location");
       } finally {
         setIsReverseGeocoding(false);
       }
     },
-    []
+    [user?.token]
   );
 
-  // Debounced reverse geocoding when map moves
+  // Initial check when dialog opens - test API before rendering map
   useEffect(() => {
+    const initializeMap = async () => {
+      if (openDraggableMap && !canRenderMap && user?.token) {
+        setIsInitializing(true);
+        setError(null);
+
+        try {
+          // Test the API with initial coordinates
+          const result = await getPlaceByGeocode({
+            lat: initialCenter.lat,
+            lng: initialCenter.lng,
+            token: user.token,
+          });
+
+          if (result.status && result.data) {
+            setCanRenderMap(true);
+            setMapCenter(initialCenter);
+            setCurrentLocation({
+              id: result.data.id,
+              lat: result.data.lat,
+              lng: result.data.lng,
+              address: result.data.address,
+            });
+          } else {
+            toast.error("API request failed");
+          }
+        } catch (error: any) {
+          console.error("Map initialization error:", error);
+          toast.error(
+            "Failed to initialize map. Please check your connection and try again."
+          );
+          setCanRenderMap(false);
+        } finally {
+          setIsInitializing(false);
+        }
+      }
+    };
+
+    if (openDraggableMap) {
+      initializeMap();
+    } else {
+      setCanRenderMap(false);
+      setCurrentLocation(null);
+      setError(null);
+    }
+  }, [openDraggableMap, initialCenter, user?.token]);
+
+  useEffect(() => {
+    if (!canRenderMap || !user?.token) return;
+
     const timeoutId = setTimeout(() => {
-      reverseGeocodeWithHiveAPI(mapCenter.lat, mapCenter.lng);
-    }, 1000); // 1 second delay
+      getPlaceData(mapCenter.lat, mapCenter.lng);
+    }, 1000); // NOTE: wait for 1 second before getting the data
 
     return () => clearTimeout(timeoutId);
-  }, [mapCenter, openDraggableMap, reverseGeocodeWithHiveAPI]);
-
-  // Initialize with current map center when dialog opens
-  useEffect(() => {
-    if (openDraggableMap) {
-      setMapCenter(initialCenter);
-      reverseGeocodeWithHiveAPI(initialCenter.lat, initialCenter.lng);
-    }
-  }, [openDraggableMap, initialCenter, reverseGeocodeWithHiveAPI]);
+  }, [mapCenter.lat, mapCenter.lng, canRenderMap, user?.token, getPlaceData]);
 
   const handleMapMove = (lat: number, lng: number) => {
     setMapCenter({ lat, lng });
   };
 
-  const handleConfirmLocation = () => {};
+  const handleConfirmLocation = () => {
+    if (currentLocation) {
+      // TODO: update the addressForm or the userCurrentLocation
+      /*
+      1. refers to the 2 static map component
+      
+      
+      */
+      // You can add logic here to save the location or pass it to parent component
+      console.log("Selected location:", currentLocation);
+      setOpenDraggableMap(false);
+    }
+  };
 
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -125,7 +177,7 @@ export function MapLocationPicker({
           };
 
           setMapCenter(coords);
-          await reverseGeocodeWithHiveAPI(coords.lat, coords.lng);
+          await getPlaceData(coords.lat, coords.lng);
         },
         (error) => {
           console.error("Error getting location:", error);
@@ -140,9 +192,16 @@ export function MapLocationPicker({
     }
   };
 
+  const handleClose = () => {
+    setOpenDraggableMap(false);
+    setCanRenderMap(false);
+    setCurrentLocation(null);
+    setError(null);
+  };
+
   return (
-    <Dialog open={openDraggableMap} onOpenChange={setOpenDraggableMap}>
-      <DialogContent className="w-full max-w-lg max-h-[90vh] p-0 overflow-y-auto">
+    <Dialog open={openDraggableMap} onOpenChange={handleClose}>
+      <DialogContent className="w-full max-w-2xl h-[85vh] p-0 overflow-hidden flex flex-col">
         <DialogHeader className="hidden">
           <DialogTitle className="hidden" aria-readonly>
             Select Location on Map
@@ -152,101 +211,127 @@ export function MapLocationPicker({
           </DialogDescription>
         </DialogHeader>
 
-        {/* Modal Header */}
-        <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="text-lg font-semibold">Select Location</h3>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setOpenDraggableMap(false)}
-            className="h-8 w-8"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-
-        {/* Modal Content */}
-        <div className="p-4 space-y-4 max-h-[calc(90vh-120px)] overflow-y-auto">
-          {/* Instructions */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <div className="flex items-center space-x-2">
-              <Target className="w-5 h-5 text-blue-500 flex-shrink-0" />
-              <p className="text-sm text-blue-700">
-                Drag the map to position the pin at your desired location
-              </p>
-            </div>
+        {isInitializing && (
+          <div className="flex flex-col items-center justify-center h-full space-y-4">
+            <Loader2 className="w-12 h-12 animate-spin text-primary" />
+            <p className="text-base text-gray-600 font-medium">
+              Loading map...
+            </p>
           </div>
+        )}
 
-          <div className="relative">
-            <div className="w-full h-80 rounded-lg overflow-hidden border border-gray-200">
+        {!isInitializing && error && !canRenderMap && (
+          <div className="flex flex-col items-center justify-center h-full p-8 space-y-6">
+            <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+              <X className="w-8 h-8 text-red-600" />
+            </div>
+            <div className="text-center space-y-2">
+              <h3 className="text-lg font-semibold text-gray-900">
+                Unable to Load Map
+              </h3>
+              <p className="text-sm text-gray-600 max-w-md">{error}</p>
+            </div>
+            <Button onClick={handleClose} className="mt-4">
+              Close
+            </Button>
+          </div>
+        )}
+
+        {!isInitializing && canRenderMap && (
+          <>
+            <div className="flex items-center justify-between px-6 py-4 border-b bg-white">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <MapPin className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Select Location
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    Drag the map to adjust pin position
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleClose}
+                className="h-10 w-10 rounded-full hover:bg-gray-100"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+
+            <div className="flex-1 relative">
               <DraggableGoogleMap
                 center={mapCenter}
                 zoom={16}
                 onMapMove={handleMapMove}
               />
-            </div>
 
-            {/* Loading Overlay */}
-            {isReverseGeocoding && (
-              <div className="absolute inset-0 bg-black/20 rounded-lg flex items-center justify-center">
-                <div className="bg-white rounded-lg p-3 shadow-lg">
-                  <div className="flex items-center space-x-2">
-                    <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                    <span className="text-sm font-medium">
-                      Getting address...
-                    </span>
+              {/* Loading Overlay */}
+              {isReverseGeocoding && (
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+                  <div className="bg-white rounded-full px-4 py-2 shadow-lg border border-gray-200">
+                    <div className="flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                      <span className="text-sm font-medium text-gray-700">
+                        Updating location...
+                      </span>
+                    </div>
                   </div>
                 </div>
+              )}
+            </div>
+
+            <div className="bg-white border-t shadow-lg">
+              <div className="px-6 py-4 space-y-3">
+                {currentLocation && (
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                        Selected Address
+                      </p>
+                    </div>
+                    <p className="text-sm text-gray-900 leading-relaxed pl-6">
+                      {currentLocation.address}
+                    </p>
+                  </div>
+                )}
+
+                <Button
+                  onClick={handleUseCurrentLocation}
+                  variant="outline"
+                  disabled={isReverseGeocoding}
+                  className="w-full h-11 rounded-lg border-2 hover:bg-primary/5 hover:border-primary transition-colors"
+                >
+                  <CurrentLocationIcon className="h-5 w-5 text-primary mr-2" />
+                  <span className="font-medium">Use My Current Location</span>
+                </Button>
               </div>
-            )}
-          </div>
 
-          {/* Current Location Button */}
-          <Button
-            onClick={handleUseCurrentLocation}
-            variant="outline"
-            disabled={isReverseGeocoding}
-            className="w-full cursor-pointer"
-          >
-            {/* <Target className="w-4 h-4 mr-2" /> */}
-            <CurrentLocationIcon className="h-5 w-5 text-primary" />
-            Use Current Location
-          </Button>
-
-          {/* Address Display */}
-          {currentLocation && (
-            <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-              <h4 className="font-medium text-gray-900">Selected Location:</h4>
-              <p className="text-sm text-gray-600 break-words">
-                {currentLocation.address}
-              </p>
+              <div className="flex gap-3 px-6 py-4 bg-gray-50 border-t">
+                <Button
+                  onClick={handleClose}
+                  variant="outline"
+                  className="flex-1 h-11 rounded-lg font-medium"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleConfirmLocation}
+                  disabled={!currentLocation || isReverseGeocoding}
+                  className="flex-1 h-11 rounded-lg font-medium"
+                >
+                  <Check className="w-4 h-4 mr-2" />
+                  Confirm Location
+                </Button>
+              </div>
             </div>
-          )}
-
-          {/* Error Display */}
-          {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-              <p className="text-sm text-red-700">{error}</p>
-            </div>
-          )}
-        </div>
-        <DialogFooter className="flex justify-between gap-3 p-4 border-t">
-          <Button
-            onClick={() => setOpenDraggableMap(false)}
-            variant="outline"
-            className="flex-1"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleConfirmLocation}
-            disabled={!currentLocation || isReverseGeocoding}
-            className="flex-1"
-          >
-            <Check className="w-4 h-4 mr-2" />
-            Confirm Location
-          </Button>
-        </DialogFooter>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
