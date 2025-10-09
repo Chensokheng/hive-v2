@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { updateCartFee } from "@/services/outlet/update-cart-fee";
 import { useAddresStore } from "@/store/address";
 import { useOutletStore } from "@/store/outlet";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
+import { toast } from "sonner";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import MapPin from "@/components/icon/map-pin";
@@ -18,7 +19,7 @@ export default function DeliveryInfo({
   outletId: number;
 }) {
   const { data: user } = useGetUserInfo();
-  const initialLoad = useRef(true);
+
   const setOpenAddresSheet = useAddresStore(
     (state) => state.setOpenAddressSheet
   );
@@ -29,14 +30,22 @@ export default function DeliveryInfo({
   const checkoutUserTemInfo = useOutletStore(
     (state) => state.checkoutUserTemInfo
   );
+  const setUpdateFeeError = useOutletStore((state) => state.setUpdateFeeError);
   const queryClient = useQueryClient();
 
   const updateFee = async () => {
-    await updateCartFee({
+    const res = await updateCartFee({
       cartId,
       userId: Number(user?.userId),
       token: user?.token!,
     });
+    if (!res.status) {
+      setUpdateFeeError(res.message);
+      toast.error(res.message);
+      return;
+    }
+
+    setUpdateFeeError(null);
     queryClient.invalidateQueries({
       queryKey: ["outlet-unpaid-item", user?.userId, outletId],
     });

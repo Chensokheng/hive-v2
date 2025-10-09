@@ -1,5 +1,6 @@
 import { useRef, useTransition } from "react";
 import placeOrder from "@/services/place-order";
+import { useAddresStore } from "@/store/address";
 import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
 import { Loader } from "lucide-react";
@@ -55,8 +56,13 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
   const setSelectedPromotionCode = useCheckoutStore(
     (state) => state.setSelectedPromotionCode
   );
+  const updateFeeError = useOutletStore((state) => state.updateFeeError);
 
   const pickupTime = useOutletStore((state) => state.pickupTime);
+
+  const setOpenAddresSheet = useAddresStore(
+    (state) => state.setOpenAddressSheet
+  );
 
   const handleCheckout = () => {
     startTransition(async () => {
@@ -189,19 +195,33 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
               </p>
             </div>
           </div>
-          <button
-            className={cn(
-              "font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white flex items-center justify-center gap-2",
-              {
-                "animate-pulse": isFetching || isPending,
-              }
-            )}
-            disabled={isRefetching}
-            onClick={handleCheckout}
-          >
-            {isPending && <Loader className=" animate-spin" />}
-            PLACE ORDER
-          </button>
+          {!updateFeeError ? (
+            <button
+              className={cn(
+                "font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white flex items-center justify-center gap-2",
+                {
+                  "animate-pulse": isFetching || isPending,
+                }
+              )}
+              disabled={isRefetching}
+              onClick={handleCheckout}
+            >
+              {isPending && <Loader className=" animate-spin" />}
+              PLACE ORDER
+            </button>
+          ) : (
+            <>
+              <p className="text-sm text-red-500">{updateFeeError}</p>
+              <button
+                className="bg-primary w-full text-white rounded-full py-3 font-medium"
+                onClick={() => {
+                  setOpenAddresSheet(true);
+                }}
+              >
+                Change Address
+              </button>
+            </>
+          )}
         </div>
       </SheetContent>
     </Sheet>

@@ -43,8 +43,10 @@ interface OutletStoreState {
     happyHourMaxQtyPerOrder?: number;
     happyHourAvailableTimeId?: number | null;
   } | null;
+  updateFeeError: string | null;
   setSearchMenu: (value: string) => void;
   setPickupTime: (value: number | null) => void;
+  setUpdateFeeError: (value: string | null) => void;
 
   setIsDelivery: (value: boolean) => void;
   setOpenCheckoutSheet: (value: boolean) => void;
@@ -107,6 +109,7 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
   editCartItemSheetOpen: false,
   editCartItemData: null,
   searchMenu: "",
+  updateFeeError: null,
   setSearchMenu: (value) => set(() => ({ searchMenu: value })),
   setOutletOpen: (value) => set(() => ({ isOpen: value })),
   setIsClosed: (value) => set(() => ({ isClosed: value })),
@@ -136,4 +139,5 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
       editCartItemData: value,
       editCartItemSheetOpen: value !== null,
     })),
+  setUpdateFeeError: (value) => set(() => ({ updateFeeError: value })),
 }));
