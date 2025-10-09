@@ -58,7 +58,7 @@ export default function BannerPage() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-3  gap-2 lg:gap-6">
-        {banner?.merchants.map((merchant, index) => (
+        {banner?.merchants.map((merchant) => (
           <Link
             href={"/" + locale + "/" + merchant.subDomain}
             key={merchant.id}

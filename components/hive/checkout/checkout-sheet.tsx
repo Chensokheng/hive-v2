@@ -33,7 +33,6 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
   const { data: user } = useGetUserInfo();
   const {
     data: unpaidItem,
-    isLoading,
     isFetching,
     isRefetching,
   } = useGetOutletUnpaidItem(Number(user?.userId!), outletId);

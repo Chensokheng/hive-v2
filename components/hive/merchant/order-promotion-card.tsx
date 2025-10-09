@@ -20,9 +20,7 @@ interface OrderPromotionCardProps {
 }
 
 export default function OrderPromotionCard({
-  id,
   title,
-  description,
   image,
   minBillAmount,
   freeItemName,

@@ -22,17 +22,16 @@ export default function Checkout() {
 
   const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
 
-  const {
-    data: unpaidItem,
-    isFetching,
-    isLoading,
-    refetch,
-  } = useGetOutletUnpaidItem(Number(user?.userId!), foundOutlet?.id!);
+  const { data: unpaidItem, isLoading } = useGetOutletUnpaidItem(
+    Number(user?.userId!),
+    foundOutlet?.id!
+  );
 
   const resetPromotCode = useCheckoutStore((state) => state.resetPromotCode);
 
   useEffect(() => {
     resetPromotCode();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading) {
@@ -42,12 +41,7 @@ export default function Checkout() {
   return (
     <div className="w-full">
       {(unpaidItem?.totalQuantity || 0) > 0 && (
-        <FloatingCart
-          cartId={unpaidItem?.cartId || 0}
-          quantity={unpaidItem?.totalQuantity || 0}
-          isFetching={isFetching}
-          refetch={refetch}
-        />
+        <FloatingCart quantity={unpaidItem?.totalQuantity || 0} />
       )}
 
       {foundOutlet?.id && <CheckoutSheet outletId={foundOutlet?.id} />}

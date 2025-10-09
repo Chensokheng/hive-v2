@@ -25,11 +25,6 @@ interface PromotionSectionProps {
   hasGradientBackground?: boolean;
 }
 
-interface PromotionSectionsProps {
-  premiumDelight?: PromotionSectionProps;
-  bestDeal?: PromotionSectionProps;
-}
-
 function PromotionSection({
   title,
   subtitle,
@@ -49,19 +44,19 @@ function PromotionSection({
     }
   };
 
-  const scrollLeft = () => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
+  // const scrollLeft = () => {
+  //   const container = scrollContainerRef.current;
+  //   if (container) {
+  //     container.scrollBy({ left: -300, behavior: "smooth" });
+  //   }
+  // };
 
-  const scrollRight = () => {
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
+  // const scrollRight = () => {
+  //   const container = scrollContainerRef.current;
+  //   if (container) {
+  //     container.scrollBy({ left: 300, behavior: "smooth" });
+  //   }
+  // };
 
   useEffect(() => {
     const container = scrollContainerRef.current;

@@ -28,12 +28,6 @@ import CheckCircleIcon from "@/components/icon/check-circle";
 import PhoneIcon from "@/components/icon/phone";
 import UserOutline from "@/components/icon/user-outline";
 
-const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
-
 export default function UserTemInfo({
   children,
 }: {
@@ -47,8 +41,8 @@ export default function UserTemInfo({
   const checkoutUserTemInfo = useOutletStore(
     (state) => state.checkoutUserTemInfo
   );
-  const [isUserNotExist, setUserNotExist] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isUserNotExist] = useState(false);
+  const [isLoading] = useState(false);
   const t = useTranslations("auth");
   const [phoneInputFocus, setPhoneInputFocus] = useState(false);
   const [usernameInputFocus, setUsernameInputFocus] = useState(false);
@@ -130,6 +124,7 @@ export default function UserTemInfo({
         username: checkoutUserTemInfo.name,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkoutUserTemInfo]);
 
   return (

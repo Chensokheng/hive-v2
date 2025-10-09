@@ -33,14 +33,11 @@ export default function OrderItem({
     (state) => state.setEditCartItemData
   );
 
-  const { data: happyHourAvailableTimes, isLoading } =
-    useGetHappyHourAvailableTimes(Number(item.outletId));
+  const { data: happyHourAvailableTimes } = useGetHappyHourAvailableTimes(
+    Number(item.outletId)
+  );
 
-  const {
-    data: happyHour,
-    isLoading: isHappyHourLoading,
-    isRefetching,
-  } = useGetHappyHours(
+  const { data: happyHour } = useGetHappyHours(
     Number(item.outletId),
     happyHourAvailableTimes?.data[0]?.id!
   );
@@ -122,6 +119,7 @@ export default function OrderItem({
       return;
     }
     handleUpdateCartItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quantity]);
 
   useEffect(() => {

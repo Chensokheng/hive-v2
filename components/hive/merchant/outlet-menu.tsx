@@ -43,6 +43,7 @@ export default function OutletMenu() {
     return () => {
       setCategoryId(null);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (isLoading || isUserLoading) {

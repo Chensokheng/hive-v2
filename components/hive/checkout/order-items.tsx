@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useOutletStore } from "@/store/outlet";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Plus } from "lucide-react";
 
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
@@ -20,12 +19,11 @@ export default function OrderItems({ outletId }: { outletId: number }) {
     outletId
   );
 
-  const [animateParent] = useAutoAnimate();
-
   useEffect(() => {
     if (unpaidItem?.items?.length === 0 || !unpaidItem?.items) {
       setOpenCheckoutSheet(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unpaidItem?.items?.length]);
 
   return (

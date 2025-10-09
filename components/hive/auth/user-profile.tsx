@@ -3,9 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { signOut } from "@/services/auth/signout";
-import { useQueryClient } from "@tanstack/react-query";
 import { ChevronRight, Loader, LogOut } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -24,8 +23,6 @@ export default function UserProfile() {
   const [isLoading, setLoading] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
-  const queryClient = useQueryClient();
-  const router = useRouter();
 
   const handleSignOut = async () => {
     setLoading(true);

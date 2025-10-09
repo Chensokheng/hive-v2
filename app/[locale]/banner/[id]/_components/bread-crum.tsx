@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 
 export default function BreadCrumBanner() {
-  const { locale, merchant } = useParams() as {
+  const { locale } = useParams() as {
     locale: string;
     merchant: string;
   };

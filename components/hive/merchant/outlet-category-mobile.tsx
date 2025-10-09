@@ -18,7 +18,7 @@ export default function OutletCategoryMobile() {
     outlet: string;
   };
 
-  const { data: merchantInfo, isLoading } = useGetMerchantInfo(merchant);
+  const { data: merchantInfo } = useGetMerchantInfo(merchant);
   const setCategoryId = useOutletStore((state) => state.setCategoryId);
   const categoryId = useOutletStore((state) => state.categoryId);
 
@@ -33,9 +33,9 @@ export default function OutletCategoryMobile() {
   }, 300);
 
   useEffect(() => {
-    parent.current && autoAnimate(parent.current);
-
-    return () => {};
+    if (parent.current) {
+      autoAnimate(parent.current);
+    }
   }, [parent]);
 
   return (

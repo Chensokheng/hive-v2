@@ -15,7 +15,7 @@ interface BannerSlideProps {
   index: number;
 }
 
-export const BannerSlide: React.FC<BannerSlideProps> = ({ item, index }) => {
+export const BannerSlide: React.FC<BannerSlideProps> = ({ item }) => {
   const { locale } = useParams();
 
   return (

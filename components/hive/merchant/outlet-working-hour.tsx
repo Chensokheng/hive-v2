@@ -55,8 +55,6 @@ const isOutletOpen = (workingHours: WorkingHours) => {
   // Handle case where closing time is next day (e.g., 00:30 - 24:00)
   if (closeTime.hours === 24 || (closeTime.hours === 0 && openTime.hours > 0)) {
     // Special case for 24:00 or overnight operations
-    const adjustedCloseMinutes =
-      closeTime.hours === 24 ? 24 * 60 : closeMinutes;
     const isOpen =
       currentTime >= openMinutes ||
       (closeTime.hours === 0 && currentTime <= closeMinutes);
@@ -193,7 +191,6 @@ export default function OutletWorkingHour({
   // Update the store with the current closed/open state
   useEffect(() => {
     setIsClosed(!isOpen);
-     
   }, [isOpen, setIsClosed]);
 
   if (isLoading) {

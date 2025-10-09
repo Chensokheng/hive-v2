@@ -24,6 +24,7 @@ export default function OtpCountDown() {
     const interval = setInterval(calculateTimeRemaining, 1000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authInfo.authNextAvailableOtpAt]);
 
   // Format time as MM:SS

@@ -147,7 +147,7 @@ export default function PromotionDetailsSheet({
           position: "top-right",
         });
       }
-    } catch (error) {
+    } catch {
       toast.error("An error occurred while adding items to cart");
     } finally {
       setIsAdding(false);

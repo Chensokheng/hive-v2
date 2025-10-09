@@ -45,6 +45,7 @@ export default function OutletHeader() {
         storeNote: "",
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!isLoading && !data?.status) {

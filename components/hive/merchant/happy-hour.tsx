@@ -12,7 +12,6 @@ import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetHappyHourAvailableTimes from "@/hooks/use-get-happy-hour-available-times";
 import useGetHappyHours from "@/hooks/use-get-happy-hours";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
-import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import {
   DropdownMenu,
@@ -49,10 +48,7 @@ export default function HappyHour() {
     isLoading: isHappyHourLoading,
     isRefetching,
   } = useGetHappyHours(Number(outletInfo?.data.id), availableTimeId!);
-  const { data: unpaidItem } = useGetOutletUnpaidItem(
-    Number(user?.userId!),
-    Number(outletInfo?.data.id)
-  );
+
   const { data: rate } = useGetExchangeRate();
 
   useEffect(() => {

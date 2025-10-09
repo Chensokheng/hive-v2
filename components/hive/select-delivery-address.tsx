@@ -26,6 +26,7 @@ export default function SelectDeliveryAddress() {
         sessionStorage.getItem("address")?.slice(0, 20) ||
         unAuthAddress?.slice(0, 20)
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.placeAddress]);
 
   return (
@@ -45,12 +46,8 @@ export default function SelectDeliveryAddress() {
         <h2 className="text-[#303D55]/60 text-xs font-medium">
           {t("nav.deliveryAddress")}
         </h2>
-        <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base truncate leading-6">
-          {unAuthAddress
-            ? unAuthAddress.slice(0, 22) + "..."
-            : address
-              ? address.slice(0, 22) + "..."
-              : t("nav.enterDeliveryAddress")}
+        <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base  leading-6 truncate">
+          {unAuthAddress ? unAuthAddress : address}
         </h1>
       </div>
     </div>

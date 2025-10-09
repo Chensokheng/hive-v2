@@ -21,12 +21,6 @@ export interface CouponData {
   isUsed?: boolean;
 }
 
-interface CouponProps {
-  coupon: CouponData;
-  className?: string;
-  onClick?: (coupon: CouponData) => void;
-}
-
 export function CouponSection({ className }: { className?: string }) {
   const { merchant, outlet } = useParams();
 

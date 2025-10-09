@@ -33,7 +33,7 @@ export default function PromotionPage() {
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3  gap-2 lg:gap-6">
-          {merchants?.merchants.map((merchant, index) => (
+          {merchants?.merchants.map((merchant) => (
             <Link
               href={"/" + locale + "/" + merchant.subDomain}
               key={merchant.id}

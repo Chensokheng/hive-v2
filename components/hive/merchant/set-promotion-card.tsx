@@ -22,7 +22,6 @@ interface SetPromotionCardProps {
 }
 
 export default function SetPromotionCard({
-  id,
   title,
   image,
   totalItems,

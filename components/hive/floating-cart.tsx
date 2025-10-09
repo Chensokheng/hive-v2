@@ -3,26 +3,14 @@
 import { useOutletStore } from "@/store/outlet";
 
 import { cn } from "@/lib/utils";
-import useGetUserInfo from "@/hooks/use-get-user-info";
 
 import CartIcon from "../icon/cart";
 import EyeIcon from "../icon/eye";
 
-export function FloatingCart({
-  cartId,
-  quantity,
-  isFetching,
-  refetch,
-}: {
-  cartId: number;
-  quantity: number;
-  isFetching: boolean;
-  refetch: () => void;
-}) {
+export function FloatingCart({ quantity }: { quantity: number }) {
   const setOpenCheckoutSheet = useOutletStore(
     (state) => state.setOpenCheckoutSheet
   );
-  const { data: user } = useGetUserInfo();
 
   return (
     <>

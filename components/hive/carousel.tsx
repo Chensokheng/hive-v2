@@ -85,7 +85,7 @@ export function Carousel({
     return null;
   }
 
-  const defaultRenderSlide = (item: CarouselItem, index: number) => (
+  const defaultRenderSlide = (item: CarouselItem) => (
     <div key={item.id} className="w-full h-full flex-shrink-0 relative">
       <AsyncImage
         src={item.image}
@@ -118,9 +118,7 @@ export function Carousel({
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {items.map((item, index) =>
-          renderSlide
-            ? renderSlide(item, index)
-            : defaultRenderSlide(item, index)
+          renderSlide ? renderSlide(item, index) : defaultRenderSlide(item)
         )}
       </div>
 

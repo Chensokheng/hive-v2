@@ -55,6 +55,7 @@ export default function DeliveryInfo({
     if (user?.userId) {
       updateFee();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.placeAddress]);
 
   return (

@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { rowdies } from "@/fonts";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
@@ -12,58 +12,14 @@ import useGetBanner from "@/hooks/use-get-banner";
 
 import { Skeleton } from "../ui/skeleton";
 
-interface BannerItem {
-  id: string;
-  image: string;
-  title: string;
-  description: string;
-  buttonText: string;
-  onButtonClick?: () => void;
-}
-
-interface BannerCarouselProps {
-  banners?: BannerItem[];
-}
-
-const defaultBanners: BannerItem[] = [
-  {
-    id: "1",
-    image: "/assets/mini/banner.png",
-    title: "Culinary Perfection",
-    description: "Savor world-class dishes in an exquisite setting.",
-    buttonText: "Reserve Table",
-  },
-  {
-    id: "2",
-    image: "/assets/mini/banner.png",
-    title: "Culinary Perfection",
-    description: "Savor world-class dishes in an exquisite setting.",
-    buttonText: "Reserve Table",
-  },
-];
-
-export default function BannerCarousel({
-  banners = defaultBanners,
-}: BannerCarouselProps) {
+export default function BannerCarousel() {
   const { data, isLoading } = useGetBanner();
-  const router = useRouter();
   const { locale } = useParams();
   if (isLoading) {
     return (
       <Skeleton className="h-44 w-[calc(100vw-3rem)] bg-gray-300 mx-auto" />
     );
   }
-  const handleCta = (
-    url: string | null,
-    merchantLength: number,
-    id: number
-  ) => {
-    if (url) {
-      router.push(url);
-    } else if (merchantLength) {
-      router.push("/banner/" + id);
-    }
-  };
 
   return (
     <div className="flex overflow-x-auto gap-4 pr-16 scroll-smooth snap-x snap-mandatory hide-scroll ml-5 ">

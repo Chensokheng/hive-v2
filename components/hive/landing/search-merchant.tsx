@@ -32,6 +32,7 @@ export default function SearchMerchant() {
     if (searchMerchantKeyword) {
       inputRef.current!.value = searchMerchantKeyword.split("=")[1];
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -125,6 +125,7 @@ export default function OutletMenuToCart() {
         ? selectedOutletMenu?.promotionPrice
         : selectedOutletMenu?.price || 0;
     setBasePrice(price || 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [menuDetail]);
 
   const totalAddonPrice = useMemo(() => {
