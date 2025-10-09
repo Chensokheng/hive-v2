@@ -3,10 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
-import { getImageUrl } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
 import useGetOutletNearby from "@/hooks/use-get-outlet-nearby";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
@@ -25,6 +26,13 @@ export default function OutletNearBy() {
         ? Number(sessionStorage.getItem("lng"))
         : 0)!,
     ""
+  );
+
+  const searchMerchantKeyword = useSearchStore(
+    (state) => state.searchMerchantKeyword
+  );
+  const filterMerchantCategoryId = useSearchStore(
+    (state) => state.filterMerchantCategoryId
   );
 
   if (isLoading || isLoadingUser) {
@@ -63,7 +71,11 @@ export default function OutletNearBy() {
   }
 
   return (
-    <div className="max-w-[1200px] mx-auto mt-10 px-2 space-y-5">
+    <div
+      className={cn("max-w-[1200px] mx-auto mt-10 px-2 space-y-5", {
+        hidden: searchMerchantKeyword || filterMerchantCategoryId,
+      })}
+    >
       <h1 className="text-xl lg:text-3xl font-bold ">
         <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
           Nearby

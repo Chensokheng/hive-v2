@@ -3,10 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
-import { getImageUrl } from "@/lib/utils";
+import { cn, getImageUrl } from "@/lib/utils";
 import useGetRecentOrders from "@/hooks/use-get-recent-orders";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
@@ -16,11 +17,17 @@ export default function RecentOrder() {
   const { locale } = useParams();
   const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
   const { data, isLoading } = useGetRecentOrders(user?.token!);
+  const searchMerchantKeyword = useSearchStore(
+    (state) => state.searchMerchantKeyword
+  );
+  const filterMerchantCategoryId = useSearchStore(
+    (state) => state.filterMerchantCategoryId
+  );
 
   if (isLoading || isLoadingUser) {
     return (
       <>
-        <div className="max-w-[1200px] mx-auto mt-10 px-2 space-y-5">
+        <div className={cn("max-w-[1200px] mx-auto mt-10 px-2 space-y-5")}>
           <h1 className="text-3xl font-bold ">
             <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
               Recent Order
@@ -53,7 +60,11 @@ export default function RecentOrder() {
   }
 
   return (
-    <div className="max-w-[1200px] mx-auto mt-10 px-2 space-y-5">
+    <div
+      className={cn("max-w-[1200px] mx-auto mt-10 px-2 space-y-5", {
+        hidden: searchMerchantKeyword || filterMerchantCategoryId,
+      })}
+    >
       <h1 className="text-xl lg:text-3xl font-bold ">
         <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
           Recent Order
