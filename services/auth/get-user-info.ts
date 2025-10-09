@@ -38,5 +38,7 @@ export default async function getUserInfo() {
     hasPassword: user.data?.hasPassword,
     placeAddress: user.data?.user_infos[0]?.place_address,
     phone: user.data?.phone,
+    image: user.data.user_infos?.[0].image_name || null,
+    birthDate: user.data?.birthdate,
   };
 }

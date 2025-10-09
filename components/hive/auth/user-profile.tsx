@@ -17,10 +17,12 @@ import UserIcon from "../../icon/user";
 import VoucherIcon from "../../icon/voucher";
 import { UserProfileSkeleton } from "../../loading/user-profile-skeleton";
 import { Button } from "../../ui/button";
+import ProfileSettingsSheet from "./profile-settings-sheet";
 
 export default function UserProfile() {
   const { locale } = useParams();
   const [isLoading, setLoading] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
   const queryClient = useQueryClient();
   const router = useRouter();
@@ -95,7 +97,10 @@ export default function UserProfile() {
           </div>
           <ChevronRight className="text-[#BDC5DB]" />
         </Link>
-        <button className="text-black flex bg-whit p-4 rounded-2xl font-semibold bg-white w-full justify-between cursor-pointer">
+        <button
+          className="text-black flex bg-whit p-4 rounded-2xl font-semibold bg-white w-full justify-between cursor-pointer"
+          onClick={() => setIsSettingsOpen(true)}
+        >
           <div className="flex gap-3 items-center">
             <SettingIcon />
             <span>Settings</span>
@@ -116,6 +121,12 @@ export default function UserProfile() {
         )}
         Sign out
       </Button>
+
+      {/* Profile Settings Sheet */}
+      <ProfileSettingsSheet
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
     </>
   );
 }
