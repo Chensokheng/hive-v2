@@ -195,6 +195,9 @@ export default function PromotionSections() {
       </div>
     );
   }
+  if (!data?.data || !data.data.length) {
+    return <></>;
+  }
 
   return (
     <div
