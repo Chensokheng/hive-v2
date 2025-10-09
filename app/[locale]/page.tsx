@@ -17,7 +17,7 @@ export default function Page() {
         <PromotionSections />
         <RecentOrder />
         <OutletNearBy />
-        <div className="max-w-[1200px] mx-auto mt-10">
+        <div className="max-w-[1200px] mx-auto mt-10" id="home-page-stores">
           <StoreGrid hidetitle={false} />
         </div>
       </div>

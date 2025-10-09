@@ -23,6 +23,9 @@ export default function SearchMerchant() {
 
   const handleChangeSearchMerchant = useDebouncedCallback((value) => {
     setSearchMerchantKeyword(value);
+    document
+      .getElementById("home-page-stores")
+      ?.scrollIntoView({ behavior: "smooth" });
   }, 500);
 
   useEffect(() => {
