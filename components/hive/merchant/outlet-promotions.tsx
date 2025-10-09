@@ -97,7 +97,7 @@ export default function OutletPromotions() {
         <div className="flex items-center justify-between px-2">
           <h2 className="text-xl font-bold ">
             🎁{" "}
-            <span className="bg-gradient-to-r from-[#FF6B00] to-[#FF0080] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
               Special Promotions
             </span>
           </h2>

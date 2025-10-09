@@ -145,7 +145,7 @@ export default function StoreGrid({ hidetitle }: { hidetitle: boolean }) {
               )}
             </div>
             <div className="px-2 lg:px-5 py-2">
-              <h3 className="font-semibold text-[#161F2F] lg:text-lg">
+              <h3 className="font-semibold text-[#161F2F] lg:text-lg truncate">
                 {merchant.name}
               </h3>
 

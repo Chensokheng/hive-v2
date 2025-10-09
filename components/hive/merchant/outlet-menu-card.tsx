@@ -74,7 +74,7 @@ export default function OutletMenuCard({
         </div>
 
         <div className="px-3 py-4 w-full">
-          <h1 className="text-[#161F2F] font-semibold break-words overflow-hidden text-ellipsis">
+          <h1 className="text-[#161F2F] font-semibold break-words overflow-hidden text-ellipsis truncate">
             {item.name}
           </h1>
           <div>

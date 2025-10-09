@@ -346,7 +346,7 @@ export default function PromotionDetailsSheet({
           <Button
             onClick={handleAddToCart}
             disabled={isAdding}
-            className="w-full bg-gradient-to-r from-[#FF6B00] to-[#FF0080] hover:from-[#FF6B00]/90 hover:to-[#FF0080]/90 text-white"
+            className="w-fullbg-primary w-full rounded-full text-white"
           >
             {isAdding ? "Adding..." : "Add All to Cart"}
           </Button>
