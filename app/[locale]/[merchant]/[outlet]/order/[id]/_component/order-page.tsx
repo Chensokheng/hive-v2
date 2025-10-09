@@ -8,6 +8,7 @@ import { Blur } from "transitions-kit";
 
 import { getGoogleMapLocation, getImageUrl } from "@/lib/utils";
 import useGetOrderDetail from "@/hooks/use-get-order-detail";
+import { Skeleton } from "@/components/ui/skeleton";
 import OrderAddonDetail from "@/components/hive/checkout/order-addon-detail";
 import MapIcon from "@/components/icon/map";
 import RefreshIcon from "@/components/icon/refresh";
@@ -47,11 +48,19 @@ export default function OrderDetailsPage() {
         {/* Status */}
         <div className="bg-white text-center py-6">
           {/* Progress Indicator */}
-          <OrderProgress
-            status={data?.data.status || ""}
-            cancelReason={data?.data.cancel_reason || ""}
-            isSelfPickup={data?.data.type === "delivery_self_pickup"}
-          />
+          {isLoading ? (
+            <div>
+              <Skeleton className=" bg-gray-300 h-10 w-20 mx-auto my-2" />
+
+              <Skeleton className=" bg-gray-300 h-10 mx-10 my-2" />
+            </div>
+          ) : (
+            <OrderProgress
+              status={data?.data.status || ""}
+              cancelReason={data?.data.cancel_reason || ""}
+              isSelfPickup={data?.data.type === "delivery_self_pickup"}
+            />
+          )}
 
           {/* Order Information */}
           <div className="bg-white p-4 border-t-8 border-primary-bg">
@@ -74,7 +83,19 @@ export default function OrderDetailsPage() {
                 <span className="text-[#303D55]/60">Phone Number:</span>
                 <span className="text-[#161F2F]">{data?.data.phone}</span>
               </div>
-              {data?.data.type !== "delivery_self_pickup" && (
+
+              {isLoading ? (
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <Skeleton className=" bg-gray-300 h-5 w-20  my-2" />
+                    <Skeleton className=" bg-gray-300 h-5 w-20 my-2" />
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              {!isLoading && data?.data.type !== "delivery_self_pickup" && (
                 <div className="flex justify-between items-start">
                   <span className="text-[#303D55]/60">Address:</span>
                   <span className="text-[#161F2F] text-right ">
@@ -82,7 +103,6 @@ export default function OrderDetailsPage() {
                   </span>
                 </div>
               )}
-              {/* {"hello"} */}
 
               {data?.data.type === "delivery_self_pickup" && (
                 <div className="flex justify-between items-start">

@@ -36,9 +36,7 @@ export default function OrderProgress({
   };
 
   // Define the order flow
-  const statusOrder = !isSelfPickup
-    ? ["new", "processing", "picked_up", "completed"]
-    : ["new", "processing", "completed"];
+  const statusOrder = ["new", "processing", "picked_up", "completed"];
 
   // Normalize status for flow tracking
   const normalizedStatus =
