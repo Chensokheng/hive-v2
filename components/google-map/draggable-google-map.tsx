@@ -19,13 +19,20 @@ export default function DraggableGoogleMap({
   const googleMapRef = useRef<google.maps.Map | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load Google Maps script
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    // Check if already loaded
     if (window.google?.maps) {
       setIsLoaded(true);
+      return;
+    }
+
+    // This script check is for preventing duplicated script loading
+    const existingScript = document.querySelector(
+      'script[src*="maps.googleapis.com/maps/api/js"]'
+    );
+    if (existingScript) {
+      existingScript.addEventListener("load", () => setIsLoaded(true));
       return;
     }
 
@@ -37,11 +44,10 @@ export default function DraggableGoogleMap({
     document.head.appendChild(script);
 
     return () => {
-      // Cleanup if needed
+      // placeholder for clean up functions
     };
   }, [apiKey]);
 
-  // Initialize map
   useEffect(() => {
     if (!isLoaded || !mapRef.current || googleMapRef.current) return;
 
