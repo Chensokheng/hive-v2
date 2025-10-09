@@ -1476,46 +1476,38 @@ export type AvailableTimeResponse = {
 };
 
 // recend order
-
 export type RecendOrders = {
   status: boolean;
   data: {
     id: number;
     name: string;
-    image: string;
-    subDomain: string;
+    shortName: string;
+    joinedDelivery: boolean;
+    joinedContactless: boolean;
+    joinedTableBooking: boolean;
     address: {
       city: string;
       cityEn: string;
       district: string;
       districtEn: string;
+      ward: string;
+      wardEn: string;
       address: string;
     };
-    hierarchicalCategories: {
+    merchant: {
       id: number;
       name: string;
-      name_en: string;
-    }[];
-    joinedDelivery: boolean;
-    joinedContactless: boolean;
-    joinedTableBooking: boolean;
-    outlets: {
+      subDomain: string;
+      image: string;
+      hierarchicalCategories: { id: number; name: string; name_en: string }[];
+    };
+    order: {
       id: number;
-      name: string;
-      shortName: string;
-      joinedDelivery: boolean;
-      joinedContactless: boolean;
-      joinedTableBooking: boolean;
-      address: {
-        city: string;
-        cityEn: string;
-        district: string;
-        districtEn: string;
-        ward: string;
-        wardEn: string;
-        address: string;
-      };
-    }[];
+      createdAt: string;
+      finalTotal: number;
+      status: "new" | "completed" | "canceled";
+      type: "delivery" | "contactless_at_store" | "delivery_self_pickup";
+    };
   }[];
 };
 

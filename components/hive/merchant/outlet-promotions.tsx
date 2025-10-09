@@ -116,7 +116,7 @@ export default function OutletPromotions() {
         </div>
 
         <div
-          className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 px-2"
+          className="flex gap-2 lg:gap-5 overflow-x-auto scrollbar-hide pb-4 px-2"
           id="outlet-promotions-container"
         >
           {/* Order Promotion Campaign Cards */}

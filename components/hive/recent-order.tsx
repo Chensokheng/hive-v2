@@ -63,13 +63,13 @@ export default function RecentOrder() {
         {data?.data.map((item) => {
           return (
             <Link
-              href={`${locale}/${item.subDomain}`}
+              href={`${locale}/${item.merchant.subDomain}/${item.shortName}`}
               key={item.id}
               className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
             >
               <div className="relative w-full aspect-[3/2]">
                 <AsyncImage
-                  src={getImageUrl(item.image)}
+                  src={getImageUrl(item.merchant.image)}
                   Transition={Blur}
                   style={{ width: "100%", height: "100%", borderRadius: 20 }}
                   loader={<div className="bg-gray-300" />}

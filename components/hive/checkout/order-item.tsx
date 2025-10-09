@@ -177,7 +177,9 @@ export default function OrderItem({
           <div className="flex-1" onClick={handleEditItem}>
             <h1 className="font-semibold text-[#161F2F] ">{item.name}</h1>
             {isFree && (
-              <p className="text-sm text-[#303D55]/60">{item.quantity} Free</p>
+              <p className="text-sm font-medium text-orange-600">
+                {item.quantity} Free
+              </p>
             )}
             {item.isHappyHourProduct && (
               <>

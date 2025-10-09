@@ -256,6 +256,13 @@ export default function PromotionCard({
             <Plus className="text-primary" />
           </div>
         )}
+        {isUsed && (
+          <div className=" absolute bottom-2 right-2">
+            <div className=" text-sm bg-red-500 text-white rounded px-2">
+              Purchased
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
