@@ -13,7 +13,7 @@ import { useOutletStore } from "@/store/outlet";
 import { SelectedAddon } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
@@ -352,7 +352,7 @@ export default function EditMenuCartItem() {
               >
                 {!areRequiredAddonsSelected
                   ? "Please select required options"
-                  : `Update - $${totalPrice.toFixed(2)}`}{" "}
+                  : `Update - $${totalPrice.toFixed(0)}`}{" "}
                 {areRequiredAddonsSelected && (
                   <span className="text-xs font-medium">
                     ≈{totalPrice * (rate || 0)}៛

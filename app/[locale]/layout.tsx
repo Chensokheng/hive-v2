@@ -7,7 +7,6 @@ import "../globals.css";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { setRequestLocale } from "next-intl/server";
-import { Toaster } from "react-hot-toast";
 import { Toaster as SonnerToast } from "sonner";
 
 import Navbar from "@/components/hive/navbar";
@@ -75,8 +74,7 @@ export default async function RootLayout({
             {children}
           </main>
 
-          <Toaster />
-          <SonnerToast />
+          <SonnerToast richColors position="top-center" />
         </NextIntlClientProvider>
       </body>
     </html>

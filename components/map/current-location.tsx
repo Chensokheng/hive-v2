@@ -8,7 +8,7 @@ import { reverseGeocode } from "@/services/map/get-map";
 import { useAddresStore } from "@/store/address";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
 

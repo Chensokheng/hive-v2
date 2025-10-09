@@ -12,7 +12,7 @@ import { useOutletStore } from "@/store/outlet";
 import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
 import { ChevronLeft, Loader, Minus, Plus, XIcon } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { Blur } from "transitions-kit";
 
 import { cn } from "@/lib/utils";

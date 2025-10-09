@@ -3,7 +3,7 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 
 import ShareIcon from "@/components/icon/share";
 
@@ -20,9 +20,7 @@ export default function OutletMobileNav() {
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
-    toast.success("Link copied to clipboard", {
-      position: "bottom-center",
-    });
+    toast.success("Link copied to clipboard");
   };
   return (
     <div className=" sticky top-0 w-full lg:hidden left-0 z-50">

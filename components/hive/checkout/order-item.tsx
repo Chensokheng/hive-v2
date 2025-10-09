@@ -5,7 +5,7 @@ import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
 import { Minus, Plus, Trash, X } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { Blur } from "transitions-kit";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -201,11 +201,11 @@ export default function OrderItem({
           {!isFree && (
             <div>
               <h1 className="font-bold text-[#161F2F] text-right">
-                ${(item.promotionPrice * item.quantity).toFixed(2)}
+                ${(item.promotionPrice * item.quantity).toFixed(0)}
               </h1>
               <p className="text-sm text-[#303D55]/60">
                 ≈ ៛
-                {(item.promotionPrice * item.quantity * (rate || 0)).toFixed(2)}
+                {(item.promotionPrice * item.quantity * (rate || 0)).toFixed(0)}
               </p>
             </div>
           )}

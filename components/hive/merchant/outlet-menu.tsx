@@ -76,7 +76,7 @@ export default function OutletMenu() {
               <h1 className="text-[#161F2F] text-[22px] font-bold">
                 {menu.name}
               </h1>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-5 lg:px-0  py-3">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-5 lg:px-0  py-3">
                 {menu.items.map((item, index) => {
                   // Sum up quantities for all unpaid items with the same menuItemId
                   const totalQuantity =

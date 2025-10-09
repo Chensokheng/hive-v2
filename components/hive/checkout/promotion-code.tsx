@@ -5,7 +5,7 @@ import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
 import { AsyncImage } from "loadable-image";
 import { ChevronRight, Loader, X } from "lucide-react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { Blur } from "transitions-kit";
 
 import { cn, getImageUrl } from "@/lib/utils";

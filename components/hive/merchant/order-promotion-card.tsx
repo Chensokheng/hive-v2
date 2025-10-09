@@ -127,7 +127,7 @@ export default function OrderPromotionCard({
             <div className="flex items-center gap-1.5">
               <span className="text-xs text-gray-600">Spend</span>
               <span className="text-sm font-bold text-primary">
-                ${minBillAmount.toFixed(2)}
+                ${minBillAmount.toFixed(0)}
               </span>
             </div>
             <div className="text-xs text-gray-600">
@@ -138,7 +138,7 @@ export default function OrderPromotionCard({
               FREE
             </div>
             <div className="text-xs text-gray-500">
-              (Worth ${freeItemPrice.toFixed(2)})
+              (Worth ${freeItemPrice.toFixed(0)})
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 import { JSBridge } from "@/lib/js-bridge";
 
@@ -33,7 +33,6 @@ export default function JsBridgeListener() {
           break;
       }
     };
-     
   }, []);
 
   return <></>;
