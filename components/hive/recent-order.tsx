@@ -71,37 +71,43 @@ export default function RecentOrder() {
         </span>
       </h1>
       <div className="grid grid-cols-2 lg:grid-cols-3  gap-2 lg:gap-6">
-        {data?.data.map((item) => {
-          return (
-            <Link
-              href={`${locale}/${item.merchant.subDomain}/${item.shortName}`}
-              key={item.id}
-              className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
-            >
-              <div className="relative w-full aspect-[3/2]">
-                <AsyncImage
-                  src={getImageUrl(item.merchant.image)}
-                  Transition={Blur}
-                  style={{ width: "100%", height: "100%", borderRadius: 20 }}
-                  loader={<div className="bg-gray-300" />}
-                />
-              </div>
-              <div className="px-2 lg:px-5 py-2">
-                <h3 className="font-semibold text-[#161F2F] lg:text-lg truncate">
-                  {item.name}
-                </h3>
-
-                {/* Location */}
-                <div className="flex items-center gap-1">
-                  <MapPin color="#FF66CC" />
-                  <span className="text-sm text-[#303D55]/60">
-                    {item.address.district}
-                  </span>
+        {data?.data
+          .sort((a, b) => {
+            const dateA = new Date(a.order.createdAt).getTime();
+            const dateB = new Date(b.order.createdAt).getTime();
+            return dateB - dateA; // Sort descending (latest first)
+          })
+          .map((item) => {
+            return (
+              <Link
+                href={`${locale}/${item.merchant.subDomain}/${item.shortName}`}
+                key={item.id}
+                className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
+              >
+                <div className="relative w-full aspect-[3/2]">
+                  <AsyncImage
+                    src={getImageUrl(item.merchant.image)}
+                    Transition={Blur}
+                    style={{ width: "100%", height: "100%", borderRadius: 20 }}
+                    loader={<div className="bg-gray-300" />}
+                  />
                 </div>
-              </div>
-            </Link>
-          );
-        })}
+                <div className="px-2 lg:px-5 py-2">
+                  <h3 className="font-semibold text-[#161F2F] lg:text-lg truncate">
+                    {item.name}
+                  </h3>
+
+                  {/* Location */}
+                  <div className="flex items-center gap-1">
+                    <MapPin color="#FF66CC" />
+                    <span className="text-sm text-[#303D55]/60">
+                      {item.address.district}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
       </div>
     </div>
   );

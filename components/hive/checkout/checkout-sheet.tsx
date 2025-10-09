@@ -187,7 +187,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
             <h1 className="text-primary text-[1.375rem] font-bold">Total: </h1>
             <div className="flex flex-col justify-end">
               <h1 className=" font-bold text-right bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent text-[1.375rem]">
-                ${renderFinalPrice().toFixed(0)}
+                ${renderFinalPrice().toFixed(2)}
               </h1>
               <p className=" text-[#161F2F]">
                 {" "}

@@ -217,7 +217,7 @@ export default function PromotionDetailsSheet({
           {promotionType === "COMBO" && discountInfo.totalDiscount > 0 && (
             <div className="bg-gradient-to-r from-[#FF6B00]/10 to-[#FF0080]/10 p-4 rounded-lg">
               <p className="text-sm font-semibold text-[#FF6B00]">
-                Total Discount: ${discountInfo.totalDiscount.toFixed(0)}
+                Total Discount: ${discountInfo.totalDiscount.toFixed(2)}
               </p>
             </div>
           )}
@@ -264,7 +264,7 @@ export default function PromotionDetailsSheet({
                           </span>
                           {discount > 0 && (
                             <span className="text-xs text-[#FF6B00] font-semibold">
-                              -${discount.toFixed(0)}
+                              -${discount.toFixed(2)}
                             </span>
                           )}
                         </div>
@@ -323,21 +323,21 @@ export default function PromotionDetailsSheet({
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Original Price:</span>
               <span className="line-through text-gray-500">
-                ${pricing.originalTotal.toFixed(0)}
+                ${pricing.originalTotal.toFixed(2)}
               </span>
             </div>
             {pricing.savings > 0 && (
               <div className="flex justify-between text-sm">
                 <span className="text-[#FF6B00] font-semibold">You Save:</span>
                 <span className="text-[#FF6B00] font-semibold">
-                  ${pricing.savings.toFixed(0)}
+                  ${pricing.savings.toFixed(2)}
                 </span>
               </div>
             )}
             <div className="flex justify-between text-lg font-bold">
               <span>Total:</span>
               <span className="text-primary">
-                ${pricing.discountedTotal.toFixed(0)}
+                ${pricing.discountedTotal.toFixed(2)}
               </span>
             </div>
           </div>

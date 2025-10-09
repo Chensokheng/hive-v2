@@ -201,7 +201,7 @@ export default function OrderItem({
           {!isFree && (
             <div>
               <h1 className="font-bold text-[#161F2F] text-right">
-                ${(item.promotionPrice * item.quantity).toFixed(0)}
+                ${(item.promotionPrice * item.quantity).toFixed(2)}
               </h1>
               <p className="text-sm text-[#303D55]/60">
                 ≈ ៛

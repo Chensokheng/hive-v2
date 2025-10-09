@@ -138,7 +138,7 @@ export default function OrderPromotionCard({
               FREE
             </div>
             <div className="text-xs text-gray-500">
-              (Worth ${freeItemPrice.toFixed(0)})
+              (Worth ${freeItemPrice.toFixed(2)})
             </div>
           </div>
         </div>

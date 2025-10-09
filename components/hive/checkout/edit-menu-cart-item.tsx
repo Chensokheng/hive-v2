@@ -352,7 +352,7 @@ export default function EditMenuCartItem() {
               >
                 {!areRequiredAddonsSelected
                   ? "Please select required options"
-                  : `Update - $${totalPrice.toFixed(0)}`}{" "}
+                  : `Update - $${totalPrice.toFixed(2)}`}{" "}
                 {areRequiredAddonsSelected && (
                   <span className="text-xs font-medium">
                     ≈{totalPrice * (rate || 0)}៛

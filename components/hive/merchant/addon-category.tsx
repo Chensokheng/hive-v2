@@ -68,7 +68,7 @@ export default function AddonCategoryComponent({
           .map((item) => {
             const isSelected = isItemSelected(item.id);
             const priceDisplay =
-              item.price > 0 ? `$${item.price.toFixed(0)}` : "$0";
+              item.price > 0 ? `$${item.price.toFixed(2)}` : "$0";
 
             return (
               <div
