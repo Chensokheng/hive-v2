@@ -21,6 +21,7 @@ import useSavedLocations from "@/hooks/use-saved-locations";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
+// eslint-disable-next-line unused-imports/no-unused-vars
 const addressTypes = {
   home: "Home",
   work: "Work",
@@ -162,7 +163,7 @@ export default function SavedAddress() {
                 e.stopPropagation();
                 handleEditAddress("home", homeLocation, e);
               }}
-              className="p-2 hover:bg-primary/20 rounded-full transition-colors"
+              className="p-2 hover:bg-primary/20 rounded-full transition-colors cursor-pointer"
               disabled={selectingLocationId === homeLocation.id}
             >
               <Pencil className="h-4 w-4 text-primary" />
@@ -171,7 +172,7 @@ export default function SavedAddress() {
         ) : (
           <button
             onClick={() => handleAddAddress("home")}
-            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group"
+            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <Home className="h-4 w-4 text-primary" strokeWidth={2.5} />
@@ -223,7 +224,7 @@ export default function SavedAddress() {
                 e.stopPropagation();
                 handleEditAddress("work", workLocation, e);
               }}
-              className="p-2 hover:bg-primary/20 rounded-full transition-colors"
+              className="p-2 hover:bg-primary/20 rounded-full transition-colors cursor-pointer"
               disabled={selectingLocationId === workLocation.id}
             >
               <Pencil className="h-4 w-4 text-primary" />
@@ -232,7 +233,7 @@ export default function SavedAddress() {
         ) : (
           <button
             onClick={() => handleAddAddress("work")}
-            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group"
+            className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <BriefcaseBusiness
@@ -286,7 +287,7 @@ export default function SavedAddress() {
                   e.stopPropagation();
                   handleEditAddress("other", location, e);
                 }}
-                className="p-2 hover:bg-primary/20 rounded-full transition-colors"
+                className="p-2 hover:bg-primary/20 rounded-full transition-colors cursor-pointer"
                 disabled={selectingLocationId === location.id}
               >
                 <Pencil className="h-4 w-4 text-primary" />
@@ -299,7 +300,7 @@ export default function SavedAddress() {
         {/* Add Other Address Button */}
         <button
           onClick={() => handleAddAddress("other")}
-          className="flex items-center gap-3 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left"
+          className="flex items-center gap-3 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left cursor-pointer"
         >
           <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
           <span className="text-primary font-normal">Add Other Address</span>

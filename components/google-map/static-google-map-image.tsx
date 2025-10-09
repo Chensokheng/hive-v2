@@ -3,8 +3,6 @@
 import { useMemo } from "react";
 import Image from "next/image";
 
-import MapPin from "../icon/map-pin";
-
 const GOOGLE_MAP_STATIC_IMAGE_URL =
   "https://maps.googleapis.com/maps/api/staticmap";
 
@@ -78,7 +76,6 @@ export default function StaticMapImage({
 
   return (
     <div className="rounded-lg mb-2 border-1 border-secondary shadow-sm">
-      {/* <didv className="h-32 overflow-hidden"> */}
       <div className="rounded-t-lg">
         <div className="h-full w-full flex items-center justify-center">
           <Image
@@ -91,12 +88,10 @@ export default function StaticMapImage({
           />
         </div>
       </div>
-      {/* </didv> */}
 
       {/* Location address */}
       <div className="bg-white rounded-b-lg z-50">
         <div className="flex items-center gap-3 p-2">
-          <MapPin className="text-gray-500 h-6 w-6" />
           <div>
             <h4 className="font-semibold truncate">
               {" "}

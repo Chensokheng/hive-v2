@@ -1,7 +1,11 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { useAddresStore } from "@/store/address";
+import {
+  DEFAULT_ADDRESS,
+  DEFAULT_LAT_LNG,
+  useAddresStore,
+} from "@/store/address";
 import {
   useSavedAddressStore,
   useSavedLocationStore,
@@ -37,10 +41,6 @@ interface AddressModalProps {
   addressType: TAddressType;
   setOpenModal: (isOpen: string) => void;
 }
-
-const DEFAULT_LAT_LNG = { lat: 11.550966450309836, lng: 104.9287729533798 };
-const DEFAULT_ADDRESS =
-  "No. 86A, Street 110, Russian Federation Blvd (110), Phnom Penh, Cambodia";
 
 export default function AddressModal({ setOpenModal }: AddressModalProps) {
   const { data: user } = useGetUserInfo();
@@ -215,6 +215,10 @@ export default function AddressModal({ setOpenModal }: AddressModalProps) {
     resetAddressForm();
   };
 
+  const handleOpenMap = () => {
+    setOpenDraggableMap(true, "saved-address");
+  };
+
   const isLoading = isCreating || isUpdating;
   // const isLoading = isCreating || isUpdating || isDeleting;
 
@@ -277,7 +281,7 @@ export default function AddressModal({ setOpenModal }: AddressModalProps) {
               <SavedAddressSearch className="space-y-3" />
 
               <div
-                onClick={() => !isLoading && setOpenDraggableMap(true)}
+                onClick={handleOpenMap}
                 className={cn(
                   "h-44 bg-gray-100 rounded-lg mb-2 border-secondary border-1 cursor-pointer",
                   { "opacity-50 cursor-not-allowed": isLoading }

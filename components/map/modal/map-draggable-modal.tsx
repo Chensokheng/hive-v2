@@ -1,8 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { getPlaceByGeocode } from "@/services/address/get-place-by-geocode";
-import { useAddresStore } from "@/store/address";
+import { updateDeliveryAddress } from "@/services/address/update-delivery-address";
+import { DEFAULT_LAT_LNG, useAddresStore } from "@/store/address";
+import {
+  LocationData,
+  useSavedAddressStore,
+  useSavedLocationStore,
+} from "@/store/saved-address";
+import { useQueryClient } from "@tanstack/react-query";
 import { Check, Loader2, MapPin, X } from "lucide-react";
 import toast from "react-hot-toast";
 
@@ -18,22 +26,15 @@ import {
 import DraggableGoogleMap from "@/components/google-map/draggable-google-map";
 import CurrentLocationIcon from "@/components/icon/current-location";
 
-interface LocationData {
-  id: string;
-  lat: number;
-  lng: number;
-  address: string;
-}
-
 interface MapLocationPickerProps {
   initialCenter?: { lat: number; lng: number };
 }
 
-const DEFAULT_CENTER = { lat: 11.550966450309836, lng: 104.9287729533798 }; // Keystone building
-
 export function MapLocationPicker({
-  initialCenter = DEFAULT_CENTER,
+  initialCenter = DEFAULT_LAT_LNG,
 }: MapLocationPickerProps) {
+  const { merchant } = useParams() as { merchant: string };
+  const queryClient = useQueryClient();
   const { data: user } = useGetUserInfo();
 
   const [mapCenter, setMapCenter] = useState(initialCenter);
@@ -44,11 +45,44 @@ export function MapLocationPicker({
   const [error, setError] = useState<string | null>(null);
   const [isInitializing, setIsInitializing] = useState(false);
   const [canRenderMap, setCanRenderMap] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const openDraggableMap = useAddresStore((state) => state.openDraggableMap);
+  const mapContext = useAddresStore((state) => state.mapContext);
   const setOpenDraggableMap = useAddresStore(
     (state) => state.setOpenDraggableMap
   );
+
+  const addressFormData = useSavedAddressStore(
+    (state) => state.addressFormData
+  );
+  const updateAddressFormField = useSavedAddressStore(
+    (state) => state.updateAddressFormField
+  );
+  const editingLocation = useSavedLocationStore(
+    (state) => state.editingLocation
+  );
+
+  // Determine initial center based on context
+  const getInitialCenter = useCallback(() => {
+    if (mapContext === "saved-address") {
+      // For saved address: prioritize form data > editing location > user location
+      if (addressFormData.location) {
+        return {
+          lat: addressFormData.location.lat,
+          lng: addressFormData.location.lng,
+        };
+      }
+      if (editingLocation) {
+        return {
+          lat: editingLocation.lat,
+          lng: editingLocation.lng,
+        };
+      }
+    }
+    // For user location or fallback
+    return initialCenter;
+  }, [mapContext, addressFormData.location, editingLocation, initialCenter]);
 
   // Function to get place data using getPlaceByGeocode
   const getPlaceData = useCallback(
@@ -57,7 +91,6 @@ export function MapLocationPicker({
         throw new Error("User token is required");
       }
 
-      setIsReverseGeocoding(true);
       setError(null);
 
       try {
@@ -97,17 +130,19 @@ export function MapLocationPicker({
         setIsInitializing(true);
         setError(null);
 
+        const center = getInitialCenter();
+
         try {
           // Test the API with initial coordinates
           const result = await getPlaceByGeocode({
-            lat: initialCenter.lat,
-            lng: initialCenter.lng,
+            lat: center.lat,
+            lng: center.lng,
             token: user.token,
           });
 
           if (result.status && result.data) {
             setCanRenderMap(true);
-            setMapCenter(initialCenter);
+            setMapCenter(center);
             setCurrentLocation({
               id: result.data.id,
               lat: result.data.lat,
@@ -136,11 +171,13 @@ export function MapLocationPicker({
       setCurrentLocation(null);
       setError(null);
     }
-  }, [openDraggableMap, initialCenter, user?.token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openDraggableMap, user?.token, getInitialCenter]);
 
   useEffect(() => {
     if (!canRenderMap || !user?.token) return;
 
+    setIsReverseGeocoding(true);
     const timeoutId = setTimeout(() => {
       getPlaceData(mapCenter.lat, mapCenter.lng);
     }, 1000); // NOTE: wait for 1 second before getting the data
@@ -152,17 +189,42 @@ export function MapLocationPicker({
     setMapCenter({ lat, lng });
   };
 
-  const handleConfirmLocation = () => {
-    if (currentLocation) {
-      // TODO: update the addressForm or the userCurrentLocation
-      /*
-      1. refers to the 2 static map component
-      
-      
-      */
-      // You can add logic here to save the location or pass it to parent component
-      console.log("Selected location:", currentLocation);
+  const handleConfirmLocation = async () => {
+    if (!currentLocation || !user?.userId || !user?.token) return;
+
+    setIsUpdating(true);
+
+    try {
+      if (mapContext === "user-location") {
+        // Update user's main delivery address
+        await updateDeliveryAddress({
+          userId: Number(user.userId),
+          placeId: currentLocation.id,
+          token: user.token,
+        });
+
+        // Refresh user data and outlets
+        await queryClient.invalidateQueries({ queryKey: ["user-info"] });
+        await queryClient.invalidateQueries({
+          queryKey: ["merchant-outlets", merchant],
+        });
+        await queryClient.invalidateQueries({
+          queryKey: ["outlet-menu-nearby"],
+        });
+
+        toast.success("Your location has been updated");
+      } else if (mapContext === "saved-address") {
+        // Update the form data for saved address
+        updateAddressFormField("location", currentLocation);
+        // toast.success("Location selected");
+      }
+
       setOpenDraggableMap(false);
+    } catch (error) {
+      console.error("Error confirming location:", error);
+      toast.error("Failed to update location. Please try again.");
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -204,7 +266,9 @@ export function MapLocationPicker({
       <DialogContent className="w-full max-w-2xl h-[85vh] p-0 overflow-hidden flex flex-col">
         <DialogHeader className="hidden">
           <DialogTitle className="hidden" aria-readonly>
-            Select Location on Map
+            {"Select " +
+              (mapContext === "user-location" ? "Your" : "Address") +
+              " Location"}
           </DialogTitle>
           <DialogDescription className="hidden" aria-readonly>
             Drag the map to select your desired location
@@ -246,7 +310,9 @@ export function MapLocationPicker({
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">
-                    Select Location
+                    {"Select " +
+                      (mapContext === "user-location" ? "Your" : "Address") +
+                      " Location"}
                   </h3>
                   <p className="text-xs text-gray-500">
                     Drag the map to adjust pin position
@@ -304,7 +370,7 @@ export function MapLocationPicker({
                 <Button
                   onClick={handleUseCurrentLocation}
                   variant="outline"
-                  disabled={isReverseGeocoding}
+                  disabled={isReverseGeocoding || isUpdating}
                   className="w-full h-11 rounded-lg border-2 hover:bg-primary/5 hover:border-primary transition-colors"
                 >
                   <CurrentLocationIcon className="h-5 w-5 text-primary mr-2" />
@@ -317,16 +383,30 @@ export function MapLocationPicker({
                   onClick={handleClose}
                   variant="outline"
                   className="flex-1 h-11 rounded-lg font-medium"
+                  disabled={isUpdating}
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={handleConfirmLocation}
-                  disabled={!currentLocation || isReverseGeocoding}
+                  disabled={
+                    !currentLocation || isReverseGeocoding || isUpdating
+                  }
                   className="flex-1 h-11 rounded-lg font-medium"
                 >
-                  <Check className="w-4 h-4 mr-2" />
-                  Confirm Location
+                  {isUpdating ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Updating...
+                    </>
+                  ) : (
+                    <>
+                      <Check className="w-4 h-4 mr-2" />
+                      {mapContext === "user-location"
+                        ? "Update My Location"
+                        : "Confirm Location"}
+                    </>
+                  )}
                 </Button>
               </div>
             </div>

@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { getPlaceByGeocode } from "@/services/address/get-place-by-geocode";
 import { updateDeliveryAddress } from "@/services/address/update-delivery-address";
-import { reverseGeocode } from "@/services/map/get-map";
 import { useAddresStore } from "@/store/address";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
@@ -13,12 +12,6 @@ import { toast } from "sonner";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
 import CurrentLocationIcon from "../icon/current-location";
-
-const getCurrentLocationData = async (lat: number, lng: number) => {
-  const currentAddr = await reverseGeocode(lat, lng);
-
-  return currentAddr;
-};
 
 export default function UseCurrentLocation() {
   const [isLoading, setIsLoading] = useState(false);
@@ -50,9 +43,6 @@ export default function UseCurrentLocation() {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
 
-      // Get address and placeId from coordinates
-      const locationAddress = await getCurrentLocationData(lat, lng);
-
       if (user?.userId && user.token) {
         // Logged in user - update via API
         // Get address and placeId from coordinates using the API
@@ -78,7 +68,9 @@ export default function UseCurrentLocation() {
           queryKey: ["merchant-outlets", merchant],
         });
       } else {
-        // Not logged in - update sessionStorage
+        // Not logged in - use sessionStorage
+        const locationAddress = "Current Location";
+
         sessionStorage.setItem("address", locationAddress);
         sessionStorage.setItem("lat", lat.toString());
         sessionStorage.setItem("lng", lng.toString());
@@ -113,7 +105,7 @@ export default function UseCurrentLocation() {
     <button
       onClick={handleUseCurrentLocation}
       disabled={isLoading}
-      className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group disabled:opacity-50 disabled:cursor-not-allowed"
+      className="flex items-center gap-3 p-3 w-full hover:bg-primary/10 rounded-lg transition-colors group disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
     >
       {isLoading ? (
         <Loader className="h-5 w-5 text-primary animate-spin" />
