@@ -8,6 +8,7 @@ import FlashSale from "@/components/hive/merchant/flash-sale";
 import HappyHour from "@/components/hive/merchant/happy-hour";
 import OutletCategoryMobile from "@/components/hive/merchant/outlet-category-mobile";
 import OutletCategorySidebar from "@/components/hive/merchant/outlet-category-sidebar";
+import OutletClosed from "@/components/hive/merchant/outlet-closed";
 import OutletHeader from "@/components/hive/merchant/outlet-header";
 import OutletMenu from "@/components/hive/merchant/outlet-menu";
 import OutletMenuToCart from "@/components/hive/merchant/outlet-menu-to-cart";
@@ -28,15 +29,17 @@ export default function page() {
         <div className="max-w-[1200px] lg:flex  justify-center lg:justify-between t mx-auto gap-10">
           <OutletCategorySidebar />
           <div className="flex-1">
-            <div className=" w-full max-w-[900px] mx-auto  min-h-scren lg:py-6">
+            <div className=" w-full max-w-[900px] mx-auto  min-h-scren lg:py-6 relative">
               <BreadCrumOutlet />
               <OutletHeader />
-              <OutletCategoryMobile />
-              <CouponSection />
-              <OutletPromotions />
-              <HappyHour />
-              <FlashSale />
-              <OutletMenu />
+              <OutletClosed>
+                <OutletCategoryMobile />
+                <CouponSection />
+                <OutletPromotions />
+                <HappyHour />
+                <FlashSale />
+                <OutletMenu />
+              </OutletClosed>
             </div>
           </div>
         </div>

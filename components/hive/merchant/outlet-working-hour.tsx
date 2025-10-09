@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useOutletStore } from "@/store/outlet";
 import { useTranslations } from "next-intl";
 
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
@@ -169,6 +170,7 @@ export default function OutletWorkingHour({
   outletName: string;
 }) {
   const { data: user } = useGetUserInfo();
+  const { setIsClosed } = useOutletStore();
 
   const getSessionStorageValue = (key: string): number | null => {
     if (typeof window !== "undefined") {
@@ -184,18 +186,24 @@ export default function OutletWorkingHour({
     user?.longtitude || getSessionStorageValue("lng") || 0
   );
   const t = useTranslations();
+  const workingHours = data?.data.working_hours;
+
+  const { isOpen, closingTime } = isOutletOpen(workingHours || {});
+
+  // Update the store with the current closed/open state
+  useEffect(() => {
+    setIsClosed(!isOpen);
+     
+  }, [isOpen, setIsClosed]);
 
   if (isLoading) {
     return <Skeleton className="w-[200px] h-5 bg-gray-300" />;
   }
 
-  const workingHours = data?.data.working_hours;
-
   if (!workingHours) {
     return null;
   }
 
-  const { isOpen, closingTime } = isOutletOpen(workingHours);
   const nextOpen = !isOpen ? getNextOpenTime(workingHours, t) : null;
   const currentDayName = getDayName(dayKeys[new Date().getDay()], t);
 
