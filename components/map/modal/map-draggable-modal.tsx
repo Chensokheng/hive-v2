@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { reverseGeocode } from "@/services/map/get-map";
+import { useAddresStore } from "@/store/address";
 import { Check, Loader2, Target, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -14,19 +14,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import DraggableGoogleMap from "@/components/google-map/draggable-google-map";
 import CurrentLocationIcon from "@/components/icon/current-location";
-
-const DraggableGoogleMap = dynamic(
-  () => import("@/components/google-map/draggable-google-map"),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-      </div>
-    ),
-  }
-);
 
 interface LocationData {
   id: string;
@@ -36,18 +25,12 @@ interface LocationData {
 }
 
 interface MapLocationPickerProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onLocationSelect: (location: LocationData) => void;
   initialCenter?: { lat: number; lng: number };
 }
 
 const DEFAULT_CENTER = { lat: 11.550966450309836, lng: 104.9287729533798 }; // Keystone building
 
 export function MapLocationPicker({
-  isOpen,
-  onClose,
-  onLocationSelect,
   initialCenter = DEFAULT_CENTER,
 }: MapLocationPickerProps) {
   const [mapCenter, setMapCenter] = useState(initialCenter);
@@ -56,6 +39,12 @@ export function MapLocationPicker({
     null
   );
   const [error, setError] = useState<string | null>(null);
+
+  const openDraggableMap = useAddresStore((state) => state.openDraggableMap);
+
+  const setOpenDraggableMap = useAddresStore(
+    (state) => state.setOpenDraggableMap
+  );
 
   // Function to call the Hive API for reverse geocoding
   const reverseGeocodeWithHiveAPI = useCallback(
@@ -104,33 +93,26 @@ export function MapLocationPicker({
 
   // Debounced reverse geocoding when map moves
   useEffect(() => {
-    if (!isOpen) return;
-
     const timeoutId = setTimeout(() => {
       reverseGeocodeWithHiveAPI(mapCenter.lat, mapCenter.lng);
     }, 1000); // 1 second delay
 
     return () => clearTimeout(timeoutId);
-  }, [mapCenter, isOpen, reverseGeocodeWithHiveAPI]);
+  }, [mapCenter, openDraggableMap, reverseGeocodeWithHiveAPI]);
 
   // Initialize with current map center when dialog opens
   useEffect(() => {
-    if (isOpen) {
+    if (openDraggableMap) {
       setMapCenter(initialCenter);
       reverseGeocodeWithHiveAPI(initialCenter.lat, initialCenter.lng);
     }
-  }, [isOpen, initialCenter, reverseGeocodeWithHiveAPI]);
+  }, [openDraggableMap, initialCenter, reverseGeocodeWithHiveAPI]);
 
   const handleMapMove = (lat: number, lng: number) => {
     setMapCenter({ lat, lng });
   };
 
-  const handleConfirmLocation = () => {
-    if (currentLocation) {
-      onLocationSelect(currentLocation);
-      onClose();
-    }
-  };
+  const handleConfirmLocation = () => {};
 
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -159,7 +141,7 @@ export function MapLocationPicker({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={openDraggableMap} onOpenChange={setOpenDraggableMap}>
       <DialogContent className="w-full max-w-lg max-h-[90vh] p-0 overflow-y-auto">
         <DialogHeader className="hidden">
           <DialogTitle className="hidden" aria-readonly>
@@ -176,7 +158,7 @@ export function MapLocationPicker({
           <Button
             variant="ghost"
             size="icon"
-            onClick={onClose}
+            onClick={() => setOpenDraggableMap(false)}
             className="h-8 w-8"
           >
             <X className="h-4 w-4" />
@@ -249,7 +231,11 @@ export function MapLocationPicker({
           )}
         </div>
         <DialogFooter className="flex justify-between gap-3 p-4 border-t">
-          <Button onClick={onClose} variant="outline" className="flex-1">
+          <Button
+            onClick={() => setOpenDraggableMap(false)}
+            variant="outline"
+            className="flex-1"
+          >
             Cancel
           </Button>
           <Button

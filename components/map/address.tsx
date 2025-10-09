@@ -16,6 +16,7 @@ import {
 
 import StaticMapImage from "../google-map/static-google-map-image";
 import UseCurrentLocation from "./current-location";
+import { MapLocationPicker } from "./modal/map-draggable-modal";
 import AddressModal from "./saved-address/address-form-modal";
 import SavedAddress from "./saved-address/saved-address";
 import SearchAddress from "./search-address";
@@ -115,6 +116,14 @@ export default function Address() {
           <AddressModal
             addressType="other"
             setOpenModal={setSavedAddressModal}
+          />
+
+          {/* Draggable Map Dialog */}
+          <MapLocationPicker
+            initialCenter={{
+              lat: currentMapData.lat,
+              lng: currentMapData.lng,
+            }}
           />
         </div>
       </SheetContent>

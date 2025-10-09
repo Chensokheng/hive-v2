@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useAddresStore } from "@/store/address";
 import {
   useSavedAddressStore,
@@ -22,7 +22,6 @@ import {
 import { Input } from "@/components/ui/input";
 import StaticMapImage from "@/components/google-map/static-google-map-image";
 
-import { MapLocationPicker } from "../modal/map-draggable-modal";
 import SavedAddressUseCurrentLocation from "./current-location";
 import SavedAddressSearch from "./search-saved-address";
 
@@ -34,13 +33,6 @@ const addressTypes = {
 
 export type TAddressType = keyof typeof addressTypes;
 
-interface LocationData {
-  id?: string;
-  lat: number;
-  lng: number;
-  address: string;
-}
-
 interface AddressModalProps {
   addressType: TAddressType;
   setOpenModal: (isOpen: string) => void;
@@ -50,10 +42,7 @@ const DEFAULT_LAT_LNG = { lat: 11.550966450309836, lng: 104.9287729533798 };
 const DEFAULT_ADDRESS =
   "No. 86A, Street 110, Russian Federation Blvd (110), Phnom Penh, Cambodia";
 
-export default function AddressModal({
-  addressType,
-  setOpenModal,
-}: AddressModalProps) {
+export default function AddressModal({ setOpenModal }: AddressModalProps) {
   const { data: user } = useGetUserInfo();
 
   // Get state from stores
@@ -79,6 +68,10 @@ export default function AddressModal({
     (state) => state.setEditingLocation
   );
 
+  const setOpenDraggableMap = useAddresStore(
+    (state) => state.setOpenDraggableMap
+  );
+
   const { createLocation, updateLocation, isCreating, isUpdating } =
     useSavedLocations();
 
@@ -88,7 +81,6 @@ export default function AddressModal({
       : "other";
 
   const isHomeOrWork = ["home", "work"].includes(modalType);
-  const [showMapPicker, setShowMapPicker] = useState(false);
 
   // Get current map data for display
   const currentMapData = useMemo(() => {
@@ -223,16 +215,6 @@ export default function AddressModal({
     resetAddressForm();
   };
 
-  const handleLocationSelect = (location: LocationData) => {
-    updateAddressFormField("location", {
-      id: location.id || "",
-      lat: location.lat,
-      lng: location.lng,
-      address: location.address,
-    });
-    setShowMapPicker(false);
-  };
-
   const isLoading = isCreating || isUpdating;
   // const isLoading = isCreating || isUpdating || isDeleting;
 
@@ -295,7 +277,7 @@ export default function AddressModal({
               <SavedAddressSearch className="space-y-3" />
 
               <div
-                onClick={() => !isLoading && setShowMapPicker(true)}
+                onClick={() => !isLoading && setOpenDraggableMap(true)}
                 className={cn(
                   "h-44 bg-gray-100 rounded-lg mb-2 border-secondary border-1 cursor-pointer",
                   { "opacity-50 cursor-not-allowed": isLoading }
@@ -342,17 +324,6 @@ export default function AddressModal({
           </div>
         </DialogContent>
       </Dialog>
-
-      {/* Map Location Picker Dialog */}
-      <MapLocationPicker
-        isOpen={showMapPicker}
-        onClose={() => setShowMapPicker(false)}
-        onLocationSelect={handleLocationSelect}
-        initialCenter={{
-          lat: currentMapData.lat,
-          lng: currentMapData.lng,
-        }}
-      />
     </>
   );
 }
