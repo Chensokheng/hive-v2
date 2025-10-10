@@ -91,7 +91,7 @@ export default function StaticMapImage({
 
       {/* Location address */}
       <div className="bg-white rounded-b-lg z-50">
-        <div className="flex items-center gap-3 p-2">
+        <div className="flex items-center gap-3 px-4 py-2">
           <div>
             <h4 className="font-semibold truncate">
               {" "}

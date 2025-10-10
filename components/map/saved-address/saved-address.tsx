@@ -141,11 +141,17 @@ export default function SavedAddress() {
               }
             )}
           >
-            <div className="flex items-center gap-3 flex-1">
+            <div className="flex items-center gap-x-5 flex-1">
               {selectingLocationId === homeLocation.id ? (
                 <Loader className="h-4 w-4 text-primary animate-spin" />
               ) : (
-                <Home className="h-4 w-4 text-primary" strokeWidth={2.5} />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out -m-2" />
+                  <Home
+                    className="h-4 w-4 text-primary relative z-10 transition-transform duration-500 group-hover:rotate-360"
+                    strokeWidth={2.5}
+                  />
+                </div>
               )}
               <div className="flex-1">
                 <p className="text-gray-400 font-semibold text-xs mb-1">
@@ -174,8 +180,14 @@ export default function SavedAddress() {
             onClick={() => handleAddAddress("home")}
             className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group cursor-pointer"
           >
-            <div className="flex items-center gap-3">
-              <Home className="h-4 w-4 text-primary" strokeWidth={2.5} />
+            <div className="flex items-center gap-x-5">
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out -m-2" />
+                <Home
+                  className="h-4 w-4 text-primary relative z-10 transition-transform duration-500 group-hover:rotate-360"
+                  strokeWidth={2.5}
+                />
+              </div>
               <span className="text-primary font-normal">Add Home Address</span>
             </div>
             <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
@@ -199,14 +211,17 @@ export default function SavedAddress() {
               }
             )}
           >
-            <div className="flex items-center gap-3 flex-1">
+            <div className="flex items-center gap-x-5 flex-1">
               {selectingLocationId === workLocation.id ? (
                 <Loader className="h-4 w-4 text-primary animate-spin" />
               ) : (
-                <BriefcaseBusiness
-                  className="h-4 w-4 text-primary"
-                  strokeWidth={2.5}
-                />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-primary/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out -m-2" />
+                  <BriefcaseBusiness
+                    className="h-4 w-4 text-primary relative z-10 transition-transform duration-500 group-hover:rotate-360"
+                    strokeWidth={2.5}
+                  />
+                </div>
               )}
               <div className="flex-1">
                 <p className="text-gray-400 font-semibold text-xs mb-1">
@@ -235,11 +250,14 @@ export default function SavedAddress() {
             onClick={() => handleAddAddress("work")}
             className="flex items-center justify-between w-full mb-0 p-4 hover:bg-primary/10 transition-colors group cursor-pointer"
           >
-            <div className="flex items-center gap-3">
-              <BriefcaseBusiness
-                className="h-4 w-4 text-primary"
-                strokeWidth={2.5}
-              />
+            <div className="flex items-center gap-x-5">
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out -m-2" />
+                <BriefcaseBusiness
+                  className="h-4 w-4 text-primary relative z-10 transition-transform duration-500 group-hover:rotate-360"
+                  strokeWidth={2.5}
+                />
+              </div>
               <span className="text-primary font-normal">Add Work Address</span>
             </div>
             <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
@@ -264,14 +282,17 @@ export default function SavedAddress() {
                 }
               )}
             >
-              <div className="flex items-center gap-3 flex-1">
+              <div className="flex items-center gap-x-5 flex-1">
                 {selectingLocationId === location.id ? (
                   <Loader className="h-4 w-4 text-primary animate-spin" />
                 ) : (
-                  <MapPin
-                    className="h-4 w-4 text-primary mt-1"
-                    strokeWidth={2.5}
-                  />
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-primary/20 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 ease-out -m-2" />
+                    <MapPin
+                      className="h-4 w-4 text-primary relative z-10 transition-transform duration-500 group-hover:rotate-360"
+                      strokeWidth={2.5}
+                    />
+                  </div>
                 )}
                 <div className="flex-1">
                   <p className="text-gray-400 font-semibold text-xs mb-1">
@@ -300,7 +321,7 @@ export default function SavedAddress() {
         {/* Add Other Address Button */}
         <button
           onClick={() => handleAddAddress("other")}
-          className="flex items-center gap-3 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left cursor-pointer"
+          className="flex items-center gap-x-5 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left cursor-pointer group"
         >
           <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
           <span className="text-primary font-normal">Add Other Address</span>
@@ -309,3 +330,18 @@ export default function SavedAddress() {
     </div>
   );
 }
+
+<style>{`
+  @keyframes rotate-360 {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .group:hover .group-hover\\:rotate-360 {
+    animation: rotate-360 0.5s ease-in-out;
+  }
+`}</style>;
