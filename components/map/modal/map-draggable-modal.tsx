@@ -263,7 +263,7 @@ export function MapLocationPicker({
 
   return (
     <Dialog open={openDraggableMap} onOpenChange={handleClose}>
-      <DialogContent className="w-full max-w-2xl h-[85vh] p-0 overflow-hidden flex flex-col">
+      <DialogContent className="w-full max-w-2xl h-10/12 md:h-[85vh] p-0 overflow-hidden flex flex-col">
         <DialogHeader className="hidden">
           <DialogTitle className="hidden" aria-readonly>
             {"Select " +
@@ -342,7 +342,7 @@ export function MapLocationPicker({
                   <div className="bg-white rounded-full px-4 py-2 shadow-lg border border-gray-200">
                     <div className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                      <span className="text-sm font-medium text-gray-700">
+                      <span className="text-xs md:text-sm font-medium text-gray-700">
                         Updating location...
                       </span>
                     </div>

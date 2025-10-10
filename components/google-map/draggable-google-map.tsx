@@ -106,6 +106,17 @@ export default function DraggableGoogleMap({
       {isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
           <div className="relative">
+            {/* Shadow */}
+            <div
+              className={`absolute top-0 left-1/2 -translate-x-1/2 transition-all duration-500 ease-in-out ${
+                isDragging
+                  ? "translate-y-3 opacity-90 scale-50"
+                  : "translate-y-4 opacity-80 scale-100"
+              }`}
+            >
+              <div className="w-4 h-1 bg-black/50 rounded-full blur-xs" />
+            </div>
+
             {/* Pin - visible when not dragging */}
             <div
               className={`absolute top-0 left-1/2 -translate-x-1/2 -translate-y-5 transition-all duration-200 ease-in-out ${
@@ -133,7 +144,9 @@ export default function DraggableGoogleMap({
             >
               {/* Circle at top */}
               <div className="absolute -top-10 left-1/2 -translate-x-1/2">
-                <div className="w-6 border-2 border-white h-6 rounded-full bg-primary shadow-lg animate-pulse" />
+                <div className="w-6 h-6 rounded-full bg-primary shadow-lg animate-pulse flex items-center justify-center">
+                  <div className="w-2 h-2 rounded-full bg-white" />
+                </div>
               </div>
               {/* Dashed line */}
               <div className="absolute -top-2 left-1/2 -translate-x-1/2 h-2 flex items-center justify-center">
