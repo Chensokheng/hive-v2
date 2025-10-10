@@ -120,7 +120,7 @@ export default function DraggableGoogleMap({
                 <path
                   fill="currentColor"
                   stroke="#fff"
-                  stroke-width="2"
+                  strokeWidth="2"
                   d="M16 3C10.477 3 6 7.477 6 13c0 8 10 16 10 16s10-8 10-16c0-5.523-4.477-10-10-10zm0 13.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"
                 />
               </svg>
