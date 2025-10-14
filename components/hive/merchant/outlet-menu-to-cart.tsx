@@ -7,6 +7,7 @@ import React, {
   useState,
   useTransition,
 } from "react";
+import { useParams } from "next/navigation";
 import { addItemtoCart } from "@/services/add-item-to-cart";
 import { useOutletStore } from "@/store/outlet";
 import { useQueryClient } from "@tanstack/react-query";
@@ -40,6 +41,10 @@ export interface SelectedAddon {
 
 export default function OutletMenuToCart() {
   const [isPending, startTransition] = useTransition();
+  const params = useParams() as {
+    merchant?: string;
+    outlet?: string;
+  };
 
   const openMenuSheet = useOutletStore((state) => state.openMenuSheet);
   const noteRef = useRef<HTMLInputElement>(null);
@@ -219,6 +224,18 @@ export default function OutletMenuToCart() {
         toast.error(res.message || "Faild to add this item to cart");
         return;
       }
+
+      // Save last selected outlet and merchant info to localStorage
+      if (selectOutletId) {
+        localStorage.setItem("lastSelectedOutlet", String(selectOutletId));
+      }
+      if (params.merchant) {
+        localStorage.setItem("lastSelectedMerchant", params.merchant);
+      }
+      if (params.outlet) {
+        localStorage.setItem("lastSelectedOutletName", params.outlet);
+      }
+
       queryClient.invalidateQueries({
         queryKey: ["outlet-unpaid-item", user?.userId, selectOutletId],
       });

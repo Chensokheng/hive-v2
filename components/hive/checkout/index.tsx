@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useCheckoutStore } from "@/store/checkout";
 
@@ -12,19 +12,48 @@ import { FloatingCart } from "../floating-cart";
 import CheckoutSheet from "./checkout-sheet";
 
 export default function Checkout() {
-  const { merchant, outlet } = useParams() as {
-    merchant: string;
-    outlet: string;
+  const params = useParams() as {
+    merchant?: string;
+    outlet?: string;
   };
   const { data: user } = useGetUserInfo();
+  const [outletId, setOutletId] = useState<number | null>(null);
+  const [merchantName, setMerchantName] = useState<string>("");
 
-  const { data: merchantInfo } = useGetMerchantInfo(merchant);
+  // Determine which merchant to use (from params or localStorage)
+  useEffect(() => {
+    if (params.merchant) {
+      setMerchantName(params.merchant);
+    } else if (typeof window !== "undefined") {
+      const lastSelectedMerchant = localStorage.getItem("lastSelectedMerchant");
+      if (lastSelectedMerchant) {
+        setMerchantName(lastSelectedMerchant);
+      }
+    }
+  }, [params.merchant]);
 
-  const foundOutlet = merchantInfo?.find((item) => item.shortName === outlet);
+  const { data: merchantInfo } = useGetMerchantInfo(merchantName);
+
+  const foundOutlet =
+    params.merchant && params.outlet
+      ? merchantInfo?.find((item) => item.shortName === params.outlet)
+      : undefined;
+
+  // Get outlet ID from params or localStorage
+  useEffect(() => {
+    if (foundOutlet?.id) {
+      setOutletId(foundOutlet.id);
+    } else if (typeof window !== "undefined") {
+      const lastSelectedOutlet = localStorage.getItem("lastSelectedOutlet");
+      if (lastSelectedOutlet) {
+        setOutletId(Number(lastSelectedOutlet));
+      }
+    }
+  }, [foundOutlet?.id]);
 
   const { data: unpaidItem, isLoading } = useGetOutletUnpaidItem(
     Number(user?.userId!),
-    foundOutlet?.id!
+    outletId!
   );
 
   const resetPromotCode = useCheckoutStore((state) => state.resetPromotCode);
@@ -34,7 +63,7 @@ export default function Checkout() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isLoading) {
+  if (isLoading || !outletId) {
     return <></>;
   }
 
@@ -44,7 +73,7 @@ export default function Checkout() {
         <FloatingCart quantity={unpaidItem?.totalQuantity || 0} />
       )}
 
-      {foundOutlet?.id && <CheckoutSheet outletId={foundOutlet?.id} />}
+      {outletId && <CheckoutSheet outletId={outletId} />}
     </div>
   );
 }
