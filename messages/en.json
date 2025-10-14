@@ -27,7 +27,8 @@
       "usernamePlaceholder": "Enter your username",
       "continue": "Continue",
       "validation": {
-        "usernameRequired": "Username is too short",
+        "usernameRequired": "Username is required",
+        "usernameTooShort": "Username must be at least 3 characters",
         "phoneRequired": "Phone number is required.",
         "phoneInvalid": "Please enter a valid phone number ."
       }

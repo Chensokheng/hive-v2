@@ -99,7 +99,7 @@ export default function OrderItem({
   }, 500);
 
   const handleEditItem = () => {
-    if (item.isHappyHourProduct) {
+    if (item.isHappyHourProduct || isFree) {
       return;
     }
     setEditCartItemData({

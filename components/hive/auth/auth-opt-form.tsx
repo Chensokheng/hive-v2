@@ -73,6 +73,7 @@ export default function AuthOptForm({
 
     if (!res?.status) {
       toast.error(res?.message || "Failed to authenticate user");
+      setOtp(new Array(4).fill(""));
     } else {
       toast.success("Login success");
       queryClient.invalidateQueries({ queryKey: ["user-info"] });

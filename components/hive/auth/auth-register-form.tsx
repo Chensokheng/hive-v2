@@ -41,7 +41,27 @@ export default function AuthRegisterForm({
   const FormSchema = z.object({
     username: z
       .string()
-      .min(3, { message: t("register.validation.usernameRequired") })
+      .transform((val) => val.trim())
+      .refine(
+        (val) => {
+          // If user doesn't exist, username is required
+          if (isUserNotExist) {
+            return val && val.length > 0;
+          }
+          return true;
+        },
+        { message: t("register.validation.usernameRequired") }
+      )
+      .refine(
+        (val) => {
+          // If username is provided, it must be at least 3 characters
+          if (val && val.length > 0) {
+            return val.length >= 3;
+          }
+          return true;
+        },
+        { message: t("register.validation.usernameTooShort") }
+      )
       .optional(),
 
     phoneNumber: z

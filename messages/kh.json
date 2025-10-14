@@ -28,7 +28,8 @@
       "usernamePlaceholder": "បញ្ចូលឈ្មោះអ្នកប្រើរបស់អ្នក",
       "continue": "បន្ត",
       "validation": {
-        "usernameRequired": "ឈ្មោះអ្នកប្រើខ្លីពេក",
+        "usernameRequired": "តម្រូវឱ្យមានឈ្មោះអ្នកប្រើ",
+        "usernameTooShort": "ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងហោចណាស់ ៣ តួអក្សរ",
         "phoneRequired": "តម្រូវឱ្យមានលេខទូរស័ព្ទ។",
         "phoneInvalid": "សូមបញ្ចូលលេខទូរស័ព្ទដែលត្រឹមត្រូវ ។"
       }
