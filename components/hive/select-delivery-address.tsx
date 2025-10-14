@@ -7,10 +7,11 @@ import { useTranslations } from "next-intl";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
 import MapPin from "../icon/map-pin";
+import { Skeleton } from "../ui/skeleton";
 
 export default function SelectDeliveryAddress() {
   const t = useTranslations();
-  const { data: user } = useGetUserInfo();
+  const { data: user, isLoading } = useGetUserInfo();
   const unAuthAddress = useAddresStore((state) => state.unAuthAddress);
   const [address, setAdress] = useState(
     unAuthAddress || user?.placeAddress?.slice(0, 20)
@@ -46,9 +47,12 @@ export default function SelectDeliveryAddress() {
         <h2 className="text-[#303D55]/60 text-xs font-medium">
           {t("nav.deliveryAddress")}
         </h2>
-        <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base  leading-6 truncate">
-          {unAuthAddress ? unAuthAddress : address}
-        </h1>
+        {isLoading && <Skeleton className="h-6 w-32 bg-gray-300" />}
+        {!isLoading && (
+          <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base  leading-6 truncate">
+            {unAuthAddress ? unAuthAddress : address}
+          </h1>
+        )}
       </div>
     </div>
   );
