@@ -50,8 +50,8 @@ export default function SelectDeliveryAddress() {
         {isLoading && <Skeleton className="h-6 w-32 bg-gray-300" />}
 
         {!isLoading && !unAuthAddress && !address && (
-          <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base  leading-6 truncate">
-            Enter delivery address
+          <h1 className="text-[#161F2F] font-semibold text-sm sm:text-base leading-7 truncate">
+            {t("nav.enterDeliveryAddress")}
           </h1>
         )}
         {!isLoading && (

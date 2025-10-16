@@ -22,7 +22,7 @@ export default function Notification() {
       <div className="h-10 w-10 bg-[#EBEFF7] rounded-full grid place-content-center shadow-sm cursor-pointer ">
         <BellIcon />
 
-        {history?.data?.items?.length && history.data.items.length > 0 && (
+        {!!history?.data?.items?.length && history.data.items.length > 0 && (
           <span className="text-xs text-white w-4 h-4 rounded-full font-bold absolute -top-1 -right-1 bg-red-500 grid place-content-center">
             {history?.data.items.length}
           </span>

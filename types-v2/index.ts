@@ -1291,10 +1291,15 @@ export type HomepageResponse = {
   data: {
     id: number;
     title: string;
+    titleEn: string;
     subtitle: string;
+    subtitleEn: string;
+    description: string;
+    descriptionEn: string;
     homepageSectionItems: {
       id: number;
       image: string;
+      imageEn: string;
       url: string | null;
       merchants: {
         id: number;
@@ -1307,6 +1312,8 @@ export type HomepageResponse = {
           district: string;
           districtEn: string;
           address: string;
+          ward?: string;
+          wardEn?: string;
         };
         hierarchicalCategories: {
           id: number;
@@ -1328,9 +1335,9 @@ export type HomepageResponse = {
             cityEn: string;
             district: string;
             districtEn: string;
-            ward: string;
-            wardEn: string;
             address: string;
+            ward?: string;
+            wardEn?: string;
           };
         }[];
       }[];

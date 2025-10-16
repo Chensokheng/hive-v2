@@ -351,8 +351,7 @@ export default function ProfileSettingsSheet({
                           <div className="flex-1 relative">
                             <label
                               className={cn(
-                                "text-xs font-semibold text-[#303D55]/60",
-                                !birthdateValue && "hidden"
+                                "text-xs font-semibold text-[#303D55]/60"
                               )}
                             >
                               Birthdate

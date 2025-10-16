@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
+import { useTranslations } from "next-intl";
 import { Blur } from "transitions-kit";
 
 import { cn, getImageUrl } from "@/lib/utils";
@@ -15,6 +16,7 @@ import MapPin from "../icon/map-pin";
 
 export default function RecentOrder() {
   const { locale } = useParams();
+  const t = useTranslations("recentOrder");
   const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
   const { data, isLoading } = useGetRecentOrders(user?.token!);
   const searchMerchantKeyword = useSearchStore(
@@ -67,7 +69,7 @@ export default function RecentOrder() {
     >
       <h1 className="text-xl lg:text-3xl font-bold ">
         <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-          Recent Order
+          {t("title")}
         </span>
       </h1>
       <div className="grid grid-cols-2 lg:grid-cols-3  gap-2 lg:gap-6">

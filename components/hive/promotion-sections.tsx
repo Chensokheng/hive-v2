@@ -204,8 +204,9 @@ export default function PromotionSections() {
         return (
           <PromotionSection
             {...{
-              title: promotion?.title,
-              subtitle: promotion?.subtitle,
+              title: locale === "en" ? promotion?.titleEn : promotion?.title,
+              subtitle:
+                locale === "en" ? promotion?.subtitleEn : promotion?.subtitle,
               hasGradientBackground: index === 0,
               items: promotion?.homepageSectionItems?.map((item) => {
                 // Prefetch the promotion page URL

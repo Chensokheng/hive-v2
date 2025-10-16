@@ -74,5 +74,11 @@
       "saturday": "Saturday",
       "sunday": "Sunday"
     }
+  },
+  "recentOrder": {
+    "title": "Recent Order"
+  },
+  "nearBy": {
+    "title": "Nearby"
   }
 }

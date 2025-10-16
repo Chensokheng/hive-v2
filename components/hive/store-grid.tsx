@@ -158,7 +158,7 @@ export default function StoreGrid({ hidetitle }: { hidetitle: boolean }) {
           {uniqueCollections.map((collection) => (
             <div key={collection.id} className="space-y-4 mb-8">
               <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-                {collection.name_en}
+                {locale === "en" ? collection.name_en : collection.name}
               </h1>
 
               {collection.merchants && collection.merchants.length > 0 && (

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
+import { useTranslations } from "next-intl";
 import { Blur } from "transitions-kit";
 
 import { cn, getImageUrl } from "@/lib/utils";
@@ -15,6 +16,7 @@ import MapPin from "../icon/map-pin";
 
 export default function OutletNearBy() {
   const { locale } = useParams();
+  const t = useTranslations("nearBy");
   const { data: user, isLoading: isLoadingUser } = useGetUserInfo();
   const { data, isLoading } = useGetOutletNearby(
     user?.latitude! ||
@@ -41,7 +43,7 @@ export default function OutletNearBy() {
         <div className="max-w-[1200px] mx-auto mt-10 px-2 space-y-5">
           <h1 className="text-3xl font-bold ">
             <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-              Nearby
+              {t("title")}
             </span>
           </h1>
           <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
@@ -78,7 +80,7 @@ export default function OutletNearBy() {
     >
       <h1 className="text-xl lg:text-3xl font-bold ">
         <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-          Nearby
+          {t("title")}
         </span>
       </h1>
       <div className="flex gap-2 sm:gap-4 overflow-x-auto scrollbar-hide pb-2">
