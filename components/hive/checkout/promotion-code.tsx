@@ -5,6 +5,7 @@ import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
 import { AsyncImage } from "loadable-image";
 import { ChevronRight, Loader, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Blur } from "transitions-kit";
 
@@ -23,6 +24,7 @@ import {
 import PromotionIcon from "@/components/icon/promotion";
 
 export default function PromotionCode({ cartId }: { cartId: number }) {
+  const t = useTranslations("checkout");
   const [open, setOpen] = useState(false);
   const { data: user } = useGetUserInfo();
   const { merchant, outlet } = useParams();
@@ -58,7 +60,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
         user?.token as string
       );
       if (!res.status) {
-        toast.error(res.message || "Failed to apply promotion code", {
+        toast.error(res.message || t("toast.failToApplyPromo"), {
           position: isMobile ? "bottom-center" : "top-center",
         });
         return;
@@ -93,7 +95,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
           <h1 className="text-[#161F2F] font-bold">
             {selectedPromotionCode.code
               ? selectedPromotionCode.code
-              : "Use Promotion Code"}
+              : t("usePromotionCode")}
           </h1>
         </div>
 
@@ -117,14 +119,14 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
 
       <DialogContent className="max-w-[800px] px-5 h-full lg:h-auto rounded-none lg:rounded-2xl overflow-y-auto hide-scroll">
         <DialogHeader className="hidden">
-          <DialogTitle>Promocode</DialogTitle>
+          <DialogTitle>{t("promotionCode")}</DialogTitle>
           <DialogDescription>use promo code</DialogDescription>
         </DialogHeader>
         <div>
           <div className=" border-b flex items-center pb-6">
             {/* <ChevronLeft /> */}
             <h1 className=" font-bold text-2xl flex-1 text-left">
-              Promotion Code
+              {t("promotionCode")}
             </h1>
             <div
               className="h-8 w-8 bg-[#BDC5DB] text-white rounded-full grid place-content-center cursor-pointer"
@@ -167,7 +169,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
                           {item.code}
                         </p>
                         <p className="text-[#161F2F] text-xs font-semibold">
-                          Expire on{" "}
+                          {t("expireOn")}{" "}
                           {item.valid_to
                             ? new Date(item.valid_to).toLocaleDateString()
                             : "N/A"}
@@ -183,7 +185,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
                       {isPending ? (
                         <Loader className="w-4 h-4 animate-spin mx-auto" />
                       ) : (
-                        "USE"
+                        t("use")
                       )}
                     </button>
                   </div>

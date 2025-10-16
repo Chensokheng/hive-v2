@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useOutletStore } from "@/store/outlet";
 import { ChevronLeft, Pen } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import PickUpTime from "./pick-up-time";
 
 export default function CheckoutHeader() {
+  const t = useTranslations("checkout");
   const { merchant, outlet } = useParams() as {
     merchant: string;
     outlet: string;
@@ -24,7 +26,7 @@ export default function CheckoutHeader() {
   const { data } = useGetOutletInfo(merchant, outlet, 0, 0);
 
   const formatPickupTime = (timestamp: number | null) => {
-    if (!timestamp) return "As soon as possible";
+    if (!timestamp) return t("asap");
 
     const date = new Date(timestamp);
     const now = new Date();
@@ -44,7 +46,7 @@ export default function CheckoutHeader() {
     });
 
     if (isToday) {
-      return `Today at ${timeString}`;
+      return `${t("today")} ${timeString}`;
     }
 
     const dateString = date.toLocaleDateString("en-US", {
@@ -63,7 +65,7 @@ export default function CheckoutHeader() {
           onClick={() => setOpenCheckoutSheet(false)}
         >
           <ChevronLeft className="text-primary w-8 h-8 cursor-pointer" />
-          <h1 className="flex-1 text-center text-lg font-bold">Checkout</h1>
+          <h1 className="flex-1 text-center text-lg font-bold">{t("title")}</h1>
         </div>
       </div>
 
@@ -79,7 +81,7 @@ export default function CheckoutHeader() {
               )}
               onClick={() => setIsDelivery(true)}
             >
-              Delivery
+              {t("delivery")}
             </button>
           )}
 
@@ -95,7 +97,7 @@ export default function CheckoutHeader() {
                   )}
                   onClick={() => setIsDelivery(false)}
                 >
-                  Pickup
+                  {t("pickup")}
                 </button>
               </PickUpTime>
             </div>
@@ -111,7 +113,7 @@ export default function CheckoutHeader() {
               document.getElementById("pick-up-dialog")?.click();
             }}
           >
-            <span className="font-">Pickup time: </span>
+            <span className="font-">{t("pickupTime")} </span>
             <span>{formatPickupTime(pickupTime)}</span>
             <Pen />
           </Button>
