@@ -44,17 +44,21 @@ export default function OutletMenuCard({
       }}
     >
       <div className="w-full aspect-square relative">
-        <AsyncImage
-          src={item.image}
-          Transition={Blur}
-          style={{
-            width: "100%",
-            height: "100%",
-          }}
-          className="rounded-t-lg object-center object-cover"
-          loader={<div className="bg-gray-300" />}
-          alt={item.name}
-        />
+        {item.image ? (
+          <AsyncImage
+            src={item.image}
+            Transition={Blur}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
+            className="rounded-t-lg object-center object-cover"
+            loader={<div className="bg-gray-300" />}
+            alt={item.name}
+          />
+        ) : (
+          <div className="bg-gray-300 w-full h-full" />
+        )}
         <div
           className={cn(
             " absolute top-3 right-3  rounded-full bg-[#F7F7F7] grid place-content-center border border-white cursor-pointer"
