@@ -33,6 +33,7 @@ export default function UserTemInfo({
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations();
   const [open, setOpen] = useState(false);
 
   const setCheckoutUserTemInfo = useOutletStore(
@@ -43,18 +44,18 @@ export default function UserTemInfo({
   );
   const [isUserNotExist] = useState(false);
   const [isLoading] = useState(false);
-  const t = useTranslations("auth");
+
   const [phoneInputFocus, setPhoneInputFocus] = useState(false);
   const [usernameInputFocus, setUsernameInputFocus] = useState(false);
 
   const FormSchema = z.object({
     username: z
       .string()
-      .min(3, { message: t("register.validation.usernameRequired") }),
+      .min(3, { message: t("auth.register.validation.usernameRequired") }),
 
     phoneNumber: z
       .string()
-      .min(1, { message: t("register.validation.phoneRequired") })
+      .min(1, { message: t("auth.register.validation.phoneRequired") })
       .refine(
         (phone) => {
           // Remove all spaces, dashes, and other formatting
@@ -76,7 +77,7 @@ export default function UserTemInfo({
           );
         },
         {
-          message: t("register.validation.phoneInvalid"),
+          message: t("auth.register.validation.phoneInvalid"),
         }
       )
       .transform((phone) => {
@@ -147,7 +148,9 @@ export default function UserTemInfo({
         >
           <DialogTitle className="hidden">
             <ChevronLeft className="text-primary" />
-            <span className="flex-1 text-center"> Update Delivery Info</span>
+            <span className="flex-1 text-center">
+              {t("checkout.receiverInfo")}
+            </span>
           </DialogTitle>
           <DialogDescription className="hidden">
             update user delivery info
@@ -160,7 +163,7 @@ export default function UserTemInfo({
           >
             <ChevronLeft />
             <h1 className=" font-bold text-2xl flex-1 text-center">
-              Receiver Information
+              {t("checkout.receiverInfo")}
             </h1>
           </div>
           <Form {...form}>
@@ -193,12 +196,12 @@ export default function UserTemInfo({
                               !usernameValue && "hidden"
                             )}
                           >
-                            {t("register.username")}
+                            {t("auth.register.username")}
                           </label>
 
                           <Input
                             type="text"
-                            placeholder={t("register.usernamePlaceholder")}
+                            placeholder={t("auth.register.usernamePlaceholder")}
                             {...field}
                             className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
                             onFocus={() => {
@@ -244,13 +247,13 @@ export default function UserTemInfo({
                               !phoneValue && "hidden"
                             )}
                           >
-                            {t("register.phoneNumber")}
+                            {t("auth.register.phoneNumber")}
                           </label>
 
                           <Input
                             readOnly={isUserNotExist}
                             type="tel"
-                            placeholder={t("register.phonePlaceholder")}
+                            placeholder={t("auth.register.phonePlaceholder")}
                             {...field}
                             className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
                             onChange={(e) => {
@@ -288,7 +291,7 @@ export default function UserTemInfo({
                   {isLoading ? (
                     <Loader className=" animate-spin w-4 h-4" />
                   ) : (
-                    "Save"
+                    t("auth.common.save")
                   )}
                 </Button>
               </div>

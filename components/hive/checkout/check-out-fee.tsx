@@ -1,11 +1,13 @@
 import React from "react";
 import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
+import { useTranslations } from "next-intl";
 
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
 export default function CheckOutFee({ outletId }: { outletId: number }) {
+  const t = useTranslations("checkout");
   const { data: user } = useGetUserInfo();
   const { data: unpaidItem } = useGetOutletUnpaidItem(
     Number(user?.userId!),
@@ -24,12 +26,12 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
 
   return (
     <div className="px-5 space-y-4 pb-2">
-      <h1 className="text-[#161F2F] font-bold">Summary</h1>
+      <h1 className="text-[#161F2F] font-bold">{t("summary")}</h1>
       <div className="flex items-center justify-between pl-2">
         <div className="space-x-2">
-          <span className="text-[#303D5599]">Subtotal:</span>
+          <span className="text-[#303D5599]">{t("subtotal")}:</span>
           <span className="font-semibold text-[#161F2F]">
-            {unpaidItem?.totalQuantity} items
+            {unpaidItem?.totalQuantity} {t("items")}
           </span>
         </div>
         <span className="font-semibold text-[#161F2F]">
@@ -39,7 +41,7 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
       {isDelivery && (
         <div className="flex items-center justify-between pl-2">
           <div className="space-x-2">
-            <span className="text-[#303D5599]">Delivery Fee:</span>
+            <span className="text-[#303D5599]">{t("deliveryFee")}:</span>
             <span className="font-semibold text-[#161F2F]">
               {unpaidItem?.distance || 0} km
             </span>
@@ -49,20 +51,18 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
           </span>
         </div>
       )}
-
       <div className="flex items-center justify-between pl-2">
         <div className="space-x-2">
-          <span className="text-[#303D5599]">Vat:</span>
+          <span className="text-[#303D5599]">{t("vat")}:</span>
         </div>
         <span className="font-semibold text-[#161F2F]">
           ${unpaidItem?.totalVat}
         </span>
       </div>
-
       {(selectedPromotionCode.discoundAmount || cardDiscount) !== 0 && (
         <div className="flex items-center justify-between pl-2">
           <div className="space-x-2">
-            <span className="text-[#303D5599]">Promotion:</span>
+            <span className="text-[#303D5599]">{t("promotion")}:</span>
           </div>
           <span className="font-semibold text-[#161F2F]">
             -${cardDiscount + selectedPromotionCode.discoundAmount}

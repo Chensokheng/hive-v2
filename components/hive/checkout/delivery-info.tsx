@@ -4,6 +4,7 @@ import { useAddresStore } from "@/store/address";
 import { useOutletStore } from "@/store/outlet";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -18,6 +19,7 @@ export default function DeliveryInfo({
   cartId: number;
   outletId: number;
 }) {
+  const t = useTranslations("checkout");
   const { data: user } = useGetUserInfo();
 
   const setOpenAddresSheet = useAddresStore(
@@ -61,7 +63,7 @@ export default function DeliveryInfo({
   return (
     <div className="space-y-5 bg-white p-4">
       <div className="space-y-3">
-        <h1 className="font-bold">Delivery to:</h1>
+        <h1 className="font-bold">{t("deliveryTo")}</h1>
         <button
           className="flex items-center gap-2 justify-between w-full cursor-pointer outline-none"
           onClick={() => setOpenAddresSheet(true)}
@@ -71,7 +73,7 @@ export default function DeliveryInfo({
               <MapPin color="#FF66CC" />
             </div>
             <p className=" font-medium flex-1 text-left">
-              {user?.placeAddress || "Please select location"}
+              {user?.placeAddress || t("selectLocation")}
             </p>
           </div>
 
@@ -82,7 +84,7 @@ export default function DeliveryInfo({
       </div>
 
       <div className="space-y-2">
-        <h1 className="font-bold">Receiver Information</h1>
+        <h1 className="font-bold">{t("receiverInfo")}</h1>
         <UserTemInfo>
           <div
             className="flex items-center gap-2 cursor-pointer hover:bg-gray-200 transition-all rounded-full pr-5"

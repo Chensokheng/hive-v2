@@ -13,6 +13,7 @@ import { useOutletStore } from "@/store/outlet";
 import { SelectedAddon } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronLeft, Minus, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
@@ -62,6 +63,7 @@ const convertCartAddonsToSelectedAddons = (
 };
 
 export default function EditMenuCartItem() {
+  const t = useTranslations("checkout");
   const editCartItemData = useOutletStore((state) => state.editCartItemData);
   const editCartItemSheetOpen = useOutletStore(
     (state) => state.editCartItemSheetOpen
@@ -181,9 +183,9 @@ export default function EditMenuCartItem() {
       });
 
       if (!res.status) {
-        toast.error(res.message || "Failed to update cart item");
+        toast.error(res.message || t("toast.failToUpdateCart"));
       } else {
-        toast.success("Cart item updated successfully");
+        toast.success(t("toast.cartItemUpdated"));
       }
 
       setEditCartItemSheetOpen(false);
@@ -294,11 +296,11 @@ export default function EditMenuCartItem() {
 
             <div className="py-4 space-y-3 pb-32">
               <h1 className="text-sm font-semibold text-[#161F2F]">
-                Note to merchant
+                {t("noteToMerchant")}
               </h1>
               <Input
                 className="rounded-2xl h-14"
-                placeholder="e.g No onions, extra sauce, etc."
+                placeholder={t("notePlaceholder")}
                 autoFocus={false}
                 tabIndex={-1}
                 defaultValue={editCartItemData?.note || ""}
@@ -336,7 +338,7 @@ export default function EditMenuCartItem() {
                 onClick={() => handleUpdateCart(true)}
                 disabled={isPending}
               >
-                Remove
+                {t("remove")}
               </button>
 
               <button
@@ -351,8 +353,8 @@ export default function EditMenuCartItem() {
                 disabled={isPending || !areRequiredAddonsSelected}
               >
                 {!areRequiredAddonsSelected
-                  ? "Please select required options"
-                  : `Update - $${totalPrice.toFixed(2)}`}{" "}
+                  ? t("selectRequiredOptions")
+                  : `${t("update")} - $${totalPrice.toFixed(2)}`}
                 {areRequiredAddonsSelected && (
                   <span className="text-xs font-medium">
                     ≈{totalPrice * (rate || 0)}៛

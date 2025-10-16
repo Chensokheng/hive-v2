@@ -5,6 +5,7 @@ import { OutletUnpaidItemsDto } from "@/types-v2/dto";
 import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
 import { Minus, Plus, Trash, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Blur } from "transitions-kit";
 import { useDebouncedCallback } from "use-debounce";
@@ -22,6 +23,7 @@ export default function OrderItem({
 }: {
   item: OutletUnpaidItemsDto["items"][0];
 }) {
+  const t = useTranslations("checkout");
   const isFree = item.cartDiscountedProduct || item?.promotionCartItem;
   const [isPending, startTransition] = useTransition();
   const [isUserAction, setIsUserAction] = useState(false);
@@ -80,7 +82,7 @@ export default function OrderItem({
       }
 
       if (!res.status) {
-        toast.error(res.message || "Fail to remove item from the cart");
+        toast.error(res.message || t("toast.failToRemoveItem"));
         if (qty !== 0) {
           setIsUserAction(false);
           setQuantity((prev) => prev - 1);
@@ -176,13 +178,13 @@ export default function OrderItem({
             <h1 className="font-semibold text-[#161F2F] ">{item.name}</h1>
             {isFree && (
               <p className="text-sm font-medium text-orange-600">
-                {item.quantity} Free
+                {item.quantity} {t("free")}
               </p>
             )}
             {item.isHappyHourProduct && (
               <>
                 <p className="text-sm text-primary font-medium">
-                  Happy hour product 🤣
+                  {t("happyHourProduct")}
                 </p>
               </>
             )}
@@ -190,7 +192,7 @@ export default function OrderItem({
             {item.cartCustomDiscountedProduct && (
               <>
                 <p className="text-sm text-primary font-medium">
-                  Flash Sale ⚡️
+                  {t("flashSale")}
                 </p>
               </>
             )}
@@ -217,13 +219,13 @@ export default function OrderItem({
                   className="text-primary font-semibold text-sm cursor-pointer"
                   onClick={handleEditItem}
                 >
-                  Edit
+                  {t("edit")}
                 </button>
               )}
 
               {item.note && (
                 <span className="border-l-4 pl-2.5 py-1 border-[#FF66CC] text-[#161F2F] text-sm">
-                  Note: {item.note}
+                  {t("note")} {item.note}
                 </span>
               )}
             </div>

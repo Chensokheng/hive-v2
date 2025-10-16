@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useOutletStore } from "@/store/outlet";
 import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ export default function PickUpTime({
 }: {
   children: React.ReactNode;
 }) {
+  const t = useTranslations("checkout.pickupTimeDialog");
   const setPickupTime = useOutletStore((state) => state.setPickupTime);
 
   const [selectedOption, setSelectedOption] =
@@ -56,7 +58,7 @@ export default function PickUpTime({
       </DialogTrigger>
       <DialogContent className="w-full lg:max-w-md">
         <DialogHeader>
-          <DialogTitle>Please Select Date</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="space-y-2">
@@ -78,7 +80,7 @@ export default function PickUpTime({
             >
               {selectedOption === "specific" && <Check className="h-3 w-3" />}
             </div>
-            <p className="font-medium">Pick up</p>
+            <p className="font-medium">{t("pickup")}</p>
           </div>
 
           <div
@@ -90,7 +92,7 @@ export default function PickUpTime({
             <div className="flex gap-4 flex-col lg:flex-row w-full">
               <div className="flex flex-col gap-3 flex-1">
                 <Label htmlFor="date-picker" className="px-1">
-                  Date
+                  {t("date")}
                 </Label>
                 <Input
                   type="date"
@@ -103,7 +105,7 @@ export default function PickUpTime({
               </div>
               <div className="flex flex-col gap-3 flex-1">
                 <Label htmlFor="time-picker" className="px-1">
-                  Time
+                  {t("time")}
                 </Label>
                 <Input
                   type="time"
@@ -136,7 +138,7 @@ export default function PickUpTime({
             >
               {selectedOption === "asap" && <Check className="h-3 w-3" />}
             </div>
-            <span className="font-medium">As soon as Possible</span>
+            <span className="font-medium">{t("asap")}</span>
           </div>
           <Button
             className="w-full rounded-full mt-5"
@@ -145,7 +147,7 @@ export default function PickUpTime({
               document.getElementById("pick-up-dialog")?.click();
             }}
           >
-            Confirm
+            {t("confirm")}
           </Button>
         </div>
       </DialogContent>

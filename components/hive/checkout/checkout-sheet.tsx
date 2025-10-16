@@ -4,6 +4,7 @@ import { useAddresStore } from "@/store/address";
 import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
 import { Loader } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
@@ -27,6 +28,7 @@ import PaymentMethod from "./payment-method";
 import PromotionCode from "./promotion-code";
 
 export default function CheckoutSheet({ outletId }: { outletId: number }) {
+  const t = useTranslations("checkout");
   const [isPending, startTransition] = useTransition();
   const addressNoteRef = useRef<HTMLInputElement>(null);
   const noteRef = useRef<HTMLInputElement>(null);
@@ -86,7 +88,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
       setCheckoutNotes({ addressNote: "", storeNote: "" });
 
       if (!res.status) {
-        toast.error(res.data.error_message || "Fail to checkout");
+        toast.error(res.data.error_message || t("toast.failToCheckout"));
         return;
       }
       const deeplink = res.data.data.deeplink;
@@ -129,7 +131,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
       <SheetContent className="w-full sm:max-w-[800px]" showCloseBtn={false}>
         <SheetHeader className="hidden">
           <SheetTitle className="hidden" aria-readonly>
-            Checkout
+            {t("title")}
           </SheetTitle>
           <SheetDescription className="hidden" aria-readonly>
             This is checkout
@@ -143,7 +145,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
           {isDelivery && (
             <div className="px-4">
               <Input
-                placeholder="Note to driver"
+                placeholder={t("noteToDriver")}
                 className="h-15 rounded-2xl placeholder:text-[#303D5599] text-normal"
                 tabIndex={-1}
                 ref={addressNoteRef}
@@ -162,7 +164,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
           </div>
           <div className="px-4 py-4">
             <Input
-              placeholder="Any note for this store?"
+              placeholder={t("noteToStore")}
               className="h-15 rounded-2xl placeholder:text-[#303D5599] text-normal"
               tabIndex={-1}
               ref={noteRef}
@@ -183,7 +185,9 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
 
         <div className="sticky flex-col bottom-0 gap-4 w-auto py-4 flex items-center justify-center bg-white px-4">
           <div className="w-full flex items-center justify-between">
-            <h1 className="text-primary text-[1.375rem] font-bold">Total: </h1>
+            <h1 className="text-primary text-[1.375rem] font-bold">
+              {t("total")}:{" "}
+            </h1>
             <div className="flex flex-col justify-end">
               <h1 className=" font-bold text-right bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent text-[1.375rem]">
                 ${renderFinalPrice().toFixed(2)}
@@ -206,7 +210,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
               onClick={handleCheckout}
             >
               {isPending && <Loader className=" animate-spin" />}
-              PLACE ORDER
+              {t("placeOrder")}
             </button>
           ) : (
             <>
@@ -217,7 +221,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
                   setOpenAddresSheet(true);
                 }}
               >
-                Change Address
+                {t("changeAddress")}
               </button>
             </>
           )}
