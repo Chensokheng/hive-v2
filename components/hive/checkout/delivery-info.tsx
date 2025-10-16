@@ -52,7 +52,7 @@ export default function DeliveryInfo({
   };
 
   useEffect(() => {
-    if (user?.userId) {
+    if (user?.userId && user.latitude && user.longtitude) {
       updateFee();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

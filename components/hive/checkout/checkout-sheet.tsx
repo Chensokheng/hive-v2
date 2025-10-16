@@ -194,7 +194,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
               </p>
             </div>
           </div>
-          {!updateFeeError ? (
+          {!updateFeeError && user?.latitude && user?.longtitude ? (
             <button
               className={cn(
                 "font-bold text-lg rounded-full bg-gradient-to-r from-[#0055DD] to-[#FF66CC] py-3 w-full text-white flex items-center justify-center gap-2",

@@ -76,12 +76,16 @@ export default function OrderDetailsPage() {
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
                 <span className="text-[#303D55]/60">Name:</span>
-                <span className="text-[#161F2F] ">{data?.data.fullname}</span>
+                <span className="text-[#161F2F] ">
+                  {data?.data?.meta?.receiver?.fullname || data?.data.fullname}
+                </span>
               </div>
 
               <div className="flex justify-between">
                 <span className="text-[#303D55]/60">Phone Number:</span>
-                <span className="text-[#161F2F]">{data?.data.phone}</span>
+                <span className="text-[#161F2F]">
+                  {data?.data?.meta?.receiver?.phone || data?.data?.phone}
+                </span>
               </div>
 
               {isLoading ? (
