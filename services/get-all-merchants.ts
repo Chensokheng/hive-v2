@@ -20,6 +20,7 @@ export const getAllMerchants = async (
   const data = (await response.json()) as MerchantsListingResponse;
   if (data.status === false) {
     return {
+      collections: [],
       merchants: [],
       hasMore: false,
       nextLastId: undefined,
@@ -47,9 +48,10 @@ export const getAllMerchants = async (
     merchants.length > 0 ? merchants[merchants.length - 1].id : undefined;
 
   return {
+    collections: data?.data?.collections,
     merchants,
-    hasMore: data.data.merchants.pagination.load_more,
-    nextLastId: data.data.merchants.pagination.load_more
+    hasMore: data?.data?.merchants?.pagination?.load_more,
+    nextLastId: data?.data?.merchants?.pagination?.load_more
       ? lastMerchantId
       : undefined,
   };

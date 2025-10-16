@@ -20,7 +20,10 @@ export default function MiniNavbar() {
     JSBridge.call("closeMiniApp", "{}");
   };
 
-  if (!renderPaths.includes(patname)) {
+  const shouldRenderNavbar =
+    renderPaths.includes(patname) || patname.startsWith("/promotions");
+
+  if (!shouldRenderNavbar) {
     return (
       <>
         {jsBridgeStatus === "success" && (

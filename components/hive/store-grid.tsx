@@ -3,11 +3,13 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { useSearchStore } from "@/store/search";
 import { AsyncImage } from "loadable-image";
 import { useTranslations } from "next-intl";
 import { Blur } from "transitions-kit";
 
+import { getImageUrl } from "@/lib/utils";
 import useGetAllMerchants from "@/hooks/use-get-all-merchants";
 import MapPin from "@/components/icon/map-pin";
 
@@ -15,12 +17,16 @@ export default function StoreGrid({ hidetitle }: { hidetitle: boolean }) {
   const t = useTranslations();
   const params = useParams();
   const { locale } = params;
+  const pathname = usePathname();
   const searchMerchantKeyword = useSearchStore(
     (state) => state.searchMerchantKeyword
   );
   const filterMerchantCategoryId = useSearchStore(
     (state) => state.filterMerchantCategoryId
   );
+
+  const isStorePage = pathname === "/stores";
+
   const searchParams =
     searchMerchantKeyword +
     (filterMerchantCategoryId
@@ -37,6 +43,39 @@ export default function StoreGrid({ hidetitle }: { hidetitle: boolean }) {
   } = useGetAllMerchants(searchParams);
 
   const allMerchants = data?.pages.flatMap((page) => page.merchants) ?? [];
+
+  // Remove duplicate collections by ID and map collection data
+  const uniqueCollections =
+    data?.pages
+      .flatMap((page) => page.collections)
+      .reduce((acc: any[], collection) => {
+        const existingIndex = acc.findIndex((c) => c.id === collection.id);
+        if (existingIndex === -1) {
+          acc.push({
+            ...collection,
+            // Map merchants within collection for rendering
+            merchants:
+              collection.merchants?.map((merchant: any) => ({
+                id: merchant.id,
+                name: merchant.name,
+                image: merchant.image ? getImageUrl(merchant.image) : "",
+                districtEn:
+                  merchant.address.district_en ?? merchant.address.district,
+                districtKh: merchant.address.district,
+                category: merchant.hierarchical_categories?.length
+                  ? merchant.hierarchical_categories[0].name
+                  : "",
+                hasOutlet: merchant.outlets.length ? true : false,
+                tag: merchant.tags?.length ? merchant.tags[0].name : "",
+                href:
+                  merchant.outlets.length === 1
+                    ? `/${merchant.sub_domain}/${merchant.outlets[0].short_name}`
+                    : `/${merchant.sub_domain}`,
+              })) ?? [],
+          });
+        }
+        return acc;
+      }, []) ?? [];
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const lastMerchantElementRef = useCallback(
@@ -113,93 +152,162 @@ export default function StoreGrid({ hidetitle }: { hidetitle: boolean }) {
   }
 
   return (
-    <div className="space-y-2" id="merchant-grid">
-      {!hidetitle && (
-        <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
-          {t("listMerchant.allStore")}
-        </h1>
-      )}
-      <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
-        {allMerchants.map((merchant, index) => (
-          <Link
-            href={"/" + locale + merchant.href}
-            key={merchant.id}
-            ref={
-              index === allMerchants.length - 1 ? lastMerchantElementRef : null
-            }
-            className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
-          >
-            <div className="relative w-full aspect-[3/2]">
-              <AsyncImage
-                src={merchant.image}
-                Transition={Blur}
-                style={{ width: "100%", height: "100%", borderRadius: 20 }}
-                loader={<div className="bg-gray-300" />}
-              />
+    <>
+      {isStorePage && (
+        <>
+          {uniqueCollections.map((collection) => (
+            <div key={collection.id} className="space-y-4 mb-8">
+              <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
+                {collection.name_en}
+              </h1>
 
-              {/* tag */}
-              {merchant.tag && (
-                <div className="absolute top-0 left-0 rounded-tl-[8px] rounded-bl-[0px] rounded-tr-[0px] rounded-br-[8px] bg-primary text-white text-sm font-semibold px-2 py-1">
-                  {merchant.tag}
+              {collection.merchants && collection.merchants.length > 0 && (
+                <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
+                  {collection.merchants.map((merchant: any) => (
+                    <Link
+                      href={"/" + locale + merchant.href}
+                      key={merchant.id}
+                      className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
+                    >
+                      <div className="relative w-full aspect-[3/2]">
+                        <AsyncImage
+                          src={merchant.image}
+                          Transition={Blur}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: 20,
+                          }}
+                          loader={<div className="bg-gray-300" />}
+                        />
+
+                        {/* tag */}
+                        {merchant.tag && (
+                          <div className="absolute top-0 left-0 rounded-tl-[8px] rounded-bl-[0px] rounded-tr-[0px] rounded-br-[8px] bg-primary text-white text-sm font-semibold px-2 py-1">
+                            {merchant.tag}
+                          </div>
+                        )}
+                      </div>
+                      <div className="px-2 lg:px-5 py-2">
+                        <h3 className="font-semibold text-[#161F2F] lg:text-lg truncate">
+                          {merchant.name}
+                        </h3>
+
+                        {/* Rating and Category */}
+                        {merchant.category && (
+                          <div className="flex items-center gap-1">
+                            <button className="text-primary text-sm">
+                              {merchant.category}
+                            </button>
+                          </div>
+                        )}
+
+                        {/* Location */}
+                        <div className="flex items-center gap-1">
+                          <MapPin color="#FF66CC" />
+                          <span className="text-sm text-[#303D55]/60">
+                            {merchant.districtEn}
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
-            <div className="px-2 lg:px-5 py-2">
-              <h3 className="font-semibold text-[#161F2F] lg:text-lg truncate">
-                {merchant.name}
-              </h3>
+          ))}
+        </>
+      )}
+      <div className="space-y-2" id="merchant-grid">
+        {!hidetitle && (
+          <h1 className="px-4 text-xl lg:text-3xl text-[#1A1D22] font-bold">
+            {t("listMerchant.allStore")}
+          </h1>
+        )}
+        <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
+          {allMerchants.map((merchant, index) => (
+            <Link
+              href={"/" + locale + merchant.href}
+              key={merchant.id}
+              ref={
+                index === allMerchants.length - 1
+                  ? lastMerchantElementRef
+                  : null
+              }
+              className="bg-white rounded-2xl p-[6px] hover:shadow-md transition-shadow"
+            >
+              <div className="relative w-full aspect-[3/2]">
+                <AsyncImage
+                  src={merchant.image}
+                  Transition={Blur}
+                  style={{ width: "100%", height: "100%", borderRadius: 20 }}
+                  loader={<div className="bg-gray-300" />}
+                />
 
-              {/* Rating and Category */}
-              {merchant.category && (
+                {/* tag */}
+                {merchant.tag && (
+                  <div className="absolute top-0 left-0 rounded-tl-[8px] rounded-bl-[0px] rounded-tr-[0px] rounded-br-[8px] bg-primary text-white text-sm font-semibold px-2 py-1">
+                    {merchant.tag}
+                  </div>
+                )}
+              </div>
+              <div className="px-2 lg:px-5 py-2">
+                <h3 className="font-semibold text-[#161F2F] lg:text-lg truncate">
+                  {merchant.name}
+                </h3>
+
+                {/* Rating and Category */}
+                {merchant.category && (
+                  <div className="flex items-center gap-1">
+                    <button className="text-primary text-sm">
+                      {merchant.category}
+                    </button>
+                  </div>
+                )}
+
+                {/* Location */}
                 <div className="flex items-center gap-1">
-                  <button className="text-primary text-sm">
-                    {merchant.category}
-                  </button>
+                  <MapPin color="#FF66CC" />
+                  <span className="text-sm text-[#303D55]/60">
+                    {merchant.districtEn}
+                  </span>
                 </div>
-              )}
-
-              {/* Location */}
-              <div className="flex items-center gap-1">
-                <MapPin color="#FF66CC" />
-                <span className="text-sm text-[#303D55]/60">
-                  {merchant.districtEn}
-                </span>
               </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Loading indicator for fetching next page */}
+        {isFetchingNextPage && (
+          <div className="space-y-2">
+            <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-2xl p-[6px] animate-pulse"
+                >
+                  <div className="w-full aspect-[3/2] bg-gray-200 rounded-xl"></div>
+                  <div className="px-4 py-2 space-y-2">
+                    <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </Link>
-        ))}
-      </div>
-
-      {/* Loading indicator for fetching next page */}
-      {isFetchingNextPage && (
-        <div className="space-y-2">
-          <div className="grid grid-cols-2 lg:grid-cols-3 px-3 gap-2 lg:gap-6">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-2xl p-[6px] animate-pulse"
-              >
-                <div className="w-full aspect-[3/2] bg-gray-200 rounded-xl"></div>
-                <div className="px-4 py-2 space-y-2">
-                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                </div>
-              </div>
-            ))}
           </div>
-        </div>
-      )}
+        )}
 
-      {/* End of results indicator */}
-      <div className="text-center py-8"></div>
+        {/* End of results indicator */}
+        <div className="text-center py-8"></div>
 
-      {/* No results */}
-      {!isLoading && allMerchants.length === 0 && (
-        <div className="text-center py-8">
-          <p className="text-gray-500">{t("listMerchant.notFound")}</p>
-        </div>
-      )}
-    </div>
+        {/* No results */}
+        {!isLoading && allMerchants.length === 0 && (
+          <div className="text-center py-8">
+            <p className="text-gray-500">{t("listMerchant.notFound")}</p>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

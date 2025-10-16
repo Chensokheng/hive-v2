@@ -15,7 +15,11 @@ export function FloatingCart({ quantity }: { quantity: number }) {
   return (
     <>
       {/* Floating Cart Button */}
-      <div className={cn("fixed right-3 z-50 transition-all bottom-10")}>
+      <div
+        className={cn(
+          "fixed right-3 z-50 transition-all bottom-26 lg:bottom-10"
+        )}
+      >
         <button
           className="relative bg-gradient-to-r from-blue-500 to-pink-500 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 w-15 sm:w-auto sm:px-6 h-15 flex items-center justify-center cursor-pointer"
           onClick={() => {
