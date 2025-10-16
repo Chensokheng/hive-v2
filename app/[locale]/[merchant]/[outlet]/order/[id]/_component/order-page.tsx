@@ -11,7 +11,6 @@ import useGetOrderDetail from "@/hooks/use-get-order-detail";
 import { Skeleton } from "@/components/ui/skeleton";
 import OrderAddonDetail from "@/components/hive/checkout/order-addon-detail";
 import MapIcon from "@/components/icon/map";
-import RefreshIcon from "@/components/icon/refresh";
 
 import OrderProgress from "./order-progress";
 
@@ -42,7 +41,6 @@ export default function OrderDetailsPage() {
           <h1 className=" text-xl sm:text-3xl font-bold text-[#161F2F] flex-1 text-center">
             Order Details
           </h1>
-          <RefreshIcon />
         </div>
 
         {/* Status */}

@@ -29,7 +29,7 @@ export default function Page() {
   const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-20 lg:pb-0">
       <div className="max-w-[800px] mx-auto  min-h-screen lg:bg-white">
         {jsBridgeStatus === "success" ? (
           <div

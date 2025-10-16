@@ -179,9 +179,9 @@ export const useOutletStore = create<OutletStoreState>()((set, get) => ({
     const state = get();
     if (state.pendingMenuAction) {
       set(() => ({
-        selectedOutletMenu: state.pendingMenuAction.item,
+        selectedOutletMenu: state.pendingMenuAction?.item,
         openMenuSheet: true,
-        selectOutletId: state.pendingMenuAction.outletId,
+        selectOutletId: state.pendingMenuAction?.outletId,
         pendingMenuAction: null,
       }));
     }

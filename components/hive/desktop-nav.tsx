@@ -6,11 +6,11 @@ import Link from "next/link";
 import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
-import BellIcon from "@/components/icon/bell";
 
 import Auth from "./auth";
 import SearchMerchant from "./landing/search-merchant";
 import LangSwitcher from "./lang-switcher";
+import Notification from "./notification";
 import SelectDeliveryAddress from "./select-delivery-address";
 
 export const DesktopNav = () => {
@@ -52,9 +52,7 @@ export const DesktopNav = () => {
             <h1>{t("language.current")}</h1>
           </div>
         </LangSwitcher>
-        <div className="h-10 w-10 bg-[#EBEFF7] rounded-full grid place-content-center shadow-sm cursor-pointer">
-          <BellIcon />
-        </div>
+        <Notification />
         <Auth />
       </div>
     </nav>

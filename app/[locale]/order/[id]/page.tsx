@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import CheckCircleIcon from "@/components/icon/check-circle";
 import HourGlassIcon from "@/components/icon/hour-glass";
 import PaymentIcon from "@/components/icon/payment";
-import RefreshIcon from "@/components/icon/refresh";
 import TruckIcon from "@/components/icon/truck";
 
 export default function OrderDetailsPage() {
@@ -53,7 +52,6 @@ export default function OrderDetailsPage() {
           <h1 className=" text-xl sm:text-3xl font-bold text-[#161F2F] flex-1 text-center">
             Order Details
           </h1>
-          <RefreshIcon />
         </div>
 
         {/* Status */}

@@ -1,11 +1,13 @@
+"use client";
+
 import Image from "next/image";
 import { usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
-import BellIcon from "../icon/bell";
 import BottomNav from "./bottom-nav";
 import SearchMerchant from "./landing/search-merchant";
 import LangSwitcher from "./lang-switcher";
+import Notification from "./notification";
 import SelectDeliveryAddress from "./select-delivery-address";
 
 export const MobileNav = () => {
@@ -56,9 +58,7 @@ export const MobileNav = () => {
             </div>
           </LangSwitcher>
 
-          <div className="h-10 w-10 bg-white rounded-full grid place-content-center cursor-pointer">
-            <BellIcon />
-          </div>
+          <Notification />
         </div>
       </div>
       <div className="px-5 py-[1.125rem] space-y-6  items-center gap-5 xl:gap-50 w-full block lg:hidden z-50 ">

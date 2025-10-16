@@ -51,9 +51,9 @@ export default function OutletCategorySidebar() {
       </div>
       <div
         className={cn(
-          "font-bold text-primary px-4 py-2.5  rounded-full mt-6 mb-2 cursor-pointer transition-all hover:bg-sky-100",
+          "font-bold px-4 py-2.5  rounded-full mt-6 mb-2 cursor-pointer transition-all hover:bg-sky-100",
           {
-            "bg-[#0055DD1A]": !categoryId,
+            "bg-[#0055DD1A] text-primary": !categoryId,
           }
         )}
         onClick={() => setCategoryId(null)}

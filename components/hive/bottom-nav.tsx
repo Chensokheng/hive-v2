@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
 
 import { cn } from "@/lib/utils";
+import useGetUserInfo from "@/hooks/use-get-user-info";
+import useGetUserOrderHistory from "@/hooks/use-get-user-order-history";
 import CategoryIcon from "@/components/icon/category";
 import HomeIcon from "@/components/icon/home";
 import OrderIcon from "@/components/icon/order";
@@ -47,6 +49,13 @@ const defaultNavItems: NavItem[] = [
 export default function BottomNav({ className }: BottomNavProps) {
   const pathname = usePathname();
   const { locale } = useParams();
+  const { data: user } = useGetUserInfo();
+
+  const { data: history } = useGetUserOrderHistory(
+    user?.token!,
+    user?.phone!,
+    "processing"
+  );
 
   return (
     <nav
@@ -64,7 +73,16 @@ export default function BottomNav({ className }: BottomNavProps) {
               href={"/" + locale + item.href}
               className="flex items-center justify-center flex-col py-1 space-y-1 w-full"
             >
-              <item.icon fill={isActive ? "#FF66CC" : "#BDC5DB"} />
+              <div className=" relative">
+                <item.icon fill={isActive ? "#FF66CC" : "#BDC5DB"} />
+                {item.href === "/history" &&
+                  history?.data?.items?.length &&
+                  history.data.items.length > 0 && (
+                    <span className="text-xs text-white w-4 h-4 rounded-full font-bold absolute -top-1 -right-1 bg-red-500 grid place-content-center">
+                      {history?.data.items.length}
+                    </span>
+                  )}
+              </div>
               <span
                 className={cn(
                   "text-xs font-semibold",

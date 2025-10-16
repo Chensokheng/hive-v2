@@ -60,7 +60,7 @@ export default function OutletCategoryMobile() {
           >
             <div
               className={cn(
-                "px-3 py-2 bg-[#0055DD1A]  rounded-full font-bold whitespace-nowrap snap-start flex-shrink-0",
+                "px-3 py-2  rounded-full font-bold whitespace-nowrap snap-start flex-shrink-0",
                 {
                   "bg-[#0055DD1A] text-primary": !categoryId,
                 }
