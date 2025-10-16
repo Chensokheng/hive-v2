@@ -30,6 +30,9 @@ export default function OutletMenuCard({
   const setSelectedOutletMenu = useOutletStore(
     (state) => state.setSelectedOutletMenu
   );
+  const setPendingMenuAction = useOutletStore(
+    (state) => state.setPendingMenuAction
+  );
   const { data: user } = useGetUserInfo();
 
   return (
@@ -37,6 +40,11 @@ export default function OutletMenuCard({
       className=" block w-full max-w-full rounded-lg bg-white hover:shadow transition-all cursor-pointer"
       onClick={() => {
         if (!user?.userId) {
+          // Store the pending action for after login
+          setPendingMenuAction({
+            item: { ...item, isCustomDiscounted: false },
+            outletId,
+          });
           document.getElementById("auth-trigger-dialog")?.click();
           return;
         }

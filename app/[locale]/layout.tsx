@@ -10,6 +10,7 @@ import { setRequestLocale } from "next-intl/server";
 import { Toaster as SonnerToast } from "sonner";
 
 import Navbar from "@/components/hive/navbar";
+import PendingActionHandler from "@/components/hive/pending-action-handler";
 import Address from "@/components/map/address";
 import JsBridgeListener from "@/components/mini/js-bridge-listener";
 import MiniNavbar from "@/components/mini/mini-navbar";
@@ -71,6 +72,7 @@ export default async function RootLayout({
             <Navbar />
             <Address />
             <JsBridgeListener />
+            <PendingActionHandler />
             {children}
           </main>
 

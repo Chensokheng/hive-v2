@@ -44,6 +44,21 @@ interface OutletStoreState {
     happyHourAvailableTimeId?: number | null;
   } | null;
   updateFeeError: string | null;
+  pendingMenuAction: {
+    item: {
+      id: number;
+      image: string;
+      name: string;
+      hasAddOn: boolean;
+      price: number;
+      promotionPrice: number;
+      isCustomDiscounted: boolean;
+      isHappyHourProduct?: boolean;
+      happyHourMaxQtyPerOrder?: number;
+      happyHourAvailableTimeId?: number | null;
+    };
+    outletId: number;
+  } | null;
   setSearchMenu: (value: string) => void;
   setPickupTime: (value: number | null) => void;
   setUpdateFeeError: (value: string | null) => void;
@@ -94,9 +109,27 @@ interface OutletStoreState {
   ) => void;
   setOutletOpen: (value: boolean) => void;
   setIsClosed: (value: boolean) => void;
+  setPendingMenuAction: (
+    value: {
+      item: {
+        id: number;
+        image: string;
+        name: string;
+        hasAddOn: boolean;
+        price: number;
+        promotionPrice: number;
+        isCustomDiscounted: boolean;
+        isHappyHourProduct?: boolean;
+        happyHourMaxQtyPerOrder?: number;
+        happyHourAvailableTimeId?: number | null;
+      };
+      outletId: number;
+    } | null
+  ) => void;
+  executePendingMenuAction: () => void;
 }
 
-export const useOutletStore = create<OutletStoreState>()((set) => ({
+export const useOutletStore = create<OutletStoreState>()((set, get) => ({
   isOpen: true,
   isClosed: false,
   categoryId: null,
@@ -110,6 +143,7 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
   editCartItemData: null,
   searchMenu: "",
   updateFeeError: null,
+  pendingMenuAction: null,
   setSearchMenu: (value) => set(() => ({ searchMenu: value })),
   setOutletOpen: (value) => set(() => ({ isOpen: value })),
   setIsClosed: (value) => set(() => ({ isClosed: value })),
@@ -140,4 +174,16 @@ export const useOutletStore = create<OutletStoreState>()((set) => ({
       editCartItemSheetOpen: value !== null,
     })),
   setUpdateFeeError: (value) => set(() => ({ updateFeeError: value })),
+  setPendingMenuAction: (value) => set(() => ({ pendingMenuAction: value })),
+  executePendingMenuAction: () => {
+    const state = get();
+    if (state.pendingMenuAction) {
+      set(() => ({
+        selectedOutletMenu: state.pendingMenuAction.item,
+        openMenuSheet: true,
+        selectOutletId: state.pendingMenuAction.outletId,
+        pendingMenuAction: null,
+      }));
+    }
+  },
 }));
