@@ -3,13 +3,18 @@
 import React from "react";
 import { useParams } from "next/navigation";
 
+import useGetHomePageSection from "@/hooks/use-get-home-page-sections";
 import Breadcrumb from "@/components/hive/merchant/breadcrumb";
 
 export default function BreadCrumPromotion() {
-  const { locale, title } = useParams() as {
+  const { locale, id } = useParams() as {
     locale: string;
-    title: string;
+    id: string;
   };
+  const [promotionId] = id.split("-");
+  const { data } = useGetHomePageSection();
+
+  const promotion = data?.data.find((item) => item.id === Number(promotionId));
 
   const breadcrumbItems = [
     {
@@ -18,7 +23,7 @@ export default function BreadCrumPromotion() {
       active: false,
     },
     {
-      label: title,
+      label: promotion?.title || "",
       active: true,
     },
   ];

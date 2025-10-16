@@ -215,8 +215,6 @@ export default function PromotionSections() {
                     locale +
                     "/promotions" +
                     "/" +
-                    promotion.title.split(" ").join("-") +
-                    "/" +
                     `${promotion.id}-${item.id}`;
                 if (item.merchants.length === 1) {
                   url =
