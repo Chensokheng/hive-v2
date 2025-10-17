@@ -30,7 +30,7 @@
         "usernameRequired": "Username is required",
         "usernameTooShort": "Username must be at least 3 characters",
         "phoneRequired": "Phone number is required.",
-        "phoneInvalid": "Please enter a valid phone number ."
+        "phoneInvalid": "Please enter a valid phone number."
       }
     },
     "otp": {
@@ -42,7 +42,8 @@
       "back": "Back"
     },
     "common": {
-      "back": "Back"
+      "back": "Back",
+      "save": "Save"
     },
     "toast": {
       "otpSentSuccess": "OTP sent successfully",
@@ -80,5 +81,104 @@
   },
   "nearBy": {
     "title": "Nearby"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "summary": "Summary",
+    "subtotal": "Subtotal",
+    "items": "items",
+    "deliveryFee": "Delivery Fee",
+    "vat": "Vat",
+    "promotion": "Promotion",
+    "total": "Total",
+    "placeOrder": "PLACE ORDER",
+    "changeAddress": "Change Address",
+    "delivery": "Delivery",
+    "pickup": "Pickup",
+    "pickupTime": "Pickup time:",
+    "asap": "As soon as possible",
+    "today": "Today at",
+    "deliveryTo": "Delivery to:",
+    "selectLocation": "Please select location",
+    "receiverInfo": "Receiver Information",
+    "noteToDriver": "Note to driver",
+    "noteToStore": "Any note for this store?",
+    "addMoreItems": "Add More Items",
+    "yourOrder": "Your order:",
+    "paymentMethod": "Payment Method",
+    "truemoneyWallet": "TrueMoney Wallet",
+    "usePromotionCode": "Use Promotion Code",
+    "promotionCode": "Promotion Code",
+    "use": "USE",
+    "expireOn": "Expire on",
+    "edit": "Edit",
+    "note": "Note:",
+    "remove": "Remove",
+    "update": "Update",
+    "selectRequiredOptions": "Please select required options",
+    "noteToMerchant": "Note to merchant",
+    "notePlaceholder": "e.g No onions, extra sauce, etc.",
+    "free": "Free",
+    "happyHourProduct": "Happy hour product 🤣",
+    "flashSale": "Flash Sale ⚡️",
+    "pickupTimeDialog": {
+      "title": "Please Select Date",
+      "pickup": "Pick up",
+      "date": "Date",
+      "time": "Time",
+      "asap": "As soon as Possible",
+      "confirm": "Confirm"
+    },
+    "toast": {
+      "failToCheckout": "Fail to checkout",
+      "cartItemUpdated": "Cart item updated successfully",
+      "failToUpdateCart": "Failed to update cart item",
+      "failToRemoveItem": "Fail to remove item from the cart",
+      "failToApplyPromo": "Failed to apply promotion code"
+    }
+  },
+  "map": {
+    "addressDetails": "Address Details",
+    "chooseAddress": "Choose Address",
+    "useCurrentLocation": "Use Current Location",
+    "gettingLocation": "Getting location...",
+    "savedAddress": "Saved Address",
+    "homeAddress": "Home Address",
+    "workAddress": "Work Address",
+    "addHomeAddress": "Add Home Address",
+    "addWorkAddress": "Add Work Address",
+    "addOtherAddress": "Add Other Address",
+    "other": "Other",
+    "addAddressName": "Add address name",
+    "selectYourLocation": "Select Your Location",
+    "selectAddressLocation": "Select Address Location",
+    "dragMapInstruction": "Drag the map to adjust pin position",
+    "updatingLocation": "Updating location...",
+    "selectedAddress": "Selected Address",
+    "useMyCurrentLocation": "Use My Current Location",
+    "cancel": "Cancel",
+    "save": "Save",
+    "update": "Update",
+    "updateMyLocation": "Update My Location",
+    "confirmLocation": "Confirm Location",
+    "loadingMap": "Loading map...",
+    "unableToLoadMap": "Unable to Load Map",
+    "close": "Close",
+    "editAddress": "Edit {type} Address",
+    "addAddress": "Add {type} Address",
+    "home": "Home",
+    "work": "Work",
+    "toast": {
+      "locationUpdated": "Your location has been updated",
+      "failedToUpdate": "Failed to update location. Please try again.",
+      "geolocationNotSupported": "Geolocation is not supported by your browser",
+      "failedToGetLocation": "Failed to get current location. Please enable location permissions.",
+      "failedToGetAddress": "Failed to get address from location",
+      "invalidLocationResponse": "Invalid location response format",
+      "failedToGetAddressForLocation": "Failed to get address for this location",
+      "apiRequestFailed": "API request failed",
+      "failedToInitializeMap": "Failed to initialize map. Please check your connection and try again.",
+      "unableToGetCurrentLocation": "Unable to get your current location. Please ensure location services are enabled."
+    }
   }
 }

@@ -9,7 +9,6 @@
   "breadcrumb": {
     "home": "ទំព័រដើម"
   },
-
   "language": {
     "kh": "ខ្មែរ",
     "en": "អង់គ្លេស",
@@ -22,35 +21,35 @@
     "register": {
       "title": "សូមស្វាគមន៍!",
       "subtitle": "ចុះឈ្មោះ ឬចូលគណនីដើម្បីបន្ត",
-      "phoneNumber": "លេខទូរស័ព្ទ",
-      "phonePlaceholder": "បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក (ឧ. ០១២ ៣៤៥ ៦៧៨)",
+      "phoneNumber": "លេខទូរសព្ទ",
+      "phonePlaceholder": "បញ្ចូលលេខទូរសព្ទរបស់អ្នក (ឧ. ០១២ ៣៤៥ ៦៧៨)",
       "username": "ឈ្មោះអ្នកប្រើ",
       "usernamePlaceholder": "បញ្ចូលឈ្មោះអ្នកប្រើរបស់អ្នក",
       "continue": "បន្ត",
       "validation": {
-        "usernameRequired": "តម្រូវឱ្យមានឈ្មោះអ្នកប្រើ",
+        "usernameRequired": "ត្រូវឱ្យមានឈ្មោះអ្នកប្រើ",
         "usernameTooShort": "ឈ្មោះអ្នកប្រើត្រូវតែមានយ៉ាងហោចណាស់ ៣ តួអក្សរ",
-        "phoneRequired": "តម្រូវឱ្យមានលេខទូរស័ព្ទ។",
-        "phoneInvalid": "សូមបញ្ចូលលេខទូរស័ព្ទដែលត្រឹមត្រូវ ។"
+        "phoneRequired": "ត្រូវឱ្យមានលេខទូរសព្ទ។",
+        "phoneInvalid": "សូមបញ្ចូលលេខទូរសព្ទដែលត្រឹមត្រូវ ។"
       }
     },
     "otp": {
       "title": "បញ្ចូលកូដ OTP",
-      "subtitle": "បញ្ចូលកូដ ៤ ខ្ទង់ដែលយើងបានផ្ញើទៅលេខទូរស័ព្ទរបស់អ្នកដែលបញ្ចប់ដោយ ****",
+      "subtitle": "បញ្ចូលកូដ ៤ ខ្ទង់ដែលយើងបានផ្ញើទៅលេខទូរសព្ទរបស់អ្នកដែលបញ្ចប់ដោយ ****",
       "resendText": "មិនបានទទួលកូដទេ?",
       "resend": "ផ្ញើម្តងទៀត",
       "signUp": "ចុះឈ្មោះ",
-      "back": "ត្រលប់ក្រោយ"
+      "back": "ត្រឡប់ក្រោយ"
     },
     "common": {
-      "back": "ត្រលប់ក្រោយ"
+      "back": "ត្រឡប់ក្រោយ",
+      "save": "រក្សាទុក"
     },
     "toast": {
       "otpSentSuccess": "កូដ OTP ត្រូវបានផ្ញើដោយជោគជ័យ",
       "otpSendError": "មិនអាចផ្ញើកូដ OTP បានទេ"
     }
   },
-
   "listMerchant": {
     "allStore": "ហាងទាំងអស់",
     "notFound": "មិនមានហាងទាំងអស់"
@@ -58,7 +57,7 @@
   "merchant": {
     "outlet": {
       "searchBranch": "ស្វែងរកហាង",
-      "filterBy": "តម្រូវការតាម"
+      "filterBy": "ត្រូវការតាម"
     }
   },
   "workingHours": {
@@ -82,5 +81,104 @@
   },
   "nearBy": {
     "title": "ហាងនៅក្បែរ"
+  },
+  "checkout": {
+    "title": "ទូទាត់",
+    "summary": "សង្ខេប",
+    "subtotal": "សរុបរង",
+    "items": "ធាតុ",
+    "deliveryFee": "ថ្លៃដឹកជញ្ជូន",
+    "vat": "ពន្ធ VAT",
+    "promotion": "ប្រូម៉ូសិន",
+    "total": "សរុប",
+    "placeOrder": "បញ្ជាទិញ",
+    "changeAddress": "ប្តូរអាសយដ្ឋាន",
+    "delivery": "ដឹកជញ្ជូន",
+    "pickup": "ទទួលយកដោយខ្លួនឯង",
+    "pickupTime": "ពេលវេលាទទួលយក:",
+    "asap": "ឱ្យបានលឿនបំផុត",
+    "today": "ថ្ងៃនេះម៉ោង",
+    "deliveryTo": "ដឹកជញ្ជូនទៅ:",
+    "selectLocation": "សូមជ្រើសរើសទីតាំង",
+    "receiverInfo": "ព័ត៌មានអ្នកទទួល",
+    "noteToDriver": "សម្គាល់ដល់អ្នកបើកបរ",
+    "noteToStore": "មានសម្គាល់អ្វីសម្រាប់ហាងនេះទេ?",
+    "addMoreItems": "បន្ថែមផលិតផលច្រើនទៀត",
+    "yourOrder": "ការបញ្ជាទិញរបស់អ្នក:",
+    "paymentMethod": "វិធីសាស្ត្របង់ប្រាក់",
+    "truemoneyWallet": "កាបូប TrueMoney",
+    "usePromotionCode": "ប្រើកូដប្រូម៉ូសិន",
+    "promotionCode": "កូដប្រូម៉ូសិន",
+    "use": "ប្រើ",
+    "expireOn": "ផុតកំណត់នៅ",
+    "edit": "កែសម្រួល",
+    "note": "សម្គាល់:",
+    "remove": "លុបចោល",
+    "update": "ធ្វើបច្ចុប្បន្នភាព",
+    "selectRequiredOptions": "សូមជ្រើសរើសជម្រើសដែលត្រូវការ",
+    "noteToMerchant": "សម្គាល់ដល់អ្នកលក់",
+    "notePlaceholder": "ឧ. គ្មានខ្ទឹមបារាំង, ទឹកជ្រលក់បន្ថែម, ជាដើម",
+    "free": "ឥតគិតថ្លៃ",
+    "happyHourProduct": "ផលិតផល Happy Hour 🤣",
+    "flashSale": "Flash Sale ⚡️",
+    "pickupTimeDialog": {
+      "title": "សូមជ្រើសរើសកាលបរិច្ឆេទ",
+      "pickup": "ទទួលយក",
+      "date": "កាលបរិច្ឆេទ",
+      "time": "ពេលវេលា",
+      "asap": "ឱ្យបានលឿនបំផុត",
+      "confirm": "បញ្ជាក់"
+    },
+    "toast": {
+      "failToCheckout": "មិនអាចទូទាត់បានទេ",
+      "cartItemUpdated": "បានធ្វើបច្ចុប្បន្នភាពធាតុរទេះដោយជោគជ័យ",
+      "failToUpdateCart": "មិនអាចធ្វើបច្ចុប្បន្នភាពធាតុរទេះបានទេ",
+      "failToRemoveItem": "មិនអាចលុបធាតុចេញពីរទេះបានទេ",
+      "failToApplyPromo": "មិនអាចប្រើកូដប្រូម៉ូសិនបានទេ"
+    }
+  },
+  "map": {
+    "addressDetails": "ព័ត៌មានលម្អិតអាសយដ្ឋាន",
+    "chooseAddress": "ជ្រើសរើសអាសយដ្ឋាន",
+    "useCurrentLocation": "ប្រើទីតាំងបច្ចុប្បន្ន",
+    "gettingLocation": "កំពុងទទួលទីតាំង...",
+    "savedAddress": "អាសយដ្ឋានដែលបានរក្សាទុក",
+    "homeAddress": "អាសយដ្ឋានផ្ទះ",
+    "workAddress": "អាសយដ្ឋានការិយាល័យ",
+    "addHomeAddress": "បន្ថែមអាសយដ្ឋានផ្ទះ",
+    "addWorkAddress": "បន្ថែមអាសយដ្ឋានការិយាល័យ",
+    "addOtherAddress": "បន្ថែមអាសយដ្ឋានផ្សេងទៀត",
+    "other": "ផ្សេងទៀត",
+    "addAddressName": "បន្ថែមឈ្មោះអាសយដ្ឋាន",
+    "selectYourLocation": "ជ្រើសរើសទីតាំងរបស់អ្នក",
+    "selectAddressLocation": "ជ្រើសរើសទីតាំងអាសយដ្ឋាន",
+    "dragMapInstruction": "អូសផែនទីដើម្បីកែសម្រួលទីតាំងម្ជុល",
+    "updatingLocation": "កំពុងធ្វើបច្ចុប្បន្នភាពទីតាំង...",
+    "selectedAddress": "អាសយដ្ឋានដែលបានជ្រើសរើស",
+    "useMyCurrentLocation": "ប្រើទីតាំងបច្ចុប្បន្នរបស់ខ្ញុំ",
+    "cancel": "បោះបង់",
+    "updateMyLocation": "ធ្វើបច្ចុប្បន្នភាពទីតាំងរបស់ខ្ញុំ",
+    "confirmLocation": "បញ្ជាក់ទីតាំង",
+    "loadingMap": "កំពុងផ្ទុកផែនទី...",
+    "unableToLoadMap": "មិនអាចផ្ទុកផែនទីបានទេ",
+    "save": "រក្សាទុក",
+    "update": "ធ្វើបច្ចុប្បន្នភាព",
+    "close": "បិទ",
+    "editAddress": "កែសម្រួលអាសយដ្ឋាន{type}",
+    "addAddress": "បន្ថែមអាសយដ្ឋាន{type}",
+    "home": "ផ្ទះ",
+    "work": "ការិយាល័យ",
+    "toast": {
+      "locationUpdated": "ទីតាំងរបស់អ្នកត្រូវបានធ្វើបច្ចុប្បន្នភាព",
+      "failedToUpdate": "មិនអាចធ្វើបច្ចុប្បន្នភាពទីតាំងបានទេ។ សូមព្យាយាមម្តងទៀត។",
+      "geolocationNotSupported": "ទីតាំងភូមិសាស្ត្រមិនត្រូវបានគាំទ្រដោយកម្មវិធីរុករករបស់អ្នកទេ",
+      "failedToGetLocation": "មិនអាចទទួលទីតាំងបច្ចុប្បន្នបានទេ។ សូមបើកការអនុញ្ញាតទីតាំង។",
+      "failedToGetAddress": "មិនអាចទទួលអាសយដ្ឋានពីទីតាំងបានទេ",
+      "invalidLocationResponse": "ទម្រង់ការឆ្លើយតបទីតាំងមិនត្រឹមត្រូវ",
+      "failedToGetAddressForLocation": "មិនអាចទទួលអាសយដ្ឋានសម្រាប់ទីតាំងនេះបានទេ",
+      "apiRequestFailed": "សំណើ API បានបរាជ័យ",
+      "failedToInitializeMap": "មិនអាចចាប់ផ្តើមផែនទីបានទេ។ សូមពិនិត្យការភ្ជាប់របស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+      "unableToGetCurrentLocation": "មិនអាចទទួលទីតាំងបច្ចុប្បន្នរបស់អ្នកបានទេ។ សូមប្រាកដថាសេវាកម្មទីតាំងត្រូវបានបើក។"
+    }
   }
 }
