@@ -376,7 +376,7 @@ export function MapLocationPicker({
                   className="w-full h-11 rounded-lg border-2 hover:bg-primary/5 hover:border-primary transition-colors"
                 >
                   <CurrentLocationIcon className="h-5 w-5 text-primary mr-2" />
-                  <span className="font-medium">Use My Current Location</span>
+                  <span className="font-medium">{t("useCurrentLocation")}</span>
                 </Button>
               </div>
 
