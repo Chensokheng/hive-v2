@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { getPlaceByGeocode } from "@/services/address/get-place-by-geocode";
 import { useSavedAddressStore } from "@/store/saved-address";
 import { Loader } from "lucide-react";
+import { useTranslations } from "next-intl";
 import toast from "react-hot-toast";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -11,6 +12,7 @@ import useGetUserInfo from "@/hooks/use-get-user-info";
 import CurrentLocationIcon from "../../icon/current-location";
 
 export default function SavedAddressUseCurrentLocation() {
+  const t = useTranslations("map");
   const [isLoading, setIsLoading] = useState(false);
   const { data: user } = useGetUserInfo();
 
@@ -26,7 +28,7 @@ export default function SavedAddressUseCurrentLocation() {
       const position = await new Promise<GeolocationPosition>(
         (resolve, reject) => {
           if (!navigator.geolocation) {
-            reject(new Error("Geolocation is not supported by your browser"));
+            reject(new Error(t("toast.geolocationNotSupported")));
             return;
           }
 
@@ -49,7 +51,7 @@ export default function SavedAddressUseCurrentLocation() {
       });
 
       if (!geocodeResult.status || !geocodeResult.data) {
-        toast.error("Failed to get address from location");
+        toast.error(t("toast.failedToGetAddress"));
       }
 
       const locationData = geocodeResult.data;
@@ -64,9 +66,7 @@ export default function SavedAddressUseCurrentLocation() {
     } catch (error) {
       console.error("Error getting current location:", error);
       alert(
-        error instanceof Error
-          ? error.message
-          : "Failed to get current location. Please enable location permissions."
+        error instanceof Error ? error.message : t("toast.failedToGetLocation")
       );
     } finally {
       setIsLoading(false);
@@ -86,7 +86,7 @@ export default function SavedAddressUseCurrentLocation() {
         <CurrentLocationIcon className="h-5 w-5 text-primary" />
       )}
       <span className="text-primary font-semibold">
-        {isLoading ? "Getting location..." : "Use Current Location"}
+        {isLoading ? t("gettingLocation") : t("useCurrentLocation")}
       </span>
     </button>
   );

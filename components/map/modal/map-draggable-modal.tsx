@@ -12,6 +12,7 @@ import {
 } from "@/store/saved-address";
 import { useQueryClient } from "@tanstack/react-query";
 import { Check, Loader2, MapPin, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import toast from "react-hot-toast";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -33,6 +34,7 @@ interface MapLocationPickerProps {
 export function MapLocationPicker({
   initialCenter = DEFAULT_LAT_LNG,
 }: MapLocationPickerProps) {
+  const t = useTranslations("map");
   const { merchant } = useParams() as { merchant: string };
   const queryClient = useQueryClient();
   const { data: user } = useGetUserInfo();
@@ -111,11 +113,13 @@ export function MapLocationPicker({
           setCurrentLocation(locationData);
           return locationData;
         } else {
-          toast.error("Invalid location response format");
+          toast.error(t("toast.invalidLocationResponse"));
+          // toast.error("Invalid location response format");
         }
       } catch (error: any) {
         console.error("Reverse geocoding error:", error);
-        toast.error("Failed to get address for this location");
+        toast.error(t("toast.failedToGetAddressForLocation"));
+        // toast.error("Failed to get address for this location");
       } finally {
         setIsReverseGeocoding(false);
       }
@@ -150,13 +154,11 @@ export function MapLocationPicker({
               address: result.data.address,
             });
           } else {
-            toast.error("API request failed");
+            toast.error(t("toast.apiRequestFailed"));
           }
         } catch (error: any) {
           console.error("Map initialization error:", error);
-          toast.error(
-            "Failed to initialize map. Please check your connection and try again."
-          );
+          toast.error(t("toast.failedToInitializeMap"));
           setCanRenderMap(false);
         } finally {
           setIsInitializing(false);
@@ -212,7 +214,7 @@ export function MapLocationPicker({
           queryKey: ["outlet-menu-nearby"],
         });
 
-        toast.success("Your location has been updated");
+        toast.success(t("toast.locationUpdated"));
       } else if (mapContext === "saved-address") {
         // Update the form data for saved address
         updateAddressFormField("location", currentLocation);
@@ -310,12 +312,12 @@ export function MapLocationPicker({
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">
-                    {"Select " +
-                      (mapContext === "user-location" ? "Your" : "Address") +
-                      " Location"}
+                    {mapContext === "user-location"
+                      ? t("selectYourLocation")
+                      : t("selectAddressLocation")}
                   </h3>
                   <p className="text-xs text-gray-500">
-                    Drag the map to adjust pin position
+                    {t("dragMapInstruction")}
                   </p>
                 </div>
               </div>
@@ -343,7 +345,7 @@ export function MapLocationPicker({
                     <div className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin text-primary" />
                       <span className="text-xs md:text-sm font-medium text-gray-700">
-                        Updating location...
+                        {t("updatingLocation")}
                       </span>
                     </div>
                   </div>
@@ -358,7 +360,7 @@ export function MapLocationPicker({
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
-                        Selected Address
+                        {t("selectedAddress")}
                       </p>
                     </div>
                     <p className="text-sm text-gray-900 leading-relaxed pl-6">
@@ -385,7 +387,7 @@ export function MapLocationPicker({
                   className="flex-1 h-11 rounded-lg font-medium"
                   disabled={isUpdating}
                 >
-                  Cancel
+                  {t("cancel")}
                 </Button>
                 <Button
                   onClick={handleConfirmLocation}
@@ -397,14 +399,14 @@ export function MapLocationPicker({
                   {isUpdating ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Updating...
+                      {t("updatingLocation")}
                     </>
                   ) : (
                     <>
                       <Check className="w-4 h-4 mr-2" />
                       {mapContext === "user-location"
-                        ? "Update My Location"
-                        : "Confirm Location"}
+                        ? t("updateMyLocation")
+                        : t("confirmLocation")}
                     </>
                   )}
                 </Button>

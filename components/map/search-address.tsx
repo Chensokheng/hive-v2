@@ -8,6 +8,7 @@ import { useAddresStore } from "@/store/address";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
 export default function SearchAddress({ className }: { className?: string }) {
+  const t = useTranslations();
   const [isLoading, setLoading] = useState(false);
   const { merchant } = useParams() as { merchant: string };
 
@@ -89,7 +91,7 @@ export default function SearchAddress({ className }: { className?: string }) {
 
   return (
     <div className={className}>
-      <Label className="font-bold text-base">{"Choose Address"}</Label>
+      <Label className="font-bold text-base">{t("map.chooseAddress")}</Label>
 
       <div className="relative">
         <div className=" absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -102,7 +104,7 @@ export default function SearchAddress({ className }: { className?: string }) {
           ref={inputRef}
           className=" rounded-full bg-[#EBEFF7] h-10 border-none pl-10 w-full pr-10"
           tabIndex={-1}
-          placeholder="Enter delivery address"
+          placeholder={t("nav.enterDeliveryAddress")}
           onChange={(e) => handleSearch(e.target.value)}
         />
         {(isFetching || isLoading) && (

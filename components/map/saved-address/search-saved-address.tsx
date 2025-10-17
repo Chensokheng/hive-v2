@@ -5,6 +5,7 @@ import { seachAddressKeyword } from "@/services/address/search-address-keyword";
 import { useSavedAddressStore } from "@/store/saved-address";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Loader, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ export default function SavedAddressSearch({
 }: {
   className?: string;
 }) {
+  const t = useTranslations();
   const [isLoading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -85,7 +87,7 @@ export default function SavedAddressSearch({
 
   return (
     <div className={className}>
-      <Label className="font-bold text-base">Choose Address</Label>
+      <Label className="font-bold text-base">{t("map.chooseAddress")}</Label>
 
       <div className="relative">
         <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -97,7 +99,7 @@ export default function SavedAddressSearch({
           ref={inputRef}
           className="rounded-full bg-[#EBEFF7] h-10 border-none pl-10 w-full pr-10"
           tabIndex={-1}
-          placeholder="Enter delivery address"
+          placeholder={t("nav.enterDeliveryAddress")}
           onChange={(e) => handleSearch(e.target.value)}
         />
 

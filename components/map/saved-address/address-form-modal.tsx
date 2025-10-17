@@ -11,6 +11,7 @@ import {
   useSavedLocationStore,
 } from "@/store/saved-address";
 import { Loader, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -43,6 +44,8 @@ interface AddressModalProps {
 }
 
 export default function AddressModal({ setOpenModal }: AddressModalProps) {
+  const t = useTranslations("map");
+
   const { data: user } = useGetUserInfo();
 
   // Get state from stores
@@ -81,6 +84,16 @@ export default function AddressModal({ setOpenModal }: AddressModalProps) {
       : "other";
 
   const isHomeOrWork = ["home", "work"].includes(modalType);
+
+  // Get localized address type names
+  const getAddressTypeName = (type: TAddressType) => {
+    const typeMap = {
+      home: t("home"),
+      work: t("work"),
+      other: t("other"),
+    };
+    return typeMap[type];
+  };
 
   // Get current map data for display
   const currentMapData = useMemo(() => {
@@ -234,8 +247,8 @@ export default function AddressModal({ setOpenModal }: AddressModalProps) {
           <DialogHeader className="hidden">
             <DialogTitle className="hidden" aria-readonly>
               {editingLocation
-                ? `Edit ${addressTypes[modalType]} Address`
-                : `Add ${addressTypes[modalType]} Address`}
+                ? t("editAddress", { type: getAddressTypeName(modalType) })
+                : t("addAddress", { type: getAddressTypeName(modalType) })}
             </DialogTitle>
             <DialogDescription className="hidden" aria-readonly>
               {editingLocation ? "Update" : "Add a new"} address for delivery
@@ -246,8 +259,8 @@ export default function AddressModal({ setOpenModal }: AddressModalProps) {
           <div className="flex items-center justify-between p-4 border-b">
             <h3 className="text-lg font-semibold">
               {editingLocation
-                ? `Edit ${addressTypes[modalType]} Address`
-                : `Add ${addressTypes[modalType]} Address`}
+                ? t("editAddress", { type: getAddressTypeName(modalType) })
+                : t("addAddress", { type: getAddressTypeName(modalType) })}
             </h3>
             <Button
               variant="ghost"
@@ -272,7 +285,7 @@ export default function AddressModal({ setOpenModal }: AddressModalProps) {
                     updateAddressFormField("label", e.target.value)
                   }
                   className="rounded-2xl p-4 h-14"
-                  placeholder="Add address name"
+                  placeholder={t("addAddressName")}
                   disabled={isLoading}
                 />
               )}
@@ -323,7 +336,7 @@ export default function AddressModal({ setOpenModal }: AddressModalProps) {
               {isCreating || isUpdating ? (
                 <Loader className="h-4 w-4 animate-spin mr-2" />
               ) : null}
-              {editingLocation ? "Update" : "Save"}
+              {editingLocation ? t("update") : t("save")}
             </Button>
           </div>
         </DialogContent>
