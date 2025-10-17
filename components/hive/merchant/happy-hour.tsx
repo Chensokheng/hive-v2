@@ -178,6 +178,9 @@ export default function HappyHour() {
 
         <div className="flex items-center gap-3 overflow-x-auto flex-nowrap hide-scroll">
           {happyHour?.data.map((item) => {
+            if (item.totalQty - item.usedQty === 0) {
+              return <div key={item.id}></div>;
+            }
             return (
               <div
                 className={cn(

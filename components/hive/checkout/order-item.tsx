@@ -52,7 +52,7 @@ export default function OrderItem({
     let addNew = false;
     let cartItemId = null;
 
-    if (isDisableHappyHour && item.quantity !== 1) {
+    if (isDisableHappyHour) {
       happyHourAvailableTimeId = happyHourAvailableTimes?.data[0]?.id || null;
       addNew = true;
       qty = qty - item.quantity;
