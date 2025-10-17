@@ -21,11 +21,16 @@ export const updateCartFee = async (params: {
       }),
     });
     const data = await res.json();
-    return { status: data.status, message: data.message || "" };
+    return {
+      status: data.status,
+      message: data.message || "",
+      result_code: data.result_code || "",
+    };
   } catch {
     return {
       status: false,
       message: "Fail to update fee",
+      result_code: "",
     };
   }
 };

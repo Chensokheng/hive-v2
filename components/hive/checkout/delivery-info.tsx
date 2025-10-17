@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { updateCartFee } from "@/services/outlet/update-cart-fee";
 import { useAddresStore } from "@/store/address";
+import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronRight } from "lucide-react";
@@ -35,6 +36,11 @@ export default function DeliveryInfo({
   const setUpdateFeeError = useOutletStore((state) => state.setUpdateFeeError);
   const queryClient = useQueryClient();
 
+  const feeUpdateState = useCheckoutStore((state) => state.feeUpdateState);
+  const setFeeUpdateState = useCheckoutStore(
+    (state) => state.setFeeUpdateState
+  );
+
   const updateFee = async () => {
     const res = await updateCartFee({
       cartId,
@@ -51,10 +57,22 @@ export default function DeliveryInfo({
     queryClient.invalidateQueries({
       queryKey: ["outlet-unpaid-item", user?.userId, outletId],
     });
+
+    // Mark this address as processed
+    if (user?.placeAddress) {
+      setFeeUpdateState(user.placeAddress);
+    }
   };
 
   useEffect(() => {
-    if (user?.userId && user.latitude && user.longtitude) {
+    if (
+      user?.userId &&
+      user.latitude &&
+      user.longtitude &&
+      user.placeAddress &&
+      // Only run if we haven't processed this address yet
+      feeUpdateState.lastProcessedAddress !== user.placeAddress
+    ) {
       updateFee();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
