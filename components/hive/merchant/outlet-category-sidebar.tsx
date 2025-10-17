@@ -4,6 +4,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useOutletStore } from "@/store/outlet";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import SearchIcon from "@/components/icon/search";
 
 export default function OutletCategorySidebar() {
+  const t = useTranslations();
   const { merchant, outlet } = useParams() as {
     merchant: string;
     outlet: string;
@@ -42,7 +44,7 @@ export default function OutletCategorySidebar() {
       <div className="w-full relative">
         <Input
           className=" rounded-full bg-white shadow-none w-full pl-12 py-5"
-          placeholder="Search in menu"
+          placeholder={t("merchant.outlet.searchInMenu")}
           onChange={(e) => handleChange(e.target.value)}
         />
         <div className=" absolute top-3 left-4">
@@ -58,7 +60,7 @@ export default function OutletCategorySidebar() {
         )}
         onClick={() => setCategoryId(null)}
       >
-        All
+        {t("merchant.outlet.all")}
       </div>
       {isLoading && (
         <div className="space-y-2">

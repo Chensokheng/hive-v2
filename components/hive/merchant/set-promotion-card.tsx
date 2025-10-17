@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { AsyncImage } from "loadable-image";
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Blur } from "transitions-kit";
 
 import { cn, getImageUrl } from "@/lib/utils";
@@ -33,6 +34,7 @@ export default function SetPromotionCard({
   onClick,
   onAddClick,
 }: SetPromotionCardProps) {
+  const t = useTranslations();
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [isExpired, setIsExpired] = useState<boolean>(false);
 
@@ -115,7 +117,9 @@ export default function SetPromotionCard({
             <span
               className={`text-xs font-semibold ${isExpired ? "text-gray-500" : expireTextColor}`}
             >
-              {isExpired ? "Expired" : `Expire in: ${timeLeft}`}
+              {isExpired
+                ? t("merchant.promotion.expired")
+                : `${t("merchant.promotion.expireIn")} ${timeLeft}`}
             </span>
           </div>
         )}
@@ -131,8 +135,12 @@ export default function SetPromotionCard({
               ></div>
             </div>
             <div className="flex justify-between text-xs font-medium text-[#363F4F]">
-              <span>{totalItems} items</span>
-              <span>{remainingItems} items left</span>
+              <span>
+                {totalItems} {t("merchant.promotion.items")}
+              </span>
+              <span>
+                {remainingItems} {t("merchant.promotion.itemsLeft")}
+              </span>
             </div>
           </div>
         </div>

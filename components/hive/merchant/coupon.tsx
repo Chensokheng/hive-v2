@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
@@ -22,6 +23,7 @@ export interface CouponData {
 }
 
 export function CouponSection({ className }: { className?: string }) {
+  const t = useTranslations();
   const { merchant, outlet } = useParams();
 
   const { data: outletInfo, isLoading: outletLoading } = useGetOutletInfo(
@@ -61,7 +63,7 @@ export function CouponSection({ className }: { className?: string }) {
         <h2 className="text-xl font-bold ">
           🔥{" "}
           <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-            {"Available Coupons"}
+            {t("merchant.promotion.availableCoupons")}
           </span>
         </h2>
       </div>
@@ -80,7 +82,8 @@ export function CouponSection({ className }: { className?: string }) {
                 </span>
                 <span className="text-xs">
                   {" "}
-                  Min.spend {coupon.min_required_subtotal}
+                  {t("merchant.promotion.minSpend")}{" "}
+                  {coupon.min_required_subtotal}
                 </span>
 
                 <div className="h-4 w-4 absolute -top-3 -right-2 bg-primary-bg rounded-full"></div>
@@ -92,7 +95,7 @@ export function CouponSection({ className }: { className?: string }) {
                 </h1>
                 <div className="flex text-xs gap-2">
                   <span className="text-[#303D55]/60 font-medium">
-                    Expire on:
+                    {t("merchant.promotion.expireOn")}
                   </span>
                   <span className="text-red-600 font-medium">
                     {coupon.valid_to

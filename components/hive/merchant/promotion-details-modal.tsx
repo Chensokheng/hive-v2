@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { addMultipleItemsToCart } from "@/services/add-multiple-items-to-cart";
 import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Blur } from "transitions-kit";
 
@@ -70,6 +71,7 @@ export default function PromotionDetailsSheet({
   promotionProducts = [],
   outletId,
 }: PromotionDetailsSheetProps) {
+  const t = useTranslations();
   const [isAdding, setIsAdding] = useState(false);
   const { data: user } = useGetUserInfo();
 
@@ -226,7 +228,9 @@ export default function PromotionDetailsSheet({
           {productsToDisplay.required.length > 0 && (
             <div>
               <h3 className="font-semibold text-lg mb-3">
-                {promotionType === "COMBO" ? "Combo Includes:" : "Buy:"}
+                {promotionType === "COMBO"
+                  ? t("merchant.details.comboIncludes")
+                  : t("merchant.details.buy")}
               </h3>
               <div className="space-y-3">
                 {productsToDisplay.required.map((item) => {
@@ -284,7 +288,7 @@ export default function PromotionDetailsSheet({
             productsToDisplay.free.length > 0 && (
               <div>
                 <h3 className="font-semibold text-lg mb-3 text-[#FF6B00]">
-                  Get Free:
+                  {t("merchant.details.getFree")}
                 </h3>
                 <div className="space-y-3">
                   {productsToDisplay.free.map((item) => (
@@ -306,7 +310,7 @@ export default function PromotionDetailsSheet({
                           {item.product.name_en}
                         </p>
                         <span className="text-xs text-[#FF6B00] font-semibold">
-                          FREE
+                          {t("merchant.details.free")}
                         </span>
                       </div>
                       <div className="text-sm font-semibold text-[#FF6B00]">
@@ -321,21 +325,25 @@ export default function PromotionDetailsSheet({
           {/* Price Summary */}
           <div className="border-t pt-4 space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Original Price:</span>
+              <span className="text-gray-600">
+                {t("merchant.details.originalPrice")}
+              </span>
               <span className="line-through text-gray-500">
                 ${pricing.originalTotal.toFixed(2)}
               </span>
             </div>
             {pricing.savings > 0 && (
               <div className="flex justify-between text-sm">
-                <span className="text-[#FF6B00] font-semibold">You Save:</span>
+                <span className="text-[#FF6B00] font-semibold">
+                  {t("merchant.details.youSave")}
+                </span>
                 <span className="text-[#FF6B00] font-semibold">
                   ${pricing.savings.toFixed(2)}
                 </span>
               </div>
             )}
             <div className="flex justify-between text-lg font-bold">
-              <span>Total:</span>
+              <span>{t("merchant.details.total")}</span>
               <span className="text-primary">
                 ${pricing.discountedTotal.toFixed(2)}
               </span>
@@ -348,7 +356,9 @@ export default function PromotionDetailsSheet({
             disabled={isAdding}
             className="w-fullbg-primary w-full rounded-full text-white"
           >
-            {isAdding ? "Adding..." : "Add All to Cart"}
+            {isAdding
+              ? t("merchant.menu.adding")
+              : t("merchant.menu.addAllToCart")}
           </Button>
         </div>
       </SheetContent>

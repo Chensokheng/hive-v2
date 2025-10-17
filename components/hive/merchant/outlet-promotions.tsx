@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import useGetOrderPromotionCampaign from "@/hooks/use-get-order-promotion-campaign";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
@@ -14,6 +15,7 @@ import PromotionDetailsModal from "./promotion-details-modal";
 import SetPromotionCard from "./set-promotion-card";
 
 export default function OutletPromotions() {
+  const t = useTranslations();
   const { merchant, outlet } = useParams();
   const { data: outletInfo, isLoading: isOutletLoading } = useGetOutletInfo(
     merchant as string,
@@ -98,7 +100,7 @@ export default function OutletPromotions() {
           <h2 className="text-xl font-bold ">
             🎁{" "}
             <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-              Special Promotions
+              {t("merchant.promotion.specialPromotions")}
             </span>
           </h2>
           {totalPromotions > 2 && (

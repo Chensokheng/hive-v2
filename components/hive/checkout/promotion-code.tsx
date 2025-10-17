@@ -50,6 +50,7 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
   );
 
   const isMobile = useIsMobile();
+  // eslint-disable-next-line unused-imports/no-unused-vars
   const isDelivery = useOutletStore((state) => state.isDelivery);
   const handleApplyCode = async (code: string, id: number) => {
     startTransition(async () => {

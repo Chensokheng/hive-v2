@@ -3,11 +3,13 @@
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import ShareIcon from "@/components/icon/share";
 
 export default function OutletMobileNav() {
+  const t = useTranslations();
   const { locale, outlet } = useParams();
   const router = useRouter();
   const handleBack = () => {
@@ -20,7 +22,7 @@ export default function OutletMobileNav() {
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
-    toast.success("Link copied to clipboard");
+    toast.success(t("map.toast.linkCopied"));
   };
   return (
     <div className=" sticky top-0 w-full lg:hidden left-0 z-50">

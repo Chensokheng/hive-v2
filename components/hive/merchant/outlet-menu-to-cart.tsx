@@ -13,6 +13,7 @@ import { useOutletStore } from "@/store/outlet";
 import { useQueryClient } from "@tanstack/react-query";
 import { AsyncImage } from "loadable-image";
 import { ChevronLeft, Loader, Minus, Plus, XIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Blur } from "transitions-kit";
 
@@ -40,6 +41,7 @@ export interface SelectedAddon {
 }
 
 export default function OutletMenuToCart() {
+  const t = useTranslations();
   const [isPending, startTransition] = useTransition();
   const params = useParams() as {
     merchant?: string;
@@ -323,7 +325,7 @@ export default function OutletMenuToCart() {
               (selectedOutletMenu?.happyHourMaxQtyPerOrder &&
                 selectedOutletMenu?.happyHourMaxQtyPerOrder > 0)) && (
               <p className="text-sm text-red-500 font-medium">
-                Maximum per order:{" "}
+                {t("merchant.menu.maximumPerOrder")}{" "}
                 {menuDetail?.activatedCustomDiscountedProduct
                   ?.max_usage_per_order ||
                   selectedOutletMenu?.happyHourMaxQtyPerOrder}
@@ -344,12 +346,12 @@ export default function OutletMenuToCart() {
           </div>
           <div className="px-5 py-4 space-y-3 pb-48">
             <h1 className="text-sm font-semibold text-[#161F2F]">
-              Note to merchant
+              {t("merchant.menu.noteToMerchant")}
             </h1>
             <Input
               id="input-note"
               className="rounded-2xl h-14"
-              placeholder="e.g No onions, extra sauce, etc."
+              placeholder={t("merchant.menu.notePlaceholder")}
               autoFocus={false}
               tabIndex={-1}
               ref={noteRef}
@@ -398,7 +400,7 @@ export default function OutletMenuToCart() {
             onClick={() => handleAddtoCart()}
           >
             {isPending && <Loader className=" animate-spin" />}
-            <span> {`Add to Cart - $${totalPrice}`}</span>
+            <span> {`${t("merchant.menu.addToCart")} - $${totalPrice}`}</span>
             <span className="text-xs font-medium">
               ≈{Math.round(totalPrice * (rate || 0))}៛
             </span>
