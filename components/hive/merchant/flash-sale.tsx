@@ -3,6 +3,7 @@
 import React from "react";
 import { useParams } from "next/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import useGetGlashSale from "@/hooks/use-get-flash-sale";
 import useGetOutletInfo from "@/hooks/use-get-outlet-info";
@@ -12,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PromotionCard from "./promotion-card";
 
 export default function FlashSale() {
+  const t = useTranslations();
   const { merchant, outlet } = useParams();
   const { data: user } = useGetUserInfo();
   const { data: outletInfo, isLoading: isOutletLoading } = useGetOutletInfo(
@@ -66,7 +68,7 @@ export default function FlashSale() {
         <h2 className="text-xl font-bold ">
           ⚡️{" "}
           <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-            Flash Sale
+            {t("merchant.promotion.flashSale")}
           </span>
         </h2>
         {data?.data.items.length && data?.data.items.length! > 2 && (

@@ -79,7 +79,7 @@ export default function ListOutlets() {
         </div>
       </div>
       {!isLoading && merchantData?.outlets.length === 0 && (
-        <div className="text-center text-gray-500">No outlets found</div>
+        <div className="text-center text-gray-500">{t("noOutletsFound")}</div>
       )}
       {isLoading && (
         <div className="grid  grid-cols-1 gap-5 sm:gap-5 lg:grid-cols-3">

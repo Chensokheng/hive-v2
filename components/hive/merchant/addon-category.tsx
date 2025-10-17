@@ -2,6 +2,7 @@
 
 import React from "react";
 import { AddonCategory, AddonItem, SelectedAddon } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface AddonCategoryProps {
   category: AddonCategory;
@@ -18,6 +19,7 @@ export default function AddonCategoryComponent({
   selectedAddons,
   onAddonChange,
 }: AddonCategoryProps) {
+  const t = useTranslations();
   const isMultipleSelection = category.maximum_purchase > 1;
   const isRequired = category.required === 1;
 
@@ -57,7 +59,7 @@ export default function AddonCategoryComponent({
         {isRequired && <span className="text-red-500 text-sm">*</span>}
         {isMultipleSelection && (
           <span className="text-xs text-[#303D55]/60 ml-1">
-            Multiple Option
+            {t("merchant.addon.multipleOption")}
           </span>
         )}
       </div>

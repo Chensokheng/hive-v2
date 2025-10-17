@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { useOutletStore } from "@/store/outlet";
 import autoAnimate from "@formkit/auto-animate";
+import { useTranslations } from "next-intl";
 import { useDebouncedCallback } from "use-debounce";
 
 import { cn } from "@/lib/utils";
@@ -13,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import SearchIcon from "@/components/icon/search";
 
 export default function OutletCategoryMobile() {
+  const t = useTranslations();
   const { merchant, outlet } = useParams() as {
     merchant: string;
     outlet: string;
@@ -44,8 +46,8 @@ export default function OutletCategoryMobile() {
         <div className="px-3 py-3 space-y-5">
           <div className="w-full relative">
             <Input
-              className=" rounded-full bg-[#EBEFF7] shadow-none w-full pl-12 py-5"
-              placeholder="Search in menu"
+              className="rounded-full bg-[#EBEFF7] shadow-none w-full pl-12 py-5"
+              placeholder={t("merchant.outlet.searchInMenu")}
               onChange={(e) => handleChange(e.target.value)}
             />
             <div className=" absolute top-3 left-4">
@@ -67,7 +69,7 @@ export default function OutletCategoryMobile() {
               )}
               onClick={() => setCategoryId(null)}
             >
-              All
+              {t("merchant.outlet.all")}
             </div>
             {categories?.map((category) => (
               <div

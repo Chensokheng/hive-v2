@@ -88,7 +88,7 @@ export default function ProfileSettingsSheet({
   const fullnameValue = form.watch("fullName");
   const fullnameError = form.formState.errors.fullName;
   const fullnameIsDirty = form.formState.dirtyFields.fullName;
-  const birthdateValue = form.watch("birthdate");
+  // const birthdateValue = form.watch("birthdate");
   const birthdateError = form.formState.errors.birthdate;
   const birthdateIsDirty = form.formState.dirtyFields.birthdate;
 

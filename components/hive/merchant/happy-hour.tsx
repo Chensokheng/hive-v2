@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useOutletStore } from "@/store/outlet";
 import { AsyncImage } from "loadable-image";
 import { ChevronDown, Clock, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Blur } from "transitions-kit";
 
 import { cn, getImageUrl } from "@/lib/utils";
@@ -23,6 +24,7 @@ import {
 import HappyHourCountDown from "./happy-hour-count-down";
 
 export default function HappyHour() {
+  const t = useTranslations();
   const { merchant, outlet } = useParams();
   const { data: user } = useGetUserInfo();
   const { data: outletInfo, isLoading: isOutletLoading } = useGetOutletInfo(
@@ -61,7 +63,7 @@ export default function HappyHour() {
         <div className="flex items-center justify-between px-2">
           <h1 className="text-xl font-bold ">
             <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-              Discount Happy Hours!
+              {t("merchant.promotion.discountHappyHours")}
             </span>
           </h1>
         </div>
@@ -168,7 +170,10 @@ export default function HappyHour() {
                       "cursor-pointer text-center font-medium"
                     )}
                   >
-                    {item.name} {index !== 0 ? "| upcoming" : "| current"}
+                    {item.name}{" "}
+                    {index !== 0
+                      ? `| ${t("merchant.promotion.upcoming")}`
+                      : `| ${t("merchant.promotion.current")}`}
                   </DropdownMenuItem>
                 );
               })}
@@ -249,8 +254,15 @@ export default function HappyHour() {
                       ></div>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span> {item.totalQty} items</span>
-                      <span> {item.totalQty - item.usedQty} item left</span>
+                      <span>
+                        {" "}
+                        {item.totalQty} {t("merchant.promotion.items")}
+                      </span>
+                      <span>
+                        {" "}
+                        {item.totalQty - item.usedQty}{" "}
+                        {t("merchant.promotion.itemLeft")}
+                      </span>
                     </div>
                   </div>
 

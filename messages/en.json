@@ -57,7 +57,52 @@
   "merchant": {
     "outlet": {
       "searchBranch": "Search Branch",
-      "filterBy": "Filter By"
+      "filterBy": "Filter By",
+      "noOutletsFound": "No outlets found",
+      "searchInMenu": "Search in menu",
+      "all": "All",
+      "multipleOption": "Multiple Option"
+    },
+    "addon": {
+      "required": "*",
+      "multipleOption": "Multiple Option"
+    },
+    "promotion": {
+      "availableCoupons": "Available Coupons",
+      "minSpend": "Min.spend",
+      "expireOn": "Expire on:",
+      "flashSale": "Flash Sale",
+      "discountHappyHours": "Discount Happy Hours!",
+      "specialPromotions": "Special Promotions",
+      "happyHourProduct": "Happy hour product",
+      "startIn": "Start In:",
+      "endIn": "End In:",
+      "expired": "Expired",
+      "items": "items",
+      "itemLeft": "item left",
+      "itemsLeft": "items left",
+      "expireIn": "Expire in:",
+      "purchased": "Purchased",
+      "happyHour": "Happy Hour",
+      "upcoming": "upcoming",
+      "current": "current"
+    },
+    "menu": {
+      "addToCart": "Add to Cart",
+      "noteToMerchant": "Note to merchant",
+      "notePlaceholder": "e.g No onions, extra sauce, etc.",
+      "maximumPerOrder": "Maximum per order:",
+      "adding": "Adding...",
+      "addAllToCart": "Add All to Cart"
+    },
+    "details": {
+      "comboIncludes": "Combo Includes:",
+      "buy": "Buy:",
+      "getFree": "Get Free:",
+      "free": "FREE",
+      "originalPrice": "Original Price:",
+      "youSave": "You Save:",
+      "total": "Total:"
     }
   },
   "workingHours": {
@@ -178,7 +223,8 @@
       "failedToGetAddressForLocation": "Failed to get address for this location",
       "apiRequestFailed": "API request failed",
       "failedToInitializeMap": "Failed to initialize map. Please check your connection and try again.",
-      "unableToGetCurrentLocation": "Unable to get your current location. Please ensure location services are enabled."
+      "unableToGetCurrentLocation": "Unable to get your current location. Please ensure location services are enabled.",
+      "linkCopied": "Link copied to clipboard"
     }
   }
 }

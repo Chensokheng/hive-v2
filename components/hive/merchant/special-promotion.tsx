@@ -1,10 +1,12 @@
 import React from "react";
 import { flashSaleItems } from "@/fake/restaurant-data";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import PromotionCard from "./promotion-card";
 
 export default function SpecialPromotion() {
+  const t = useTranslations();
   const scrollLeft = () => {
     const container = document.getElementById("special-promotion-container");
     if (container) {
@@ -30,7 +32,7 @@ export default function SpecialPromotion() {
         <h2 className="text-xl font-bold ">
           🎉{" "}
           <span className="bg-gradient-to-r from-[#0055DD] to-[#FF66CC] bg-clip-text text-transparent">
-            Special Promotion
+            {t("merchant.promotion.specialPromotions")}
           </span>
         </h2>
         <div className="flex items-center gap-2 ">
