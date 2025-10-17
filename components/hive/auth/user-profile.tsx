@@ -16,6 +16,7 @@ import UserIcon from "../../icon/user";
 import VoucherIcon from "../../icon/voucher";
 import { UserProfileSkeleton } from "../../loading/user-profile-skeleton";
 import { Button } from "../../ui/button";
+import ProfileImage from "./profile-image";
 import ProfileSettingsSheet from "./profile-settings-sheet";
 
 export default function UserProfile() {
@@ -38,7 +39,13 @@ export default function UserProfile() {
     <>
       <div className="flex items-center gap-4 cursor-pointer">
         <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-15 w-15 rounded-full grid place-content-center cursor-pointer">
-          <UserIcon fill="white" />
+          {user?.image ? (
+            <div className="h-15 w-15">
+              <ProfileImage className="w-full h-full rounded-full" />
+            </div>
+          ) : (
+            <UserIcon fill="white" />
+          )}
         </div>
         <div>
           <h1 className=" font-bold text-[#161F2F] text-[1.375rem]">

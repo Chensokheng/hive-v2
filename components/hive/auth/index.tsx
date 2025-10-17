@@ -5,6 +5,7 @@ import useGetUserInfo from "@/hooks/use-get-user-info";
 import UserIcon from "@/components/icon/user";
 
 import AuthDialog from "./auth-dialog";
+import ProfileImage from "./profile-image";
 import UserProfilePopover from "./user-profile-popover";
 
 export default function Auth() {
@@ -28,8 +29,14 @@ export default function Auth() {
   if (user?.userId) {
     return (
       <UserProfilePopover>
-        <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer">
-          <UserIcon fill="white" />
+        <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-10 w-10 rounded-full grid place-content-center cursor-pointer relative">
+          {user.image ? (
+            <div className="w-10 h-10">
+              <ProfileImage className="w-full h-full rounded-full" />
+            </div>
+          ) : (
+            <UserIcon fill="white" />
+          )}
         </div>
       </UserProfilePopover>
     );

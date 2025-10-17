@@ -138,10 +138,6 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
           <div>
             <div className="space-y-3 mt-3">
               {promotionCodes?.data.map((item) => {
-                if (item.apply_for_delivery && !isDelivery) {
-                  return <span key={item.id}></span>;
-                }
-
                 return (
                   <div
                     className={cn(
