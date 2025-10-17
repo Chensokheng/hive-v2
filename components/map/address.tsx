@@ -7,6 +7,7 @@ import {
   useAddresStore,
 } from "@/store/address";
 import { ChevronLeft } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -26,6 +27,7 @@ import SavedAddress from "./saved-address/saved-address";
 import SearchAddress from "./search-address";
 
 export default function Address() {
+  const t = useTranslations("map");
   const isMobile = useIsMobile();
   const { data: user } = useGetUserInfo();
   const setOpenDraggableMap = useAddresStore(
@@ -87,7 +89,7 @@ export default function Address() {
         className=" focus:outline-none border-none w-full sm:max-w-[600px]"
       >
         <SheetHeader className="hidden">
-          <SheetTitle>Config Address</SheetTitle>
+          <SheetTitle>{t("addressDetails")}</SheetTitle>
           <SheetDescription>User set address</SheetDescription>
         </SheetHeader>
         <div className="w-full overflow-y-auto">
@@ -98,7 +100,7 @@ export default function Address() {
           >
             <ChevronLeft className="text-primary w-8 h-8 cursor-pointer" />
             <h1 className="font-bold text-lg lg:text-2xl flex-1 text-center">
-              Address Details
+              {t("addressDetails")}
             </h1>
           </div>
           <SearchAddress className="p-4 space-y-3" />

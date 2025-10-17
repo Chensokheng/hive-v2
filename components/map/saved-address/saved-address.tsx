@@ -14,6 +14,7 @@ import {
   Pencil,
   Plus,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { cn } from "@/lib/utils";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -31,6 +32,7 @@ const addressTypes = {
 export type TAddressType = keyof typeof addressTypes;
 
 export default function SavedAddress() {
+  const t = useTranslations("map");
   const { merchant } = useParams() as { merchant: string };
   const queryClient = useQueryClient();
   const { data: user } = useGetUserInfo();
@@ -110,7 +112,7 @@ export default function SavedAddress() {
   if (isLoading) {
     return (
       <div className="p-4 space-y-3">
-        <h3 className="text-base font-semibold">Saved Address</h3>
+        <h3 className="text-base font-semibold">{t("savedAddress")}</h3>
         <div className="space-y-3">
           <Skeleton className="h-16 w-full" />
           <Skeleton className="h-16 w-full" />
@@ -122,7 +124,7 @@ export default function SavedAddress() {
 
   return (
     <div className="p-4 space-y-3">
-      <h3 className="text-base font-semibold">Saved Address</h3>
+      <h3 className="text-base font-semibold">{t("savedAddress")}</h3>
 
       <div>
         {/* Home Address */}
@@ -155,7 +157,7 @@ export default function SavedAddress() {
               )}
               <div className="flex-1">
                 <p className="text-gray-400 font-semibold text-xs mb-1">
-                  Home Address
+                  {t("homeAddress")}
                 </p>
                 <p className="text-black line-clamp-2">
                   {homeLocation.address}
@@ -188,7 +190,9 @@ export default function SavedAddress() {
                   strokeWidth={2.5}
                 />
               </div>
-              <span className="text-primary font-normal">Add Home Address</span>
+              <span className="text-primary font-normal">
+                {t("addHomeAddress")}
+              </span>
             </div>
             <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
           </button>
@@ -225,7 +229,7 @@ export default function SavedAddress() {
               )}
               <div className="flex-1">
                 <p className="text-gray-400 font-semibold text-xs mb-1">
-                  Work Address
+                  {t("workAddress")}
                 </p>
                 <p className="text-black line-clamp-2">
                   {workLocation.address}
@@ -258,7 +262,9 @@ export default function SavedAddress() {
                   strokeWidth={2.5}
                 />
               </div>
-              <span className="text-primary font-normal">Add Work Address</span>
+              <span className="text-primary font-normal">
+                {t("addWorkAddress")}
+              </span>
             </div>
             <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
           </button>
@@ -296,7 +302,7 @@ export default function SavedAddress() {
                 )}
                 <div className="flex-1">
                   <p className="text-gray-400 font-semibold text-xs mb-1">
-                    {location.name || "Other"}
+                    {location.name || t("other")}
                   </p>
                   <p className="text-black line-clamp-2">{location.address}</p>
                 </div>
@@ -324,7 +330,9 @@ export default function SavedAddress() {
           className="flex items-center gap-x-5 w-full mb-0 p-4 hover:bg-primary/10 transition-colors text-left cursor-pointer group"
         >
           <Plus className="h-5 w-5 text-primary" strokeWidth={2.5} />
-          <span className="text-primary font-normal">Add Other Address</span>
+          <span className="text-primary font-normal">
+            {t("addOtherAddress")}
+          </span>
         </button>
       </div>
     </div>

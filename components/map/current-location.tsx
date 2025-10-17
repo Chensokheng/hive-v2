@@ -7,6 +7,7 @@ import { updateDeliveryAddress } from "@/services/address/update-delivery-addres
 import { useAddresStore } from "@/store/address";
 import { useQueryClient } from "@tanstack/react-query";
 import { Loader } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -14,6 +15,7 @@ import useGetUserInfo from "@/hooks/use-get-user-info";
 import CurrentLocationIcon from "../icon/current-location";
 
 export default function UseCurrentLocation() {
+  const t = useTranslations("map");
   const [isLoading, setIsLoading] = useState(false);
   const { merchant } = useParams() as { merchant: string };
   const { data: user } = useGetUserInfo();
@@ -28,7 +30,7 @@ export default function UseCurrentLocation() {
       const position = await new Promise<GeolocationPosition>(
         (resolve, reject) => {
           if (!navigator.geolocation) {
-            reject(new Error("Geolocation is not supported by your browser"));
+            reject(new Error(t("toast.geolocationNotSupported")));
             return;
           }
 
@@ -92,9 +94,7 @@ export default function UseCurrentLocation() {
       console.error("Error getting current location:", error);
       // You might want to show a toast notification here
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "Failed to get current location. Please enable location permissions."
+        error instanceof Error ? error.message : t("toast.failedToGetLocation")
       );
     } finally {
       setIsLoading(false);
@@ -113,7 +113,7 @@ export default function UseCurrentLocation() {
         <CurrentLocationIcon className="h-5 w-5 text-primary" />
       )}
       <span className="text-primary font-semibold">
-        {isLoading ? "Getting location..." : "Use Current Location"}
+        {isLoading ? t("gettingLocation") : t("useCurrentLocation")}
       </span>
     </button>
   );
