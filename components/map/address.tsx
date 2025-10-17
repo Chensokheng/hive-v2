@@ -115,7 +115,8 @@ export default function Address() {
               address={currentMapData.address}
               addressLength={isMobile ? 30 : 50}
             />
-
+          </div>
+          <div className="px-4 cursor-pointer">
             <UseCurrentLocation />
           </div>
 
