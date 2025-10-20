@@ -1766,7 +1766,7 @@ export type TMmsToken = {
   scope: string;
 };
 
-export type TUserInfo = {
+export type TMiniUserInfo = {
   fullName: string;
   username: string;
   userId: number;
