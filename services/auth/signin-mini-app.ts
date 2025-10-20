@@ -2,7 +2,7 @@
 
 import crypto from "crypto";
 import { cookies } from "next/headers";
-import { User } from "@/types-v2";
+import { UserResponse } from "@/types-v2";
 
 interface MiniAppAuthParams {
   phoneNumber: string;
@@ -56,13 +56,13 @@ export const miniAppAuth = async (params: MiniAppAuthParams) => {
     );
 
     const result = await response.text();
-    const user = JSON.parse(result) as User;
+    const user = JSON.parse(result) as UserResponse;
 
     const cookieStore = await cookies();
     const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-    if (user.status && user._token) {
-      cookieStore.set("token", user._token, {
+    if (user.status && user.data._token) {
+      cookieStore.set("token", user.data._token, {
         httpOnly: true,
         secure: true,
         expires: expires,
