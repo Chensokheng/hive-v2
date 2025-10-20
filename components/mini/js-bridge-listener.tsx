@@ -12,8 +12,6 @@ import { JSBridge } from "@/lib/js-bridge";
 export default function JsBridgeListener() {
   const initFetchUser = async () => {
     const { token, client_id } = await generateMmsToken();
-    toast.success(token.access_token);
-    toast.success(client_id);
     JSBridge.call(
       "getUserInfo",
       JSON.stringify({
