@@ -29,8 +29,8 @@ export const generateMmsToken = async () => {
 
     return {
       token,
-      client_id: process.env.MMS_CLIENT_ID,
-      secret: process.env.MMS_CLIENT_SECRET,
+      client_id: process.env.MINI_APP_ID,
+      secret: process.env.MINI_APP_SECRET,
     } as {
       token: TMmsToken;
       client_id: string;
