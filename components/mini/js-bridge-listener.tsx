@@ -24,7 +24,9 @@ export default function JsBridgeListener() {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    initFetchUser().then(() => {});
+    initFetchUser().then(() => {
+      toast.success("hello world");
+    });
 
     (window as any).handleNativeResponse = async function (
       methodName: string,
@@ -33,6 +35,7 @@ export default function JsBridgeListener() {
       switch (methodName) {
         case "getUserInfo":
           const user = response as TMiniUserInfo;
+          toast.success(user.toString());
           const res = await miniAppAuth({
             phoneNumber: user.phoneNumber,
             fullName: user.fullName,
@@ -54,7 +57,6 @@ export default function JsBridgeListener() {
           break;
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <></>;

@@ -70,6 +70,7 @@ export const miniAppAuth = async (params: MiniAppAuthParams) => {
         path: "/",
       });
     }
+    console.log(user, "---");
     return user;
   } catch (error) {
     // TODO handle error
