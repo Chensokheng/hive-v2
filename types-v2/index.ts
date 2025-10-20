@@ -1771,4 +1771,5 @@ export type TMiniUserInfo = {
   username: string;
   userId: number;
   phoneNumber: string;
+  firstName: string;
 };
