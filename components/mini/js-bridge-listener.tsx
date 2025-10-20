@@ -10,6 +10,9 @@ import { toast } from "sonner";
 import { JSBridge } from "@/lib/js-bridge";
 
 export default function JsBridgeListener() {
+  const asText = (value: unknown) =>
+    typeof value === "string" ? value : JSON.stringify(value);
+
   const initFetchUser = async () => {
     const { token, client_id } = await generateMmsToken();
     JSBridge.call(
@@ -40,14 +43,14 @@ export default function JsBridgeListener() {
             fullName: user.username,
           });
 
-          toast.success(res.toString() + user.toString());
+          toast.success(`${asText(res)} ${asText(user)}`);
           queryClient.invalidateQueries({ queryKey: ["user-info"] });
 
           break;
         case "closeMiniApp":
           JSBridge.call("closeMiniApp", "{}");
         case "checkout":
-          toast.success(response);
+          toast.success(asText(response));
           break;
         case "getPaymentStatus":
           toast.success("hello");
