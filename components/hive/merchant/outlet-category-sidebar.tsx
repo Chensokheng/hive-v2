@@ -37,6 +37,9 @@ export default function OutletCategorySidebar() {
 
   const handleChange = useDebouncedCallback((value: string) => {
     setSearchMenu(value);
+    document
+      .getElementById("outlet-menu")
+      ?.scrollIntoView({ behavior: "smooth" });
   }, 300);
 
   return (
