@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useParams } from "next/navigation";
 import { useSearchStore } from "@/store/search";
 
 import { cn, getImageUrl } from "@/lib/utils";
@@ -13,6 +14,7 @@ import { Carousel } from "../carousel";
 
 export default function HeroCarousel() {
   const { data, isLoading } = useGetBanner();
+  const { locale } = useParams<{ locale: string }>();
 
   const searchMerchantKeyword = useSearchStore(
     (state) => state.searchMerchantKeyword
@@ -44,9 +46,9 @@ export default function HeroCarousel() {
             data?.data?.map((item) => ({
               id: item.id,
               image: getImageUrl(item.image),
-              alt: item.title,
-              title: item.title,
-              description: item.subtitle,
+              alt: locale === "en" ? item.titleEn : item.title,
+              title: locale === "en" ? item.titleEn : item.title,
+              description: locale === "en" ? item.subtitleEn : item.subtitle,
               titleColor: item.titleColor,
               descriptionColor: item.subtitleColor,
               ctaButtonTitle: item.ctaButtonTitle,

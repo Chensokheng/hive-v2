@@ -1240,28 +1240,16 @@ export type BannerResponse = {
     id: number;
     image: string;
     title: string;
+    titleEn: string;
     titleColor: string;
     subtitle: string;
+    subtitleEn: string;
     subtitleColor: string;
     ctaButtonTitle: string;
+    ctaButtonTitleEn: string;
     ctaButtonTitleColor: string;
     ctaButtonUrl: string | null;
     merchants: {
-      id: number;
-      name: string;
-      image: string;
-      subDomain: string;
-      address: {
-        city: string;
-        cityEn: string;
-        district: string;
-        districtEn: string;
-        ward?: string;
-        wardEn?: string;
-        address: string;
-      };
-      hierarchicalCategories: any[];
-      joinedDelivery: boolean;
       joinedContactless: boolean;
       joinedTableBooking: boolean;
       outlets: {
