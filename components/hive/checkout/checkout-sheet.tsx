@@ -73,7 +73,6 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
   const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
 
   const handleMiniAppCheckout = async () => {
-    toast.info("Checkout");
     const res = await miniAppCheckout({
       token: user?.token || "",
       userId: Number(user?.userId!),
@@ -83,7 +82,6 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
       note: checkoutNotes.storeNote || "",
       addressNote: checkoutNotes.addressNote || "",
     });
-    toast.info(JSON.stringify(res));
 
     if (!res.status) {
       toast.error("Fail to checkout");
@@ -108,7 +106,6 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
       paymentRef: "Hive Payment mini app",
       payload,
     };
-    toast.info(JSON.stringify(params));
     JSBridge.call("checkout", JSON.stringify(params));
   };
 
