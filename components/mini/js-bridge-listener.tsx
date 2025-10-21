@@ -46,13 +46,8 @@ export default function JsBridgeListener() {
   };
 
   useEffect(() => {
-    JSBridge.call("setTittle", JSON.stringify({ title: "hive" }));
-    if (isLoading) {
-      return;
-    }
-    if (!user?.token) {
-      initFetchUser().then(() => {});
-    }
+    initFetchUser().then(() => {});
+
     (window as any).handleNativeResponse = async function (
       methodName: string,
       response: any
@@ -90,7 +85,7 @@ export default function JsBridgeListener() {
           break;
       }
     };
-  }, [user]);
+  }, []);
 
   return <></>;
 }
