@@ -1,4 +1,3 @@
-"use server";
 export const verifyPamyent = async (merchantRef: string, token: string) => {
   const url =
     process.env.NEXT_PUBLIC_HIVE_BASE_API +
