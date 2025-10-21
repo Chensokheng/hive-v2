@@ -61,6 +61,7 @@ export default function JsBridgeListener() {
       switch (methodName) {
         case "getUserInfo":
           const userRes = response as TMiniUserInfo;
+          toast.info(JSON.stringify(userRes));
           toast.info(
             JSON.stringify({
               phoneNumber: userRes?.phoneNumber,
