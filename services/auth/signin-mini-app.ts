@@ -17,6 +17,7 @@ export const miniAppAuth = async (params: MiniAppAuthParams) => {
       key: apiKey,
       format: "pem",
     });
+    console.log(params);
 
     const timeStamp = Date.now();
 
