@@ -1239,6 +1239,7 @@ export type BannerResponse = {
   data: {
     id: number;
     image: string;
+    imageEn: string;
     title: string;
     titleEn: string;
     titleColor: string;

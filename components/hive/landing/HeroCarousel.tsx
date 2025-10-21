@@ -45,7 +45,7 @@ export default function HeroCarousel() {
           items={
             data?.data?.map((item) => ({
               id: item.id,
-              image: getImageUrl(item.image),
+              image: getImageUrl(locale === "en" ? item.imageEn : item.image),
               alt: locale === "en" ? item.titleEn : item.title,
               title: locale === "en" ? item.titleEn : item.title,
               description: locale === "en" ? item.subtitleEn : item.subtitle,
