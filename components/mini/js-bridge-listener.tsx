@@ -61,6 +61,12 @@ export default function JsBridgeListener() {
       switch (methodName) {
         case "getUserInfo":
           const userRes = response as TMiniUserInfo;
+
+          const res = await miniAppAuth({
+            phoneNumber: userRes?.phoneNumber,
+            fullName: userRes?.fullName,
+          });
+
           toast.info(JSON.stringify(userRes));
           toast.info(
             JSON.stringify({
@@ -68,10 +74,6 @@ export default function JsBridgeListener() {
               fullName: userRes?.fullName,
             })
           );
-          const res = await miniAppAuth({
-            phoneNumber: userRes?.phoneNumber,
-            fullName: userRes?.fullName,
-          });
           toast.info(JSON.stringify(res));
           queryClient.invalidateQueries({ queryKey: ["user-info"] });
 
