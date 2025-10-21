@@ -46,6 +46,7 @@ export default function JsBridgeListener() {
   };
 
   useEffect(() => {
+    JSBridge.call("setTittle", JSON.stringify({ title: "hive" }));
     if (isLoading) {
       return;
     }
