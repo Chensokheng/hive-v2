@@ -20,7 +20,7 @@ export const miniAppAuth = async (params: MiniAppAuthParams) => {
 
     const timeStamp = Date.now();
 
-    const phoneNumber = params.phoneNumber.startsWith("0")
+    const phoneNumber = params.phoneNumber?.startsWith("0")
       ? params.phoneNumber.substring(1)
       : params.phoneNumber;
 

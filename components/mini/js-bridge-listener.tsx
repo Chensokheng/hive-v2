@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { miniAppAuth } from "@/services/auth/signin-mini-app";
 import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
@@ -13,10 +13,9 @@ import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
 export default function JsBridgeListener() {
-  const { data: user } = useGetUserInfo();
+  const { data: user, isLoading } = useGetUserInfo();
 
   const router = useRouter();
-  const pathname = usePathname();
 
   const asText = (value: unknown) =>
     typeof value === "string" ? value : JSON.stringify(value);
@@ -51,6 +50,9 @@ export default function JsBridgeListener() {
   };
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
     if (!user?.token) {
       initFetchUser().then(() => {});
     }
@@ -63,8 +65,8 @@ export default function JsBridgeListener() {
           const user = response as TMiniUserInfo;
           toast.info(JSON.stringify(user));
           await miniAppAuth({
-            phoneNumber: user.phoneNumber,
-            fullName: user.fullName,
+            phoneNumber: user?.phoneNumber,
+            fullName: user?.fullName,
           });
           queryClient.invalidateQueries({ queryKey: ["user-info"] });
 
@@ -82,7 +84,6 @@ export default function JsBridgeListener() {
             toast.info("verify payment");
             await handleVerfiyPayment(paymentSuccess.merchantRef);
           }
-
           break;
         case "getPaymentStatus":
           toast.success("hello");
