@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { miniAppAuth } from "@/services/auth/signin-mini-app";
 import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
-import { TMiniUserInfo } from "@/types-v2";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -60,7 +59,10 @@ export default function JsBridgeListener() {
     ) {
       switch (methodName) {
         case "getUserInfo":
-          const userRes = response as TMiniUserInfo;
+          const userRes = response as any;
+
+          const parsedUser = JSON.parse(userRes);
+          toast.info(parsedUser.phoneNumber);
 
           const res = await miniAppAuth({
             phoneNumber: userRes?.phoneNumber,
