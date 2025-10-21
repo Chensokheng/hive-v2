@@ -6,7 +6,6 @@ import { miniAppAuth } from "@/services/auth/signin-mini-app";
 import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -61,22 +60,14 @@ export default function JsBridgeListener() {
         case "getUserInfo":
           const userRes = response as any;
 
-          const parsedUser = JSON.parse(userRes);
-          toast.info(parsedUser.phoneNumber);
+          // Check if userRes is a string and parse JSON if needed, otherwise use as is
+          const parsedUser =
+            typeof userRes === "string" ? JSON.parse(userRes) : userRes;
 
-          const res = await miniAppAuth({
-            phoneNumber: userRes?.phoneNumber,
-            fullName: userRes?.fullName,
+          await miniAppAuth({
+            phoneNumber: parsedUser?.phoneNumber,
+            fullName: parsedUser?.fullName || parsedUser.username,
           });
-
-          toast.info(JSON.stringify(userRes));
-          toast.info(
-            JSON.stringify({
-              phoneNumber: userRes?.phoneNumber,
-              fullName: userRes?.fullName,
-            })
-          );
-          toast.info(JSON.stringify(res));
           queryClient.invalidateQueries({ queryKey: ["user-info"] });
 
           break;
