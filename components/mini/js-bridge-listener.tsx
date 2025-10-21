@@ -7,7 +7,6 @@ import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { TMiniUserInfo } from "@/types-v2";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -34,8 +33,6 @@ export default function JsBridgeListener() {
   const queryClient = useQueryClient();
 
   const handleVerfiyPayment = async (merchantRef: string) => {
-    toast.info(user?.token || "no token");
-
     if (user?.token) {
       let res = await verifyPamyent(merchantRef, user.token);
 
@@ -62,14 +59,10 @@ export default function JsBridgeListener() {
     ) {
       switch (methodName) {
         case "getUserInfo":
-          const user = response as TMiniUserInfo;
-          toast.info(JSON.stringify(user));
+          const userRes = response as TMiniUserInfo;
           const res = await miniAppAuth({
-            phoneNumber: user?.phoneNumber,
-            fullName: user?.fullName,
-          });
-          toast.info(JSON.stringify(res), {
-            duration: Infinity,
+            phoneNumber: userRes?.phoneNumber,
+            fullName: userRes?.fullName,
           });
           queryClient.invalidateQueries({ queryKey: ["user-info"] });
 
@@ -81,15 +74,12 @@ export default function JsBridgeListener() {
             merchantRef: string;
             status: string;
           };
-          // toast.info(JSON.stringify(paymentSuccess));
 
           if (paymentSuccess.status === "EXECUTED") {
-            toast.info("verify payment");
             await handleVerfiyPayment(paymentSuccess.merchantRef);
           }
           break;
         case "getPaymentStatus":
-          toast.success("hello");
           break;
         default:
           break;

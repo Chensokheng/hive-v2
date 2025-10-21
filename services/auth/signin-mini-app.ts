@@ -17,7 +17,6 @@ export const miniAppAuth = async (params: MiniAppAuthParams) => {
       key: apiKey,
       format: "pem",
     });
-    console.log(params);
 
     const timeStamp = Date.now();
 
@@ -63,7 +62,7 @@ export const miniAppAuth = async (params: MiniAppAuthParams) => {
     const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
     if (user.status && user.data._token) {
-      console.log(user, "andriod test");
+      console.log(user);
 
       cookieStore.set("token", user.data._token, {
         httpOnly: true,
