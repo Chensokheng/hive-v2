@@ -31,7 +31,7 @@ export default function Page() {
   return (
     <div className="min-h-screen pb-20 lg:pb-0">
       <div className="max-w-[800px] mx-auto  min-h-screen lg:bg-white">
-        {jsBridgeStatus === "success" ? (
+        {/* {jsBridgeStatus === "success" ? (
           <div
             className=" fixed top-0 right-0 w-full flex items-center justify-between px-5"
             style={{
@@ -44,16 +44,16 @@ export default function Page() {
             <h1 className="text-lg font-bold flex-1 text-center">My Orders</h1>
             <span></span>
           </div>
-        ) : (
-          <div className="flex items-center gap-2 py-6 lg:px-10 border-b px-2">
-            <Link href={"/" + locale}>
-              <ChevronLeft className="text-primary" />
-            </Link>
-            <h1 className="text-lg lg:text-3xl font-bold text-[#161F2F] text-center flex-1">
-              My Orders
-            </h1>
-          </div>
-        )}
+        ) : ( */}
+        <div className="flex items-center gap-2 py-6 lg:px-10 border-b px-2">
+          <Link href={"/" + locale}>
+            <ChevronLeft className="text-primary" />
+          </Link>
+          <h1 className="text-lg lg:text-3xl font-bold text-[#161F2F] text-center flex-1">
+            My Orders
+          </h1>
+        </div>
+        {/* )} */}
 
         <div>
           <div className="flex px-6">
