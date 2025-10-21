@@ -7,6 +7,7 @@ import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { TMiniUserInfo } from "@/types-v2";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -60,10 +61,17 @@ export default function JsBridgeListener() {
       switch (methodName) {
         case "getUserInfo":
           const userRes = response as TMiniUserInfo;
+          toast.info(
+            JSON.stringify({
+              phoneNumber: userRes?.phoneNumber,
+              fullName: userRes?.fullName,
+            })
+          );
           const res = await miniAppAuth({
             phoneNumber: userRes?.phoneNumber,
             fullName: userRes?.fullName,
           });
+          toast.info(JSON.stringify(res));
           queryClient.invalidateQueries({ queryKey: ["user-info"] });
 
           break;

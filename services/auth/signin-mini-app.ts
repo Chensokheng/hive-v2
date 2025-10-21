@@ -10,6 +10,8 @@ interface MiniAppAuthParams {
 }
 
 export const miniAppAuth = async (params: MiniAppAuthParams) => {
+  console.log(params, "====");
+
   try {
     // Read private key from file
     const apiKey = process.env.MINI_APP_SING_IN_KEY!.replace(/\\n/g, "\n");
