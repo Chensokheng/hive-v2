@@ -21,12 +21,13 @@ export const MobileNav = () => {
 
   const cleanPath = pathname.split("?")[0];
   const isHistory = pathname === "/history";
+  const isPromotionPage = pathname.startsWith("/promotions");
 
   // Split the path into segments and check if there are exactly 2 non-empty segments
   const segments = cleanPath.split("/").filter(Boolean); // filter removes empty strings
   const isOutletPage = segments.length === 2;
 
-  if (isOutletPage && !isBanner) {
+  if (isOutletPage && !isBanner && !isPromotionPage) {
     return <></>;
   }
 

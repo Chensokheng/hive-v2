@@ -106,7 +106,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
       paymentRef: "Hive Payment mini app",
       payload,
     };
-
+    toast.info(JSON.stringify(params));
     JSBridge.call("checkout", JSON.stringify(params));
   };
 
