@@ -1,5 +1,8 @@
 import { useRef, useTransition } from "react";
+import { miniAppCheckout } from "@/services/mini-app/mini-app-checkout";
 import placeOrder from "@/services/place-order";
+import { generateMmsToken } from "@/services/tm/generate-mms-token";
+import { useGlobalState } from "@/store";
 import { useAddresStore } from "@/store/address";
 import { useCheckoutStore } from "@/store/checkout";
 import { useOutletStore } from "@/store/outlet";
@@ -7,6 +10,8 @@ import { Loader } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
+import { JSBridge } from "@/lib/js-bridge";
+import { generatePayload } from "@/lib/tm/generate-mini-app-payload";
 import { cn } from "@/lib/utils";
 import useGetExchangeRate from "@/hooks/use-get-exchange-rate";
 import useGetOutletUnpaidItem from "@/hooks/use-get-outlet-unpaid-item";
@@ -65,7 +70,52 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
     (state) => state.setOpenAddressSheet
   );
 
-  const handleCheckout = () => {
+  const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
+
+  const handleMiniAppCheckout = async () => {
+    const res = await miniAppCheckout({
+      token: user?.token || "",
+      userId: Number(user?.userId!),
+      cartId: unpaidItem?.cartId!,
+      receiverName: checkoutUserTemInfo?.name || user?.userName || "",
+      receiverPhone: checkoutUserTemInfo?.phoneNumber || user?.phone || "",
+      note: checkoutNotes.storeNote || "",
+      addressNote: checkoutNotes.addressNote || "",
+    });
+
+    if (!res.status) {
+      toast.error("Fail to checkout");
+      return;
+    }
+
+    const { token, client_id, secret } = await generateMmsToken();
+    const payload = await generatePayload(
+      res.data.amount,
+      "USD",
+      res.data.externalRefId,
+      secret
+    );
+
+    const params = {
+      amount: res.data.amount,
+      currency: "USD",
+      miniAppClientId: client_id,
+      miniAppAccessToken: token.access_token,
+      merchantRef: res.data.externalRefId,
+      remark: "powered by Hive Mini App",
+      paymentRef: "Hive Payment mini app",
+      payload,
+    };
+
+    JSBridge.call("checkout", JSON.stringify(params));
+  };
+
+  const handleCheckout = async () => {
+    if (jsBridgeStatus === "success") {
+      await handleMiniAppCheckout();
+      return;
+    }
+
     startTransition(async () => {
       const validatedPickupTime =
         pickupTime && new Date(pickupTime) < new Date() ? null : pickupTime;

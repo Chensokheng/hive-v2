@@ -63,8 +63,8 @@ export const miniAppAuth = async (params: MiniAppAuthParams) => {
 
     if (user.status && user.data._token) {
       cookieStore.set("token", user.data._token, {
-        httpOnly: true,
-        secure: true,
+        httpOnly: false,
+        secure: false,
         expires: expires,
         sameSite: "lax",
         path: "/",

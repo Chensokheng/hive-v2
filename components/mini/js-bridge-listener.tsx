@@ -1,15 +1,23 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { miniAppAuth } from "@/services/auth/signin-mini-app";
+import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { TMiniUserInfo } from "@/types-v2";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { JSBridge } from "@/lib/js-bridge";
+import useGetUserInfo from "@/hooks/use-get-user-info";
 
 export default function JsBridgeListener() {
+  const { data: user } = useGetUserInfo();
+
+  const router = useRouter();
+  const pathname = usePathname();
+
   const asText = (value: unknown) =>
     typeof value === "string" ? value : JSON.stringify(value);
 
@@ -26,9 +34,26 @@ export default function JsBridgeListener() {
 
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    initFetchUser().then(() => {});
+  const handleVerfiyPayment = async (merchantRef: string) => {
+    toast.info(user?.token || "no token");
 
+    if (user?.token) {
+      let res = await verifyPamyent(merchantRef, user.token);
+
+      res = await verifyPamyent(merchantRef, user.token);
+
+      // If status is 2 (success), navigate to order page
+      if (res.status === 2) {
+        const redirectUrl = `/${localStorage.getItem("lastSelectedMerchant")}/${localStorage.getItem("lastSelectedOutletName")}/order/${res.orderId}`;
+        router.push(redirectUrl);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!user?.token) {
+      initFetchUser().then(() => {});
+    }
     (window as any).handleNativeResponse = async function (
       methodName: string,
       response: any
@@ -46,7 +71,17 @@ export default function JsBridgeListener() {
         case "closeMiniApp":
           JSBridge.call("closeMiniApp", "{}");
         case "checkout":
-          toast.success(asText(response));
+          const paymentSuccess = response as {
+            merchantRef: string;
+            status: string;
+          };
+          // toast.info(JSON.stringify(paymentSuccess));
+
+          if (paymentSuccess.status === "EXECUTED") {
+            toast.info("verify payment");
+            await handleVerfiyPayment(paymentSuccess.merchantRef);
+          }
+
           break;
         case "getPaymentStatus":
           toast.success("hello");
@@ -55,7 +90,7 @@ export default function JsBridgeListener() {
           break;
       }
     };
-  }, []);
+  }, [user]);
 
   return <></>;
 }
