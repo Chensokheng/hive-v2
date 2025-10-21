@@ -61,6 +61,7 @@ export default function JsBridgeListener() {
       switch (methodName) {
         case "getUserInfo":
           const user = response as TMiniUserInfo;
+          toast.info(JSON.stringify(user));
           await miniAppAuth({
             phoneNumber: user.phoneNumber,
             fullName: user.fullName,
