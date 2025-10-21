@@ -13,7 +13,6 @@ import Navbar from "@/components/hive/navbar";
 import PendingActionHandler from "@/components/hive/pending-action-handler";
 import Address from "@/components/map/address";
 import JsBridgeListener from "@/components/mini/js-bridge-listener";
-import MiniNavbar from "@/components/mini/mini-navbar";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -68,7 +67,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider>
           <main className="max-w-md lg:max-w-[1920px] mx-auto bg-[#F2F6FF] relative">
-            <MiniNavbar />
+            {/* <MiniNavbar /> */}
             <Navbar />
             <Address />
             <JsBridgeListener />
