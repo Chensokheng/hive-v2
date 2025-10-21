@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { signOut } from "@/services/auth/signout";
+import { useGlobalState } from "@/store";
 import { ChevronRight, Loader, LogOut } from "lucide-react";
 
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -30,6 +31,7 @@ export default function UserProfile() {
     await signOut();
     window.location.reload();
   };
+  const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
 
   if (isLoadingUser) {
     return <UserProfileSkeleton />;
@@ -112,19 +114,21 @@ export default function UserProfile() {
           <ChevronRight className="text-[#BDC5DB]" />
         </button>
       </div>
-      <Button
-        variant={"ghost"}
-        className=" font-semibold text-base mt-5 w-full cursor-pointer"
-        onClick={handleSignOut}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <Loader className="w-4 h-4  animate-spin" />
-        ) : (
-          <LogOut className="w-4 h-4" />
-        )}
-        Sign out
-      </Button>
+      {jsBridgeStatus !== "success" && (
+        <Button
+          variant={"ghost"}
+          className=" font-semibold text-base mt-5 w-full cursor-pointer"
+          onClick={handleSignOut}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Loader className="w-4 h-4  animate-spin" />
+          ) : (
+            <LogOut className="w-4 h-4" />
+          )}
+          Sign out
+        </Button>
+      )}
 
       {/* Profile Settings Sheet */}
       <ProfileSettingsSheet
