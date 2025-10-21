@@ -32,6 +32,9 @@ export default function OutletCategoryMobile() {
 
   const handleChange = useDebouncedCallback((value: string) => {
     setSearchMenu(value);
+    document
+      .getElementById("outlet-menu")
+      ?.scrollIntoView({ behavior: "smooth" });
   }, 300);
 
   useEffect(() => {
