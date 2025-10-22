@@ -23,7 +23,19 @@ export default function CheckoutHeader() {
   const setIsDelivery = useOutletStore((state) => state.setIsDelivery);
   const pickupTime = useOutletStore((state) => state.pickupTime);
 
-  const { data } = useGetOutletInfo(merchant, outlet, 0, 0);
+  // Use localStorage as fallback when merchant or outlet params are not available
+  const merchantName =
+    merchant ||
+    (typeof window !== "undefined"
+      ? localStorage.getItem("lastSelectedMerchant")
+      : null);
+  const outletName =
+    outlet ||
+    (typeof window !== "undefined"
+      ? localStorage.getItem("lastSelectedOutletName")
+      : null);
+
+  const { data } = useGetOutletInfo(merchantName || "", outletName || "", 0, 0);
 
   const formatPickupTime = (timestamp: number | null) => {
     if (!timestamp) return t("asap");
