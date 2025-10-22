@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { AsyncImage } from "loadable-image";
+import { RefreshCwIcon } from "lucide-react";
 import { Blur } from "transitions-kit";
 
 import { getGoogleMapLocation, getImageUrl } from "@/lib/utils";
@@ -41,6 +42,10 @@ export default function OrderDetailsPage() {
           <h1 className=" text-xl sm:text-3xl font-bold text-[#161F2F] flex-1 text-center">
             Order Details
           </h1>
+          <RefreshCwIcon
+            className=" cursor-pointer hover:scale-105 transition-all"
+            onClick={() => window.location.reload()}
+          />
         </div>
 
         {/* Status */}

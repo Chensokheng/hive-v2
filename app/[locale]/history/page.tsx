@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useGlobalState } from "@/store";
 import { AsyncImage } from "loadable-image";
 import { ChevronLeft } from "lucide-react";
 import { Blur } from "transitions-kit";
@@ -25,8 +24,6 @@ export default function Page() {
     tab
   );
   const { data: rate } = useGetExchangeRate();
-
-  const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
 
   return (
     <div className="min-h-screen pb-20 lg:pb-0">

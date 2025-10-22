@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { miniAppAuth } from "@/services/auth/signin-mini-app";
+import { signOut } from "@/services/auth/signout";
 import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,12 +12,9 @@ import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
 export default function JsBridgeListener() {
-  const { data: user, isLoading } = useGetUserInfo();
+  const { data: user } = useGetUserInfo();
 
   const router = useRouter();
-
-  const asText = (value: unknown) =>
-    typeof value === "string" ? value : JSON.stringify(value);
 
   const initFetchUser = async () => {
     const { token, client_id } = await generateMmsToken();
@@ -68,7 +66,8 @@ export default function JsBridgeListener() {
 
           break;
         case "closeMiniApp":
-          JSBridge.call("closeMiniApp", "{}");
+          await signOut();
+          break;
         case "checkout":
           const paymentSuccess = response as {
             merchantRef: string;
@@ -85,7 +84,7 @@ export default function JsBridgeListener() {
           break;
       }
     };
-  }, []);
+  }, [user?.token]);
 
   return <></>;
 }

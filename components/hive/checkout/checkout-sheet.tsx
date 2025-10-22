@@ -110,12 +110,12 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
   };
 
   const handleCheckout = async () => {
-    if (jsBridgeStatus === "success") {
-      await handleMiniAppCheckout();
-      return;
-    }
-
     startTransition(async () => {
+      if (jsBridgeStatus === "success") {
+        await handleMiniAppCheckout();
+        return;
+      }
+
       const validatedPickupTime =
         pickupTime && new Date(pickupTime) < new Date() ? null : pickupTime;
 
@@ -149,7 +149,7 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
 
         // Wait for a short period, then fallback to webview if deeplink doesn't open
         setTimeout(() => {
-          window.open(webview, "_blank");
+          window.open(webview, "_self");
         }, 1000); // Adjust delay if needed (2 seconds is common)
       } else {
         // If no deeplink at all, open webview immediately
