@@ -22,7 +22,7 @@
       "title": "Welcome!",
       "subtitle": "Sign up or log in to continue",
       "phoneNumber": "Phone number",
-      "phonePlaceholder": "Enter your phone number (e.g., 012 345 678)",
+      "phonePlaceholder": "0xx xxx xxx",
       "username": "Username",
       "usernamePlaceholder": "Enter your username",
       "continue": "Continue",

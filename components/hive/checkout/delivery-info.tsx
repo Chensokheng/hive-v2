@@ -8,6 +8,7 @@ import { ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
+import { formatPhoneWithSpaces } from "@/lib/utils";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import MapPin from "@/components/icon/map-pin";
 
@@ -133,7 +134,9 @@ export default function DeliveryInfo({
                 {checkoutUserTemInfo?.name || user?.userName}
               </span>
               <span className="text-gray-600">
-                0{checkoutUserTemInfo?.phoneNumber || user?.phone}
+                {formatPhoneWithSpaces(
+                  "0" + (checkoutUserTemInfo?.phoneNumber || user?.phone)
+                )}
               </span>
             </div>
           </div>

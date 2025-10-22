@@ -68,8 +68,8 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
         ) {
           toast.error(
             res.message.replace(
-              "The subtotal of the cart must be greater than",
-              "Minimum order should be $"
+              "The subtotal of the cart must be greater than ",
+              "Minimum order amount should be at least $"
             ) || t("toast.failToApplyPromo")
           );
           return;

@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
+import { cn, formatPhoneWithSpaces } from "@/lib/utils";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 import { Button } from "@/components/ui/button";
 import {
@@ -320,7 +320,7 @@ export default function ProfileSettingsSheet({
                       </label>
                       <Input
                         type="tel"
-                        value={"0" + user?.phone || ""}
+                        value={formatPhoneWithSpaces("0" + user?.phone || "")}
                         readOnly
                         className="p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none"
                       />

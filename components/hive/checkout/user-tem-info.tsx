@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { cn } from "@/lib/utils";
+import { cn, formatPhoneWithSpaces } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -254,10 +254,14 @@ export default function UserTemInfo({
                             readOnly={isUserNotExist}
                             type="tel"
                             placeholder={t("auth.register.phonePlaceholder")}
-                            {...field}
+                            value={formatPhoneWithSpaces(field.value)}
                             className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
                             onChange={(e) => {
-                              field.onChange(e);
+                              const digitsOnly = e.target.value.replace(
+                                /\D+/g,
+                                ""
+                              );
+                              field.onChange(digitsOnly);
                               // Trigger validation immediately on change
                               form.trigger("phoneNumber");
                             }}

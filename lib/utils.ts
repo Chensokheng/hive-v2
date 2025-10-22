@@ -45,3 +45,23 @@ export const renderStatus = (status: string) => {
 export const getGoogleMapLocation = (lat: number, long: number) => {
   return `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
 };
+
+// Format phone number into groups separated by spaces.
+// Expected behavior (Cambodia local style):
+// - Input digits only (other chars stripped)
+// - Keep leading 0 if user types it
+// - Group as 3-3-3 or 3-3-4 as user types: e.g. 096422111 -> "096 422 111", 0964221111 -> "096 422 1111"
+export const formatPhoneWithSpaces = (raw: string) => {
+  // Keep only digits
+  const digitsOnly = (raw || "").replace(/\D+/g, "");
+
+  if (!digitsOnly) return "";
+
+  // Build groups of 3,3,rest (rest can be 0-4)
+  const part1 = digitsOnly.slice(0, 3);
+  const part2 = digitsOnly.slice(3, 6);
+  const part3 = digitsOnly.slice(6, 10); // allow up to 4 digits in the last group
+
+  const parts = [part1, part2, part3].filter(Boolean);
+  return parts.join(" ");
+};

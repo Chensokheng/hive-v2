@@ -33,13 +33,22 @@ export default function UserProfile() {
   };
   const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
 
+  const handleProfileClick = () => {
+    if (user?.userId) {
+      router.push(`/${locale}/profile`);
+    }
+  };
+
   if (isLoadingUser) {
     return <UserProfileSkeleton />;
   }
 
   return (
     <>
-      <div className="flex items-center gap-4 cursor-pointer">
+      <div
+        className="flex items-center gap-4 cursor-pointer"
+        onClick={() => setIsSettingsOpen(true)}
+      >
         <div className="bg-gradient-to-b to-[#FF66CC] from-[#0055DD] h-15 w-15 rounded-full grid place-content-center cursor-pointer">
           {user?.image ? (
             <div className="h-15 w-15">
