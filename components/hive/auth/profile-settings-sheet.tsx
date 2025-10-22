@@ -120,7 +120,7 @@ export default function ProfileSettingsSheet({
     const day = date.getDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+    return `${month}/${day}//${year}`;
   };
 
   // Update form when user data loads
@@ -181,10 +181,9 @@ export default function ProfileSettingsSheet({
         queryClient.invalidateQueries({ queryKey: ["user-info"] });
         onClose();
       } else {
-        toast.error("Failed to update profile");
+        toast.error(updateResponse.error_message || "Failed to update profile");
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
       toast.error("An error occurred while updating profile");
     } finally {
       setIsLoading(false);

@@ -30,7 +30,7 @@ export default async function getUserInfo() {
     userId: user.data?.id,
     userName: user.data?.fullName,
     voucher: user.data?.totalVouchers,
-    stamps: user.data?.totalVouchers,
+    stamps: user.data?.totalStamps,
     tmRewardBalance: user.data?.savyu_balance,
     token,
     latitude: user.data?.user_infos[0]?.place_lat,

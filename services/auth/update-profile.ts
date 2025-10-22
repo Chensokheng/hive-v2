@@ -11,6 +11,7 @@ export interface UpdateProfilePayload {
 export interface UpdateProfileResponse {
   status: boolean;
   message: string;
+  error_message?: string;
   data?: any;
 }
 
@@ -29,10 +30,6 @@ export default async function updateProfile(
       body: JSON.stringify(payload),
     }
   );
-
-  if (!response.ok) {
-    throw new Error("Failed to update profile");
-  }
 
   return response.json();
 }
