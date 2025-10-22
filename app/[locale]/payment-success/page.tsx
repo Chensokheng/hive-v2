@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import PaymentSuccess from "@/components/hive/payment/payment-success";
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessContent() {
   const searchParams = useSearchParams();
 
   const transactionId = searchParams.get("transactionId") || "";
@@ -17,17 +17,23 @@ export default function PaymentSuccessPage() {
   const outlet = searchParams.get("outlet") || "";
 
   return (
-    <>
-      <PaymentSuccess
-        merchantName={outlet}
-        transactionId={transactionId}
-        amount={amount}
-        currency={currency}
-        date={date}
-        orderId={orderId}
-        merchant={merchant}
-        outlet={outlet}
-      />
-    </>
+    <PaymentSuccess
+      merchantName={outlet}
+      transactionId={transactionId}
+      amount={amount}
+      currency={currency}
+      date={date}
+      orderId={orderId}
+      merchant={merchant}
+      outlet={outlet}
+    />
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={<div></div>}>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
