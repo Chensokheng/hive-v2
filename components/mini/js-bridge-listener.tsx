@@ -103,6 +103,7 @@ export default function JsBridgeListener() {
           break;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.token]);
 
   return <></>;

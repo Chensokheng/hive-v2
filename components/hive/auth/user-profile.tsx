@@ -33,12 +33,6 @@ export default function UserProfile() {
   };
   const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
 
-  const handleProfileClick = () => {
-    if (user?.userId) {
-      router.push(`/${locale}/profile`);
-    }
-  };
-
   if (isLoadingUser) {
     return <UserProfileSkeleton />;
   }
