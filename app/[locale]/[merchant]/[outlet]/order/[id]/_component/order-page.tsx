@@ -2,9 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { AsyncImage } from "loadable-image";
-import { RefreshCwIcon } from "lucide-react";
+import { ChevronLeft, RefreshCwIcon } from "lucide-react";
 import { Blur } from "transitions-kit";
 
 import { getGoogleMapLocation, getImageUrl } from "@/lib/utils";
@@ -16,11 +16,13 @@ import MapIcon from "@/components/icon/map";
 import OrderProgress from "./order-progress";
 
 export default function OrderDetailsPage() {
+  const { locale } = useParams();
   const { merchant, outlet, id } = useParams() as {
     merchant: string;
     outlet: string;
     id: string;
   };
+  const router = useRouter();
 
   const { data, isLoading } = useGetOrderDetail(id, outlet, merchant);
 
@@ -39,6 +41,10 @@ export default function OrderDetailsPage() {
       <div className=" min-h-screen max-w-5xl mx-auto bg-white pb-50">
         {/* Header */}
         <div className="bg-white px-4 py-4 flex items-center justify-between border-b">
+          <ChevronLeft
+            className=" cursor-pointer hover:scale-105 transition-all"
+            onClick={() => router.push(`/${locale}`)}
+          />
           <h1 className=" text-xl sm:text-3xl font-bold text-[#161F2F] flex-1 text-center">
             Order Details
           </h1>

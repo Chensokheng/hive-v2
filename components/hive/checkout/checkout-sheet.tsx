@@ -73,6 +73,9 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
   const jsBridgeStatus = useGlobalState((state) => state.jsBridgeStatus);
 
   const handleMiniAppCheckout = async () => {
+    const validatedPickupTime =
+      pickupTime && new Date(pickupTime) < new Date() ? null : pickupTime;
+
     const res = await miniAppCheckout({
       token: user?.token || "",
       userId: Number(user?.userId!),
@@ -81,10 +84,14 @@ export default function CheckoutSheet({ outletId }: { outletId: number }) {
       receiverPhone: checkoutUserTemInfo?.phoneNumber || user?.phone || "",
       note: checkoutNotes.storeNote || "",
       addressNote: checkoutNotes.addressNote || "",
+      promotionCode: selectedPromotionCode.code,
+      promotionId: selectedPromotionCode.id,
+      isSelfPickup: !isDelivery,
+      pickupTime: validatedPickupTime,
     });
 
     if (!res.status) {
-      toast.error("Fail to checkout");
+      toast.error(res?.message || "Fail to checkout");
       return;
     }
 
