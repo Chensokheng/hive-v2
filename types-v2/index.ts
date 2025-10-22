@@ -1248,6 +1248,7 @@ export type BannerResponse = {
     subtitleColor: string;
     ctaButtonTitle: string;
     ctaButtonTitleColor: string;
+    ctaButtonTitleEn: string;
     ctaButtonUrl: string | null;
     merchants: {
       id: number;

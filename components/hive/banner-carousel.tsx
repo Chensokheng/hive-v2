@@ -28,7 +28,9 @@ export default function BannerCarousel() {
           <div key={banner.id}>
             <div className="h-44 w-[calc(100vw-3rem)] sm:w-[calc(448px-3rem)] flex-shrink-0 relative snap-start">
               <AsyncImage
-                src={getImageUrl(banner.image)}
+                src={getImageUrl(
+                  locale === "en" ? banner.imageEn : banner.image
+                )}
                 Transition={Blur}
                 style={{ width: "100%", height: 176, borderRadius: 16 }}
                 loader={<div className="bg-gray-300" />}
@@ -44,7 +46,7 @@ export default function BannerCarousel() {
                       color: banner.titleColor,
                     }}
                   >
-                    {banner.title}
+                    {locale === "en" ? banner.titleEn : banner.title}
                   </h1>
                   <p
                     className={cn("text-sm leading-[18px]")}
@@ -52,7 +54,7 @@ export default function BannerCarousel() {
                       color: banner.subtitleColor,
                     }}
                   >
-                    {banner.subtitle}
+                    {locale === "en" ? banner.subtitleEn : banner.subtitle}
                   </p>
                 </div>
                 {banner.ctaButtonTitle && (
@@ -67,7 +69,9 @@ export default function BannerCarousel() {
                       color: banner.ctaButtonTitleColor,
                     }}
                   >
-                    {banner.ctaButtonTitle}
+                    {locale === "en"
+                      ? banner.ctaButtonTitleEn
+                      : banner.ctaButtonTitle}
                   </Link>
                 )}
               </div>

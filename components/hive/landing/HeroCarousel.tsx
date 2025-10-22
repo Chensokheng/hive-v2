@@ -51,7 +51,8 @@ export default function HeroCarousel() {
               description: locale === "en" ? item.subtitleEn : item.subtitle,
               titleColor: item.titleColor,
               descriptionColor: item.subtitleColor,
-              ctaButtonTitle: item.ctaButtonTitle,
+              ctaButtonTitle:
+                locale === "en" ? item.ctaButtonTitleEn : item.ctaButtonTitle,
               ctaButtonTitleColor: item.ctaButtonTitleColor,
               merchants: item.merchants || [],
               ctaButtonUrl: item.ctaButtonUrl || "",
