@@ -49,9 +49,7 @@ export default function UserTemInfo({
   const [usernameInputFocus, setUsernameInputFocus] = useState(false);
 
   const FormSchema = z.object({
-    username: z
-      .string()
-      .min(3, { message: t("auth.register.validation.usernameRequired") }),
+    username: z.string().min(3, { message: "Receiver name is required" }),
 
     phoneNumber: z
       .string()
@@ -196,12 +194,12 @@ export default function UserTemInfo({
                               !usernameValue && "hidden"
                             )}
                           >
-                            {t("auth.register.username")}
+                            {"Receiver Name"}
                           </label>
 
                           <Input
                             type="text"
-                            placeholder={t("auth.register.usernamePlaceholder")}
+                            placeholder={"Enter Receiver name"}
                             {...field}
                             className=" p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-outer-spin-button]:m-0 md:text-base"
                             onFocus={() => {

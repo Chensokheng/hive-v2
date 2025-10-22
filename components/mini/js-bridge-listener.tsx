@@ -75,6 +75,7 @@ export default function JsBridgeListener() {
           break;
         case "closeMiniApp":
           await signOut();
+          JSBridge.call("closeMiniApp", "{}");
           break;
         case "checkout":
           const paymentSuccess = response as {
