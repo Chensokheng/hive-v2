@@ -321,7 +321,7 @@ export default function ProfileSettingsSheet({
                       </label>
                       <Input
                         type="tel"
-                        value={user?.phone || ""}
+                        value={"0" + user?.phone || ""}
                         readOnly
                         className="p-0 h-6 w-full border-none shadow-none placeholder:text-base placeholder:text-[#303D55]/60 text-[#161F2F] appearance-none"
                       />

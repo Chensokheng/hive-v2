@@ -133,7 +133,7 @@ export default function DeliveryInfo({
                 {checkoutUserTemInfo?.name || user?.userName}
               </span>
               <span className="text-gray-600">
-                +855 {checkoutUserTemInfo?.phoneNumber || user?.phone}
+                0{checkoutUserTemInfo?.phoneNumber || user?.phone}
               </span>
             </div>
           </div>

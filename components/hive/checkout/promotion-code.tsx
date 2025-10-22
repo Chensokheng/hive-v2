@@ -61,9 +61,21 @@ export default function PromotionCode({ cartId }: { cartId: number }) {
         user?.token as string
       );
       if (!res.status) {
-        toast.error(res.message || t("toast.failToApplyPromo"), {
-          position: isMobile ? "bottom-center" : "top-center",
-        });
+        if (
+          res.message?.startsWith(
+            "The subtotal of the cart must be greater than"
+          )
+        ) {
+          toast.error(
+            res.message.replace(
+              "The subtotal of the cart must be greater than",
+              "Minimum order should be $"
+            ) || t("toast.failToApplyPromo")
+          );
+          return;
+        }
+
+        toast.error(res.message || t("toast.failToApplyPromo"));
         return;
       } else {
         setSelectedPromotionCode({
