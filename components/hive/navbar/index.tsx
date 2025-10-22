@@ -8,7 +8,7 @@ import { MobileNav } from "../mobile-nav";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const noteDisplayPaths = ["/profile"];
+  const noteDisplayPaths = ["/profile", "/payment-success"];
   const isHistory = pathname === "/history";
 
   const isOrderPage = pathname.includes("/order");

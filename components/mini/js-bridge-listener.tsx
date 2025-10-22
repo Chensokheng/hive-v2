@@ -29,16 +29,24 @@ export default function JsBridgeListener() {
 
   const queryClient = useQueryClient();
 
-  const handleVerfiyPayment = async (merchantRef: string) => {
+  const handleVerfiyPayment = async (params: {
+    merchantRef: string;
+    transactionId: string;
+    currency: string;
+    totalAmount: number;
+    transactionDate: string;
+  }) => {
     if (user?.token) {
-      let res = await verifyPamyent(merchantRef, user.token);
-
-      res = await verifyPamyent(merchantRef, user.token);
-
-      // If status is 2 (success), navigate to order page
+      const res = await verifyPamyent(params.merchantRef, user.token);
+      // If status is 2 (success), navigate to success page
       if (res.status === 2) {
-        const redirectUrl = `/${localStorage.getItem("lastSelectedMerchant")}/${localStorage.getItem("lastSelectedOutletName")}/order/${res.orderId}`;
-        router.push(redirectUrl);
+        const merchant = localStorage.getItem("lastSelectedMerchant");
+        const outlet = localStorage.getItem("lastSelectedOutletName");
+        const merchantName =
+          localStorage.getItem("lastSelectedMerchantName") || "Merchant";
+
+        const successUrl = `/payment-success?merchantName=${encodeURIComponent(merchantName)}&transactionId=${params.transactionId}&amount=${params.totalAmount}&currency=${params.currency}&date=${encodeURIComponent(params.transactionDate)}&orderId=${res.orderId}&merchant=${merchant}&outlet=${outlet}`;
+        router.push(successUrl);
       }
     }
   };
@@ -60,7 +68,7 @@ export default function JsBridgeListener() {
 
           await miniAppAuth({
             phoneNumber: parsedUser?.phoneNumber,
-            fullName: parsedUser?.fullName || parsedUser.username,
+            fullName: parsedUser?.fullName || parsedUser?.username,
           });
           queryClient.invalidateQueries({ queryKey: ["user-info"] });
 
@@ -72,10 +80,20 @@ export default function JsBridgeListener() {
           const paymentSuccess = response as {
             merchantRef: string;
             status: string;
+            transactionId: string;
+            currency: string;
+            totalAmount: number;
+            transactionDate: string;
           };
 
           if (paymentSuccess.status === "EXECUTED") {
-            await handleVerfiyPayment(paymentSuccess.merchantRef);
+            await handleVerfiyPayment({
+              merchantRef: paymentSuccess.merchantRef,
+              transactionId: paymentSuccess.transactionId,
+              currency: paymentSuccess.currency,
+              totalAmount: paymentSuccess.totalAmount,
+              transactionDate: paymentSuccess.transactionDate,
+            });
           }
           break;
         case "getPaymentStatus":
