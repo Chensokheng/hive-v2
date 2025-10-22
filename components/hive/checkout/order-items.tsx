@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { usePathname } from "@/i18n/navigation";
 import { useOutletStore } from "@/store/outlet";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -11,6 +13,9 @@ import OrderItem from "./order-item";
 
 export default function OrderItems({ outletId }: { outletId: number }) {
   const t = useTranslations("checkout");
+  const pathname = usePathname();
+  const router = useRouter();
+  const { locale } = useParams();
   const setOpenCheckoutSheet = useOutletStore(
     (state) => state.setOpenCheckoutSheet
   );
@@ -35,7 +40,14 @@ export default function OrderItems({ outletId }: { outletId: number }) {
         <Button
           variant={"ghost"}
           className="font-medium text-primary cursor-pointer"
-          onClick={() => setOpenCheckoutSheet(false)}
+          onClick={() => {
+            setOpenCheckoutSheet(false);
+            if (pathname === "/") {
+              router.push(
+                `/${locale}/${localStorage.getItem("lastSelectedMerchant")}/${localStorage.getItem("lastSelectedOutletName")}`
+              );
+            }
+          }}
         >
           <span className="w-5 h-5 rounded-full bg-primary grid place-content-center text-white">
             <Plus />

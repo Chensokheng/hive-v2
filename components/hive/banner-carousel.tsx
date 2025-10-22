@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useParams } from "next/navigation";
 import { rowdies } from "@/fonts";
-import { Link } from "@/i18n/navigation";
 import { AsyncImage } from "loadable-image";
 import { Blur } from "transitions-kit";
 
@@ -55,7 +55,6 @@ export default function BannerCarousel() {
                     {banner.subtitle}
                   </p>
                 </div>
-
                 {banner.ctaButtonTitle && (
                   <Link
                     href={

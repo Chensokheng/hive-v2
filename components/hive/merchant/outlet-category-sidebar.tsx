@@ -86,7 +86,9 @@ export default function OutletCategorySidebar() {
                 "bg-[#0055DD1A] text-primary": categoryId === category.id,
               }
             )}
-            onClick={() => setCategoryId(category.id)}
+            onClick={() =>
+              setCategoryId(categoryId === category.id ? null : category.id)
+            }
           >
             {category.nameEN}
           </div>
