@@ -1,5 +1,16 @@
 import { create } from "zustand";
 
+interface PaymentSuccessData {
+  merchantName: string;
+  transactionId: string;
+  amount: number;
+  currency: string;
+  date: string;
+  orderId: string;
+  merchant: string;
+  outlet: string;
+}
+
 interface GlobalState {
   jsBridgeStatus: string;
   checkoutSheetOpen: boolean;
@@ -20,6 +31,9 @@ interface GlobalState {
     note: string;
     selectedAddons: any[];
   } | null;
+  paymentSuccessData: PaymentSuccessData | null;
+  openSuccessDialog: boolean;
+  setOpenSuccessDialog: (value: boolean) => void;
 
   setCheckoutSheetOpen: (value: boolean) => void;
   setAddOnSheetOpen: (value: boolean) => void;
@@ -41,9 +55,12 @@ interface GlobalState {
   ) => void;
   isCloseMiniApp: boolean;
   setIsCloseMiniApp: (value: boolean) => void;
+  setPaymentSuccessData: (value: PaymentSuccessData | null) => void;
 }
 
 export const useGlobalState = create<GlobalState>()((set) => ({
+  openSuccessDialog: false,
+  setOpenSuccessDialog: (value) => set(() => ({ openSuccessDialog: value })),
   isCloseMiniApp: false,
   setIsCloseMiniApp: (value) => set(() => ({ isCloseMiniApp: value })),
   jsBridgeStatus: "pending",
@@ -58,6 +75,7 @@ export const useGlobalState = create<GlobalState>()((set) => ({
     menuItemId: 0,
   },
   editCartItemData: null,
+  paymentSuccessData: null,
   setCategoryId: (value) => set(() => ({ selectCategoryId: value })),
 
   setCheckoutSheetOpen: (value) =>
@@ -79,4 +97,5 @@ export const useGlobalState = create<GlobalState>()((set) => ({
         : { outletId: 0, menuItemId: 0 },
       editCartItemSheetOpen: value !== null,
     })),
+  setPaymentSuccessData: (value) => set(() => ({ paymentSuccessData: value })),
 }));
