@@ -14,12 +14,6 @@ import useGetUserInfo from "@/hooks/use-get-user-info";
 export default function JsBridgeListener() {
   const { data: user } = useGetUserInfo();
   const setCloseMiniApp = useGlobalState((state) => state.setIsCloseMiniApp);
-  const setPaymentSuccessData = useGlobalState(
-    (state) => state.setPaymentSuccessData
-  );
-  const setOpenSuccessDialog = useGlobalState(
-    (state) => state.setOpenSuccessDialog
-  );
 
   const router = useRouter();
 
@@ -45,25 +39,15 @@ export default function JsBridgeListener() {
   }) => {
     if (user?.token) {
       const res = await verifyPamyent(params.merchantRef, user.token);
-      // If status is 2 (success), store data in global store and navigate to success page
+      // If status is 2 (success), navigate to success page
       if (res.status === 2) {
         const merchant = localStorage.getItem("lastSelectedMerchant");
         const outlet = localStorage.getItem("lastSelectedOutletName");
         const merchantName =
           localStorage.getItem("lastSelectedMerchantName") || "Merchant";
 
-        // Store payment success data in global store
-        setPaymentSuccessData({
-          merchantName,
-          transactionId: params.transactionId,
-          amount: params.totalAmount,
-          currency: params.currency,
-          date: params.transactionDate,
-          orderId: res.orderId.toString(),
-          merchant: merchant || "",
-          outlet: outlet || "",
-        });
-        setOpenSuccessDialog(true);
+        const successUrl = `/payment-success?merchantName=${encodeURIComponent(merchantName)}&transactionId=${params.transactionId}&amount=${params.totalAmount}&currency=${params.currency}&date=${encodeURIComponent(params.transactionDate)}&orderId=${res.orderId}&merchant=${merchant}&outlet=${outlet}`;
+        router.push(successUrl);
       }
     }
   };

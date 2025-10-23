@@ -14,7 +14,6 @@ import PendingActionHandler from "@/components/hive/pending-action-handler";
 import Address from "@/components/map/address";
 import CloseDialog from "@/components/mini/close-dialog";
 import JsBridgeListener from "@/components/mini/js-bridge-listener";
-import PaymentSuccessContent from "@/components/mini/payment-success";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -75,7 +74,6 @@ export default async function RootLayout({
             <JsBridgeListener />
             <PendingActionHandler />
             <CloseDialog />
-            <PaymentSuccessContent />
             {children}
           </main>
 
