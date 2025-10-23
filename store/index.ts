@@ -39,9 +39,13 @@ interface GlobalState {
       selectedAddons: any[];
     } | null
   ) => void;
+  isCloseMiniApp: boolean;
+  setIsCloseMiniApp: (value: boolean) => void;
 }
 
 export const useGlobalState = create<GlobalState>()((set) => ({
+  isCloseMiniApp: false,
+  setIsCloseMiniApp: (value) => set(() => ({ isCloseMiniApp: value })),
   jsBridgeStatus: "pending",
   checkoutSheetOpen: false,
   addOnSheetOpen: false,

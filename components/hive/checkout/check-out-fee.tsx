@@ -47,7 +47,7 @@ export default function CheckOutFee({ outletId }: { outletId: number }) {
             </span>
           </div>
           <span className="font-semibold text-[#161F2F]">
-            ${unpaidItem?.shippingFee}
+            ${unpaidItem?.shippingFee?.toFixed(2)}
           </span>
         </div>
       )}

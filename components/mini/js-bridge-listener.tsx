@@ -3,9 +3,9 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { miniAppAuth } from "@/services/auth/signin-mini-app";
-import { signOut } from "@/services/auth/signout";
 import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
+import { useGlobalState } from "@/store";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { JSBridge } from "@/lib/js-bridge";
@@ -13,6 +13,7 @@ import useGetUserInfo from "@/hooks/use-get-user-info";
 
 export default function JsBridgeListener() {
   const { data: user } = useGetUserInfo();
+  const setCloseMiniApp = useGlobalState((state) => state.setIsCloseMiniApp);
 
   const router = useRouter();
 
@@ -74,8 +75,7 @@ export default function JsBridgeListener() {
 
           break;
         case "closeMiniApp":
-          await signOut();
-          JSBridge.call("closeMiniApp", "{}");
+          setCloseMiniApp(true);
           break;
         case "checkout":
           const paymentSuccess = response as {

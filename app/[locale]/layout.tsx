@@ -12,6 +12,7 @@ import { Toaster as SonnerToast } from "sonner";
 import Navbar from "@/components/hive/navbar";
 import PendingActionHandler from "@/components/hive/pending-action-handler";
 import Address from "@/components/map/address";
+import CloseDialog from "@/components/mini/close-dialog";
 import JsBridgeListener from "@/components/mini/js-bridge-listener";
 
 const inter = Inter({
@@ -72,6 +73,7 @@ export default async function RootLayout({
             <Address />
             <JsBridgeListener />
             <PendingActionHandler />
+            <CloseDialog />
             {children}
           </main>
 
