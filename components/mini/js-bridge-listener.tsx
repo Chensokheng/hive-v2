@@ -29,6 +29,7 @@ export default function JsBridgeListener() {
   };
   const checkPaymentStatus = async (transactionId: string) => {
     const { token, client_id } = await generateMmsToken();
+    toast.info("trigger getpayment");
 
     JSBridge.call(
       "getPaymentStatus",
@@ -41,7 +42,7 @@ export default function JsBridgeListener() {
   };
 
   const checkPendingPayment = async () => {
-    toast.info("running this");
+    toast.info("running this 1");
     const pendingTransactionId = localStorage.getItem("pendingTransactionId");
     const checkoutTimestamp = localStorage.getItem("checkoutTimestamp");
 
@@ -49,8 +50,11 @@ export default function JsBridgeListener() {
       const timeSinceCheckout = Date.now() - parseInt(checkoutTimestamp);
       // Only check if checkout was initiated within the last 30 minutes
       if (timeSinceCheckout < 30 * 60 * 1000) {
+        toast.info("running hey");
+
         await checkPaymentStatus(pendingTransactionId);
       } else {
+        toast.info("running he jsh");
         // Clear old pending transaction
         localStorage.removeItem("pendingTransactionId");
         localStorage.removeItem("checkoutTimestamp");
