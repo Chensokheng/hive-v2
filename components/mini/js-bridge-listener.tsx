@@ -67,7 +67,13 @@ export default function JsBridgeListener() {
     totalAmount: number;
     transactionDate: string;
   }) => {
+    toast.info("hey...", {
+      duration: Infinity,
+    });
     if (user?.token) {
+      toast.info("Verifying payment...", {
+        duration: Infinity,
+      });
       const res = await verifyPamyent(params.merchantRef, user.token);
       // If status is 2 (success), navigate to success page
       if (res.status === 2) {
