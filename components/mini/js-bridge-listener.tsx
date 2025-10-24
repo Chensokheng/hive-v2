@@ -134,7 +134,9 @@ export default function JsBridgeListener() {
           setCloseMiniApp(true);
           break;
         case "checkout":
-          const paymentCheckout = response as {
+          const paymentCheckout = (
+            typeof response === "string" ? JSON.parse(response) : response
+          ) as {
             merchantRef: string;
             status: string;
             transactionId: string;
