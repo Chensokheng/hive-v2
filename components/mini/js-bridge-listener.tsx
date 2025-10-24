@@ -95,22 +95,6 @@ export default function JsBridgeListener() {
   useEffect(() => {
     initFetchUser().then(() => {});
 
-    // Check for pending payments when app becomes visible/focused
-    const handleAppFocus = () => {
-      checkPendingPayment();
-    };
-
-    // Listen for app focus/visibility changes
-    window.addEventListener("focus", handleAppFocus);
-    document.addEventListener("visibilitychange", () => {
-      if (!document.hidden) {
-        handleAppFocus();
-      }
-    });
-
-    // Check for pending payments on initial load
-    checkPendingPayment();
-
     (window as any).handleNativeResponse = async function (
       methodName: string,
       response: any
