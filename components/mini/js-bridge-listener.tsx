@@ -146,17 +146,14 @@ export default function JsBridgeListener() {
           };
           toast.info(JSON.stringify(paymentCheckout));
 
-          await checkPendingPayment();
-          // Store transaction ID for later payment status check
-          if (paymentCheckout.transactionId) {
-            // Store transaction ID in localStorage for later use
-            localStorage.setItem(
-              "pendingTransactionId",
-              paymentCheckout.transactionId
-            );
-
-            // Store timestamp to track when checkout was initiated
-            localStorage.setItem("checkoutTimestamp", Date.now().toString());
+          if (paymentCheckout.status === "EXECUTED") {
+            await handleVerfiyPayment({
+              merchantRef: paymentCheckout.merchantRef,
+              transactionId: paymentCheckout.transactionId,
+              currency: paymentCheckout.currency,
+              totalAmount: paymentCheckout.totalAmount,
+              transactionDate: paymentCheckout.transactionDate,
+            });
           }
           break;
         case "getPaymentStatus":
