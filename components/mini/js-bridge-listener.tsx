@@ -142,6 +142,7 @@ export default function JsBridgeListener() {
             totalAmount: number;
             transactionDate: string;
           };
+          toast.info(JSON.stringify(paymentCheckout));
 
           await checkPendingPayment();
           // Store transaction ID for later payment status check
