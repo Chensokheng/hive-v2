@@ -11,7 +11,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
-
 export default function JsBridgeListener() {
   const { data: user } = useGetUserInfo();
   const setCloseMiniApp = useGlobalState((state) => state.setIsCloseMiniApp);
@@ -41,6 +40,23 @@ export default function JsBridgeListener() {
     );
   };
 
+  const checkPendingPayment = async () => {
+    const pendingTransactionId = localStorage.getItem("pendingTransactionId");
+    const checkoutTimestamp = localStorage.getItem("checkoutTimestamp");
+
+    if (pendingTransactionId && checkoutTimestamp) {
+      const timeSinceCheckout = Date.now() - parseInt(checkoutTimestamp);
+      // Only check if checkout was initiated within the last 30 minutes
+      if (timeSinceCheckout < 30 * 60 * 1000) {
+        await checkPaymentStatus(pendingTransactionId);
+      } else {
+        // Clear old pending transaction
+        localStorage.removeItem("pendingTransactionId");
+        localStorage.removeItem("checkoutTimestamp");
+      }
+    }
+  };
+
   const queryClient = useQueryClient();
 
   const handleVerfiyPayment = async (params: {
@@ -67,6 +83,22 @@ export default function JsBridgeListener() {
 
   useEffect(() => {
     initFetchUser().then(() => {});
+
+    // Check for pending payments when app becomes visible/focused
+    const handleAppFocus = () => {
+      checkPendingPayment();
+    };
+
+    // Listen for app focus/visibility changes
+    window.addEventListener("focus", handleAppFocus);
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) {
+        handleAppFocus();
+      }
+    });
+
+    // Check for pending payments on initial load
+    checkPendingPayment();
 
     (window as any).handleNativeResponse = async function (
       methodName: string,
@@ -100,9 +132,17 @@ export default function JsBridgeListener() {
             transactionDate: string;
           };
 
-          setTimeout(async () => {
-            await checkPaymentStatus(paymentCheckout.transactionId);
-          }, 5000);
+          // Store transaction ID for later payment status check
+          if (paymentCheckout.transactionId) {
+            // Store transaction ID in localStorage for later use
+            localStorage.setItem(
+              "pendingTransactionId",
+              paymentCheckout.transactionId
+            );
+
+            // Store timestamp to track when checkout was initiated
+            localStorage.setItem("checkoutTimestamp", Date.now().toString());
+          }
           break;
         case "getPaymentStatus":
           const paymentStatus = response as {
@@ -114,7 +154,11 @@ export default function JsBridgeListener() {
             transactionDate: string;
           };
 
-          if (paymentStatus.status === "EXECUTED") {
+          if (paymentStatus?.status === "EXECUTED") {
+            // Clear the stored transaction ID and timestamp since payment is successful
+            localStorage.removeItem("pendingTransactionId");
+            localStorage.removeItem("checkoutTimestamp");
+
             await handleVerfiyPayment({
               merchantRef: paymentStatus.merchantRef,
               transactionId: paymentStatus.transactionId,
@@ -127,6 +171,12 @@ export default function JsBridgeListener() {
         default:
           break;
       }
+    };
+
+    // Cleanup event listeners
+    return () => {
+      window.removeEventListener("focus", handleAppFocus);
+      document.removeEventListener("visibilitychange", handleAppFocus);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.token]);
