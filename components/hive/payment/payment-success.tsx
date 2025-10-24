@@ -102,7 +102,7 @@ export default function PaymentSuccess({
 
           <Link
             href={`/${locale}/${merchant}/${outlet}/order/${orderId}`}
-            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mt-6 hover:bg-blue-700 transition-colors block"
+            className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mt-6 hover:bg-blue-700 transition-colors block text-center"
           >
             View Order Details
           </Link>
