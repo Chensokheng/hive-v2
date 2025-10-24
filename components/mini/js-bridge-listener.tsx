@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
 
+
 export default function JsBridgeListener() {
   const { data: user } = useGetUserInfo();
   const setCloseMiniApp = useGlobalState((state) => state.setIsCloseMiniApp);
@@ -24,6 +25,18 @@ export default function JsBridgeListener() {
       JSON.stringify({
         miniAppAccessToken: token.access_token,
         miniAppClientId: client_id,
+      })
+    );
+  };
+  const checkPaymentStatus = async (transactionId: string) => {
+    const { token, client_id } = await generateMmsToken();
+
+    JSBridge.call(
+      "getPaymentStatus",
+      JSON.stringify({
+        miniAppAccessToken: token.access_token,
+        miniAppClientId: client_id,
+        orderId: transactionId,
       })
     );
   };
@@ -78,7 +91,7 @@ export default function JsBridgeListener() {
           setCloseMiniApp(true);
           break;
         case "checkout":
-          const paymentSuccess = response as {
+          const paymentCheckout = response as {
             merchantRef: string;
             status: string;
             transactionId: string;
@@ -87,17 +100,29 @@ export default function JsBridgeListener() {
             transactionDate: string;
           };
 
-          if (paymentSuccess.status === "EXECUTED") {
-            await handleVerfiyPayment({
-              merchantRef: paymentSuccess.merchantRef,
-              transactionId: paymentSuccess.transactionId,
-              currency: paymentSuccess.currency,
-              totalAmount: paymentSuccess.totalAmount,
-              transactionDate: paymentSuccess.transactionDate,
-            });
-          }
+          setTimeout(async () => {
+            await checkPaymentStatus(paymentCheckout.transactionId);
+          }, 5000);
           break;
         case "getPaymentStatus":
+          const paymentStatus = response as {
+            merchantRef: string;
+            status: string;
+            transactionId: string;
+            currency: string;
+            totalAmount: number;
+            transactionDate: string;
+          };
+
+          if (paymentStatus.status === "EXECUTED") {
+            await handleVerfiyPayment({
+              merchantRef: paymentStatus.merchantRef,
+              transactionId: paymentStatus.transactionId,
+              currency: paymentStatus.currency,
+              totalAmount: paymentStatus.totalAmount,
+              transactionDate: paymentStatus.transactionDate,
+            });
+          }
           break;
         default:
           break;
