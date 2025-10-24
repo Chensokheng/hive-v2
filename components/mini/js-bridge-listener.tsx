@@ -3,7 +3,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { miniAppAuth } from "@/services/auth/signin-mini-app";
-import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { useGlobalState } from "@/store";
 import { useQueryClient } from "@tanstack/react-query";
@@ -74,17 +73,17 @@ export default function JsBridgeListener() {
       toast.info("Verifying payment...", {
         duration: Infinity,
       });
-      const res = await verifyPamyent(params.merchantRef, user.token);
+      // const res = await verifyPamyent(params.merchantRef, user.token);
       // If status is 2 (success), navigate to success page
-      if (res.status === 2) {
-        const merchant = localStorage.getItem("lastSelectedMerchant");
-        const outlet = localStorage.getItem("lastSelectedOutletName");
-        const merchantName =
-          localStorage.getItem("lastSelectedMerchantName") || "Merchant";
+      // if (res.status === 2) {
+      //   const merchant = localStorage.getItem("lastSelectedMerchant");
+      //   const outlet = localStorage.getItem("lastSelectedOutletName");
+      //   const merchantName =
+      //     localStorage.getItem("lastSelectedMerchantName") || "Merchant";
 
-        const successUrl = `/payment-success?merchantName=${encodeURIComponent(merchantName)}&transactionId=${params.transactionId}&amount=${params.totalAmount}&currency=${params.currency}&date=${encodeURIComponent(params.transactionDate)}&orderId=${res.orderId}&merchant=${merchant}&outlet=${outlet}`;
-        router.push(successUrl);
-      }
+      //   const successUrl = `/payment-success?merchantName=${encodeURIComponent(merchantName)}&transactionId=${params.transactionId}&amount=${params.totalAmount}&currency=${params.currency}&date=${encodeURIComponent(params.transactionDate)}&orderId=${res.orderId}&merchant=${merchant}&outlet=${outlet}`;
+      //   router.push(successUrl);
+      // }
     }
   };
 
@@ -138,9 +137,6 @@ export default function JsBridgeListener() {
             totalAmount: number;
             transactionDate: string;
           };
-          toast.info(paymentCheckout.transactionId, {
-            duration: Infinity,
-          });
 
           // Store transaction ID for later payment status check
           if (paymentCheckout.transactionId) {
