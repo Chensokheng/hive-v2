@@ -41,6 +41,7 @@ export default function JsBridgeListener() {
   };
 
   const checkPendingPayment = async () => {
+    toast.info("running this");
     const pendingTransactionId = localStorage.getItem("pendingTransactionId");
     const checkoutTimestamp = localStorage.getItem("checkoutTimestamp");
 
@@ -138,6 +139,7 @@ export default function JsBridgeListener() {
             transactionDate: string;
           };
 
+          await checkPendingPayment();
           // Store transaction ID for later payment status check
           if (paymentCheckout.transactionId) {
             // Store transaction ID in localStorage for later use
