@@ -7,6 +7,7 @@ import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { useGlobalState } from "@/store";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -131,6 +132,9 @@ export default function JsBridgeListener() {
             totalAmount: number;
             transactionDate: string;
           };
+          toast.info(paymentCheckout.transactionId, {
+            duration: Infinity,
+          });
 
           // Store transaction ID for later payment status check
           if (paymentCheckout.transactionId) {
