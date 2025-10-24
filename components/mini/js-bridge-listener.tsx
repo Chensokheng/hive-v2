@@ -161,6 +161,7 @@ export default function JsBridgeListener() {
             totalAmount: number;
             transactionDate: string;
           };
+          toast.info(JSON.stringify(paymentStatus));
 
           if (paymentStatus?.status === "EXECUTED") {
             // Clear the stored transaction ID and timestamp since payment is successful
