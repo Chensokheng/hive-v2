@@ -7,7 +7,6 @@ import { verifyPamyent } from "@/services/mini-app/verify-payment";
 import { generateMmsToken } from "@/services/tm/generate-mms-token";
 import { useGlobalState } from "@/store";
 import { useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
 
 import { JSBridge } from "@/lib/js-bridge";
 import useGetUserInfo from "@/hooks/use-get-user-info";
@@ -28,40 +27,6 @@ export default function JsBridgeListener() {
       })
     );
   };
-  const checkPaymentStatus = async (transactionId: string) => {
-    const { token, client_id } = await generateMmsToken();
-    toast.info("trigger getpayment");
-
-    JSBridge.call(
-      "getPaymentStatus",
-      JSON.stringify({
-        miniAppAccessToken: token.access_token,
-        miniAppClientId: client_id,
-        orderId: transactionId,
-      })
-    );
-  };
-
-  const checkPendingPayment = async () => {
-    toast.info("running this 1");
-    const pendingTransactionId = localStorage.getItem("pendingTransactionId");
-    const checkoutTimestamp = localStorage.getItem("checkoutTimestamp");
-
-    if (pendingTransactionId && checkoutTimestamp) {
-      const timeSinceCheckout = Date.now() - parseInt(checkoutTimestamp);
-      // Only check if checkout was initiated within the last 30 minutes
-      if (timeSinceCheckout < 30 * 60 * 1000) {
-        toast.info("running hey");
-
-        await checkPaymentStatus(pendingTransactionId);
-      } else {
-        toast.info("running he jsh");
-        // Clear old pending transaction
-        localStorage.removeItem("pendingTransactionId");
-        localStorage.removeItem("checkoutTimestamp");
-      }
-    }
-  };
 
   const queryClient = useQueryClient();
 
@@ -72,13 +37,7 @@ export default function JsBridgeListener() {
     totalAmount: number;
     transactionDate: string;
   }) => {
-    toast.info("hey...", {
-      duration: Infinity,
-    });
     if (user?.token) {
-      toast.info("Verifying payment...", {
-        duration: Infinity,
-      });
       const res = await verifyPamyent(params.merchantRef, user.token);
       if (res.status === 2) {
         const merchant = localStorage.getItem("lastSelectedMerchant");
@@ -128,7 +87,6 @@ export default function JsBridgeListener() {
             totalAmount: number;
             transactionDate: string;
           };
-          toast.info(JSON.stringify(paymentCheckout));
 
           if (paymentCheckout.status === "EXECUTED") {
             await handleVerfiyPayment({
@@ -137,31 +95,6 @@ export default function JsBridgeListener() {
               currency: paymentCheckout.currency,
               totalAmount: paymentCheckout.totalAmount,
               transactionDate: paymentCheckout.transactionDate,
-            });
-          }
-          break;
-        case "getPaymentStatus":
-          const paymentStatus = response as {
-            merchantRef: string;
-            status: string;
-            transactionId: string;
-            currency: string;
-            totalAmount: number;
-            transactionDate: string;
-          };
-          toast.info(JSON.stringify(paymentStatus));
-
-          if (paymentStatus?.status === "EXECUTED") {
-            // Clear the stored transaction ID and timestamp since payment is successful
-            localStorage.removeItem("pendingTransactionId");
-            localStorage.removeItem("checkoutTimestamp");
-
-            await handleVerfiyPayment({
-              merchantRef: paymentStatus.merchantRef,
-              transactionId: paymentStatus.transactionId,
-              currency: paymentStatus.currency,
-              totalAmount: paymentStatus.totalAmount,
-              transactionDate: paymentStatus.transactionDate,
             });
           }
           break;
