@@ -170,11 +170,6 @@ export default function JsBridgeListener() {
       }
     };
 
-    // Cleanup event listeners
-    return () => {
-      window.removeEventListener("focus", handleAppFocus);
-      document.removeEventListener("visibilitychange", handleAppFocus);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.token]);
 
